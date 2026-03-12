@@ -1,17 +1,24 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { getTeamFunctions } from "@/lib/mock/mockData";
 import type { TeamFunction } from "@/lib/types";
+import { useDemoData } from "@/lib/demo-data-context";
 import { cn } from "@/lib/utils";
 
-const initialRows = getTeamFunctions();
-
 export default function TeamSettingsPage() {
-  const [rows, setRows] = useState<TeamFunction[]>(initialRows);
+  const { resetVersion } = useDemoData();
+  const [rows, setRows] = useState<TeamFunction[]>(() => getTeamFunctions());
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingDirectorId, setEditingDirectorId] = useState<string | null>(null);
   const [editDirectorValue, setEditDirectorValue] = useState("");
+
+  useEffect(() => {
+    setRows(getTeamFunctions());
+    setSelectedIds(new Set());
+    setEditingDirectorId(null);
+    setEditDirectorValue("");
+  }, [resetVersion]);
 
   const toggleSelect = useCallback((id: string) => {
     setSelectedIds((prev) => {

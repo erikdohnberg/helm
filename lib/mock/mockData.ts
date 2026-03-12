@@ -2,13 +2,18 @@ import type { Outcome, Quarter, TeamFunction } from "@/lib/types";
 
 const CURRENT_QUARTER_ID = "q-fy26-q1";
 
-const MOCK_TEAM_FUNCTIONS: TeamFunction[] = [
+/** Initial snapshot for demo reset. */
+const INITIAL_TEAM_FUNCTIONS: TeamFunction[] = [
   { id: "fn-1", function: "Engineering", director: "Jordan Lee", slackId: "U01ABC" },
   { id: "fn-2", function: "Product", director: "Sam Chen", slackId: "U02DEF" },
   { id: "fn-3", function: "Design", director: "Alex Rivera", slackId: "U03GHI" },
 ];
 
-const MOCK_QUARTERS: Quarter[] = [
+/** Mutable copy; getters read from here. */
+let mockTeamFunctions: TeamFunction[] = structuredClone(INITIAL_TEAM_FUNCTIONS);
+
+/** Initial snapshot for demo reset. */
+const INITIAL_QUARTERS: Quarter[] = [
   {
     id: "q-fy25-q4",
     label: "FY25 Q4",
@@ -39,7 +44,11 @@ const MOCK_QUARTERS: Quarter[] = [
   },
 ];
 
-const MOCK_OUTCOMES: Outcome[] = [
+/** Mutable copy; getters read from here. */
+let mockQuarters: Quarter[] = structuredClone(INITIAL_QUARTERS);
+
+/** Initial snapshot for demo reset. */
+const INITIAL_OUTCOMES: Outcome[] = [
   // FY26 Q1 — Anchored (replaces out-2)
   {
     id: "out-1",
@@ -270,45 +279,52 @@ const MOCK_OUTCOMES: Outcome[] = [
   },
 ];
 
+/** Mutable copy; getters read from here. */
+let mockOutcomes: Outcome[] = structuredClone(INITIAL_OUTCOMES);
+
 export function getCurrentQuarter(): Quarter {
-  const quarter = MOCK_QUARTERS.find((q) => q.id === CURRENT_QUARTER_ID);
+  const quarter = mockQuarters.find((q) => q.id === CURRENT_QUARTER_ID);
   if (!quarter) throw new Error("Current quarter not found in mock data");
   return quarter;
 }
-
-/** Current quarter for page/skeleton use (e.g. /quarter). */
-export const mockCurrentQuarter = getCurrentQuarter();
 
 /** Mock "last updated" date for the current quarter (ISO date string). */
 export const mockCurrentQuarterUpdatedDate = "2025-12-05";
 
 export function getQuarterById(id: string): Quarter | undefined {
-  return MOCK_QUARTERS.find((q) => q.id === id);
+  return mockQuarters.find((q) => q.id === id);
 }
 
 /** Quarters in timeline order (oldest first). */
 export function getQuartersOrdered(): Quarter[] {
-  return [...MOCK_QUARTERS];
+  return [...mockQuarters];
 }
 
 export function getAllOutcomes(): Outcome[] {
-  return [...MOCK_OUTCOMES];
+  return [...mockOutcomes];
 }
 
 export function getOutcomeById(id: string): Outcome | undefined {
-  return MOCK_OUTCOMES.find((o) => o.id === id);
+  return mockOutcomes.find((o) => o.id === id);
 }
 
 export function getOutcomesByQuarter(quarterId: string): Outcome[] {
-  return MOCK_OUTCOMES.filter((o) => o.quarterId === quarterId).sort(
+  return mockOutcomes.filter((o) => o.quarterId === quarterId).sort(
     (a, b) => a.title.localeCompare(b.title)
   );
 }
 
 export function getInactiveOutcomes(): Outcome[] {
-  return MOCK_OUTCOMES.filter((o) => o.status === "Inactive");
+  return mockOutcomes.filter((o) => o.status === "Inactive");
 }
 
 export function getTeamFunctions(): TeamFunction[] {
-  return [...MOCK_TEAM_FUNCTIONS];
+  return [...mockTeamFunctions];
+}
+
+/** Resets all mock data to initial state. Call from System settings. */
+export function resetDemoData(): void {
+  mockTeamFunctions = structuredClone(INITIAL_TEAM_FUNCTIONS);
+  mockQuarters = structuredClone(INITIAL_QUARTERS);
+  mockOutcomes = structuredClone(INITIAL_OUTCOMES);
 }

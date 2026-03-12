@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { ExternalLink, Pencil } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, ExternalLink, Pencil } from "lucide-react";
 import {
+  getCurrentQuarter,
   getOutcomeById,
   getOutcomesByQuarter,
-  mockCurrentQuarter,
+  getQuarterById,
+  getQuartersOrdered,
   mockCurrentQuarterUpdatedDate,
 } from "@/lib/mock/mockData";
+import { useDemoData } from "@/lib/demo-data-context";
+import type { Quarter } from "@/lib/types";
 import type { Outcome } from "@/lib/types";
 import { Chip } from "@/components/ui/chip";
 
@@ -95,13 +99,27 @@ function AdriftCard({ outcome }: { outcome: Outcome }) {
 }
 
 export default function QuarterPage() {
-  const quarter = mockCurrentQuarter;
-  const [narrativeSummary, setNarrativeSummary] = useState<string>(
-    quarter.narrativeSummary ?? ""
+  const orderedQuarters = getQuartersOrdered();
+  const currentQuarter = getCurrentQuarter();
+  const currentQuarterId = currentQuarter.id;
+  const { resetVersion } = useDemoData();
+
+  const [selectedQuarterId, setSelectedQuarterId] = useState<string>(
+    currentQuarterId
   );
+  const [narrativeByQuarterId, setNarrativeByQuarterId] = useState<
+    Record<string, string>
+  >({});
   const [modalOpen, setModalOpen] = useState(false);
   const [editDraft, setEditDraft] = useState("");
 
+  useEffect(() => {
+    setNarrativeByQuarterId({});
+  }, [resetVersion]);
+
+  const quarter = getQuarterById(selectedQuarterId) ?? currentQuarter;
+  const narrativeSummary =
+    narrativeByQuarterId[quarter.id] ?? quarter.narrativeSummary ?? "";
   const canEdit = !quarter.hasStarted;
   const anchoredOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
     (o) => o.status === "Anchored"
@@ -111,6 +129,13 @@ export default function QuarterPage() {
       o.noLongerPrioritizedReasonBullets &&
       o.noLongerPrioritizedReasonBullets.length > 0
   );
+
+  const currentIndex = orderedQuarters.findIndex((q) => q.id === currentQuarterId);
+  const prevQuarter = currentIndex > 0 ? orderedQuarters[currentIndex - 1] : null;
+  const nextQuarter =
+    currentIndex >= 0 && currentIndex < orderedQuarters.length - 1
+      ? orderedQuarters[currentIndex + 1]
+      : null;
 
   function openEditModal() {
     if (!canEdit) return;
@@ -123,8 +148,12 @@ export default function QuarterPage() {
   }
 
   function saveNarrative() {
-    setNarrativeSummary(editDraft);
+    setNarrativeByQuarterId((prev) => ({ ...prev, [quarter.id]: editDraft }));
     closeModal();
+  }
+
+  function selectQuarter(q: Quarter) {
+    setSelectedQuarterId(q.id);
   }
 
   return (
@@ -132,9 +161,11 @@ export default function QuarterPage() {
       <div className="space-y-2">
         <h1 className="text-xl font-semibold text-foreground">Quarter</h1>
         <p className="text-muted-foreground">{quarter.label}</p>
-        <p className="text-sm text-muted-foreground">
-          Updated {formatUpdatedDate(mockCurrentQuarterUpdatedDate)}
-        </p>
+        {selectedQuarterId === currentQuarterId && (
+          <p className="text-sm text-muted-foreground">
+            Updated {formatUpdatedDate(mockCurrentQuarterUpdatedDate)}
+          </p>
+        )}
       </div>
 
       <section>
@@ -177,6 +208,51 @@ export default function QuarterPage() {
           ))}
         </ul>
       </section>
+
+      <nav
+        className="flex items-center justify-center gap-6 border-t border-border pt-6"
+        aria-label="Quarter timeline"
+      >
+        {prevQuarter && (
+          <button
+            type="button"
+            onClick={() => selectQuarter(prevQuarter)}
+            className={`inline-flex items-center gap-1 text-sm font-medium ${
+              selectedQuarterId === prevQuarter.id
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <ChevronLeft className="h-4 w-4" aria-hidden />
+            {prevQuarter.label}
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={() => selectQuarter(currentQuarter)}
+          className={`text-sm font-medium ${
+            selectedQuarterId === currentQuarterId
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {currentQuarter.label} (Current)
+        </button>
+        {nextQuarter && (
+          <button
+            type="button"
+            onClick={() => selectQuarter(nextQuarter)}
+            className={`inline-flex items-center gap-1 text-sm font-medium ${
+              selectedQuarterId === nextQuarter.id
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {nextQuarter.label}
+            <ChevronRight className="h-4 w-4" aria-hidden />
+          </button>
+        )}
+      </nav>
 
       {modalOpen && (
         <div

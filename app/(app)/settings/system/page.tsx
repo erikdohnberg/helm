@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useToast } from "@/components/ui/toast";
+import { useDemoData } from "@/lib/demo-data-context";
 import { cn } from "@/lib/utils";
 
 const HEALTH_ITEMS = [
@@ -30,9 +31,11 @@ function formatEventTime(iso: string) {
 
 export default function SystemSettingsPage() {
   const toast = useToast();
+  const { resetDemoData } = useDemoData();
   const [demoMode, setDemoMode] = useState(false);
 
   function handleResetDemoData() {
+    resetDemoData();
     toast("Demo data reset");
   }
 

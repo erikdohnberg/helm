@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import {
   getOutcomeById,
   getOutcomesByQuarter,
   getQuarterById,
 } from "@/lib/mock/mockData";
+import { useDemoData } from "@/lib/demo-data-context";
 import type { Outcome, OutcomeStatus, SourceType, EntryMode } from "@/lib/types";
 import { Chip } from "@/components/ui/chip";
 
@@ -140,6 +141,7 @@ function OutcomeCard({
 }
 
 export default function OutcomesPage() {
+  const { resetVersion } = useDemoData();
   const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
     Record<string, string>
   >({});
@@ -166,6 +168,25 @@ export default function OutcomesPage() {
     replacedOutcomeId: string;
   }>({ entryMode: "", replacedOutcomeId: "" });
   const [localOutcomes, setLocalOutcomes] = useState<Outcome[]>([]);
+
+  useEffect(() => {
+    setAdriftRationaleByOutcomeId({});
+    setReactivatedOutcomeIds(new Set());
+    setMoveAdriftModal(null);
+    setRationaleDraft("");
+    setNewOutcomeModalOpen(false);
+    setNewOutcomeStep(1);
+    setNewOutcomeStep1({
+      workingTitle: "",
+      quarterId: "",
+      shortIntent: "",
+      outcomeOwner: "",
+      decisionOwner: "",
+      sourceType: "",
+    });
+    setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
+    setLocalOutcomes([]);
+  }, [resetVersion]);
 
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
     (q): q is NonNullable<typeof q> => q != null
