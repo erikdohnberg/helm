@@ -151,6 +151,7 @@ export default function OutcomesPage() {
     outcomeTitle: string;
   } | null>(null);
   const [rationaleDraft, setRationaleDraft] = useState("");
+  const [newOutcomeModalOpen, setNewOutcomeModalOpen] = useState(false);
 
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
     (q): q is NonNullable<typeof q> => q != null
@@ -196,7 +197,16 @@ export default function OutcomesPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-semibold text-foreground">Outcomes</h1>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-xl font-semibold text-foreground">Outcomes</h1>
+        <button
+          type="button"
+          onClick={() => setNewOutcomeModalOpen(true)}
+          className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+        >
+          New Outcome
+        </button>
+      </div>
       {quartersInOrder.map((quarter) => {
         const outcomes = getOutcomesByQuarter(quarter.id).map(getEffectiveOutcome);
         if (outcomes.length === 0) return null;
@@ -217,6 +227,33 @@ export default function OutcomesPage() {
           </section>
         );
       })}
+
+      {newOutcomeModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="new-outcome-modal-title"
+        >
+          <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+            <h2
+              id="new-outcome-modal-title"
+              className="text-sm font-medium text-foreground"
+            >
+              New Outcome
+            </h2>
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setNewOutcomeModalOpen(false)}
+                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {moveAdriftModal && (
         <div
