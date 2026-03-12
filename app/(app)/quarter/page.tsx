@@ -9,6 +9,7 @@ import {
   mockCurrentQuarterUpdatedDate,
 } from "@/lib/mock/mockData";
 import type { Outcome } from "@/lib/types";
+import { Chip } from "@/components/ui/chip";
 
 function formatUpdatedDate(iso: string): string {
   return new Date(iso + "Z").toLocaleDateString("en-US", {
@@ -61,6 +62,38 @@ function OutcomeCard({ outcome }: { outcome: Outcome }) {
   );
 }
 
+function AdriftCard({ outcome }: { outcome: Outcome }) {
+  return (
+    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+      <div className="flex items-center gap-2">
+        <h3 className="font-medium text-foreground">{outcome.title}</h3>
+        <Chip label="No Longer Prioritized" />
+      </div>
+      <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-muted-foreground">
+        {outcome.noLongerPrioritizedReasonBullets.map((bullet, i) => (
+          <li key={i}>{bullet}</li>
+        ))}
+      </ul>
+      {outcome.originallyAnchoredLabel && (
+        <p className="mt-2 text-xs text-muted-foreground">
+          Originally anchored: {outcome.originallyAnchoredLabel}
+        </p>
+      )}
+      {outcome.googleDocUrl && (
+        <a
+          href={outcome.googleDocUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
+        >
+          Google Doc
+          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+        </a>
+      )}
+    </li>
+  );
+}
+
 export default function QuarterPage() {
   const quarter = mockCurrentQuarter;
   const [narrativeSummary, setNarrativeSummary] = useState<string>(
@@ -72,6 +105,11 @@ export default function QuarterPage() {
   const canEdit = !quarter.hasStarted;
   const anchoredOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
     (o) => o.status === "Anchored"
+  );
+  const adriftOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
+    (o) =>
+      o.noLongerPrioritizedReasonBullets &&
+      o.noLongerPrioritizedReasonBullets.length > 0
   );
 
   function openEditModal() {
@@ -127,6 +165,15 @@ export default function QuarterPage() {
         <ul className="mt-3 space-y-4">
           {anchoredOutcomes.map((outcome) => (
             <OutcomeCard key={outcome.id} outcome={outcome} />
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-sm font-medium text-foreground">Adrift</h2>
+        <ul className="mt-3 space-y-4">
+          {adriftOutcomes.map((outcome) => (
+            <AdriftCard key={outcome.id} outcome={outcome} />
           ))}
         </ul>
       </section>
