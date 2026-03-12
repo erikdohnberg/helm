@@ -1,24 +1,21 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { WAITLIST_EMAIL_KEY } from "../landing/waitlist-section";
+import Link from "next/link";
 
 export default function ThanksPage() {
-  const [email, setEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const stored = sessionStorage.getItem(WAITLIST_EMAIL_KEY);
-    setEmail(stored);
-  }, []);
-
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-foreground">Thank you</h1>
-      <p className="mt-2 text-muted-foreground">
-        {email
-          ? `We'll be in touch at ${email} soon.`
-          : "We'll be in touch soon."}
+    <div className="space-y-4">
+      <h1 className="text-2xl font-semibold text-foreground">
+        Thanks for joining.
+      </h1>
+      <p className="text-foreground leading-relaxed">
+        We&apos;ll share updates as Helm evolves.
+      </p>
+      <p>
+        <Link
+          href="/landing"
+          className="text-sm font-medium text-foreground underline hover:no-underline"
+        >
+          Back to landing
+        </Link>
       </p>
     </div>
   );
