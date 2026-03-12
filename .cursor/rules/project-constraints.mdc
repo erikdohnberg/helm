@@ -1,0 +1,28 @@
+---
+description: Project constraints — dependencies, navigation, persistence, data, styling
+alwaysApply: true
+---
+
+# Project constraints
+
+Follow these constraints when editing the Helm codebase.
+
+## Dependencies
+
+- **Do not add new dependencies.** Do not run `npm install` (or add packages to `package.json`) for new libraries. Use only what is already in the project.
+
+## Navigation
+
+- **Do not change navigation.** Leave the app shell and marketing routing as-is. Do not add, remove, or rename top-level nav items (e.g. Helm | Quarter | Outcomes | Settings) or marketing routes without explicit user request.
+
+## Persistence
+
+- **Do not introduce backend persistence yet.** No new APIs, databases, or server-side storage. Keep waitlist, feature votes, and any other “saved” state in client state (e.g. `useState`, `sessionStorage`) or existing mock modules only.
+
+## Data
+
+- **Use existing mock data only.** Read from `lib/mock/` (e.g. `mockData.ts`, `feature-ideas.ts`) and shared types in `lib/types`. Do not add new mock modules or seed data unless the user explicitly asks for new features or content that require it.
+
+## Styling
+
+- **Keep styling aligned with shadcn + Tailwind.** Use design tokens from `app/globals.css` (e.g. `text-foreground`, `bg-card`, `border-border`, `text-muted-foreground`) and existing components in `components/ui/`. Prefer Tailwind utility classes; avoid adding new CSS files or inline styles that bypass the design system.
