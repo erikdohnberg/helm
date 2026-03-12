@@ -9,6 +9,8 @@ const MOCK_QUARTERS: Quarter[] = [
     year: 2025,
     startDate: "2025-07-01",
     endDate: "2025-09-30",
+    narrativeSummary: null,
+    hasStarted: true,
   },
   {
     id: "q-fy26-q1",
@@ -16,6 +18,9 @@ const MOCK_QUARTERS: Quarter[] = [
     year: 2026,
     startDate: "2025-10-01",
     endDate: "2025-12-31",
+    narrativeSummary:
+      "Q1 focuses on billing unification and self-serve migration to reduce support load and unblock enterprise pipeline. EU compliance certification is in scope; partner co-sell is deferred to Q2.",
+    hasStarted: false,
   },
   {
     id: "q-fy26-q2",
@@ -23,6 +28,8 @@ const MOCK_QUARTERS: Quarter[] = [
     year: 2026,
     startDate: "2026-01-01",
     endDate: "2026-03-31",
+    narrativeSummary: null,
+    hasStarted: false,
   },
 ];
 

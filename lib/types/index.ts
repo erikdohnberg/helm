@@ -24,6 +24,8 @@ export interface Quarter {
   year: number;
   startDate: string;
   endDate: string;
+  narrativeSummary: string | null;
+  hasStarted: boolean;
 }
 
 export interface Outcome {
