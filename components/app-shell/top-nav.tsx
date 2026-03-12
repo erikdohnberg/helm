@@ -46,7 +46,13 @@ export function TopNav() {
       <ul className="flex gap-1 px-4">
         {navItems.map(({ href, label }) => (
           <li key={label}>
-            <NavLink href={href} isActive={pathname === href}>
+            <NavLink
+              href={href}
+              isActive={
+                pathname === href ||
+                (href === "/settings" && pathname.startsWith("/settings"))
+              }
+            >
               {label}
             </NavLink>
           </li>
