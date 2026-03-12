@@ -280,6 +280,15 @@ export function getQuarterById(id: string): Quarter | undefined {
   return MOCK_QUARTERS.find((q) => q.id === id);
 }
 
+/** Quarters in timeline order (oldest first). */
+export function getQuartersOrdered(): Quarter[] {
+  return [...MOCK_QUARTERS];
+}
+
+export function getAllOutcomes(): Outcome[] {
+  return [...MOCK_OUTCOMES];
+}
+
 export function getOutcomeById(id: string): Outcome | undefined {
   return MOCK_OUTCOMES.find((o) => o.id === id);
 }
