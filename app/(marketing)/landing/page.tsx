@@ -80,12 +80,15 @@ export default function LandingPage() {
         </p>
       </section>
 
-      <section>
+      <section className="space-y-4">
         <h2 className="text-xl font-semibold text-foreground">How It Works</h2>
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold text-foreground">What It Is Not</h2>
+        <ol className="list-decimal list-inside space-y-3 text-foreground leading-relaxed">
+          <li>Teams submit internal signals.</li>
+          <li>Signals cluster into opportunity spaces.</li>
+          <li>Draft outcome charters are generated.</li>
+          <li>Directors review and finalize before the quarter begins.</li>
+          <li>Changes remain visible as priorities evolve.</li>
+        </ol>
       </section>
 
       <section>
