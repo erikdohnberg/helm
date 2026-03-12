@@ -1,6 +1,12 @@
-import type { Outcome, Quarter } from "@/lib/types";
+import type { Outcome, Quarter, TeamFunction } from "@/lib/types";
 
 const CURRENT_QUARTER_ID = "q-fy26-q1";
+
+const MOCK_TEAM_FUNCTIONS: TeamFunction[] = [
+  { id: "fn-1", function: "Engineering", director: "Jordan Lee", slackId: "U01ABC" },
+  { id: "fn-2", function: "Product", director: "Sam Chen", slackId: "U02DEF" },
+  { id: "fn-3", function: "Design", director: "Alex Rivera", slackId: "U03GHI" },
+];
 
 const MOCK_QUARTERS: Quarter[] = [
   {
@@ -301,4 +307,8 @@ export function getOutcomesByQuarter(quarterId: string): Outcome[] {
 
 export function getInactiveOutcomes(): Outcome[] {
   return MOCK_OUTCOMES.filter((o) => o.status === "Inactive");
+}
+
+export function getTeamFunctions(): TeamFunction[] {
+  return [...MOCK_TEAM_FUNCTIONS];
 }

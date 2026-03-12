@@ -60,3 +60,10 @@ export interface MeetingLink {
   label?: string;
   outcomeId: string;
 }
+
+export interface TeamFunction {
+  id: string;
+  function: string;
+  director: string;
+  slackId: string;
+}
