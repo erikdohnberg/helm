@@ -165,6 +165,7 @@ export default function OutcomesPage() {
     entryMode: "" | EntryMode;
     replacedOutcomeId: string;
   }>({ entryMode: "", replacedOutcomeId: "" });
+  const [localOutcomes, setLocalOutcomes] = useState<Outcome[]>([]);
 
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
     (q): q is NonNullable<typeof q> => q != null
@@ -208,6 +209,65 @@ export default function OutcomesPage() {
     setReactivatedOutcomeIds((prev) => new Set(prev).add(outcomeId));
   }
 
+  function closeNewOutcomeModalAndReset() {
+    setNewOutcomeModalOpen(false);
+    setNewOutcomeStep(1);
+    setNewOutcomeStep1({
+      workingTitle: "",
+      quarterId: "",
+      shortIntent: "",
+      outcomeOwner: "",
+      decisionOwner: "",
+      sourceType: "",
+    });
+    setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
+  }
+
+  function createNewOutcome() {
+    const entryMode = newOutcomeStep2.entryMode;
+    if (!entryMode) return;
+    if (entryMode === "Replace" && !newOutcomeStep2.replacedOutcomeId) return;
+
+    const quarterId = newOutcomeStep1.quarterId;
+    const anchoredCount = getOutcomesByQuarter(quarterId)
+      .map(getEffectiveOutcome)
+      .filter((o) => o.status === "Anchored").length;
+    const focusWarning =
+      entryMode === "Additive" && anchoredCount > 5
+        ? "New priority; ensure capacity reviewed. May require trade-off with other commitments."
+        : null;
+
+    const outcome: Outcome = {
+      id: `local-${Date.now()}`,
+      title: newOutcomeStep1.workingTitle.trim() || "Untitled outcome",
+      quarterId,
+      context: newOutcomeStep1.shortIntent.trim(),
+      metric: "",
+      target: "",
+      timeframe: "",
+      decisionBullets: [],
+      googleDocUrl: null,
+      slackThreadUrl: null,
+      status: "Draft",
+      outcomeOwner: newOutcomeStep1.outcomeOwner.trim(),
+      decisionOwner: newOutcomeStep1.decisionOwner.trim(),
+      entryMode,
+      sourceType: newOutcomeStep1.sourceType || "Discussion",
+      reprioritizedFromQuarterLabel: null,
+      replacedOutcomeId:
+        entryMode === "Replace" ? newOutcomeStep2.replacedOutcomeId : null,
+      replacedByOutcomeId: null,
+      attachedToOutcomeId: null,
+      focusWarning,
+      noLongerPrioritizedReasonBullets: [],
+      originallyAnchoredLabel: null,
+      lastActivityDate: null,
+    };
+
+    setLocalOutcomes((prev) => [...prev, outcome]);
+    closeNewOutcomeModalAndReset();
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -221,7 +281,15 @@ export default function OutcomesPage() {
         </button>
       </div>
       {quartersInOrder.map((quarter) => {
-        const outcomes = getOutcomesByQuarter(quarter.id).map(getEffectiveOutcome);
+        const mockOutcomes = getOutcomesByQuarter(quarter.id).map(
+          getEffectiveOutcome
+        );
+        const localForQuarter = localOutcomes.filter(
+          (o) => o.quarterId === quarter.id
+        );
+        const outcomes = [...mockOutcomes, ...localForQuarter].sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
         if (outcomes.length === 0) return null;
         return (
           <section key={quarter.id} className="space-y-3">
@@ -406,19 +474,7 @@ export default function OutcomesPage() {
                 <div className="mt-6 flex justify-end gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      setNewOutcomeModalOpen(false);
-                      setNewOutcomeStep(1);
-                      setNewOutcomeStep1({
-                        workingTitle: "",
-                        quarterId: "",
-                        shortIntent: "",
-                        outcomeOwner: "",
-                        decisionOwner: "",
-                        sourceType: "",
-                      });
-                      setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
-                    }}
+                    onClick={closeNewOutcomeModalAndReset}
                     className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
                   >
                     Cancel
@@ -539,29 +595,16 @@ export default function OutcomesPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => {
-                      setNewOutcomeModalOpen(false);
-                      setNewOutcomeStep(1);
-                      setNewOutcomeStep1({
-                        workingTitle: "",
-                        quarterId: "",
-                        shortIntent: "",
-                        outcomeOwner: "",
-                        decisionOwner: "",
-                        sourceType: "",
-                      });
-                      setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
-                    }}
+                    onClick={closeNewOutcomeModalAndReset}
                     className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                    onClick={() => {
-                      /* Create / submit can be wired later */
-                    }}
+                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
+                    disabled={!newOutcomeStep2.entryMode || (newOutcomeStep2.entryMode === "Replace" && !newOutcomeStep2.replacedOutcomeId)}
+                    onClick={createNewOutcome}
                   >
                     Create
                   </button>
