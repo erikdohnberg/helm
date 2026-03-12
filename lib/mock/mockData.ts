@@ -263,6 +263,12 @@ export function getCurrentQuarter(): Quarter {
   return quarter;
 }
 
+/** Current quarter for page/skeleton use (e.g. /quarter). */
+export const mockCurrentQuarter = getCurrentQuarter();
+
+/** Mock "last updated" date for the current quarter (ISO date string). */
+export const mockCurrentQuarterUpdatedDate = "2025-12-05";
+
 export function getQuarterById(id: string): Quarter | undefined {
   return MOCK_QUARTERS.find((q) => q.id === id);
 }
