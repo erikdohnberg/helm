@@ -1,4 +1,20 @@
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const problemCards = [
+  {
+    title: "Direction drifts quietly",
+    text: "Quarterly priorities shift without deliberate comparison to the original plan.",
+  },
+  {
+    title: "Trade-offs stay implicit",
+    text: "New initiatives are added without clearly identifying what stops.",
+  },
+  {
+    title: "Teams execute without context",
+    text: "By the time direction reaches teams, the reasoning behind it is often lost.",
+  },
+] as const;
 
 export default function LandingPage() {
   return (
@@ -29,8 +45,20 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section>
+      <section className="space-y-6">
         <h2 className="text-xl font-semibold text-foreground">Problem</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {problemCards.map(({ title, text }) => (
+            <Card key={title}>
+              <CardHeader>
+                <CardTitle>{title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">{text}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </section>
 
       <section>
