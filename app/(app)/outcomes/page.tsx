@@ -1,10 +1,97 @@
+import { ExternalLink } from "lucide-react";
 import {
   getOutcomesByQuarter,
   getQuarterById,
 } from "@/lib/mock/mockData";
+import type { Outcome, OutcomeStatus } from "@/lib/types";
+import { Chip } from "@/components/ui/chip";
 
 /** Quarter order on outcomes page: FY26 Q2, then FY26 Q1, then older. */
 const OUTCOMES_QUARTER_ORDER = ["q-fy26-q2", "q-fy26-q1", "q-fy25-q4"];
+
+function formatStatus(status: OutcomeStatus): string {
+  switch (status) {
+    case "AwaitingAlignment":
+      return "Awaiting alignment";
+    case "InDevelopment":
+      return "In development";
+    default:
+      return status;
+  }
+}
+
+function formatLastActivity(iso: string | null): string {
+  if (!iso) return "—";
+  return new Date(iso + "Z").toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function OutcomeCard({
+  outcome,
+  quarterLabel,
+}: {
+  outcome: Outcome;
+  quarterLabel: string;
+}) {
+  return (
+    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+      <div className="flex flex-wrap items-center gap-2">
+        <h3 className="font-medium text-foreground">{outcome.title}</h3>
+        <span className="text-sm text-muted-foreground">{quarterLabel}</span>
+        <Chip label={formatStatus(outcome.status)} />
+      </div>
+      <dl className="mt-3 grid gap-1 text-sm sm:grid-cols-2">
+        <div>
+          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
+            Outcome owner
+          </dt>
+          <dd className="inline text-muted-foreground">{outcome.outcomeOwner}</dd>
+        </div>
+        <div>
+          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
+            Decision owner
+          </dt>
+          <dd className="inline text-muted-foreground">{outcome.decisionOwner}</dd>
+        </div>
+        <div className="sm:col-span-2">
+          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
+            Last activity
+          </dt>
+          <dd className="inline text-muted-foreground">
+            {formatLastActivity(outcome.lastActivityDate)}
+          </dd>
+        </div>
+      </dl>
+      <div className="mt-3 flex flex-wrap gap-3">
+        {outcome.googleDocUrl && (
+          <a
+            href={outcome.googleDocUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
+          >
+            Google Doc
+            <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+          </a>
+        )}
+        {outcome.slackThreadUrl && (
+          <a
+            href={outcome.slackThreadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
+          >
+            Slack thread
+            <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+          </a>
+        )}
+      </div>
+    </li>
+  );
+}
 
 export default function OutcomesPage() {
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
@@ -22,18 +109,11 @@ export default function OutcomesPage() {
             <h2 className="text-sm font-medium text-foreground">{quarter.label}</h2>
             <ul className="space-y-3">
               {outcomes.map((outcome) => (
-                <li
+                <OutcomeCard
                   key={outcome.id}
-                  className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm"
-                >
-                  <h3 className="font-medium text-foreground">{outcome.title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {outcome.context}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {outcome.metric} · {outcome.target} · {outcome.status}
-                  </p>
-                </li>
+                  outcome={outcome}
+                  quarterLabel={quarter.label}
+                />
               ))}
             </ul>
           </section>
