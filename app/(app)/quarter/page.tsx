@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ExternalLink, Pencil } from "lucide-react";
 import {
+  getOutcomeById,
   getOutcomesByQuarter,
   mockCurrentQuarter,
   mockCurrentQuarterUpdatedDate,
@@ -18,9 +19,18 @@ function formatUpdatedDate(iso: string): string {
 }
 
 function OutcomeCard({ outcome }: { outcome: Outcome }) {
+  const replacedOutcome = outcome.replacedOutcomeId
+    ? getOutcomeById(outcome.replacedOutcomeId)
+    : undefined;
+
   return (
     <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <h3 className="font-medium text-foreground">{outcome.title}</h3>
+      {replacedOutcome && (
+        <p className="mt-1 text-xs text-muted-foreground">
+          Replaces: {replacedOutcome.title}
+        </p>
+      )}
       <p className="mt-2 text-sm text-muted-foreground">{outcome.context}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         <span className="font-medium">Metric:</span> {outcome.metric}

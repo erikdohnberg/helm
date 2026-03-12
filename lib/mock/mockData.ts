@@ -280,6 +280,10 @@ export function getQuarterById(id: string): Quarter | undefined {
   return MOCK_QUARTERS.find((q) => q.id === id);
 }
 
+export function getOutcomeById(id: string): Outcome | undefined {
+  return MOCK_OUTCOMES.find((o) => o.id === id);
+}
+
 export function getOutcomesByQuarter(quarterId: string): Outcome[] {
   return MOCK_OUTCOMES.filter((o) => o.quarterId === quarterId).sort(
     (a, b) => a.title.localeCompare(b.title)
