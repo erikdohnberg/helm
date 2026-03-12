@@ -76,6 +76,51 @@ Helm sits **one level above execution**, ensuring the organization remains align
 
 ---
 
+## Setup
+
+### Prerequisites
+
+- Node.js 18+ (or 20+)
+- npm
+
+### Install
+
+```bash
+git clone <repository-url> helm
+cd helm
+npm install
+```
+
+### Environment
+
+Copy `.env.example` to `.env.local` and fill in values as needed. Environment variables are optional for running the dev server.
+
+```bash
+cp .env.example .env.local
+```
+
+### Run development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+If `npm install` fails (for example due to certificate or network issues), run it locally in the project directory and ensure Node.js 18+ and npm are available.
+
+### Scripts
+
+| Script       | Description              |
+| ------------ | ------------------------ |
+| `npm run dev`      | Start development server  |
+| `npm run build`    | Build for production     |
+| `npm run lint`     | Run ESLint               |
+| `npm run format`   | Format with Prettier      |
+| `npm run typecheck`| Run TypeScript check     |
+
+---
+
 ## License
 
 Helm is source-available.
