@@ -7,7 +7,7 @@ import {
   getOutcomesByQuarter,
   getQuarterById,
 } from "@/lib/mock/mockData";
-import type { Outcome, OutcomeStatus } from "@/lib/types";
+import type { Outcome, OutcomeStatus, SourceType } from "@/lib/types";
 import { Chip } from "@/components/ui/chip";
 
 /** Quarter order on outcomes page: FY26 Q2, then FY26 Q1, then older. */
@@ -152,6 +152,14 @@ export default function OutcomesPage() {
   } | null>(null);
   const [rationaleDraft, setRationaleDraft] = useState("");
   const [newOutcomeModalOpen, setNewOutcomeModalOpen] = useState(false);
+  const [newOutcomeStep1, setNewOutcomeStep1] = useState({
+    workingTitle: "",
+    quarterId: "",
+    shortIntent: "",
+    outcomeOwner: "",
+    decisionOwner: "",
+    sourceType: "" as SourceType | "",
+  });
 
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
     (q): q is NonNullable<typeof q> => q != null
@@ -242,13 +250,176 @@ export default function OutcomesPage() {
             >
               New Outcome
             </h2>
-            <div className="mt-4 flex justify-end">
+            <p className="mt-1 text-xs text-muted-foreground">Step 1</p>
+
+            <div className="mt-4 space-y-4">
+              <div>
+                <label
+                  htmlFor="new-outcome-working-title"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Working Title
+                </label>
+                <input
+                  id="new-outcome-working-title"
+                  type="text"
+                  value={newOutcomeStep1.workingTitle}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      workingTitle: e.target.value,
+                    }))
+                  }
+                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="e.g. Ship unified billing experience"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-outcome-quarter"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Quarter
+                </label>
+                <select
+                  id="new-outcome-quarter"
+                  value={newOutcomeStep1.quarterId}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      quarterId: e.target.value,
+                    }))
+                  }
+                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <option value="">Select quarter</option>
+                  {quartersInOrder.map((q) => (
+                    <option key={q.id} value={q.id}>
+                      {q.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-outcome-short-intent"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Short Intent
+                </label>
+                <textarea
+                  id="new-outcome-short-intent"
+                  value={newOutcomeStep1.shortIntent}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      shortIntent: e.target.value,
+                    }))
+                  }
+                  rows={3}
+                  className="mt-1.5 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="Brief context or intent for this outcome"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-outcome-owner"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Outcome Owner
+                </label>
+                <input
+                  id="new-outcome-owner"
+                  type="text"
+                  value={newOutcomeStep1.outcomeOwner}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      outcomeOwner: e.target.value,
+                    }))
+                  }
+                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="e.g. Jordan Lee"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-outcome-decision-owner"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Decision Owner
+                </label>
+                <input
+                  id="new-outcome-decision-owner"
+                  type="text"
+                  value={newOutcomeStep1.decisionOwner}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      decisionOwner: e.target.value,
+                    }))
+                  }
+                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="e.g. Sam Chen"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-outcome-source-type"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  Source Type
+                </label>
+                <select
+                  id="new-outcome-source-type"
+                  value={newOutcomeStep1.sourceType}
+                  onChange={(e) =>
+                    setNewOutcomeStep1((s) => ({
+                      ...s,
+                      sourceType: e.target.value as SourceType | "",
+                    }))
+                  }
+                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <option value="">Select source type</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="Discussion">Discussion</option>
+                  <option value="LeadershipInput">Leadership input</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-2">
               <button
                 type="button"
-                onClick={() => setNewOutcomeModalOpen(false)}
+                onClick={() => {
+                  setNewOutcomeModalOpen(false);
+                  setNewOutcomeStep1({
+                    workingTitle: "",
+                    quarterId: "",
+                    shortIntent: "",
+                    outcomeOwner: "",
+                    decisionOwner: "",
+                    sourceType: "",
+                  });
+                }}
                 className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
               >
-                Close
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                onClick={() => {
+                  /* Step 2 / submit can be wired later */
+                }}
+              >
+                Next
               </button>
             </div>
           </div>
