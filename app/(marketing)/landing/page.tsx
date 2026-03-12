@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExploringNextSection } from "./exploring-next-section";
+import { WaitlistSection } from "./waitlist-section";
 
 const problemCards = [
   {
@@ -94,9 +95,7 @@ export default function LandingPage() {
 
       <ExploringNextSection />
 
-      <section id="waitlist">
-        <h2 className="text-xl font-semibold text-foreground">Waitlist</h2>
-      </section>
+      <WaitlistSection />
 
       <section>
         <h2 className="text-xl font-semibold text-foreground">Footer</h2>
