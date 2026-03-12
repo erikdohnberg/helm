@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import {
   getOutcomeById,
@@ -33,9 +36,11 @@ function formatLastActivity(iso: string | null): string {
 function OutcomeCard({
   outcome,
   quarterLabel,
+  onMoveAdrift,
 }: {
   outcome: Outcome;
   quarterLabel: string;
+  onMoveAdrift: (outcomeId: string, outcomeTitle: string) => void;
 }) {
   const replacedOutcome =
     outcome.entryMode === "Replace" && outcome.replacedOutcomeId
@@ -43,6 +48,7 @@ function OutcomeCard({
       : undefined;
   const showAdditiveFocusWarning =
     outcome.entryMode === "Additive" && outcome.focusWarning;
+  const canMoveAdrift = outcome.status !== "Inactive";
 
   return (
     <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
@@ -107,21 +113,65 @@ function OutcomeCard({
             <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
           </a>
         )}
+        {canMoveAdrift && (
+          <button
+            type="button"
+            onClick={() => onMoveAdrift(outcome.id, outcome.title)}
+            className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+          >
+            Move Adrift
+          </button>
+        )}
       </div>
     </li>
   );
 }
 
 export default function OutcomesPage() {
+  const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
+    Record<string, string>
+  >({});
+  const [moveAdriftModal, setMoveAdriftModal] = useState<{
+    outcomeId: string;
+    outcomeTitle: string;
+  } | null>(null);
+  const [rationaleDraft, setRationaleDraft] = useState("");
+
   const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
     (q): q is NonNullable<typeof q> => q != null
   );
+
+  function openMoveAdriftModal(outcomeId: string, outcomeTitle: string) {
+    setMoveAdriftModal({ outcomeId, outcomeTitle });
+    setRationaleDraft("");
+  }
+
+  function closeMoveAdriftModal() {
+    setMoveAdriftModal(null);
+    setRationaleDraft("");
+  }
+
+  function confirmMoveAdrift() {
+    if (!moveAdriftModal || !rationaleDraft.trim()) return;
+    setAdriftRationaleByOutcomeId((prev) => ({
+      ...prev,
+      [moveAdriftModal.outcomeId]: rationaleDraft.trim(),
+    }));
+    closeMoveAdriftModal();
+  }
+
+  function getEffectiveOutcome(outcome: Outcome): Outcome {
+    if (outcome.id in adriftRationaleByOutcomeId) {
+      return { ...outcome, status: "Inactive" };
+    }
+    return outcome;
+  }
 
   return (
     <div className="space-y-8">
       <h1 className="text-xl font-semibold text-foreground">Outcomes</h1>
       {quartersInOrder.map((quarter) => {
-        const outcomes = getOutcomesByQuarter(quarter.id);
+        const outcomes = getOutcomesByQuarter(quarter.id).map(getEffectiveOutcome);
         if (outcomes.length === 0) return null;
         return (
           <section key={quarter.id} className="space-y-3">
@@ -132,12 +182,62 @@ export default function OutcomesPage() {
                   key={outcome.id}
                   outcome={outcome}
                   quarterLabel={quarter.label}
+                  onMoveAdrift={openMoveAdriftModal}
                 />
               ))}
             </ul>
           </section>
         );
       })}
+
+      {moveAdriftModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="move-adrift-modal-title"
+        >
+          <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+            <h2
+              id="move-adrift-modal-title"
+              className="text-sm font-medium text-foreground"
+            >
+              Move Adrift
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {moveAdriftModal.outcomeTitle}
+            </p>
+            <label htmlFor="move-adrift-rationale" className="mt-4 block text-sm font-medium text-foreground">
+              Rationale (required)
+            </label>
+            <textarea
+              id="move-adrift-rationale"
+              value={rationaleDraft}
+              onChange={(e) => setRationaleDraft(e.target.value)}
+              className="mt-1.5 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              rows={4}
+              placeholder="Why is this outcome no longer a priority?"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={closeMoveAdriftModal}
+                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmMoveAdrift}
+                disabled={!rationaleDraft.trim()}
+                className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
