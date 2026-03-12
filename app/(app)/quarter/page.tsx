@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil } from "lucide-react";
+import { ExternalLink, Pencil } from "lucide-react";
 import {
+  getOutcomesByQuarter,
   mockCurrentQuarter,
   mockCurrentQuarterUpdatedDate,
 } from "@/lib/mock/mockData";
+import type { Outcome } from "@/lib/types";
 
 function formatUpdatedDate(iso: string): string {
   return new Date(iso + "Z").toLocaleDateString("en-US", {
@@ -13,6 +15,40 @@ function formatUpdatedDate(iso: string): string {
     day: "numeric",
     year: "numeric",
   });
+}
+
+function OutcomeCard({ outcome }: { outcome: Outcome }) {
+  return (
+    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+      <h3 className="font-medium text-foreground">{outcome.title}</h3>
+      <p className="mt-2 text-sm text-muted-foreground">{outcome.context}</p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        <span className="font-medium">Metric:</span> {outcome.metric}
+        {" · "}
+        <span className="font-medium">Target:</span> {outcome.target}
+        {" · "}
+        <span className="font-medium">Timeframe:</span> {outcome.timeframe}
+      </p>
+      {outcome.decisionBullets.length > 0 && (
+        <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-muted-foreground">
+          {outcome.decisionBullets.map((bullet, i) => (
+            <li key={i}>{bullet}</li>
+          ))}
+        </ul>
+      )}
+      {outcome.googleDocUrl && (
+        <a
+          href={outcome.googleDocUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+        >
+          Open Full Charter in Google Docs
+          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+        </a>
+      )}
+    </li>
+  );
 }
 
 export default function QuarterPage() {
@@ -24,6 +60,9 @@ export default function QuarterPage() {
   const [editDraft, setEditDraft] = useState("");
 
   const canEdit = !quarter.hasStarted;
+  const anchoredOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
+    (o) => o.status === "Anchored"
+  );
 
   function openEditModal() {
     if (!canEdit) return;
@@ -69,6 +108,17 @@ export default function QuarterPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           {narrativeSummary || "No narrative summary yet."}
         </p>
+      </section>
+
+      <section>
+        <h2 className="text-sm font-medium text-foreground">
+          Anchored outcomes
+        </h2>
+        <ul className="mt-3 space-y-4">
+          {anchoredOutcomes.map((outcome) => (
+            <OutcomeCard key={outcome.id} outcome={outcome} />
+          ))}
+        </ul>
       </section>
 
       {modalOpen && (
