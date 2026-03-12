@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import {
+  getOutcomeById,
   getOutcomesByQuarter,
   getQuarterById,
 } from "@/lib/mock/mockData";
@@ -36,6 +37,13 @@ function OutcomeCard({
   outcome: Outcome;
   quarterLabel: string;
 }) {
+  const replacedOutcome =
+    outcome.entryMode === "Replace" && outcome.replacedOutcomeId
+      ? getOutcomeById(outcome.replacedOutcomeId)
+      : undefined;
+  const showAdditiveFocusWarning =
+    outcome.entryMode === "Additive" && outcome.focusWarning;
+
   return (
     <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
@@ -43,6 +51,17 @@ function OutcomeCard({
         <span className="text-sm text-muted-foreground">{quarterLabel}</span>
         <Chip label={formatStatus(outcome.status)} />
       </div>
+      {replacedOutcome && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Replaces: {replacedOutcome.title}
+        </p>
+      )}
+      {showAdditiveFocusWarning && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Focus warning: this outcome entered without displacing another
+          priority.
+        </p>
+      )}
       <dl className="mt-3 grid gap-1 text-sm sm:grid-cols-2">
         <div>
           <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
