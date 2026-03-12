@@ -37,10 +37,12 @@ function OutcomeCard({
   outcome,
   quarterLabel,
   onMoveAdrift,
+  onReactivate,
 }: {
   outcome: Outcome;
   quarterLabel: string;
   onMoveAdrift: (outcomeId: string, outcomeTitle: string) => void;
+  onReactivate: (outcomeId: string) => void;
 }) {
   const replacedOutcome =
     outcome.entryMode === "Replace" && outcome.replacedOutcomeId
@@ -49,6 +51,7 @@ function OutcomeCard({
   const showAdditiveFocusWarning =
     outcome.entryMode === "Additive" && outcome.focusWarning;
   const canMoveAdrift = outcome.status !== "Inactive";
+  const canReactivate = outcome.status === "Inactive";
 
   return (
     <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
@@ -122,6 +125,15 @@ function OutcomeCard({
             Move Adrift
           </button>
         )}
+        {canReactivate && (
+          <button
+            type="button"
+            onClick={() => onReactivate(outcome.id)}
+            className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+          >
+            Reactivate
+          </button>
+        )}
       </div>
     </li>
   );
@@ -131,6 +143,9 @@ export default function OutcomesPage() {
   const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
     Record<string, string>
   >({});
+  const [reactivatedOutcomeIds, setReactivatedOutcomeIds] = useState<Set<string>>(
+    new Set()
+  );
   const [moveAdriftModal, setMoveAdriftModal] = useState<{
     outcomeId: string;
     outcomeTitle: string;
@@ -157,14 +172,26 @@ export default function OutcomesPage() {
       ...prev,
       [moveAdriftModal.outcomeId]: rationaleDraft.trim(),
     }));
+    setReactivatedOutcomeIds((prev) => {
+      const next = new Set(prev);
+      next.delete(moveAdriftModal.outcomeId);
+      return next;
+    });
     closeMoveAdriftModal();
   }
 
   function getEffectiveOutcome(outcome: Outcome): Outcome {
+    if (reactivatedOutcomeIds.has(outcome.id)) {
+      return { ...outcome, status: "AwaitingAlignment" };
+    }
     if (outcome.id in adriftRationaleByOutcomeId) {
       return { ...outcome, status: "Inactive" };
     }
     return outcome;
+  }
+
+  function handleReactivate(outcomeId: string) {
+    setReactivatedOutcomeIds((prev) => new Set(prev).add(outcomeId));
   }
 
   return (
@@ -183,6 +210,7 @@ export default function OutcomesPage() {
                   outcome={outcome}
                   quarterLabel={quarter.label}
                   onMoveAdrift={openMoveAdriftModal}
+                  onReactivate={handleReactivate}
                 />
               ))}
             </ul>
