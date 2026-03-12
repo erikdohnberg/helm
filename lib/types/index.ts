@@ -67,3 +67,17 @@ export interface TeamFunction {
   director: string;
   slackId: string;
 }
+
+// --- Marketing / feature ideas (mock) ---
+
+export interface FeatureIdea {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface FeatureVote {
+  id: string;
+  featureId: string;
+  email: string;
+}
