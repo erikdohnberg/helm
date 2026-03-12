@@ -61,8 +61,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section>
+      <section className="space-y-4">
         <h2 className="text-xl font-semibold text-foreground">The Idea</h2>
+        <p className="text-foreground leading-relaxed">
+          Helm centers planning around Outcome Charters.
+        </p>
+        <p className="text-foreground leading-relaxed">
+          Each charter captures:
+        </p>
+        <ul className="list-disc list-inside space-y-1 text-foreground leading-relaxed">
+          <li>the outcome being pursued</li>
+          <li>the metric that defines success</li>
+          <li>the reasoning behind the decision</li>
+          <li>the trade-offs required</li>
+        </ul>
+        <p className="text-foreground leading-relaxed">
+          Once aligned, outcomes become Anchored to the quarter.
+        </p>
       </section>
 
       <section>
