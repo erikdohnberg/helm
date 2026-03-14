@@ -41,8 +41,13 @@ export function WaitlistSection() {
 
   return (
     <section id="waitlist" className="space-y-4">
-      <h2 className="text-xl font-semibold text-foreground">Waitlist</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+      <h2 className="text-xl font-semibold text-text-primary">
+        Be the first to know
+      </h2>
+      <p className="text-text-secondary leading-relaxed">
+        Join the waitlist to get updates as Helm evolves.
+      </p>
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4 max-w-md">
         <div
           className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
           aria-hidden="true"
@@ -59,7 +64,10 @@ export function WaitlistSection() {
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="waitlist-email" className="text-sm font-medium text-foreground">
+          <label
+            htmlFor="waitlist-email"
+            className="text-sm font-medium text-text-primary"
+          >
             Email
           </label>
           <input
@@ -69,8 +77,8 @@ export function WaitlistSection() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            placeholder="you@company.com"
+            className="w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/70 focus:outline-none focus:ring-2 focus:ring-ring"
+            placeholder="Enter your email"
           />
           {error && (
             <p className="text-sm text-destructive" role="alert">
@@ -80,7 +88,7 @@ export function WaitlistSection() {
         </div>
         <button
           type="submit"
-          className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
+          className="rounded-md bg-brass px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brass/90"
         >
           Join the waitlist
         </button>

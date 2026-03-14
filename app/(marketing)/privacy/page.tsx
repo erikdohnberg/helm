@@ -1,6 +1,6 @@
 export default function PrivacyPage() {
   return (
-    <div className="space-y-4">
+    <div className="mx-auto max-w-2xl space-y-4 px-6 py-24">
       <h1 className="text-2xl font-semibold text-foreground">Privacy</h1>
       <p className="text-foreground leading-relaxed">
         Email addresses collected via the waitlist or feature voting are used

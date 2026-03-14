@@ -1,105 +1,84 @@
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExploringNextSection } from "./exploring-next-section";
+import { FeatureCarouselSection } from "./feature-carousel-section";
+import { HeroSection } from "./hero-section";
 import { WaitlistSection } from "./waitlist-section";
 
 const problemCards = [
   {
     title: "Direction drifts quietly",
-    text: "Quarterly priorities shift without deliberate comparison to the original plan.",
+    text: "New priorities appear without deliberate comparison to the original plan.",
   },
   {
-    title: "Trade-offs stay implicit",
-    text: "New initiatives are added without clearly identifying what stops.",
+    title: "Trade-offs disappear",
+    text: "Teams rarely record what stopped in order to pursue something new.",
   },
   {
-    title: "Teams execute without context",
-    text: "By the time direction reaches teams, the reasoning behind it is often lost.",
+    title: "Decisions lose context",
+    text: "By the time direction reaches teams, the reasoning behind it is gone.",
   },
 ] as const;
 
 export default function LandingPage() {
   return (
-    <div className="space-y-16">
-      <section className="flex flex-col items-center text-center space-y-8">
-        <div className="space-y-3">
-          <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-            Helm
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Keep strategy on course.
+    <>
+      <HeroSection />
+
+      <div className="mx-auto max-w-[820px] px-6">
+        {/* Problem section */}
+        <section className="py-[120px]">
+          <p className="text-center text-lg font-medium leading-relaxed text-text-primary">
+            Strategy rarely fails during planning.
+            <br />
+            It drifts during execution.
           </p>
-        </div>
-        <p className="text-lg text-foreground max-w-xl leading-relaxed">
-          Turn internal signals into deliberate quarterly outcomes — with
-          explicit trade-offs and shared context before execution begins.
-        </p>
-        <div className="flex flex-col items-center gap-4 pt-2">
-          <Link
-            href="#waitlist"
-            className="rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
-          >
-            Join the waitlist
-          </Link>
-          <p className="text-sm text-muted-foreground">
-            Currently in private prototype.
-          </p>
-        </div>
-      </section>
+          <div className="mt-12 grid gap-6 sm:grid-cols-3">
+            {problemCards.map(({ title, text }) => (
+              <Card
+                key={title}
+                className="border-0 bg-white shadow-md shadow-black/5"
+              >
+                <CardHeader>
+                  <CardTitle className="text-text-primary">{title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    {text}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
-      <section className="space-y-6">
-        <h2 className="text-xl font-semibold text-foreground">Problem</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {problemCards.map(({ title, text }) => (
-            <Card key={title}>
-              <CardHeader>
-                <CardTitle>{title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{text}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+        {/* Helm concept section */}
+        <section className="py-[120px]">
+          <h2 className="text-xl font-semibold text-text-primary">
+            A team member responsible for strategic coherence
+          </h2>
+          <div className="mt-6 space-y-4 text-text-secondary leading-relaxed">
+            <p>
+              Helm listens where strategy actually happens — in meetings, Slack
+              discussions, and planning conversations.
+            </p>
+            <p>
+              It turns those signals into draft Outcome Charters, helps
+              leadership align before the quarter begins, and keeps teams
+              connected to those outcomes as the quarter unfolds.
+            </p>
+            <p>
+              When alignment fades, Helm nudges the team to reconnect.
+            </p>
+          </div>
+        </section>
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold text-foreground">The Idea</h2>
-        <p className="text-foreground leading-relaxed">
-          Helm centers planning around Outcome Charters.
-        </p>
-        <p className="text-foreground leading-relaxed">
-          Each charter captures:
-        </p>
-        <ul className="list-disc list-inside space-y-1 text-foreground leading-relaxed">
-          <li>the outcome being pursued</li>
-          <li>the metric that defines success</li>
-          <li>the reasoning behind the decision</li>
-          <li>the trade-offs required</li>
-        </ul>
-        <p className="text-foreground leading-relaxed">
-          Once aligned, outcomes become Anchored to the quarter.
-        </p>
-      </section>
+        {/* Feature carousel */}
+        <FeatureCarouselSection />
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold text-foreground">How It Works</h2>
-        <ol className="list-decimal list-inside space-y-3 text-foreground leading-relaxed">
-          <li>Teams submit internal signals.</li>
-          <li>Signals cluster into opportunity spaces.</li>
-          <li>Draft outcome charters are generated.</li>
-          <li>Directors review and finalize before the quarter begins.</li>
-          <li>Changes remain visible as priorities evolve.</li>
-        </ol>
-      </section>
-
-      <ExploringNextSection />
-
-      <WaitlistSection />
-
-      <section>
-        <h2 className="text-xl font-semibold text-foreground">Footer</h2>
-      </section>
-    </div>
+        {/* Waitlist */}
+        <section className="py-[120px]">
+          <WaitlistSection />
+        </section>
+      </div>
+    </>
   );
 }

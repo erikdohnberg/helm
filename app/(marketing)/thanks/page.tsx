@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function ThanksPage() {
   return (
-    <div className="space-y-4">
+    <div className="mx-auto max-w-2xl space-y-4 px-6 py-24">
       <h1 className="text-2xl font-semibold text-foreground">
         Thanks for joining.
       </h1>

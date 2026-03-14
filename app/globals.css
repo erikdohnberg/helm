@@ -37,6 +37,12 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+    /* Marketing landing palette */
+    --navy: #1B2A38;
+    --page-bg: #F7F6F2;
+    --brass: #C2A878;
+    --text-primary: #111;
+    --text-secondary: #555;
   }
 
   .dark {
@@ -78,5 +84,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }

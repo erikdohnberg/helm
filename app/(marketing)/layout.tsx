@@ -6,9 +6,9 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen py-24 px-6 flex flex-col">
-      <div className="mx-auto max-w-2xl w-full flex-1">{children}</div>
-      <footer className="mt-16 text-center text-sm text-muted-foreground">
+    <main className="min-h-screen flex flex-col bg-page-bg">
+      <div className="flex-1">{children}</div>
+      <footer className="mt-16 py-8 text-center text-sm text-muted-foreground">
         <p>Made with ❤️, AI and ☕️ in Toronto, Canada.</p>
         <p className="mt-1">
           Built by{" "}
