@@ -13,9 +13,6 @@ import {
   Video,
 } from "lucide-react";
 
-const iconClass = "h-6 w-6 shrink-0 text-brass";
-const iconLabelClass = "text-xs text-text-secondary";
-
 function SlackLogoIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -25,7 +22,6 @@ function SlackLogoIcon({ className }: { className?: string }) {
       className={className}
       aria-hidden
     >
-      <title>Slack</title>
       <rect x="3" y="2" width="6" height="4" rx="1.5" />
       <rect x="15" y="2" width="6" height="4" rx="1.5" />
       <rect x="3" y="18" width="6" height="4" rx="1.5" />
@@ -38,165 +34,306 @@ function SlackLogoIcon({ className }: { className?: string }) {
   );
 }
 
-const slides = [
-  {
-    title: "Helm listens where strategy happens",
-    content: (
-      <ul className="mt-4 list-disc space-y-2 pl-5 text-text-secondary">
-        <li>meeting transcripts</li>
-        <li>strategy discussions</li>
-        <li>Slack conversations</li>
-      </ul>
-    ),
-    diagram: (
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <div className="flex flex-col items-center gap-1">
-            <Video className={iconClass} />
-            <span className={iconLabelClass}>Meetings</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <MessageSquare className={iconClass} />
-            <span className={iconLabelClass}>Strategy</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <SlackLogoIcon className="h-7 w-7 text-brass" />
-            <span className={iconLabelClass}>Slack</span>
-          </div>
+const iconClass = "h-5 w-5 text-[#C2A878]";
+const panelClass =
+  "rounded-2xl border border-black/5 bg-gradient-to-b from-white to-[#F8F6F1] shadow-[0_1px_2px_rgba(16,24,40,0.04),0_12px_30px_rgba(16,24,40,0.06)]";
+
+function VisualFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={`${panelClass} min-h-[360px] w-full overflow-hidden p-6`}>
+      {children}
+    </div>
+  );
+}
+
+function SourceChip({
+  icon,
+  label,
+}: {
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <div className="flex items-center gap-2 rounded-xl border border-black/5 bg-white px-3 py-2 shadow-sm">
+      {icon}
+      <span className="text-sm text-[#444]">{label}</span>
+    </div>
+  );
+}
+
+function MiniCard({
+  title,
+  lines = 3,
+}: {
+  title: string;
+  lines?: number;
+}) {
+  return (
+    <div className="rounded-xl border border-black/5 bg-white p-4 shadow-sm">
+      <div className="text-sm font-medium text-[#111]">{title}</div>
+      <div className="mt-3 space-y-2">
+        {Array.from({ length: lines }).map((_, i) => (
+          <div
+            key={i}
+            className="h-2 rounded bg-black/8"
+            style={{ width: `${90 - i * 18}%` }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ListeningVisual() {
+  return (
+    <VisualFrame>
+      <div className="flex h-full flex-col justify-between gap-6">
+        <div className="grid grid-cols-3 gap-3">
+          <SourceChip icon={<Video className={iconClass} />} label="Meetings" />
+          <SourceChip
+            icon={<MessageSquare className={iconClass} />}
+            label="Strategy"
+          />
+          <SourceChip icon={<SlackLogoIcon className={iconClass} />} label="Slack" />
         </div>
-        <ArrowRight className="h-5 w-5 text-brass" />
-        <div className="flex flex-col items-center gap-1">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brass/60 bg-white text-lg font-semibold text-brass">
+
+        <div className="flex items-center justify-center gap-4">
+          <div className="h-px flex-1 bg-black/10" />
+          <ArrowRight className="h-5 w-5 text-[#C2A878]" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[#C2A878]/40 bg-white text-lg font-semibold text-[#1B2A38] shadow-sm">
             H
           </div>
-          <span className={iconLabelClass}>Helm</span>
+          <ArrowRight className="h-5 w-5 text-[#C2A878]" />
+          <div className="h-px flex-1 bg-black/10" />
         </div>
-      </div>
-    ),
-  },
-  {
-    title: "Helm turns signals into draft outcomes",
-    content: (
-      <p className="mt-4 text-text-secondary leading-relaxed">
-        Related signals cluster into draft Outcome Charters.
-      </p>
-    ),
-    diagram: (
-      <div className="flex items-center gap-3">
-        <div className="flex flex-col gap-2">
-          {[1, 2, 3].map((i) => (
-            <MessageSquare
-              key={i}
-              className="h-5 w-5 text-text-secondary/60"
-              aria-hidden
-            />
-          ))}
-        </div>
-        <ArrowRight className={iconClass} />
-        <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-brass/50 bg-white px-3 py-2">
-          <FileText className={iconClass} />
-          <span className="text-xs font-medium text-text-primary">
-            Draft charter
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Helm prepares alignment before the quarter",
-    content: (
-      <p className="mt-4 text-text-secondary leading-relaxed">
-        Leadership reviews and anchors outcomes before the quarter begins.
-      </p>
-    ),
-    diagram: (
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex flex-col items-center gap-1 rounded-lg border border-brass/40 bg-white px-4 py-2">
-          <ClipboardCheck className={iconClass} />
-          <span className={iconLabelClass}>Review</span>
-        </div>
-        <ArrowRight className="h-5 w-5 rotate-[-90deg] text-brass" />
-        <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-brass/50 bg-white px-4 py-2">
-          <Pin className={iconClass} />
-          <span className="text-xs font-medium text-text-primary">Anchor</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Helm creates shared alignment threads",
-    content: (
-      <p className="mt-4 text-text-secondary leading-relaxed">
-        Each outcome has a shared Slack thread with full context.
-      </p>
-    ),
-    diagram: (
-      <div className="flex w-full flex-col items-center gap-3">
-        <span className="text-xs font-medium text-text-primary">Outcome</span>
-        <ArrowRight className="h-5 w-5 text-brass" />
-        <div className="flex w-full flex-col gap-2 rounded-lg border border-brass/30 bg-white p-3">
-          <div className="flex items-center gap-2">
-            <SlackLogoIcon className="h-5 w-5 text-brass" />
-            <span className="text-xs font-medium text-text-secondary">
-              Thread
-            </span>
-          </div>
-          <div className="h-2 w-full rounded bg-text-secondary/20" />
-          <div className="h-2 w-[75%] rounded bg-text-secondary/20" />
-          <div className="h-2 w-1/2 rounded bg-text-secondary/20" />
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Helm notices when alignment fades",
-    content: (
-      <p className="mt-4 text-text-secondary leading-relaxed">
-        Helm detects inactivity and nudges the team to reconnect.
-      </p>
-    ),
-    diagram: (
-      <div className="flex items-center gap-4">
-        <div className="flex flex-col items-center gap-1 opacity-50">
-          <MessageSquare className="h-6 w-6 text-text-secondary" />
-          <span className={iconLabelClass}>Activity</span>
-        </div>
-        <ArrowRight className={iconClass} />
-        <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-brass/50 bg-white px-3 py-2">
-          <Bell className={iconClass} />
-          <span className="text-xs font-medium text-text-primary">Nudge</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Helm preserves strategic memory",
-    content: (
-      <p className="mt-4 text-text-secondary leading-relaxed">
-        When priorities shift, Helm records what replaced what.
-      </p>
-    ),
-    diagram: (
-      <div className="flex flex-col items-center gap-2">
-        <div className="rounded-lg border border-brass/40 bg-white/90 px-3 py-2 text-xs line-through opacity-70 text-text-secondary">
-          Old priority
-        </div>
-        <ArrowRight className="h-5 w-5 rotate-[-90deg] text-brass" />
-        <div className="rounded-lg border-2 border-brass/50 bg-white px-3 py-2 text-xs font-medium text-text-primary">
-          New priority
-        </div>
-      </div>
-    ),
-  },
-];
 
-const slideLabels = [
-  "Helm listens",
-  "Helm drafts outcomes",
-  "Helm prepares alignment",
-  "Helm creates threads",
-  "Helm nudges drift",
-  "Helm preserves memory",
+        <div className="grid grid-cols-2 gap-3">
+          <MiniCard title="Emerging signals" lines={4} />
+          <MiniCard title="Themes detected" lines={4} />
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+function DraftOutcomeVisual() {
+  return (
+    <VisualFrame>
+      <div className="grid h-full grid-cols-[1fr_auto_1.2fr] items-center gap-4">
+        <div className="space-y-3">
+          <MiniCard title="Operator feedback" lines={3} />
+          <MiniCard title="Transcript excerpt" lines={3} />
+        </div>
+        <ArrowRight className="h-6 w-6 text-[#C2A878]" />
+        <div className="rounded-2xl border border-[#C2A878]/30 bg-white p-5 shadow-sm">
+          <div className="flex items-center gap-2">
+            <FileText className={iconClass} />
+            <div className="text-sm font-semibold text-[#111]">Draft Outcome Charter</div>
+          </div>
+          <div className="mt-4 space-y-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-[#777]">Outcome</div>
+              <div className="mt-1 h-2 w-4/5 rounded bg-black/10" />
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-[#777]">Metric</div>
+              <div className="mt-1 h-2 w-2/3 rounded bg-black/10" />
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-[#777]">Trade-offs</div>
+              <div className="mt-1 space-y-2">
+                <div className="h-2 w-5/6 rounded bg-black/10" />
+                <div className="h-2 w-3/5 rounded bg-black/10" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+function AlignmentVisual() {
+  return (
+    <VisualFrame>
+      <div className="flex h-full flex-col justify-between">
+        <div className="grid grid-cols-2 gap-4">
+          <MiniCard title="Draft charter" lines={4} />
+          <div className="rounded-xl border border-[#C2A878]/30 bg-white p-4 shadow-sm">
+            <div className="flex items-center gap-2">
+              <ClipboardCheck className={iconClass} />
+              <div className="text-sm font-medium text-[#111]">Leadership review</div>
+            </div>
+            <div className="mt-4 h-2 w-5/6 rounded bg-black/10" />
+            <div className="mt-2 h-2 w-2/3 rounded bg-black/10" />
+          </div>
+        </div>
+
+        <div className="my-4 flex items-center justify-center">
+          <ArrowRight className="h-6 w-6 rotate-90 text-[#C2A878]" />
+        </div>
+
+        <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-sm font-medium text-[#111]">FY26 Q1</div>
+            <div className="rounded-full bg-[#C2A878]/15 px-2.5 py-1 text-xs text-[#8A6A2F]">
+              Anchored
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <MiniCard title="Outcome A" lines={2} />
+            <MiniCard title="Outcome B" lines={2} />
+            <MiniCard title="Outcome C" lines={2} />
+          </div>
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+function ThreadVisual() {
+  return (
+    <VisualFrame>
+      <div className="space-y-4">
+        <div className="rounded-xl border border-black/5 bg-white p-4 shadow-sm">
+          <div className="text-sm font-medium text-[#111]">Anchored outcome</div>
+          <div className="mt-3 h-2 w-4/5 rounded bg-black/10" />
+          <div className="mt-2 h-2 w-2/3 rounded bg-black/10" />
+        </div>
+
+        <div className="rounded-2xl border border-[#C2A878]/25 bg-white p-4 shadow-sm">
+          <div className="mb-3 flex items-center gap-2">
+            <SlackLogoIcon className={iconClass} />
+            <div className="text-sm font-medium text-[#111]">Shared alignment thread</div>
+          </div>
+          <div className="space-y-3">
+            <div className="rounded-lg bg-[#F7F6F2] p-3">
+              <div className="h-2 w-3/4 rounded bg-black/10" />
+              <div className="mt-2 h-2 w-1/2 rounded bg-black/10" />
+            </div>
+            <div className="ml-6 rounded-lg bg-[#F7F6F2] p-3">
+              <div className="h-2 w-2/3 rounded bg-black/10" />
+              <div className="mt-2 h-2 w-1/3 rounded bg-black/10" />
+            </div>
+            <div className="ml-10 rounded-lg bg-[#F7F6F2] p-3">
+              <div className="h-2 w-1/2 rounded bg-black/10" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+function NudgeVisual() {
+  return (
+    <VisualFrame>
+      <div className="grid h-full grid-cols-[1.4fr_auto_1fr] items-center gap-4">
+        <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm opacity-70">
+          <div className="mb-3 flex items-center gap-2">
+            <MessageSquare className="h-5 w-5 text-[#999]" />
+            <div className="text-sm font-medium text-[#555]">Quiet thread</div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-2 w-3/4 rounded bg-black/10" />
+            <div className="h-2 w-1/2 rounded bg-black/10" />
+            <div className="text-xs text-[#888]">No activity for 7 days</div>
+          </div>
+        </div>
+
+        <ArrowRight className="h-6 w-6 text-[#C2A878]" />
+
+        <div className="rounded-2xl border border-[#C2A878]/35 bg-white p-4 shadow-sm">
+          <div className="mb-3 flex items-center gap-2">
+            <Bell className={iconClass} />
+            <div className="text-sm font-medium text-[#111]">Helm nudge</div>
+          </div>
+          <div className="rounded-lg bg-[#F7F6F2] p-3">
+            <div className="h-2 w-5/6 rounded bg-black/10" />
+            <div className="mt-2 h-2 w-2/3 rounded bg-black/10" />
+          </div>
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+function MemoryVisual() {
+  return (
+    <VisualFrame>
+      <div className="grid h-full grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="rounded-xl border border-black/5 bg-white p-4 shadow-sm opacity-70">
+          <div className="text-sm font-medium text-[#555] line-through">Old priority</div>
+          <div className="mt-3 h-2 w-3/4 rounded bg-black/10" />
+          <div className="mt-2 h-2 w-1/2 rounded bg-black/10" />
+        </div>
+
+        <div className="flex flex-col items-center gap-2">
+          <ArrowRight className="h-6 w-6 text-[#C2A878]" />
+          <div className="rounded-full bg-[#C2A878]/15 px-2.5 py-1 text-[11px] text-[#8A6A2F]">
+            Replaces
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-[#C2A878]/35 bg-white p-4 shadow-sm">
+          <div className="text-sm font-semibold text-[#111]">New priority</div>
+          <div className="mt-3 h-2 w-4/5 rounded bg-black/10" />
+          <div className="mt-2 h-2 w-2/3 rounded bg-black/10" />
+        </div>
+      </div>
+    </VisualFrame>
+  );
+}
+
+const slides = [
+  {
+    eyebrow: "01 — Helm listens",
+    title: "Helm listens where strategy happens",
+    description:
+      "Helm connects to the conversations where strategy already happens, collecting the signals that shape quarterly direction.",
+    bullets: ["Meeting transcripts", "Strategy discussions", "Slack conversations"],
+    visual: <ListeningVisual />,
+  },
+  {
+    eyebrow: "02 — Draft outcomes",
+    title: "Helm turns signals into draft outcomes",
+    description:
+      "Related signals are grouped into draft Outcome Charters so leadership can shape priorities before the quarter begins.",
+    bullets: ["Cluster related inputs", "Create draft charters", "Capture reasoning"],
+    visual: <DraftOutcomeVisual />,
+  },
+  {
+    eyebrow: "03 — Prepare alignment",
+    title: "Helm prepares alignment before the quarter",
+    description:
+      "Draft outcomes move through review and become anchored priorities for the quarter.",
+    bullets: ["Review", "Refine", "Anchor to the quarter"],
+    visual: <AlignmentVisual />,
+  },
+  {
+    eyebrow: "04 — Shared context",
+    title: "Helm creates shared alignment threads",
+    description:
+      "Every outcome gets a shared thread so teams can discuss updates and decisions with the full context attached.",
+    bullets: ["Shared Slack thread", "Decision context", "Visible updates"],
+    visual: <ThreadVisual />,
+  },
+  {
+    eyebrow: "05 — Drift detection",
+    title: "Helm notices when alignment fades",
+    description:
+      "When activity drops off, Helm nudges the team to reconnect before strategic drift becomes invisible.",
+    bullets: ["Detect inactivity", "Send a reminder", "Reconnect teams"],
+    visual: <NudgeVisual />,
+  },
+  {
+    eyebrow: "06 — Strategic memory",
+    title: "Helm preserves strategic memory",
+    description:
+      "When priorities shift, Helm keeps the replacement history visible so trade-offs do not disappear.",
+    bullets: ["Record what changed", "Preserve trade-offs", "Keep a visible lineage"],
+    visual: <MemoryVisual />,
+  },
 ];
 
 export function FeatureCarouselSection() {
@@ -205,63 +342,78 @@ export function FeatureCarouselSection() {
 
   return (
     <section className="py-[120px]" aria-label="How Helm works">
-      <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
-        <div className="min-w-0 flex-1">
-          <h2 className="text-xl font-semibold text-text-primary">
-            {slide.title}
-          </h2>
-          <div className="mt-4">{slide.content}</div>
-        </div>
-        <div className="flex min-h-[200px] shrink-0 items-center justify-center rounded-xl border border-border bg-white p-10 shadow-sm lg:w-80">
-          {slide.diagram}
-        </div>
-      </div>
-      <div className="mt-12 flex flex-col gap-4">
-        <p className="text-xs font-medium uppercase tracking-wider text-text-secondary">
-          {current + 1} of {slides.length} — {slideLabels[current]}
-        </p>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setCurrent((i) => (i === 0 ? slides.length - 1 : i - 1))}
-            className="rounded-lg border border-border bg-white p-2 text-text-secondary transition-colors hover:border-brass/40 hover:bg-white hover:text-brass"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <div
-            className="flex gap-2"
-            role="tablist"
-            aria-label="Slide indicators"
-          >
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                role="tab"
-                aria-selected={i === current}
-                aria-label={`Slide ${i + 1}: ${slideLabels[i]}`}
-                onClick={() => setCurrent(i)}
-                className={`rounded-full transition-colors ${
-                  i === current
-                    ? "h-2.5 w-2.5 bg-brass"
-                    : "h-2 w-2 bg-text-secondary/25 hover:bg-text-secondary/40"
-                }`}
-              />
-            ))}
+      <div className="rounded-[28px] border border-black/5 bg-[#FCFBF8] p-6 shadow-[0_1px_2px_rgba(16,24,40,0.04),0_24px_60px_rgba(16,24,40,0.06)] md:p-10">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="max-w-xl">
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#8A6A2F]">
+              {slide.eyebrow}
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#111] md:text-4xl">
+              {slide.title}
+            </h2>
+            <p className="mt-5 text-base leading-8 text-[#555]">
+              {slide.description}
+            </p>
+            <ul className="mt-6 space-y-3">
+              {slide.bullets.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[#333]">
+                  <span className="mt-[10px] h-1.5 w-1.5 rounded-full bg-[#C2A878]" />
+                  <span className="text-base leading-7">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <button
-            type="button"
-            onClick={() => setCurrent((i) => (i === slides.length - 1 ? 0 : i + 1))}
-            className="rounded-lg border border-border bg-white p-2 text-text-secondary transition-colors hover:border-brass/40 hover:bg-white hover:text-brass"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+
+          <div>{slide.visual}</div>
         </div>
-        <p className="text-[10px] text-text-secondary/80">
-          Slack and the Slack logo are trademarks of Slack Technologies, LLC.
-        </p>
+
+        <div className="mt-10 flex flex-col gap-5 border-t border-black/5 pt-6 md:flex-row md:items-center md:justify-between">
+          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#666]">
+            {slide.eyebrow}
+          </p>
+
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() =>
+                setCurrent((i) => (i === 0 ? slides.length - 1 : i - 1))
+              }
+              className="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <div className="flex items-center gap-2" role="tablist" aria-label="Slide indicators">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === current}
+                  aria-label={`Slide ${i + 1}`}
+                  onClick={() => setCurrent(i)}
+                  className={`transition ${
+                    i === current
+                      ? "h-2.5 w-8 rounded-full bg-[#C2A878]"
+                      : "h-2.5 w-2.5 rounded-full bg-black/12 hover:bg-black/20"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                setCurrent((i) => (i === slides.length - 1 ? 0 : i + 1))
+              }
+              className="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
