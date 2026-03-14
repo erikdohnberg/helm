@@ -7,17 +7,9 @@ alwaysApply: true
 
 Follow these constraints when editing the Helm codebase.
 
-## Dependencies
-
-- **Do not add new dependencies.** Do not run `npm install` (or add packages to `package.json`) for new libraries. Use only what is already in the project.
-
 ## Navigation
 
 - **Do not change navigation.** Leave the app shell and marketing routing as-is. Do not add, remove, or rename top-level nav items (e.g. Helm | Quarter | Outcomes | Settings) or marketing routes without explicit user request.
-
-## Persistence
-
-- **Do not introduce backend persistence yet.** No new APIs, databases, or server-side storage. Keep waitlist, feature votes, and any other “saved” state in client state (e.g. `useState`, `sessionStorage`) or existing mock modules only.
 
 ## Data
 

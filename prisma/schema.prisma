@@ -1,0 +1,100 @@
+// Prisma schema for Helm — Auth.js (NextAuth) + organizations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// --- Auth.js (NextAuth) models ---
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  emailDomain   String?   // derived from email for org matching (e.g. acme.com)
+  accounts      Account[]
+  sessions      Session[]
+  orgMembers    OrgMember[]
+  invitesSent   Invite[]  @relation("InvitedBy")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// --- Helm organization models ---
+
+model Organization {
+  id          String   @id @default(cuid())
+  emailDomain String   @unique // e.g. acme.com; used to auto-join users from same domain
+  name        String   @default("") // set during onboarding; empty = needs onboarding
+  slug        String?  // optional for URLs
+  createdAt   DateTime @default(now())
+  members     OrgMember[]
+  invites     Invite[]
+}
+
+model OrgMember {
+  id        String   @id @default(cuid())
+  userId    String
+  orgId     String
+  role      String   @default("member") // owner | member
+  createdAt DateTime @default(now())
+
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, orgId])
+}
+
+model Invite {
+  id          String   @id @default(cuid())
+  email       String
+  orgId       String
+  invitedById String
+  token       String   @unique
+  createdAt   DateTime @default(now())
+
+  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  invitedBy User      @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@unique([email, orgId])
+}
