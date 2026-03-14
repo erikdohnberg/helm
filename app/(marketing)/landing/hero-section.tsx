@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { SignInWithGoogleButton } from "@/components/auth/sign-in-with-google-button";
+
 function NauticalOverlay() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -105,13 +107,13 @@ export function HeroSection() {
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-4">
+          <SignInWithGoogleButton />
           <Link
             href="#waitlist"
-            className="inline-flex min-w-[210px] items-center justify-center rounded-xl bg-brass px-7 py-4 text-base font-medium text-white shadow-[0_14px_34px_rgba(194,168,120,0.35)] transition-all hover:translate-y-[-1px] hover:bg-brass/90"
+            className="text-sm text-white/90 underline hover:text-white"
           >
-            Join the waitlist
+            Subscribe to email list
           </Link>
-
           <p className="text-sm text-white/85">
             Currently in private prototype.
           </p>

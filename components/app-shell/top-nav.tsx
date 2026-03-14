@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -43,7 +45,7 @@ export function TopNav() {
       className="border-b border-border bg-background"
       aria-label="Main navigation"
     >
-      <ul className="flex gap-1 px-4">
+      <ul className="flex flex-1 gap-1 px-4">
         {navItems.map(({ href, label }) => (
           <li key={label}>
             <NavLink
@@ -57,6 +59,15 @@ export function TopNav() {
             </NavLink>
           </li>
         ))}
+        <li className="ml-auto">
+          <button
+            type="button"
+            onClick={() => signOut({ callbackUrl: "/landing" })}
+            className="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80"
+          >
+            Sign out
+          </button>
+        </li>
       </ul>
     </nav>
   );

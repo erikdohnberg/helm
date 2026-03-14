@@ -10,6 +10,7 @@ function getEmailDomain(email: string | null | undefined): string | null {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.AUTH_SECRET || (process.env.NODE_ENV === "development" ? "helm-dev-secret-replace-in-production" : undefined),
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({

@@ -45,7 +45,7 @@ export function WaitlistSection() {
         Be the first to know
       </h2>
       <p className="text-white/90 leading-relaxed">
-        Join the waitlist to get updates as Helm evolves.
+        Subscribe to email list to get updates as Helm evolves.
       </p>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4 max-w-md">
         <div
@@ -90,7 +90,7 @@ export function WaitlistSection() {
           type="submit"
           className="rounded-md bg-brass px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brass/90"
         >
-          Join the waitlist
+          Subscribe to email list
         </button>
       </form>
     </section>
