@@ -41,10 +41,10 @@ export function WaitlistSection() {
 
   return (
     <section id="waitlist" className="space-y-4">
-      <h2 className="text-xl font-semibold text-text-primary">
+      <h2 className="text-xl font-semibold text-white">
         Be the first to know
       </h2>
-      <p className="text-text-secondary leading-relaxed">
+      <p className="text-white/90 leading-relaxed">
         Join the waitlist to get updates as Helm evolves.
       </p>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4 max-w-md">
@@ -66,7 +66,7 @@ export function WaitlistSection() {
         <div className="space-y-2">
           <label
             htmlFor="waitlist-email"
-            className="text-sm font-medium text-text-primary"
+            className="text-sm font-medium text-white/95"
           >
             Email
           </label>
@@ -77,11 +77,11 @@ export function WaitlistSection() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/70 focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full rounded-md border border-white/25 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/50"
             placeholder="Enter your email"
           />
           {error && (
-            <p className="text-sm text-destructive" role="alert">
+            <p className="text-sm text-amber-200" role="alert">
               {error}
             </p>
           )}

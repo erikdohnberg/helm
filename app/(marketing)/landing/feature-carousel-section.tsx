@@ -341,7 +341,7 @@ export function FeatureCarouselSection() {
   const slide = slides[current];
 
   return (
-    <section className="py-[120px]" aria-label="How Helm works">
+    <section className="border-t border-border py-20 md:py-24" aria-label="How Helm works">
       <div className="rounded-[28px] border border-black/5 bg-[#FCFBF8] p-6 shadow-[0_1px_2px_rgba(16,24,40,0.04),0_24px_60px_rgba(16,24,40,0.06)] md:p-10">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="max-w-xl">

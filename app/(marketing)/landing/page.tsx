@@ -25,7 +25,7 @@ export default function LandingPage() {
 
       <div className="mx-auto max-w-[820px] px-6">
         {/* Problem section */}
-        <section className="py-[120px]">
+        <section className="py-20 md:py-24">
           <p className="text-center text-lg font-medium leading-relaxed text-text-primary">
             Strategy rarely fails during planning.
             <br />
@@ -51,7 +51,7 @@ export default function LandingPage() {
         </section>
 
         {/* Helm concept section */}
-        <section className="py-[120px]">
+        <section className="border-t border-border py-20 md:py-24">
           <h2 className="text-xl font-semibold text-text-primary">
             A team member responsible for strategic coherence
           </h2>
@@ -73,12 +73,14 @@ export default function LandingPage() {
 
         {/* Feature carousel */}
         <FeatureCarouselSection />
-
-        {/* Waitlist */}
-        <section className="py-[120px]">
-          <WaitlistSection />
-        </section>
       </div>
+
+      {/* Waitlist — full-width navy to match hero and footer */}
+      <section className="bg-navy py-20 md:py-24">
+        <div className="mx-auto max-w-[820px] px-6">
+          <WaitlistSection />
+        </div>
+      </section>
     </>
   );
 }
