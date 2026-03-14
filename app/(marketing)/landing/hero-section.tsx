@@ -83,9 +83,13 @@ export function HeroSection() {
       <NauticalOverlay />
 
       <div className="relative mx-auto max-w-[900px] px-6 py-[104px] text-center md:py-[120px]">
-        <p className="text-lg font-semibold tracking-[0.04em] text-white/90">
-          Helm
-        </p>
+        <img
+          src="/landing/helm-logo.png"
+          alt="Helm"
+          width={150}
+          height={150}
+          className="mx-auto h-16 w-16 object-contain md:h-20 md:w-20"
+        />
 
         <h1 className="mx-auto mt-3 max-w-[860px] text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[0.95]">
           <span className="block">Keep strategy</span>
