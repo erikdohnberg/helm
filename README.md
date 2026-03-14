@@ -1,78 +1,60 @@
-# Helm  
+# Helm
+
 **Keep strategy on course.**
 
-Helm is a lightweight alignment layer that helps organizations maintain clear quarterly direction.
-
-Most companies don't struggle to create plans — they struggle to keep those plans coherent as the quarter unfolds. Priorities shift quietly, trade-offs remain implicit, and the reasoning behind decisions disappears.
-
-Helm keeps strategy on course by turning signals, discussions, and leadership decisions into structured **Outcome Charters** that anchor what the organization is steering toward.
+Helm is an AI team member that keeps quarterly outcomes aligned — listening to the conversations where strategy happens, turning signals into outcome charters, and nudging teams when strategic drift begins.
 
 ---
 
-## The Idea
+## The problem
 
-Helm centers quarterly planning around a single artifact: the **Outcome Charter**.
+Strategy rarely fails during planning. It drifts during execution.
 
-Each charter captures:
+- **Direction drifts quietly** — New priorities appear without deliberate comparison to the original plan.
+- **Trade-offs disappear** — Teams rarely record what stopped in order to pursue something new.
+- **Decisions lose context** — By the time direction reaches teams, the reasoning behind it is gone.
+
+---
+
+## What Helm is
+
+Helm is a team member responsible for strategic coherence.
+
+Helm listens where strategy actually happens — in meetings, Slack discussions, and planning conversations. It turns those signals into draft **Outcome Charters**, helps leadership align before the quarter begins, and keeps teams connected to those outcomes as the quarter unfolds. When alignment fades, Helm nudges the team to reconnect.
+
+### How Helm works
+
+1. **Helm listens where strategy happens** — Meeting transcripts, strategy discussions, and Slack conversations feed into Helm.
+2. **Helm turns signals into draft outcomes** — Related signals cluster into draft Outcome Charters.
+3. **Helm prepares alignment before the quarter** — Leadership reviews and anchors outcomes before the quarter begins.
+4. **Helm creates shared alignment threads** — Each outcome has a shared Slack thread with full context.
+5. **Helm notices when alignment fades** — Helm detects inactivity and nudges the team to reconnect.
+6. **Helm preserves strategic memory** — When priorities shift, Helm records what replaced what.
+
+---
+
+## Outcome Charters
+
+Helm centers quarterly planning around **Outcome Charters**. Each charter captures:
 
 - the outcome being pursued  
 - the metric that defines success  
 - the reasoning behind the decision  
 - the trade-offs required to pursue it  
 
-Once aligned, outcomes become **Anchored** to the quarter and appear on the Quarter Overview — a shared briefing of the organization's strategic direction.
-
-If an outcome is removed or loses momentum, Helm marks it **Adrift**, preserving visibility into how strategy evolves over time.
+Once aligned, outcomes become **Anchored** to the quarter. If an outcome is removed or loses momentum, Helm marks it **Adrift**, preserving visibility into how strategy evolves.
 
 ---
 
-## What Helm Does
+## What Helm is not
 
-Helm acts as an orchestration layer across tools teams already use.
-
-It connects signals from discussions, meetings, and leadership input to outcome charters and alignment conversations.
-
-### Core capabilities (V1)
-
-**Quarter Overview**  
-A narrative briefing of the current quarter showing anchored outcomes and those that are no longer prioritized.
-
-**Outcome Workspace**  
-A working surface for drafting and aligning outcomes across upcoming quarters.
-
-**Alignment Monitoring**  
-Helm tracks whether outcomes are receiving cross-functional input and surfaces when alignment may be needed.
-
-**Institutional Memory**  
-Helm preserves how priorities evolve across quarters, including what replaced previous outcomes.
+Helm is not a task manager, sprint planning tool, roadmap manager, or OKR platform. Helm sits **one level above execution**, ensuring the organization stays aligned on **which outcomes matter this quarter and why**.
 
 ---
 
-## Integrations
+## Status
 
-Helm works alongside existing productivity tools rather than replacing them.
-
-**Google Docs**  
-Outcome charters live as shared Google Docs. Helm creates and organizes them by quarter.
-
-**Slack**  
-Outcome activity and alignment discussions appear in a shared channel (for example `#helm-quarterly`) with threaded updates.
-
-**Meeting transcripts**  
-Recordings and transcripts can be linked to outcome charters to preserve the reasoning behind decisions.
-
----
-
-## What Helm Is Not
-
-Helm is not:
-
-- a task manager  
-- a sprint planning tool  
-- a roadmap manager  
-- an OKR platform  
-
-Helm sits **one level above execution**, ensuring the organization remains aligned on **which outcomes matter this quarter and why**.
+Helm is currently in private prototype. The codebase is source-available so others can explore the ideas and learn from the implementation.
 
 ---
 
@@ -111,21 +93,18 @@ If `npm install` fails (for example due to certificate or network issues), run i
 
 ### Scripts
 
-| Script       | Description              |
-| ------------ | ------------------------ |
-| `npm run dev`      | Start development server  |
-| `npm run build`    | Build for production     |
-| `npm run lint`     | Run ESLint               |
-| `npm run format`   | Format with Prettier      |
-| `npm run typecheck`| Run TypeScript check     |
+| Script          | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server  |
+| `npm run build` | Build for production     |
+| `npm run lint`  | Run ESLint               |
+| `npm run format`| Format with Prettier      |
+| `npm run typecheck` | Run TypeScript check  |
 
 ---
 
 ## License
 
-Helm is source-available.
-
-The code is published publicly so others can explore the ideas behind the product and learn from the implementation.  
-Commercial use of this codebase or derivative works is not permitted without explicit permission.
+Helm is source-available. The code is published publicly so others can explore the ideas behind the product and learn from the implementation. Commercial use of this codebase or derivative works is not permitted without explicit permission.
 
 See the `LICENSE` file for details.
