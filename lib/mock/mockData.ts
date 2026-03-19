@@ -322,6 +322,18 @@ export function getTeamFunctions(): TeamFunction[] {
   return [...mockTeamFunctions];
 }
 
+/** Shape for Settings > Integrations Google identity (fixtures/docs; live UI uses session). */
+export type GoogleIdentityDemoState = {
+  isSignedInWithGoogle: boolean;
+  googleAccountEmail: string | null;
+};
+
+/** Baseline when no Google account is reflected (not signed in). */
+export const GOOGLE_IDENTITY_DEMO_INITIAL: GoogleIdentityDemoState = {
+  isSignedInWithGoogle: false,
+  googleAccountEmail: null,
+};
+
 /** Resets all mock data to initial state. Call from System settings. */
 export function resetDemoData(): void {
   mockTeamFunctions = structuredClone(INITIAL_TEAM_FUNCTIONS);
