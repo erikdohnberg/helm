@@ -81,6 +81,13 @@ Copy `.env.example` to `.env.local` and fill in values as needed. Environment va
 cp .env.example .env.local
 ```
 
+**Google sign-in and Google Drive (Outcome Charters)**
+
+- In [Google Cloud Console](https://console.cloud.google.com/), use the same OAuth client as `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET`.
+- Enable **Google Drive API** and **Google Docs API** for the project.
+- On the OAuth consent screen, add the scopes for Drive file access and Google Docs that Helm requests when an **organization owner** clicks **Connect Google Drive** in **Settings → Integrations** (incremental consent after sign-in).
+- The first Helm sign-in uses only basic profile scopes; Drive/Docs access is granted in that second step.
+
 ### Run development server
 
 ```bash

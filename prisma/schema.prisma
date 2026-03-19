@@ -68,6 +68,12 @@ model Organization {
   name        String   @default("") // set during onboarding; empty = needs onboarding
   slug        String?  // optional for URLs
   createdAt   DateTime @default(now())
+  /// Set when an owner completes the Google Drive OAuth consent for Helm (org-wide).
+  googleDriveLinkedAt     DateTime?
+  /// Google Drive folder ID for Outcome Charters (set after Connect Drive + setup).
+  charterRootFolderId     String?
+  charterRootFolderName   String?
+  charterRootConfiguredAt DateTime?
   members     OrgMember[]
   invites     Invite[]
 }
