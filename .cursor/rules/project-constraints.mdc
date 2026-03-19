@@ -1,5 +1,5 @@
 ---
-description: Project constraints — dependencies, navigation, persistence, data, styling
+description: Project constraints — dependencies, navigation, persistence, data, styling, testing
 alwaysApply: true
 ---
 
@@ -18,3 +18,10 @@ Follow these constraints when editing the Helm codebase.
 ## Styling
 
 - **Keep styling aligned with shadcn + Tailwind.** Use design tokens from `app/globals.css` (e.g. `text-foreground`, `bg-card`, `border-border`, `text-muted-foreground`) and existing components in `components/ui/`. Prefer Tailwind utility classes; avoid adding new CSS files or inline styles that bypass the design system.
+
+## Testing
+
+- **User-visible contract.** When adding or editing front-end tests, anchor queries and assertions to what users see and can do (roles, labels, outcomes), not to translation keys, component implementation, CSS class names, or internal state shape.
+- **Implementation refactors should stay green** if the experience is unchanged; **user-visible regressions should fail** tests (including intentional copy changes, which require updating expectations deliberately).
+- **Real layout and obscured elements** are best validated in browser-level tests (e.g. Playwright); JSDOM is not a full layout engine.
+- **Details:** see `.cursor/rules/frontend-testing.mdc` for query priority, examples, and links.

@@ -1,0 +1,69 @@
+---
+description: User-centric front-end tests — interface contract, not implementation (RTL + Playwright)
+globs:
+  - "**/*.{test,spec}.{ts,tsx}"
+  - "**/__tests__/**/*.{ts,tsx}"
+  - "**/e2e/**/*"
+  - "playwright.config.ts"
+alwaysApply: false
+---
+
+# Front-end testing (user-centric)
+
+Each test should answer one question: **did the user-facing interface stay correct?** If the experience is unchanged, the test should stay green after refactors (i18n plumbing, component swaps, Tailwind/class changes, store or hook internals). If the user sees or can do something different, the test should fail. Treat tests as a **contract for the UI**, not a receipt for implementation.
+
+## Queries and assertions
+
+**Prefer** (in roughly this order — see [Testing Library: query priority](https://testing-library.com/docs/queries/about/#priority)):
+
+- Role + accessible name: `getByRole('button', { name: 'Save profile' })`
+- Label text: `getByLabelText('Email')`
+- Placeholder when that is the only stable user-facing handle: `getByPlaceholderText('…')`
+
+**Avoid** as the primary way to find or assert behavior:
+
+- Translation keys as expected text (or mocks that echo keys instead of real copy)
+- Specific React component types or implementation-only props as proof the UI works
+- Framework or utility class names (e.g. third-party class prefixes, brittle Tailwind strings)
+- Mock call arguments, internal instance/state, or store shape as a substitute for visible outcomes
+
+**i18n:** Use resolved, user-visible strings in expectations (or a dedicated test locale), not `expect(...).toBe('namespace.key')` on attributes or nodes.
+
+## Runtimes: same contract
+
+- **JSDOM** (e.g. Vitest/Jest + React Testing Library): render UI, query and interact via the same user-facing handles; assert on visible outcomes.
+- **Playwright:** same idea in a real browser. Prefer user-visible locators; interactions imply [actionability](https://playwright.dev/docs/actionability) checks. See [Playwright: test user-visible behavior](https://playwright.dev/docs/best-practices#test-user-visible-behavior).
+
+Layout breakage, real focus stacking, and obscured elements are often only honest in **browser-level** tests (or visual regression); JSDOM is not a layout engine.
+
+## Example (aligned interface, different implementation)
+
+```tsx
+// Prefer: stable for users, stable for refactors that preserve labels and flow
+const email = screen.getByRole('textbox', { name: 'Email' });
+await userEvent.type(email, 'person@example.com');
+await userEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+expect(screen.getByText('Invitation sent')).toBeVisible();
+```
+
+Playwright equivalent:
+
+```ts
+await page.getByRole('textbox', { name: 'Email' }).fill('person@example.com');
+await page.getByRole('button', { name: 'Send invite' }).click();
+await expect(page.getByText('Invitation sent')).toBeVisible();
+```
+
+## Heavy setup
+
+If a “small” UI test needs many mocks (routing, auth, flags, stores, i18n, services), the seam is expensive: consider a narrower component under test, a higher-level test with fewer fake layers, or stubs only at real boundaries (network, time, browser APIs).
+
+## Copy changes
+
+If visible copy intentionally changes, **tests should fail** until expectations are updated or the change is reverted. That is the desired signal; do not “fix” tests by re-coupling to implementation to get green.
+
+## Further reading
+
+- [Testing Library: Guiding Principles](https://testing-library.com/docs/guiding-principles/)
+- [Playwright: Best practices](https://playwright.dev/docs/best-practices#test-user-visible-behavior)
+- [Kent C. Dodds: Write tests. Not too many. Mostly integration.](https://kentcdodds.com/blog/write-tests)
