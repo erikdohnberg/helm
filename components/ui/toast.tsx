@@ -7,7 +7,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { createPortal } from "react-dom";
 
 interface ToastMessage {
   id: number;
@@ -36,23 +35,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={showToast}>
       {children}
-      {typeof document !== "undefined" &&
-        createPortal(
+      <div
+        className="pointer-events-none fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 flex-col gap-2"
+        aria-live="polite"
+      >
+        {toasts.map((t) => (
           <div
-            className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 flex-col gap-2"
-            aria-live="polite"
+            key={t.id}
+            className="pointer-events-auto rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md"
           >
-            {toasts.map((t) => (
-              <div
-                key={t.id}
-                className="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md"
-              >
-                {t.message}
-              </div>
-            ))}
-          </div>,
-          document.body
-        )}
+            {t.message}
+          </div>
+        ))}
+      </div>
     </ToastContext.Provider>
   );
 }

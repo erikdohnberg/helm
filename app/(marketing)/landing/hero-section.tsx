@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-import { SignInWithGoogleButton } from "@/components/auth/sign-in-with-google-button";
+import { LandingHeroCta } from "@/components/auth/landing-hero-cta";
 
 function NauticalOverlay() {
   return (
@@ -106,18 +104,7 @@ export function HeroSection() {
           begins.
         </p>
 
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <SignInWithGoogleButton />
-          <Link
-            href="#waitlist"
-            className="text-sm text-white/90 underline hover:text-white"
-          >
-            Subscribe to email list
-          </Link>
-          <p className="text-sm text-white/85">
-            Currently in private prototype.
-          </p>
-        </div>
+        <LandingHeroCta />
       </div>
     </section>
   );

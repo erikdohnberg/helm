@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { getPostAuthRoute } from "@/lib/routing/post-auth";
 
 const PUBLIC_PATHS = ["/", "/landing", "/thanks"];
 const AUTH_API_PREFIX = "/api/auth";
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
-  const isPublic = PUBLIC_PATHS.includes(pathname) || pathname.startsWith(AUTH_API_PREFIX);
+
+  // Auth.js JSON routes must never redirect to HTML (e.g. SessionProvider fetch would parse <!DOCTYPE as JSON).
+  if (pathname.startsWith(AUTH_API_PREFIX)) {
+    return NextResponse.next();
+  }
+
+  const isPublic = PUBLIC_PATHS.includes(pathname);
   const isApp = pathname.startsWith("/quarter") || pathname.startsWith("/outcomes") || pathname.startsWith("/settings");
   const isOnboarding = pathname.startsWith("/onboarding");
   const protectedPath = isApp || isOnboarding;
@@ -19,9 +26,7 @@ export default auth((req) => {
   }
 
   if (isPublic && isLoggedIn) {
-    const needsOnboarding = (session?.user as { needsOnboarding?: boolean })?.needsOnboarding;
-    const redirectTo = needsOnboarding ? "/onboarding/org-setup" : "/quarter";
-    return NextResponse.redirect(new URL(redirectTo, req.url));
+    return NextResponse.redirect(new URL(getPostAuthRoute(), req.url));
   }
 
   if (protectedPath && !isLoggedIn) {
@@ -30,9 +35,9 @@ export default auth((req) => {
 
   const needsOnboarding = (session?.user as { needsOnboarding?: boolean })?.needsOnboarding;
   if (isOnboarding && isLoggedIn && !needsOnboarding) {
-    return NextResponse.redirect(new URL("/quarter", req.url));
+    return NextResponse.redirect(new URL(getPostAuthRoute(), req.url));
   }
-  if (isApp && isLoggedIn && needsOnboarding) {
+  if (isApp && isLoggedIn && needsOnboarding && !pathname.startsWith("/settings")) {
     return NextResponse.redirect(new URL("/onboarding/org-setup", req.url));
   }
 

@@ -96,13 +96,22 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+`npm run dev` uses **Turbopack** (`next dev --turbo`) for faster incremental builds. If you hit tooling issues, use **`npm run dev:webpack`** (classic Webpack dev server).
+
+**If you see `ChunkLoadError` / “Loading chunk app/layout failed (timeout)” in dev**
+
+- Stop the server, delete the build cache, and start again: `rm -rf .next && npm run dev`
+- Hard-refresh the browser (or disable cache in DevTools) so the client is not requesting stale `/_next/static/chunks/…` files.
+- Projects on **iCloud Drive / network-synced folders** can compile slowly; moving the repo to a local disk often fixes intermittent chunk timeouts.
+
 If `npm install` fails (for example due to certificate or network issues), run it locally in the project directory and ensure Node.js 18+ and npm are available.
 
 ### Scripts
 
 | Script          | Description              |
 | --------------- | ------------------------ |
-| `npm run dev`   | Start development server  |
+| `npm run dev`   | Dev server (Turbopack)   |
+| `npm run dev:webpack` | Dev server (Webpack) |
 | `npm run build` | Build for production     |
 | `npm run lint`  | Run ESLint               |
 | `npm run format`| Format with Prettier      |
