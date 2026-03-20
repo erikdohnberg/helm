@@ -37,7 +37,7 @@ export default auth((req) => {
   if (isOnboarding && isLoggedIn && !needsOnboarding) {
     return NextResponse.redirect(new URL(getPostAuthRoute(), req.url));
   }
-  if (isApp && isLoggedIn && needsOnboarding && !pathname.startsWith("/settings")) {
+  if (isApp && isLoggedIn && needsOnboarding) {
     return NextResponse.redirect(new URL("/onboarding/org-setup", req.url));
   }
 

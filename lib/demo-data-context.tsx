@@ -4,12 +4,17 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useState,
   type ReactNode,
 } from "react";
 import { resetDemoData as resetMockDemoData } from "@/lib/mock/mockData";
 
+const STORAGE_KEY = "helm-demo-mode";
+
 interface DemoDataContextValue {
+  demoModeEnabled: boolean;
+  setDemoModeEnabled: (value: boolean) => void;
   resetVersion: number;
   resetDemoData: () => void;
 }
@@ -24,6 +29,28 @@ export function useDemoData(): DemoDataContextValue {
 
 export function DemoDataProvider({ children }: { children: ReactNode }) {
   const [resetVersion, setResetVersion] = useState(0);
+  const [demoModeEnabled, setDemoModeEnabledState] = useState(false);
+
+  useEffect(() => {
+    try {
+      setDemoModeEnabledState(localStorage.getItem(STORAGE_KEY) === "true");
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const setDemoModeEnabled = useCallback((value: boolean) => {
+    setDemoModeEnabledState(value);
+    try {
+      if (value) {
+        localStorage.setItem(STORAGE_KEY, "true");
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const resetDemoData = useCallback(() => {
     resetMockDemoData();
@@ -31,7 +58,14 @@ export function DemoDataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <DemoDataContext.Provider value={{ resetVersion, resetDemoData }}>
+    <DemoDataContext.Provider
+      value={{
+        demoModeEnabled,
+        setDemoModeEnabled,
+        resetVersion,
+        resetDemoData,
+      }}
+    >
       {children}
     </DemoDataContext.Provider>
   );

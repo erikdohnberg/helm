@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink, Pencil } from "lucide-react";
 import {
   getCurrentQuarter,
@@ -99,23 +99,95 @@ function AdriftCard({ outcome }: { outcome: Outcome }) {
 }
 
 export default function QuarterPage() {
-  const orderedQuarters = getQuartersOrdered();
-  const currentQuarter = getCurrentQuarter();
-  const currentQuarterId = currentQuarter.id;
-  const { resetVersion } = useDemoData();
-
-  const [selectedQuarterId, setSelectedQuarterId] = useState<string>(
-    currentQuarterId
+  const { resetVersion, demoModeEnabled } = useDemoData();
+  const orderedQuarters = useMemo(
+    () => (demoModeEnabled ? getQuartersOrdered() : []),
+    [demoModeEnabled, resetVersion]
   );
+
+  const [selectedQuarterId, setSelectedQuarterId] = useState("");
   const [narrativeByQuarterId, setNarrativeByQuarterId] = useState<
     Record<string, string>
   >({});
   const [modalOpen, setModalOpen] = useState(false);
   const [editDraft, setEditDraft] = useState("");
+  const [createQuarterOpen, setCreateQuarterOpen] = useState(false);
 
   useEffect(() => {
     setNarrativeByQuarterId({});
   }, [resetVersion]);
+
+  useEffect(() => {
+    if (demoModeEnabled && orderedQuarters.length > 0) {
+      const defaultId = getCurrentQuarter().id;
+      setSelectedQuarterId((prev) =>
+        prev && orderedQuarters.some((q) => q.id === prev) ? prev : defaultId
+      );
+    } else {
+      setSelectedQuarterId("");
+    }
+  }, [demoModeEnabled, resetVersion, orderedQuarters]);
+
+  if (!demoModeEnabled || orderedQuarters.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-xl font-semibold text-foreground">Quarter</h1>
+          <p className="text-sm text-muted-foreground">
+            No quarters yet. Create a quarter to add narratives and outcomes.
+          </p>
+        </div>
+        <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm">
+          <p className="text-sm text-muted-foreground">
+            Turn on <span className="font-medium text-foreground">Demo Mode</span>{" "}
+            in System settings to load sample quarters, or create your first
+            quarter here when that flow is available.
+          </p>
+          <button
+            type="button"
+            onClick={() => setCreateQuarterOpen(true)}
+            className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            Create quarter
+          </button>
+        </div>
+
+        {createQuarterOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="create-quarter-title"
+          >
+            <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+              <h2
+                id="create-quarter-title"
+                className="text-sm font-medium text-foreground"
+              >
+                Create quarter
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Quarter creation will connect to your workspace data. This
+                placeholder confirms the action from the empty state.
+              </p>
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setCreateQuarterOpen(false)}
+                  className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const currentQuarter = getCurrentQuarter();
+  const currentQuarterId = currentQuarter.id;
 
   const quarter = getQuarterById(selectedQuarterId) ?? currentQuarter;
   const narrativeSummary =

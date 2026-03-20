@@ -37,10 +37,10 @@ export function TeamSettingsClient({
 }: Props) {
   const router = useRouter();
   const toast = useToast();
-  const { resetVersion } = useDemoData();
+  const { resetVersion, demoModeEnabled } = useDemoData();
   const [isPending, startTransition] = useTransition();
 
-  const [rows, setRows] = useState<TeamFunction[]>(() => getTeamFunctions());
+  const [rows, setRows] = useState<TeamFunction[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingDirectorId, setEditingDirectorId] = useState<string | null>(
     null
@@ -48,11 +48,11 @@ export function TeamSettingsClient({
   const [editDirectorValue, setEditDirectorValue] = useState("");
 
   useEffect(() => {
-    setRows(getTeamFunctions());
+    setRows(demoModeEnabled ? getTeamFunctions() : []);
     setSelectedIds(new Set());
     setEditingDirectorId(null);
     setEditDirectorValue("");
-  }, [resetVersion]);
+  }, [resetVersion, demoModeEnabled]);
 
   const ownerCount = initialMembers.filter((m) => m.role === "owner").length;
 
@@ -269,7 +269,9 @@ export function TeamSettingsClient({
         <div>
           <h3 className="text-base font-medium text-foreground">Functions</h3>
           <p className="text-sm text-muted-foreground">
-            Manage functions, directors, and Slack IDs (demo data).
+            {demoModeEnabled
+              ? "Manage functions, directors, and Slack IDs (sample data from Demo Mode)."
+              : "Add functions for your organization. Turn on Demo Mode in System settings to load sample rows."}
           </p>
         </div>
 
@@ -292,6 +294,16 @@ export function TeamSettingsClient({
               </tr>
             </thead>
             <tbody>
+              {rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="p-8 text-center text-sm text-muted-foreground"
+                  >
+                    No functions yet. Use Add function to create one.
+                  </td>
+                </tr>
+              ) : null}
               {rows.map((row) => (
                 <tr
                   key={row.id}

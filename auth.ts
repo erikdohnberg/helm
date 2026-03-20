@@ -122,10 +122,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return `${baseUrl}${getPostAuthRoute()}`;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user?.id) {
         token.sub = user.id;
-        const ctx = await ensureUserOrgContext(user.id);
+      }
+      // Prisma must not run during routine JWT/session reads from Edge middleware.
+      // Only refresh org claims on sign-in/up or explicit session.update() (Node / session route).
+      const shouldRefreshOrgFromDb =
+        !!user?.id ||
+        trigger === "signIn" ||
+        trigger === "signUp" ||
+        trigger === "update";
+      const userId = token.sub;
+      if (userId && typeof userId === "string" && shouldRefreshOrgFromDb) {
+        const ctx = await ensureUserOrgContext(userId);
         if (ctx) {
           if (ctx.orgId !== undefined) token.orgId = ctx.orgId;
           if (ctx.organizationName !== undefined) token.organizationName = ctx.organizationName;

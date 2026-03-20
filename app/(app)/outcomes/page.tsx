@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import {
   getOutcomeById,
@@ -141,7 +142,7 @@ function OutcomeCard({
 }
 
 export default function OutcomesPage() {
-  const { resetVersion } = useDemoData();
+  const { resetVersion, demoModeEnabled } = useDemoData();
   const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
     Record<string, string>
   >({});
@@ -188,8 +189,59 @@ export default function OutcomesPage() {
     setLocalOutcomes([]);
   }, [resetVersion]);
 
-  const quartersInOrder = OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
-    (q): q is NonNullable<typeof q> => q != null
+  const quartersInOrder = useMemo(
+    () =>
+      demoModeEnabled
+        ? OUTCOMES_QUARTER_ORDER.map((id) => getQuarterById(id)).filter(
+            (q): q is NonNullable<typeof q> => q != null
+          )
+        : [],
+    [demoModeEnabled, resetVersion]
+  );
+
+  const sections = useMemo(
+    () =>
+      demoModeEnabled
+        ? quartersInOrder.map((q) => ({ id: q.id, label: q.label }))
+        : Array.from(new Set(localOutcomes.map((o) => o.quarterId))).map(
+            (id) => ({
+              id,
+              label: getQuarterById(id)?.label ?? id,
+            })
+          ),
+    [demoModeEnabled, quartersInOrder, localOutcomes]
+  );
+
+  const showGlobalEmpty =
+    !demoModeEnabled &&
+    quartersInOrder.length === 0 &&
+    localOutcomes.length === 0;
+
+  const canCreateOutcome =
+    demoModeEnabled ||
+    quartersInOrder.length > 0 ||
+    localOutcomes.length > 0;
+
+  const openNewOutcomeModal = useCallback(
+    (presetQuarterId?: string) => {
+      setNewOutcomeStep(1);
+      setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
+      const defaultQuarterId =
+        presetQuarterId ??
+        quartersInOrder[0]?.id ??
+        sections[0]?.id ??
+        "";
+      setNewOutcomeStep1({
+        workingTitle: "",
+        quarterId: defaultQuarterId,
+        shortIntent: "",
+        outcomeOwner: "",
+        decisionOwner: "",
+        sourceType: "",
+      });
+      setNewOutcomeModalOpen(true);
+    },
+    [quartersInOrder, sections]
   );
 
   function openMoveAdriftModal(outcomeId: string, outcomeTitle: string) {
@@ -295,40 +347,87 @@ export default function OutcomesPage() {
         <h1 className="text-xl font-semibold text-foreground">Outcomes</h1>
         <button
           type="button"
-          onClick={() => setNewOutcomeModalOpen(true)}
-          className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          onClick={() => openNewOutcomeModal()}
+          disabled={!canCreateOutcome}
+          title={
+            canCreateOutcome
+              ? undefined
+              : "Create a quarter first, or turn on Demo Mode in System settings"
+          }
+          className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
         >
           New Outcome
         </button>
       </div>
-      {quartersInOrder.map((quarter) => {
-        const mockOutcomes = getOutcomesByQuarter(quarter.id).map(
-          getEffectiveOutcome
-        );
-        const localForQuarter = localOutcomes.filter(
-          (o) => o.quarterId === quarter.id
-        );
-        const outcomes = [...mockOutcomes, ...localForQuarter].sort((a, b) =>
-          a.title.localeCompare(b.title)
-        );
-        if (outcomes.length === 0) return null;
-        return (
-          <section key={quarter.id} className="space-y-3">
-            <h2 className="text-sm font-medium text-foreground">{quarter.label}</h2>
-            <ul className="space-y-3">
-              {outcomes.map((outcome) => (
-                <OutcomeCard
-                  key={outcome.id}
-                  outcome={outcome}
-                  quarterLabel={quarter.label}
-                  onMoveAdrift={openMoveAdriftModal}
-                  onReactivate={handleReactivate}
-                />
-              ))}
-            </ul>
-          </section>
-        );
-      })}
+
+      {showGlobalEmpty && (
+        <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm">
+          <p className="text-sm text-muted-foreground">
+            No outcomes yet. Create a quarter to anchor work, or turn on{" "}
+            <span className="font-medium text-foreground">Demo Mode</span> in
+            System settings to load sample data.
+          </p>
+          <Link
+            href="/quarter"
+            className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            Create quarter
+          </Link>
+        </div>
+      )}
+
+      {!showGlobalEmpty &&
+        sections.map((section) => {
+          const mockOutcomes = demoModeEnabled
+            ? getOutcomesByQuarter(section.id).map(getEffectiveOutcome)
+            : [];
+          const localForQuarter = localOutcomes.filter(
+            (o) => o.quarterId === section.id
+          );
+          const outcomes = [...mockOutcomes, ...localForQuarter].sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
+          if (outcomes.length === 0) {
+            if (!demoModeEnabled) return null;
+            return (
+              <section key={section.id} className="space-y-3">
+                <h2 className="text-sm font-medium text-foreground">
+                  {section.label}
+                </h2>
+                <div className="rounded-lg border border-dashed border-border bg-muted/20 px-4 py-6 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    No outcomes in this quarter yet.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => openNewOutcomeModal(section.id)}
+                    className="mt-4 inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
+                  >
+                    Create outcome
+                  </button>
+                </div>
+              </section>
+            );
+          }
+          return (
+            <section key={section.id} className="space-y-3">
+              <h2 className="text-sm font-medium text-foreground">
+                {section.label}
+              </h2>
+              <ul className="space-y-3">
+                {outcomes.map((outcome) => (
+                  <OutcomeCard
+                    key={outcome.id}
+                    outcome={outcome}
+                    quarterLabel={section.label}
+                    onMoveAdrift={openMoveAdriftModal}
+                    onReactivate={handleReactivate}
+                  />
+                ))}
+              </ul>
+            </section>
+          );
+        })}
 
       {newOutcomeModalOpen && (
         <div

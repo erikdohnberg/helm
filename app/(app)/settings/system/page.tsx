@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useToast } from "@/components/ui/toast";
 import { useDemoData } from "@/lib/demo-data-context";
 import { cn } from "@/lib/utils";
@@ -31,8 +30,7 @@ function formatEventTime(iso: string) {
 
 export default function SystemSettingsPage() {
   const toast = useToast();
-  const { resetDemoData } = useDemoData();
-  const [demoMode, setDemoMode] = useState(false);
+  const { resetDemoData, demoModeEnabled, setDemoModeEnabled } = useDemoData();
 
   function handleResetDemoData() {
     resetDemoData();
@@ -53,18 +51,18 @@ export default function SystemSettingsPage() {
           <button
             type="button"
             role="switch"
-            aria-checked={demoMode}
+            aria-checked={demoModeEnabled}
             aria-label="Demo mode"
-            onClick={() => setDemoMode((prev) => !prev)}
+            onClick={() => setDemoModeEnabled(!demoModeEnabled)}
             className={cn(
               "relative h-6 w-11 shrink-0 rounded-full border border-border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-              demoMode ? "bg-primary" : "bg-muted"
+              demoModeEnabled ? "bg-primary" : "bg-muted"
             )}
           >
             <span
               className={cn(
                 "absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-background shadow transition-transform",
-                demoMode && "translate-x-5"
+                demoModeEnabled && "translate-x-5"
               )}
             />
           </button>
@@ -75,7 +73,13 @@ export default function SystemSettingsPage() {
         <button
           type="button"
           onClick={handleResetDemoData}
-          className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50"
+          disabled={!demoModeEnabled}
+          title={
+            demoModeEnabled
+              ? undefined
+              : "Turn on Demo Mode to reset sample quarters, outcomes, and team data"
+          }
+          className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-50"
         >
           Reset Demo Data
         </button>
@@ -105,7 +109,7 @@ export default function SystemSettingsPage() {
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Recent events</h3>
         <div className="rounded-md border border-border">
-          {MOCK_RECENT_EVENTS.length === 0 ? (
+          {!demoModeEnabled || MOCK_RECENT_EVENTS.length === 0 ? (
             <p className="p-4 text-sm text-muted-foreground">
               No recent events.
             </p>
@@ -127,7 +131,7 @@ export default function SystemSettingsPage() {
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Recent errors</h3>
         <div className="rounded-md border border-border">
-          {MOCK_RECENT_ERRORS.length === 0 ? (
+          {!demoModeEnabled || MOCK_RECENT_ERRORS.length === 0 ? (
             <p className="p-4 text-sm text-muted-foreground">
               No recent errors.
             </p>

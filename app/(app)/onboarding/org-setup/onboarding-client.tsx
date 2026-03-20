@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { updateOrgName, addInvites } from "@/lib/actions/onboarding";
@@ -13,6 +14,7 @@ export default function OnboardingOrgSetupClient({
   initialOrgName,
 }: Props) {
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const [step, setStep] = useState<1 | 2>(initialOrgName ? 2 : 1);
   const [orgName, setOrgName] = useState(initialOrgName);
   const [inviteEmails, setInviteEmails] = useState("");
@@ -25,6 +27,7 @@ export default function OnboardingOrgSetupClient({
     setLoading(true);
     try {
       await updateOrgName(orgId, orgName);
+      await updateSession();
       setStep(2);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -43,6 +46,7 @@ export default function OnboardingOrgSetupClient({
         .map((s) => s.trim())
         .filter(Boolean);
       if (emails.length > 0) await addInvites(orgId, emails);
+      await updateSession();
       router.replace("/quarter");
       router.refresh();
     } catch (err) {
@@ -52,7 +56,8 @@ export default function OnboardingOrgSetupClient({
     }
   }
 
-  function handleSkipInvites() {
+  async function handleSkipInvites() {
+    await updateSession();
     router.replace("/quarter");
     router.refresh();
   }
