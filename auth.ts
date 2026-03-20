@@ -1,3 +1,4 @@
+import type { Account } from "next-auth";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -67,6 +68,42 @@ async function ensureUserOrgContext(userId: string): Promise<{
   return {};
 }
 
+/**
+ * When a user already has a Google Account row, Auth.js returns early from the OAuth
+ * callback without updating Prisma — so incremental consent (Drive/Docs scopes) never
+ * reaches the database. The JWT callback still receives the fresh `account` payload;
+ * merge it into the existing row (never clear refresh_token if Google omits it).
+ */
+async function persistGoogleAccountFromOAuth(
+  userId: string,
+  account: Account | null | undefined
+): Promise<void> {
+  if (!account || account.provider !== "google") return;
+
+  const data: {
+    access_token?: string;
+    expires_at?: number;
+    token_type?: string;
+    id_token?: string | null;
+    scope?: string;
+    refresh_token?: string;
+  } = {};
+
+  if (account.access_token != null) data.access_token = account.access_token;
+  if (account.expires_at != null) data.expires_at = account.expires_at;
+  if (account.token_type != null) data.token_type = account.token_type;
+  if (account.id_token != null) data.id_token = account.id_token;
+  if (account.scope != null) data.scope = account.scope;
+  if (account.refresh_token != null) data.refresh_token = account.refresh_token;
+
+  if (Object.keys(data).length === 0) return;
+
+  await prisma.account.updateMany({
+    where: { userId, provider: "google" },
+    data,
+  });
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.AUTH_SECRET || (process.env.NODE_ENV === "development" ? "helm-dev-secret-replace-in-production" : undefined),
   adapter: PrismaAdapter(prisma),
@@ -75,12 +112,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      // Static endpoints skip OIDC discovery (fetch to /.well-known/openid-configuration).
+      // Without explicit URLs, Auth.js uses a placeholder host and discovery; that fetch
+      // was intermittently failing in dev (TypeError: fetch failed → error=Configuration → 500).
       authorization: {
+        url: "https://accounts.google.com/o/oauth2/v2/auth",
         params: {
           scope: "openid email profile",
           access_type: "offline",
           prompt: "select_account",
         },
+      },
+      token: {
+        url: "https://oauth2.googleapis.com/token",
+      },
+      userinfo: {
+        url: "https://openidconnect.googleapis.com/v1/userinfo",
       },
     }),
   ],
@@ -122,9 +169,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return `${baseUrl}${getPostAuthRoute()}`;
     },
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user, account, trigger }) {
       if (user?.id) {
         token.sub = user.id;
+      }
+      const userId = token.sub;
+      if (userId && typeof userId === "string" && account?.provider === "google") {
+        await persistGoogleAccountFromOAuth(userId, account);
       }
       // Prisma must not run during routine JWT/session reads from Edge middleware.
       // Only refresh org claims on sign-in/up or explicit session.update() (Node / session route).
@@ -133,7 +184,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         trigger === "signIn" ||
         trigger === "signUp" ||
         trigger === "update";
-      const userId = token.sub;
       if (userId && typeof userId === "string" && shouldRefreshOrgFromDb) {
         const ctx = await ensureUserOrgContext(userId);
         if (ctx) {
