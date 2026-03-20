@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
@@ -24,6 +26,7 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "prisma": "^6.1.0",
     "@eslint/eslintrc": "^3.2.0",
     "@types/node": "^22.0.0",
