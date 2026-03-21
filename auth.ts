@@ -37,10 +37,12 @@ async function ensureUserOrgContext(userId: string): Promise<{
 
   const member = dbUser.orgMembers[0];
   if (member) {
+    const org = member.org;
+    const needsQuarterSetup = org.upcomingQuarterStartDate == null;
     return {
       orgId: member.orgId,
-      organizationName: member.org.name,
-      needsOnboarding: member.org.name === "",
+      organizationName: org.name,
+      needsOnboarding: org.name === "" || needsQuarterSetup,
     };
   }
   if (emailDomain) {
@@ -62,7 +64,7 @@ async function ensureUserOrgContext(userId: string): Promise<{
     return {
       orgId: org.id,
       organizationName: org.name,
-      needsOnboarding: org.name === "",
+      needsOnboarding: org.name === "" || org.upcomingQuarterStartDate == null,
     };
   }
   return {};

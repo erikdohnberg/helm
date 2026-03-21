@@ -81,6 +81,14 @@ Copy `.env.example` to `.env.local` and fill in values as needed. Environment va
 cp .env.example .env.local
 ```
 
+**Database (Prisma)** — After pulling schema changes, apply migrations to the **same** SQLite file as `DATABASE_URL` in `.env.local` (default `file:./dev.db`). The Prisma CLI loads `.env` by default, not `.env.local`, so either duplicate `DATABASE_URL` into `.env` or run:
+
+```bash
+DATABASE_URL="file:./dev.db" npx prisma migrate deploy
+```
+
+If the app throws **`The column … does not exist in the current database`**, that file is missing migrations (or you migrated a different path than Next.js uses).
+
 **Google sign-in and Google Drive (Outcome Charters)**
 
 - In [Google Cloud Console](https://console.cloud.google.com/), use the same OAuth client as `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET`.
@@ -98,6 +106,8 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+New organizations complete **organization name**, **fiscal calendar** (first month of the next quarter and which fiscal quarter Q1–Q4 that is — Helm infers fiscal year start), then optional **team invites** on `/onboarding/org-setup` before using Quarter and Outcomes without Demo Mode.
 
 `npm run dev` uses **Turbopack** (`next dev --turbo`) for faster incremental builds. If you hit tooling issues, use **`npm run dev:webpack`** (classic Webpack dev server).
 

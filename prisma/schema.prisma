@@ -74,6 +74,17 @@ model Organization {
   charterRootFolderId     String?
   charterRootFolderName   String?
   charterRootConfiguredAt DateTime?
+  /// 1–12; first month of the organization’s fiscal year (e.g. 10 = October).
+  fiscalYearStartMonth      Int?
+  /// 1–12; first calendar month of the upcoming quarter (must match fiscal quarter slot).
+  upcomingQuarterStartMonth Int?
+  /// 1–4; which fiscal quarter (Q1–Q4) that period is.
+  upcomingFiscalQuarter     Int?
+  /// Resolved UTC range for the upcoming quarter (set during onboarding).
+  upcomingQuarterStartDate  DateTime?
+  upcomingQuarterEndDate    DateTime?
+  /// Display year for FY label (e.g. 2026 → FY26), derived when saving quarter setup.
+  upcomingFiscalYearLabel   Int?
   members     OrgMember[]
   invites     Invite[]
 }

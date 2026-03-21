@@ -34,9 +34,7 @@ export default auth((req) => {
   }
 
   const needsOnboarding = (session?.user as { needsOnboarding?: boolean })?.needsOnboarding;
-  if (isOnboarding && isLoggedIn && !needsOnboarding) {
-    return NextResponse.redirect(new URL(getPostAuthRoute(), req.url));
-  }
+  // Allow onboarding routes even when name+quarter are set so owners can finish the optional invite step.
   if (isApp && isLoggedIn && needsOnboarding) {
     return NextResponse.redirect(new URL("/onboarding/org-setup", req.url));
   }
