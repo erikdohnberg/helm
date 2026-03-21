@@ -87,6 +87,9 @@ cp .env.example .env.local
 - Enable **Google Drive API** and **Google Docs API** for the project.
 - On the OAuth consent screen, add the scopes for Drive file access and Google Docs that Helm requests when an **organization owner** clicks **Connect Google Drive** in **Settings → Integrations** (incremental consent after sign-in).
 - The first Helm sign-in uses only basic profile scopes; Drive/Docs access is granted in that second step.
+- For **Choose charter folder**, enable the [**Google Picker API**](https://console.cloud.google.com/apis/library/picker.googleapis.com) in the **same** GCP project as `AUTH_GOOGLE_ID`, create an **API key** (type: **Browser key** / application restrictions **HTTP referrers**), restrict APIs to **Google Picker API** (or leave unrestricted only while testing), and set `NEXT_PUBLIC_GOOGLE_PICKER_API_KEY` in `.env.local`. Under **Website restrictions**, add every origin you actually use, e.g. `http://localhost:3000/*` **and** `http://127.0.0.1:3000/*` — opening the app via `127.0.0.1` while the key only allows `localhost` produces **“The API developer key is invalid.”** After changing `.env.local`, restart `npm run dev` so Next.js picks up `NEXT_PUBLIC_*` values. Helm passes **Picker `setAppId`** using your project number from `AUTH_GOOGLE_ID` (required by Google alongside the API key).
+- If you set `AUTH_URL` / `NEXTAUTH_URL`, use the real site origin only (e.g. `http://localhost:3000` or `http://127.0.0.1:3000`). Do **not** append `/*` or other wildcards — that becomes a URL path `/%2A`, produces **`GET /%2A 404`** in the dev terminal, and breaks NextAuth session fetch (`ClientFetchError: Failed to fetch`).
+- If the dev log shows a **cross-origin** warning for **`127.0.0.1`** and `/_next/*`, Helm’s `next.config` lists **`127.0.0.1`** in **`allowedDevOrigins`** so those requests are allowed; restart the dev server after pulling that change. If you use another hostname (e.g. a LAN IP), add that hostname to the same array or dev assets may return **403**.
 
 ### Run development server
 
@@ -98,6 +101,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 `npm run dev` uses **Turbopack** (`next dev --turbo`) for faster incremental builds. If you hit tooling issues, use **`npm run dev:webpack`** (classic Webpack dev server).
 
+**If Turbopack logs errors about `fonts.gstatic.com`, `@vercel/turbopack-next/internal/font/google/font`, or `POST … 500` on app routes**
+
+- Helm uses a **system font stack** (no `next/font/google` download) so dev works offline and avoids that Turbopack path. If you still see font-related build errors, try `npm run dev:webpack` or `rm -rf .next && npm run dev`.
+
 **If you see `ChunkLoadError` / “Loading chunk app/layout failed (timeout)” in dev**
 
 - Stop the server, delete the build cache, and start again: `rm -rf .next && npm run dev`
@@ -105,6 +112,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - Projects on **iCloud Drive / network-synced folders** can compile slowly; moving the repo to a local disk often fixes intermittent chunk timeouts.
 
 If `npm install` fails (for example due to certificate or network issues), run it locally in the project directory and ensure Node.js 18+ and npm are available.
+
+If you see **`Google token refresh`** / **`could not reach Google`** when using Drive from Settings, Node cannot reach `oauth2.googleapis.com` (VPN, firewall, or broken IPv6 DNS is common). Stop the server and run **`npm run dev:ipv4`** (or **`npm run dev:webpack:ipv4`**) instead of `npm run dev`, or fix network access to Google.
 
 ### Scripts
 

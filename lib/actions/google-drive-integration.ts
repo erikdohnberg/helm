@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db";
 import {
   assertDriveScopes,
   createHelmCharterRootFolder,
+  fetchDriveFolderMetadata,
   getGoogleAccountRecord,
   getValidGoogleAccessToken,
 } from "@/lib/integrations/google-drive-api";
@@ -114,8 +115,60 @@ function assertDriveScopesSafe(scope: string | null | undefined): boolean {
   }
 }
 
-export async function createOrgCharterRootFolderAction(): Promise<void> {
+/** `{projectNumber}-….apps.googleusercontent.com` → project number for Picker `setAppId`. */
+function googlePickerAppIdFromClientId(clientId: string | undefined): string | null {
+  if (!clientId) return null;
+  const prefix = clientId.split("-")[0]?.trim();
+  if (!prefix || !/^\d+$/.test(prefix)) return null;
+  return prefix;
+}
+
+export type GooglePickerTokenResult =
+  | { ok: true; accessToken: string; appId: string }
+  | { ok: false; error: string };
+
+/** Short-lived access token + Picker app id for client-side folder selection. */
+export async function getGooglePickerAccessTokenAction(): Promise<GooglePickerTokenResult> {
+  try {
+    const appId = googlePickerAppIdFromClientId(process.env.AUTH_GOOGLE_ID);
+    if (!appId) {
+      return {
+        ok: false,
+        error:
+          "AUTH_GOOGLE_ID must be set to a Web client id (format: digits-suffix.apps.googleusercontent.com).",
+      };
+    }
+
+    const { userId } = await requireOrgOwnerSession();
+    const account = await getGoogleAccountRecord(userId);
+    if (!account?.refresh_token) {
+      return { ok: false, error: "Connect Google Drive first." };
+    }
+    assertDriveScopes(account.scope);
+    const accessToken = await getValidGoogleAccessToken(userId, {
+      refreshToken: account.refresh_token,
+      accessToken: account.access_token,
+      expiresAt: account.expires_at,
+    });
+    return { ok: true, accessToken, appId };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Could not authorize Drive";
+    return { ok: false, error: msg };
+  }
+}
+
+/**
+ * @param parentFolderId Folder chosen in Google Picker; Helm creates "Helm Outcome Charters" inside it.
+ */
+export async function createOrgCharterRootFolderAction(
+  parentFolderId: string
+): Promise<void> {
   const { userId, orgId } = await requireOrgOwnerSession();
+
+  const trimmed = parentFolderId?.trim();
+  if (!trimmed) {
+    throw new Error("Choose a folder in Google Drive.");
+  }
 
   const existing = await prisma.organization.findUnique({
     where: { id: orgId },
@@ -140,7 +193,10 @@ export async function createOrgCharterRootFolderAction(): Promise<void> {
     expiresAt: account.expires_at,
   });
 
-  const { id, name } = await createHelmCharterRootFolder(accessToken);
+  await fetchDriveFolderMetadata(accessToken, trimmed);
+  const { id, name } = await createHelmCharterRootFolder(accessToken, {
+    parentFolderId: trimmed,
+  });
 
   await prisma.organization.update({
     where: { id: orgId },

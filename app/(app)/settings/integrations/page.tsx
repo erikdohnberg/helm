@@ -4,11 +4,13 @@ import { useCallback, useEffect, useState, useTransition } from "react";
 
 import { signIn, useSession } from "next-auth/react";
 
+import { openDriveParentFolderPicker } from "@/components/integrations/google-drive-folder-picker";
 import { useToast } from "@/components/ui/toast";
 import {
   clearOrgCharterRootFolderAction,
   createOrgCharterRootFolderAction,
   getGoogleDriveIntegrationState,
+  getGooglePickerAccessTokenAction,
   type GoogleDriveIntegrationState,
 } from "@/lib/actions/google-drive-integration";
 import { getGoogleIdentityFromSession } from "@/lib/google-identity";
@@ -73,9 +75,30 @@ export default function IntegrationsSettingsPage() {
   }
 
   function handleChooseCharterFolder() {
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PICKER_API_KEY?.trim();
+    if (!apiKey) {
+      toast(
+        "Add NEXT_PUBLIC_GOOGLE_PICKER_API_KEY to .env.local (Google Cloud → enable Picker API → create browser API key)."
+      );
+      return;
+    }
+
     startTransition(async () => {
       try {
-        await createOrgCharterRootFolderAction();
+        const tokenResult = await getGooglePickerAccessTokenAction();
+        if (!tokenResult.ok) {
+          toast(tokenResult.error);
+          return;
+        }
+        const parentFolderId = await openDriveParentFolderPicker(
+          tokenResult.accessToken,
+          apiKey,
+          tokenResult.appId
+        );
+        if (!parentFolderId) {
+          return;
+        }
+        await createOrgCharterRootFolderAction(parentFolderId);
         toast("Charter folder created in Google Drive");
         await getGoogleDriveIntegrationState().then(setIntegration);
       } catch (e) {
@@ -217,8 +240,9 @@ export default function IntegrationsSettingsPage() {
                     Charter storage not configured
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Choose where Helm stores Outcome Charters for your
-                    organization.
+                    Pick a folder in Google Drive. Helm creates a subfolder named
+                    &quot;Helm Outcome Charters&quot; inside it for your
+                    organization&apos;s charters.
                   </p>
                   <button
                     type="button"
@@ -229,8 +253,8 @@ export default function IntegrationsSettingsPage() {
                     Choose charter folder
                   </button>
                   <p className="text-xs text-muted-foreground">
-                    Creates a folder named &quot;Helm Outcome Charters&quot; in
-                    your Google Drive.
+                    A Google Picker popup lets you choose the parent folder (see
+                    README for API key setup).
                   </p>
                 </div>
               ) : (

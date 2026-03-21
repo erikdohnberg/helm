@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 
 import "./globals.css";
 
+import { auth } from "@/auth";
 import { SessionProvider } from "@/components/auth/session-provider";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Helm",
   description: "Keep strategy on course.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en">
       <body className="min-h-screen antialiased">
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );
