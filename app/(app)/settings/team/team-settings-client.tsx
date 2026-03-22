@@ -327,7 +327,7 @@ export function TeamSettingsClient({
       ) : !hasRows ? (
         <p className="text-sm text-muted-foreground">
           No teams yet. Admins can use Add team with a team name and chat user ID (no Helm member
-          required), or invite people to the org and use Add details on their row.
+          required), or add teammates who already belong to the org and use Add details on their row.
         </p>
       ) : null}
 

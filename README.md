@@ -107,7 +107,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-New organizations complete **organization name**, **team you lead** (each member), **fiscal calendar** (first month of the next quarter and which fiscal quarter Q1–Q4 that is — Helm infers fiscal year start), then optional **team invites** on `/onboarding/org-setup` before using Quarter and Outcomes without Demo Mode.
+New organizations complete **organization name**, **primary team chat** (owner), **team you lead** (each member), and **fiscal calendar** (first month of the next quarter and which fiscal quarter Q1–Q4 that is — Helm infers fiscal year start; owner) on `/onboarding/org-setup` before using Quarter and Outcomes without Demo Mode.
 
 `npm run dev` uses **Turbopack** (`next dev --turbo`) for faster incremental builds. If you hit tooling issues, use **`npm run dev:webpack`** (classic Webpack dev server).
 

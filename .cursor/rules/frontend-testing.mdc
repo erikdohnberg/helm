@@ -40,18 +40,18 @@ Layout breakage, real focus stacking, and obscured elements are often only hones
 
 ```tsx
 // Prefer: stable for users, stable for refactors that preserve labels and flow
-const email = screen.getByRole('textbox', { name: 'Email' });
-await userEvent.type(email, 'person@example.com');
-await userEvent.click(screen.getByRole('button', { name: 'Send invite' }));
-expect(screen.getByText('Invitation sent')).toBeVisible();
+const name = screen.getByRole('textbox', { name: /organization name/i });
+await userEvent.type(name, 'Acme Inc');
+await userEvent.click(screen.getByRole('button', { name: 'Continue' }));
+expect(screen.getByText(/primary team chat/i)).toBeVisible();
 ```
 
 Playwright equivalent:
 
 ```ts
-await page.getByRole('textbox', { name: 'Email' }).fill('person@example.com');
-await page.getByRole('button', { name: 'Send invite' }).click();
-await expect(page.getByText('Invitation sent')).toBeVisible();
+await page.getByRole('textbox', { name: /organization name/i }).fill('Acme Inc');
+await page.getByRole('button', { name: 'Continue' }).click();
+await expect(page.getByText(/primary team chat/i)).toBeVisible();
 ```
 
 ## Heavy setup

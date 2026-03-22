@@ -11,6 +11,8 @@ export type OrgMemberListRow = {
   email: string | null;
   name: string | null;
   role: string;
+  leadTeamName: string | null;
+  slackUserId: string | null;
 };
 
 /** Any org member may list people in their org (for Settings → Team). */
@@ -40,7 +42,77 @@ export async function listOrgMembers(orgId: string): Promise<OrgMemberListRow[]>
     email: r.user.email,
     name: r.user.name,
     role: r.role,
+    leadTeamName: r.leadTeamName,
+    slackUserId: r.slackUserId,
   }));
+}
+
+export async function updateOrgMemberTeamLead(
+  orgId: string,
+  targetUserId: string,
+  input: { leadTeamName: string; slackUserId: string }
+): Promise<void> {
+  const session = await auth();
+  const sessionUserId = session?.user?.id;
+  if (!sessionUserId || session.user?.orgId !== orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  const actor = await prisma.orgMember.findFirst({
+    where: { userId: sessionUserId, orgId },
+  });
+  if (!actor) throw new Error("Forbidden");
+
+  const isAdmin = actor.role === "owner";
+  const isSelf = sessionUserId === targetUserId;
+  if (!isAdmin && !isSelf) {
+    throw new Error("You can only update your own team details.");
+  }
+
+  const teamTrim = input.leadTeamName.trim();
+  const slackTrim = input.slackUserId.trim();
+  if (!teamTrim) throw new Error("Team name is required.");
+  if (!slackTrim) throw new Error("Chat user ID is required.");
+
+  const target = await prisma.orgMember.findFirst({
+    where: { orgId, userId: targetUserId },
+  });
+  if (!target) throw new Error("User is not in this organization.");
+
+  await prisma.orgMember.update({
+    where: { id: target.id },
+    data: { leadTeamName: teamTrim, slackUserId: slackTrim },
+  });
+  revalidatePath("/settings/team");
+}
+
+export async function clearOrgMemberTeamLead(
+  orgId: string,
+  targetUserId: string
+): Promise<void> {
+  const session = await auth();
+  const sessionUserId = session?.user?.id;
+  if (!sessionUserId || session.user?.orgId !== orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  const actor = await prisma.orgMember.findFirst({
+    where: { userId: sessionUserId, orgId },
+  });
+  if (!actor || actor.role !== "owner") {
+    throw new Error("Only admins can remove team assignments.");
+  }
+
+  const target = await prisma.orgMember.findFirst({
+    where: { orgId, userId: targetUserId },
+  });
+  if (!target) throw new Error("User is not in this organization.");
+
+  await prisma.orgMember.update({
+    where: { id: target.id },
+    data: { leadTeamName: null, slackUserId: null },
+  });
+  revalidatePath("/settings/team");
 }
 
 async function requireOwner(orgId: string, sessionUserId: string) {

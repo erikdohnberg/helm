@@ -3,14 +3,22 @@
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
+
 import { useSession } from "next-auth/react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  addInvites,
+  saveMyLeadTeam,
+  saveOrgPrimaryChatPlatform,
   saveOrgQuarterCalendar,
   updateOrgName,
 } from "@/lib/actions/onboarding";
+import {
+  CHAT_PLATFORMS,
+  DEFAULT_CHAT_PLATFORM,
+  isChatPlatformId,
+  type ChatPlatformId,
+} from "@/lib/integrations/chat-platforms";
 import { inferFiscalYearStartMonthFromQuarterAndMonth } from "@/lib/org/fiscal-quarter";
 import type { FiscalQuarter1to4, Month1to12 } from "@/lib/org/fiscal-quarter";
 
@@ -29,18 +37,30 @@ const MONTHS: { value: number; label: string }[] = [
   { value: 12, label: "December" },
 ];
 
+type Step = 1 | 2 | 3 | 4;
+
 function computeInitialStep(
   initialOrgName: string,
-  quarterConfigured: boolean
-): 1 | 2 | 3 {
+  initialLeadTeamName: string,
+  quarterConfigured: boolean,
+  viewerIsOwner: boolean,
+  primaryChatPlatform: string | null | undefined
+): Step {
   if (!initialOrgName.trim()) return 1;
-  if (!quarterConfigured) return 2;
-  return 3;
+  const platformSet =
+    primaryChatPlatform != null && primaryChatPlatform.trim() !== "";
+  if (viewerIsOwner && !platformSet) return 2;
+  if (!initialLeadTeamName.trim()) return 3;
+  if (!quarterConfigured) return 4;
+  // Server redirects when setup is complete; fallback avoids re-showing the quarter form.
+  return 1;
 }
 
 type Props = {
   orgId: string;
   initialOrgName: string;
+  initialLeadTeamName: string;
+  initialPrimaryChatPlatform: string | null;
   quarterConfigured: boolean;
   viewerIsOwner: boolean;
 };
@@ -48,27 +68,71 @@ type Props = {
 export default function OnboardingOrgSetupClient({
   orgId,
   initialOrgName,
+  initialLeadTeamName,
+  initialPrimaryChatPlatform,
   quarterConfigured,
   viewerIsOwner,
 }: Props) {
   const router = useRouter();
   const { update: updateSession } = useSession();
-  const [step, setStep] = useState<1 | 2 | 3>(() =>
-    computeInitialStep(initialOrgName, quarterConfigured)
+  const [step, setStep] = useState<Step>(() =>
+    computeInitialStep(
+      initialOrgName,
+      initialLeadTeamName,
+      quarterConfigured,
+      viewerIsOwner,
+      initialPrimaryChatPlatform
+    )
   );
   const [orgName, setOrgName] = useState(initialOrgName);
-  const [inviteEmails, setInviteEmails] = useState("");
+  const [leadTeamName, setLeadTeamName] = useState(initialLeadTeamName);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [selectedChatPlatform, setSelectedChatPlatform] =
+    useState<ChatPlatformId>(() =>
+      initialPrimaryChatPlatform &&
+      isChatPlatformId(initialPrimaryChatPlatform)
+        ? initialPrimaryChatPlatform
+        : DEFAULT_CHAT_PLATFORM
+    );
 
   const [upcomingQuarterStartMonth, setUpcomingQuarterStartMonth] = useState(4);
   const [upcomingFiscalQuarter, setUpcomingFiscalQuarter] = useState(1);
 
   useEffect(() => {
-    if (quarterConfigured && step === 2) {
+    if (!viewerIsOwner && step === 2) {
       setStep(3);
     }
-  }, [quarterConfigured, step]);
+  }, [viewerIsOwner, step]);
+
+  useEffect(() => {
+    const target = computeInitialStep(
+      initialOrgName,
+      initialLeadTeamName,
+      quarterConfigured,
+      viewerIsOwner,
+      initialPrimaryChatPlatform
+    );
+    if (target > step) {
+      setStep(target);
+    }
+  }, [
+    initialOrgName,
+    initialLeadTeamName,
+    quarterConfigured,
+    viewerIsOwner,
+    initialPrimaryChatPlatform,
+    step,
+  ]);
+
+  useEffect(() => {
+    if (quarterConfigured && step === 4 && !viewerIsOwner) {
+      void updateSession();
+      router.replace("/quarter");
+      router.refresh();
+    }
+  }, [quarterConfigured, step, viewerIsOwner, router, updateSession]);
 
   const inferredFiscalYearStart = inferFiscalYearStartMonthFromQuarterAndMonth(
     upcomingQuarterStartMonth as Month1to12,
@@ -82,7 +146,37 @@ export default function OnboardingOrgSetupClient({
     try {
       await updateOrgName(orgId, orgName);
       await updateSession();
-      setStep(2);
+      setStep(viewerIsOwner ? 2 : 3);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmitPrimaryChatPlatform(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      await saveOrgPrimaryChatPlatform(orgId, selectedChatPlatform);
+      await updateSession();
+      setStep(3);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmitLeadTeam(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      await saveMyLeadTeam(orgId, leadTeamName);
+      await updateSession();
+      setStep(4);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -100,25 +194,6 @@ export default function OnboardingOrgSetupClient({
         upcomingQuarterStartMonth,
       });
       await updateSession();
-      setStep(3);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleSubmitInvites(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      const emails = inviteEmails
-        .split(/[\n,;]+/)
-        .map((s) => s.trim())
-        .filter(Boolean);
-      if (emails.length > 0) await addInvites(orgId, emails);
-      await updateSession();
       router.replace("/quarter");
       router.refresh();
     } catch (err) {
@@ -126,12 +201,6 @@ export default function OnboardingOrgSetupClient({
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleSkipInvites() {
-    await updateSession();
-    router.replace("/quarter");
-    router.refresh();
   }
 
   async function handleRecheckQuarterGate() {
@@ -149,10 +218,12 @@ export default function OnboardingOrgSetupClient({
     step === 1
       ? "Give your organization a name so your team can find it."
       : step === 2
-        ? viewerIsOwner
-          ? "Tell Helm when your next quarter starts and which fiscal quarter it is."
-          : "Your workspace is almost ready."
-        : "Invite teammates by email. They'll be able to join your Helm org once they sign in.";
+        ? "Choose where your team already discusses strategy. Helm uses this to align integrations with the Vercel Chat SDK."
+        : step === 3
+          ? "Tell us which team you lead so Helm can align outcomes with the right groups."
+          : viewerIsOwner
+            ? "Tell Helm when your next quarter starts and which fiscal quarter it is."
+            : "Your workspace is almost ready.";
 
   return (
     <div className="mx-auto max-w-lg space-y-8">
@@ -177,6 +248,102 @@ export default function OnboardingOrgSetupClient({
                 placeholder="e.g. Acme Inc"
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 required
+                disabled={!viewerIsOwner}
+              />
+              {!viewerIsOwner ? (
+                <p className="text-sm text-muted-foreground">
+                  An organization owner needs to set the workspace name first.
+                  You can check again after they’ve saved it.
+                </p>
+              ) : null}
+              {error && <p className="text-sm text-destructive">{error}</p>}
+              {viewerIsOwner ? (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                >
+                  {loading ? "Saving…" : "Continue"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleRecheckQuarterGate}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  {loading ? "Checking…" : "Check again"}
+                </button>
+              )}
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 2 && viewerIsOwner && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Primary team chat</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form
+              onSubmit={handleSubmitPrimaryChatPlatform}
+              className="space-y-4"
+            >
+              <p className="text-sm text-muted-foreground">
+                Slack is selected by default. You can change this if your org
+                mainly uses another supported platform.
+              </p>
+              <fieldset className="space-y-2">
+                <legend className="sr-only">Chat platform</legend>
+                {CHAT_PLATFORMS.map((p) => (
+                  <label
+                    key={p.id}
+                    className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground has-[:checked]:border-ring has-[:checked]:bg-muted/40"
+                  >
+                    <input
+                      type="radio"
+                      name="primary-chat-platform"
+                      value={p.id}
+                      checked={selectedChatPlatform === p.id}
+                      onChange={() => setSelectedChatPlatform(p.id)}
+                      className="border-border text-primary"
+                    />
+                    <span>{p.label}</span>
+                  </label>
+                ))}
+              </fieldset>
+              {error && <p className="text-sm text-destructive">{error}</p>}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+              >
+                {loading ? "Saving…" : "Continue"}
+              </button>
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 3 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Team you lead</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmitLeadTeam} className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                e.g. Product, Engineering, or Design — the group you’re
+                accountable for in planning conversations.
+              </p>
+              <input
+                type="text"
+                value={leadTeamName}
+                onChange={(e) => setLeadTeamName(e.target.value)}
+                placeholder="e.g. Product"
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                required
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
               <button
@@ -191,15 +358,16 @@ export default function OnboardingOrgSetupClient({
         </Card>
       )}
 
-      {step === 2 && !viewerIsOwner && (
+      {step === 4 && !viewerIsOwner && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Fiscal calendar</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              An organization owner needs to set the next quarter’s first month and
-              fiscal quarter (Q1–Q4). Ask them to sign in and complete this step.
+              An organization owner needs to set the next quarter’s first month
+              and fiscal quarter (Q1–Q4). Ask them to sign in and complete this
+              step.
             </p>
             {error && <p className="text-sm text-destructive">{error}</p>}
             <button
@@ -214,7 +382,7 @@ export default function OnboardingOrgSetupClient({
         </Card>
       )}
 
-      {step === 2 && viewerIsOwner && (
+      {step === 4 && viewerIsOwner && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Upcoming quarter</CardTitle>
@@ -280,44 +448,8 @@ export default function OnboardingOrgSetupClient({
                 disabled={loading}
                 className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
-                {loading ? "Saving…" : "Continue"}
+                {loading ? "Saving…" : "Finish"}
               </button>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-
-      {step === 3 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Invite team members</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmitInvites} className="space-y-4">
-              <textarea
-                value={inviteEmails}
-                onChange={(e) => setInviteEmails(e.target.value)}
-                placeholder="Enter email addresses, one per line or comma-separated"
-                rows={4}
-                className="w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-              {error && <p className="text-sm text-destructive">{error}</p>}
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={handleSkipInvites}
-                  className="rounded-md border border-input bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
-                >
-                  Skip for now
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-                >
-                  {loading ? "Adding…" : "Send invites"}
-                </button>
-              </div>
             </form>
           </CardContent>
         </Card>

@@ -34,7 +34,7 @@ export default auth((req) => {
   }
 
   const needsOnboarding = (session?.user as { needsOnboarding?: boolean })?.needsOnboarding;
-  // Allow onboarding routes even when prior steps are done so owners can finish the optional invite step.
+  // Allow onboarding routes until org setup (name, chat platform, lead team, fiscal calendar) is complete.
   if (isApp && isLoggedIn && needsOnboarding) {
     return NextResponse.redirect(new URL("/onboarding/org-setup", req.url));
   }
