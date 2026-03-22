@@ -85,8 +85,27 @@ model Organization {
   upcomingQuarterEndDate    DateTime?
   /// Display year for FY label (e.g. 2026 → FY26), derived when saving quarter setup.
   upcomingFiscalYearLabel   Int?
+  /// Primary team chat platform (Chat SDK adapter id: slack, teams, gchat, …). Null until owner selects in onboarding.
+  primaryChatPlatform       String?
   members     OrgMember[]
   invites     Invite[]
+  teams       OrgTeam[]
+}
+
+/// Standalone team lead row (not tied to a Helm org member). Profile fields cached from the chat provider (mock for Slack in demo).
+model OrgTeam {
+  id        String   @id @default(cuid())
+  orgId     String
+  name      String
+  chatUserId String
+  chatDisplayName String?
+  chatImageUrl    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, chatUserId])
 }
 
 model OrgMember {
@@ -94,6 +113,10 @@ model OrgMember {
   userId    String
   orgId     String
   role      String   @default("member") // owner | member
+  /// Name of the team this person leads (e.g. Product, Engineering).
+  leadTeamName String?
+  /// Slack member ID (e.g. U01ABC); display name resolved via Slack or mock map.
+  slackUserId  String?
   createdAt DateTime @default(now())
 
   user User         @relation(fields: [userId], references: [id], onDelete: Cascade)

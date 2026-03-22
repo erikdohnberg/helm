@@ -1,16 +1,6 @@
-import type { Outcome, Quarter, TeamFunction } from "@/lib/types";
+import type { Outcome, Quarter } from "@/lib/types";
 
 const CURRENT_QUARTER_ID = "q-fy26-q1";
-
-/** Initial snapshot for demo reset. */
-const INITIAL_TEAM_FUNCTIONS: TeamFunction[] = [
-  { id: "fn-1", function: "Engineering", director: "Jordan Lee", slackId: "U01ABC" },
-  { id: "fn-2", function: "Product", director: "Sam Chen", slackId: "U02DEF" },
-  { id: "fn-3", function: "Design", director: "Alex Rivera", slackId: "U03GHI" },
-];
-
-/** Mutable copy; getters read from here. */
-let mockTeamFunctions: TeamFunction[] = structuredClone(INITIAL_TEAM_FUNCTIONS);
 
 /** Initial snapshot for demo reset. */
 const INITIAL_QUARTERS: Quarter[] = [
@@ -318,10 +308,6 @@ export function getInactiveOutcomes(): Outcome[] {
   return mockOutcomes.filter((o) => o.status === "Inactive");
 }
 
-export function getTeamFunctions(): TeamFunction[] {
-  return [...mockTeamFunctions];
-}
-
 /** Shape for Settings > Integrations Google identity (fixtures/docs; live UI uses session). */
 export type GoogleIdentityDemoState = {
   isSignedInWithGoogle: boolean;
@@ -336,7 +322,6 @@ export const GOOGLE_IDENTITY_DEMO_INITIAL: GoogleIdentityDemoState = {
 
 /** Resets all mock data to initial state. Call from System settings. */
 export function resetDemoData(): void {
-  mockTeamFunctions = structuredClone(INITIAL_TEAM_FUNCTIONS);
   mockQuarters = structuredClone(INITIAL_QUARTERS);
   mockOutcomes = structuredClone(INITIAL_OUTCOMES);
 }

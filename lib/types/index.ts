@@ -61,13 +61,6 @@ export interface MeetingLink {
   outcomeId: string;
 }
 
-export interface TeamFunction {
-  id: string;
-  function: string;
-  director: string;
-  slackId: string;
-}
-
 // --- Marketing / feature ideas (mock) ---
 
 export interface FeatureIdea {

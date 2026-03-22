@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
 import { listOrgMembers } from "@/lib/actions/org-members";
+import { listOrgTeams } from "@/lib/actions/org-teams";
+import { prisma } from "@/lib/db";
+import { resolveChatPlatformId } from "@/lib/integrations/chat-platforms";
 
 import { TeamSettingsClient } from "./team-settings-client";
 
@@ -11,18 +13,32 @@ export default async function TeamSettingsPage() {
 
   let viewerIsOwner = false;
   let initialMembers: Awaited<ReturnType<typeof listOrgMembers>> = [];
+  let initialStandaloneTeams: Awaited<ReturnType<typeof listOrgTeams>> = [];
+  let primaryChatPlatform = resolveChatPlatformId(null);
 
   if (orgId && userId) {
-    const viewer = await prisma.orgMember.findFirst({
-      where: { userId, orgId },
-      select: { role: true },
-    });
+    const [viewer, org] = await Promise.all([
+      prisma.orgMember.findFirst({
+        where: { userId, orgId },
+        select: { role: true },
+      }),
+      prisma.organization.findUnique({
+        where: { id: orgId },
+        select: { primaryChatPlatform: true },
+      }),
+    ]);
     viewerIsOwner = viewer?.role === "owner";
+    primaryChatPlatform = resolveChatPlatformId(org?.primaryChatPlatform);
 
     try {
       initialMembers = await listOrgMembers(orgId);
     } catch {
       initialMembers = [];
+    }
+    try {
+      initialStandaloneTeams = await listOrgTeams(orgId);
+    } catch {
+      initialStandaloneTeams = [];
     }
   }
 
@@ -32,6 +48,8 @@ export default async function TeamSettingsPage() {
       currentUserId={userId}
       viewerIsOwner={viewerIsOwner}
       initialMembers={initialMembers}
+      initialStandaloneTeams={initialStandaloneTeams}
+      primaryChatPlatform={primaryChatPlatform}
     />
   );
 }
