@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { auth } from "@/auth";
 import { SessionProvider } from "@/components/auth/session-provider";
+import { AppThemeProvider } from "@/components/theme/app-theme-provider";
 
 export const metadata: Metadata = {
   title: "Helm",
@@ -17,9 +18,11 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen antialiased">
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <AppThemeProvider>{children}</AppThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
