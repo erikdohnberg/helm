@@ -39,10 +39,20 @@ async function ensureUserOrgContext(userId: string): Promise<{
   if (member) {
     const org = member.org;
     const needsQuarterSetup = org.upcomingQuarterStartDate == null;
+    const needsTeamLeadName =
+      member.leadTeamName == null || member.leadTeamName.trim() === "";
+    const needsPrimaryChatPlatform =
+      member.role === "owner" &&
+      (org.primaryChatPlatform == null ||
+        org.primaryChatPlatform.trim() === "");
     return {
       orgId: member.orgId,
       organizationName: org.name,
-      needsOnboarding: org.name === "" || needsQuarterSetup,
+      needsOnboarding:
+        org.name === "" ||
+        needsTeamLeadName ||
+        needsQuarterSetup ||
+        needsPrimaryChatPlatform,
     };
   }
   if (emailDomain) {
@@ -64,7 +74,8 @@ async function ensureUserOrgContext(userId: string): Promise<{
     return {
       orgId: org.id,
       organizationName: org.name,
-      needsOnboarding: org.name === "" || org.upcomingQuarterStartDate == null,
+      // New membership has no leadTeamName yet; must complete onboarding (at least team step).
+      needsOnboarding: true,
     };
   }
   return {};

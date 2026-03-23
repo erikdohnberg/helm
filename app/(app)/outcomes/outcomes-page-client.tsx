@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 
@@ -45,11 +46,13 @@ function formatLastActivity(iso: string | null): string {
 function OutcomeCard({
   outcome,
   quarterLabel,
+  chatThreadLinkLabel,
   onMoveAdrift,
   onReactivate,
 }: {
   outcome: Outcome;
   quarterLabel: string;
+  chatThreadLinkLabel: string;
   onMoveAdrift: (outcomeId: string, outcomeTitle: string) => void;
   onReactivate: (outcomeId: string) => void;
 }) {
@@ -121,7 +124,7 @@ function OutcomeCard({
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
           >
-            Slack thread
+            {chatThreadLinkLabel}
             <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
           </a>
         )}
@@ -150,8 +153,10 @@ function OutcomeCard({
 
 export default function OutcomesPageClient({
   workspaceQuarter,
+  chatThreadLinkLabel,
 }: {
   workspaceQuarter: Quarter | null;
+  chatThreadLinkLabel: string;
 }) {
   const { resetVersion, demoModeEnabled } = useDemoData();
   const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
@@ -436,6 +441,7 @@ export default function OutcomesPageClient({
                     key={outcome.id}
                     outcome={outcome}
                     quarterLabel={section.label}
+                    chatThreadLinkLabel={chatThreadLinkLabel}
                     onMoveAdrift={openMoveAdriftModal}
                     onReactivate={handleReactivate}
                   />

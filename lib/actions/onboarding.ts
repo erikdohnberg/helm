@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { isChatPlatformId } from "@/lib/integrations/chat-platforms";
 import {
   computeUpcomingQuarterFromUserSelection,
   type FiscalQuarter1to4,
@@ -14,6 +15,48 @@ function randomToken(): string {
   return Array.from(crypto.getRandomValues(new Uint8Array(32)))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
+}
+
+export async function saveMyLeadTeam(orgId: string, leadTeamName: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+  const member = await prisma.orgMember.findFirst({
+    where: { userId: session.user.id, orgId },
+  });
+  if (!member) throw new Error("Forbidden");
+  const trimmed = leadTeamName.trim();
+  if (!trimmed) throw new Error("Team name is required");
+  await prisma.orgMember.update({
+    where: { id: member.id },
+    data: { leadTeamName: trimmed },
+  });
+  revalidatePath("/onboarding/org-setup");
+  revalidatePath("/settings/team");
+}
+
+export async function saveOrgPrimaryChatPlatform(
+  orgId: string,
+  platformId: string
+) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+  const member = await prisma.orgMember.findFirst({
+    where: { userId: session.user.id, orgId },
+  });
+  if (!member || member.role !== "owner") throw new Error("Forbidden");
+  if (!isChatPlatformId(platformId)) {
+    throw new Error("Invalid chat platform.");
+  }
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { primaryChatPlatform: platformId },
+  });
+  revalidatePath("/onboarding/org-setup");
+  revalidatePath("/settings/integrations");
+  revalidatePath("/settings/team");
+  revalidatePath("/settings/defaults");
+  revalidatePath("/settings/system");
+  revalidatePath("/outcomes");
 }
 
 export async function updateOrgName(orgId: string, name: string) {
