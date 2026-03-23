@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
+import { signOut } from "next-auth/react";
+
+import { helmLogoBlackSrc, helmLogoWhiteSrc } from "@/lib/brand/helm-logos";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/quarter", label: "Helm" },
   { href: "/quarter", label: "Quarter" },
   { href: "/outcomes", label: "Outcomes" },
   { href: "/settings", label: "Settings" },
@@ -39,13 +40,41 @@ function NavLink({
 
 export function TopNav() {
   const pathname = usePathname();
+  const quarterActive = pathname === "/quarter";
 
   return (
     <nav
       className="border-b border-border bg-background"
       aria-label="Main navigation"
     >
-      <ul className="flex flex-1 gap-1 px-4">
+      <ul className="flex flex-1 items-center gap-1 px-4">
+        <li>
+          <Link
+            href="/quarter"
+            aria-label="Helm"
+            className={cn(
+              "flex items-center px-3 py-3",
+              quarterActive
+                ? "border-b-2 border-foreground/20 -mb-px"
+                : "opacity-90 hover:opacity-100"
+            )}
+          >
+            <img
+              src={helmLogoBlackSrc}
+              alt=""
+              width={120}
+              height={32}
+              className="h-7 w-auto object-contain object-left dark:hidden"
+            />
+            <img
+              src={helmLogoWhiteSrc}
+              alt=""
+              width={120}
+              height={32}
+              className="hidden h-7 w-auto object-contain object-left dark:block"
+            />
+          </Link>
+        </li>
         {navItems.map(({ href, label }) => (
           <li key={label}>
             <NavLink
