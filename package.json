@@ -7,7 +7,7 @@
     "dev:ipv4": "NODE_OPTIONS=--dns-result-order=ipv4first next dev --turbo",
     "dev:webpack": "next dev",
     "dev:webpack:ipv4": "NODE_OPTIONS=--dns-result-order=ipv4first next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
