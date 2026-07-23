@@ -1,6 +1,6 @@
 # Helm Drift Model — Working Context
 
-Working context for sessions building the drift-detection model. Read this file and the spec (`../helm-drift-model-spec.md`) before making any changes here. The labeled seed scenarios are in `../drift-eval-scenarios.json`.
+Working context for sessions building the drift-detection model. Read this file and the spec (`../helm-drift-model-spec.md`) before making any changes here. The labeled seed scenarios are the canonical JSON in `scenarios/` (one file per scenario plus `_meta.json`); `scenarios/drift-eval-scenarios.md` is generated documentation, not a source — regenerate it with `scenarios/generate-doc.ts` and validate with `scenarios/validate.ts`.
 
 ## What this is
 
@@ -34,8 +34,7 @@ Operational rules for every working session in this directory. Equal in force to
 - `CLAUDE.md` — this file; working context and the hard rules above
 - `contracts/` — versioned schemas (`Signal`, `Charter`, `DriftReport`, drift taxonomy) that are the only interface between pipeline stages (empty for now)
 - `eval/` — eval harness and scorecard; defines "done" (empty for now)
-- `scenarios/` — labeled drift scenarios the eval harness runs against (empty for now)
+- `scenarios/` — canonical labeled scenarios (`scn-*.json`), `_meta.json`, `validate.ts`, `generate-doc.ts`, and the generated `drift-eval-scenarios.md`
 - `package.json` — standalone package manifest, independent of the Next.js app
 - `tsconfig.json` — standalone TypeScript config for this directory
 - `../helm-drift-model-spec.md` — the product spec (source of truth)
-- `../drift-eval-scenarios.json` — labeled seed scenarios for the eval set

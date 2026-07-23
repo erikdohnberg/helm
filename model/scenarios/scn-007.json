@@ -1,0 +1,87 @@
+{
+  "id": "scn-007",
+  "label": "Reorg moves 3 of 5 engineers; the charter target is never revised",
+  "company_context": {
+    "name": "Juniper Freight",
+    "profile": "Freight marketplace, ~400 people, mid-reorg after a flat quarter",
+    "team": "Carrier experience pod: 1 PM, 5 engineers (pre-reorg)"
+  },
+  "charter": {
+    "title": "Halve carrier onboarding time",
+    "outcome": "New carriers go from signup to first accepted load in days, not weeks",
+    "metric": "Median signup-to-first-load time",
+    "baseline": "16 days",
+    "target": "8 days",
+    "timeframe": "FY26 Q3",
+    "reasoning": "Carrier supply is the marketplace constraint; onboarding friction is the cheapest supply lever available.",
+    "trade_offs": [
+      "Carrier mobile app improvements deferred",
+      "Document-verification vendor migration pushed to Q4"
+    ],
+    "anchored_on": "2026-06-26",
+    "outcome_owner": "Ravi Menon (PM)",
+    "decision_owner": "Claire Fontaine (COO)"
+  },
+  "drift": {
+    "type": "headcount_reallocation",
+    "severity": "major",
+    "mechanism": "A July reorg moves three of the pod's five engineers to a new 'shipper AI' initiative. The reorg doc covers reporting lines and team names in detail; it says nothing about outcome commitments. The carrier charter — target, timeline, metric — carries forward untouched into a pod that now has 40% of the capacity it was scoped for. The team knows instantly; the record of intent doesn't."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-28",
+      "source": "doc:google",
+      "content": "'H2 Org Update' doc: three named carrier-pod engineers move to Shipper AI effective Aug 4. No outcomes or targets mentioned anywhere in the doc.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-29",
+      "source": "slack:#carrier-pod",
+      "content": "Engineer: 'so are we still doing 8 days with two of us? lol.' PM: 'Raising it. Assume yes for now.'",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-11",
+      "source": "meeting:ops-review",
+      "content": "Q3 goals slide shown to COO still lists '8 days by EOQ' with no annotation. Ravi's spoken caveat ('with the reorg this is at risk') doesn't make it into the deck or notes.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-09-08",
+      "source": "meeting:ops-review",
+      "content": "Metric at 13 days, trajectory flat. COO: 'Why are we this far off?' Ravi: 'We lost three engineers in the reorg.' COO: 'Then why does the target still say 8?'",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "The carrier pod, immediately",
+    "moment": "The team sees the mismatch the day the reorg doc lands (s2) and even jokes about it. The realization that matters is the COO's at s4: the reorg she signed off on had a cost to an anchored outcome that no one priced at decision time, because the reorg process and the outcome record were separate systems that never met.",
+    "first_noticed_date": "2026-07-29",
+    "lag_from_first_signal_days": 1,
+    "leadership_awareness": {
+      "aware_on": "2026-09-08",
+      "how": "The COO connects reorg to target at the September ops review, six weeks after her own org update caused the gap. Ravi's verbal caveat in August never became part of any record.",
+      "lag_from_first_signal_days": 42
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "capacity_withdrawal",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s1",
+    "flag_rationale": "Unusually, the very first signal suffices: a published org change removing 60% of a pod's capacity is mechanically incompatible with the pod's anchored target. No pattern-accumulation needed. This is the case where structured records shine — a human COO missed it for six weeks; a system holding both documents should catch it same-day.",
+    "expected_flag_summary": "The H2 org update moves 3 of 5 carrier-pod engineers to Shipper AI on Aug 4. The pod's anchored Q3 outcome (halve onboarding time to 8 days) was scoped for full strength and hasn't been revised. Re-scope the target, restaff, or record the trade-off — before the goals slide goes to the next ops review unchanged.",
+    "grader_notes": "Tests cross-document reasoning: reorg doc × charter. Also note s2 as a secondary signal type worth studying — team sarcasm ('lol') as an honest drift indicator that formal channels suppress (Ravi's caveat at s3 evaporating)."
+  },
+  "information_asymmetry": {
+    "team_picture": "The pod saw the capacity-target mismatch on day one and assumed the reorg's authors had either accepted it or would revise the target — reorgs come from above, so surely the goals would be reconciled above. Ravi raised it verbally, believed it was now 'known,' and moved on.",
+    "leadership_picture": "Claire's reorg picture was organizational: reporting lines, team shapes, the new initiative's staffing. Outcome commitments lived in a different document she wasn't looking at while designing the org. Ravi's spoken caveat reached her ears in a meeting but never attached to anything she'd revisit.",
+    "the_gap": "A systems gap: the reorg process and the outcome record were maintained in separate artifacts that no step required anyone to reconcile. The team's knowledge was even spoken aloud to the right person — and still evaporated, because a verbal caveat has no persistence and Claire's picture had nowhere to store it.",
+    "who_needed_to_hear_the_flag": "Claire (COO) at reorg publication, while restaffing or re-scoping was still cheap — with the caveat in durable, revisitable form rather than as a meeting remark."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "scn-010",
+  "label": "BORDERLINE — Instrumentation work attaches to an outcome, then grows into its own workstream",
+  "company_context": {
+    "name": "Portobello",
+    "profile": "Same company as scn-004, following quarter",
+    "team": "Checkout pod: 1 PM, 4 engineers"
+  },
+  "charter": {
+    "title": "Recover abandoned carts",
+    "outcome": "Shoppers who abandon carts come back and complete the purchase",
+    "metric": "Abandoned-cart recovery rate",
+    "baseline": "4%",
+    "target": "12%",
+    "timeframe": "FY26 Q4",
+    "reasoning": "Q3's completion-rate work capped out; the next recoverable revenue is in the carts already lost.",
+    "trade_offs": [
+      "Merchandising asks capped at 0.5 days/sprint (learned from Q3)",
+      "No loyalty-program work this quarter"
+    ],
+    "anchored_on": "2026-09-28",
+    "outcome_owner": "Leo Grant (PM)",
+    "decision_owner": "Sofia Marsh (Head of Product)"
+  },
+  "drift": {
+    "type": "attach_becomes_workstream",
+    "severity": "minor",
+    "mechanism": "Recovery experiments need better event tracking, so the pod builds instrumentation — legitimately attached to the outcome. But the instrumentation work is satisfying and visibly useful to other teams, and it keeps growing: an internal events dashboard, then a self-serve query layer for the growth team, then a data-quality monitoring service. By November one engineer is effectively a full-time internal-platform engineer. Every step was justifiable as 'supporting the outcome'; the sum is a second workstream the charter never contemplated."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-10-08",
+      "source": "meeting:sprint-planning",
+      "content": "'Cart-event instrumentation' sized at 1 sprint, framed as prerequisite for recovery experiments. Clearly attached to the outcome.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-10-22",
+      "source": "slack:#checkout-pod",
+      "content": "'The events dashboard is getting love from growth team — adding a couple of their requested views this sprint.'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-11-05",
+      "source": "doc:google",
+      "content": "'Checkout Events Platform — v2 proposal' doc: self-serve query layer, data-quality monitoring, a roadmap of its own. Author: the instrumentation engineer. Recovery experiments mentioned once, in the background section.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-11-18",
+      "source": "meeting:sprint-planning",
+      "content": "Recovery experiment #3 delayed for 'platform hardening.' First time outcome work yields to the platform rather than the reverse.",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Leo Grant (PM, outcome owner)",
+    "moment": "At s4, when the dependency inverts. Through s3 Leo genuinely believed the platform work served the outcome — and early on it did. The tell he later named: the v2 proposal doc read like a product roadmap, and the outcome had become the background section of its own supporting work.",
+    "first_noticed_date": "2026-11-18",
+    "lag_from_first_signal_days": 41,
+    "leadership_awareness": {
+      "aware_on": "2026-11-24",
+      "how": "Leo brings it to Sofia with the framing 'we accidentally built an internal product.' Sofia's call: keep the platform but move it out of the pod's charter accounting, and backfill recovery-experiment capacity.",
+      "lag_from_first_signal_days": 47
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "minor",
+    "drift_type": "priority_displacement",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 is correct attach-mode work; s2 is minor and arguably neighborly. s3 is the identity shift: a proposal doc with its own roadmap where the anchored outcome appears only as background is work that has stopped serving the outcome and started using it as justification. Flagging at s3 beats the human realization (s4) by two weeks. Reasonable graders may accept s4 as the flag point; s2 is too early.",
+    "expected_flag_summary": "The cart-event instrumentation attached to the recovery outcome now has its own v2 roadmap (query layer, monitoring service) and serves other teams' needs. The recovery outcome appears only as background context in the proposal. Worth deciding whether this is still attached work or a new outcome that should enter the quarter deliberately.",
+    "grader_notes": "Deliberately ambiguous — the hardest label in the set. Tests whether a detector can distinguish 'supporting work' from 'work wearing the outcome as cover' using document framing, not just topic keywords (topically it always matches the charter). Accept flags at s3 or s4; treat s1-s2 flags as false positives."
+  },
+  "information_asymmetry": {
+    "team_picture": "The instrumentation engineer believed each increment served the outcome — early on it truly did, and the belief carried forward on momentum. Leo shared that picture through s3 because the work always matched the charter topically.",
+    "leadership_picture": "Sofia had no picture of the platform work at all; from her seat the pod was executing the recovery charter as anchored.",
+    "the_gap": "A gradual-reframing gap: the work's relationship to the outcome inverted so smoothly that the people closest to it were the last positioned to see it — every local step was justified, and only the trajectory wasn't. No one's snapshot was wrong; the sequence was.",
+    "who_needed_to_hear_the_flag": "Leo and the instrumentation engineer together — the decision (attach, spin out, or stop) is theirs to frame before it reaches Sofia as a fait accompli."
+  }
+}

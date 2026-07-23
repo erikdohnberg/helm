@@ -1,0 +1,87 @@
+{
+  "id": "scn-005",
+  "label": "Top-account escalation peels an engineer off 'for two weeks' that become eight",
+  "company_context": {
+    "name": "Cartesian Data",
+    "profile": "Analytics platform, ~150 people, revenue concentrated in top 10 accounts",
+    "team": "Reporting pod: 1 PM, 4 engineers"
+  },
+  "charter": {
+    "title": "Ship scheduled report delivery",
+    "outcome": "Customers schedule recurring report exports instead of manually re-running them",
+    "metric": "Weekly active accounts using scheduled delivery",
+    "baseline": "0",
+    "target": "150 accounts by quarter end",
+    "timeframe": "FY26 Q3",
+    "reasoning": "Most-requested feature across all segments for a year; also the biggest driver of low-value support load.",
+    "trade_offs": [
+      "Custom report-builder enhancements for individual accounts deferred",
+      "No PDF layout engine replacement this quarter"
+    ],
+    "anchored_on": "2026-07-01",
+    "outcome_owner": "Grace Obi (PM)",
+    "decision_owner": "Daniel Voss (VP Product)"
+  },
+  "drift": {
+    "type": "customer_escalation",
+    "severity": "minor",
+    "mechanism": "The largest account (11% of ARR) escalates about report-builder gaps during their renewal window. CS asks for 'someone for two weeks.' One engineer is loaned. The account keeps finding adjacent gaps; the loan renews informally by inaction, sprint after sprint, until it has run eight weeks — 25% of pod capacity for most of the quarter, against work the charter explicitly deferred."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-13",
+      "source": "slack:#cs-escalations",
+      "content": "CS lead: 'Northgate renewal is shaky over report-builder gaps. Can reporting pod loan someone for two weeks? Daniel is fine with it.'",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-27",
+      "source": "slack:#reporting-pod",
+      "content": "Engineer: 'Northgate found two more issues, staying on it another sprint.' No end date discussed.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-10",
+      "source": "meeting:sprint-planning",
+      "content": "Scheduled-delivery beta scope trimmed ('cut Slack delivery channel, email only for v1') to fit remaining capacity. Northgate work still on the board.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-09-01",
+      "source": "meeting:pod-sync",
+      "content": "Grace: 'We said two weeks in July. It's been seven. I'm pulling him back after this sprint unless someone tells me otherwise.'",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Grace Obi (PM, outcome owner)",
+    "moment": "Grace half-notices at s3 when she trims her own beta scope to absorb the loss, but the moment she names it (s4) comes only when she does the arithmetic on the original 'two weeks.' The informal renewal pattern hid the total: no single sprint extension was a decision worth escalating.",
+    "first_noticed_date": "2026-09-01",
+    "lag_from_first_signal_days": 50,
+    "leadership_awareness": {
+      "aware_on": "2026-09-02",
+      "how": "Grace messages Daniel directly. Daniel approved 'two weeks' in July and had no idea it was still running; the approval had become permanent by default.",
+      "lag_from_first_signal_days": 51
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "minor",
+    "drift_type": "commitment_overrun",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s2",
+    "flag_rationale": "s1 is an approved, bounded exception — flagging it second-guesses a reasonable call. s2 is where the bound quietly dissolves: the loan extends past its stated window with no end date and no re-approval. Time-bounded exceptions that outlive their bound are a distinct, highly detectable drift signature.",
+    "expected_flag_summary": "The Northgate loan was approved for two weeks on Jul 13 and is entering its third sprint with no end date. Scheduled delivery — the anchored Q3 outcome — has already had beta scope trimmed to absorb it. Re-approve the extension explicitly or set a return date.",
+    "grader_notes": "Reward detectors that track stated durations of exceptions and flag when reality outruns them. The eval should check the flag references the original approval terms, since that's what makes it actionable rather than nagging."
+  },
+  "information_asymmetry": {
+    "team_picture": "The loaned engineer and Grace each treated every extension as the tail of the original approved exception — 'still on the Northgate thing Daniel okayed.' Each sprint's extension inherited legitimacy from July's approval.",
+    "leadership_picture": "Daniel's picture still contained the original terms: a two-week loan that ended in July. He was never wrong about what he approved; his picture just stopped updating when the informal renewals never reached him.",
+    "the_gap": "A stale-approval gap: the exception's legitimacy persisted downstream long after its approved bounds expired, while upstream the approver believed it was over. Neither side withheld anything — the renewals simply had no channel back to the person whose approval they were trading on.",
+    "who_needed_to_hear_the_flag": "Daniel (his approval is being extended without him) and Grace (so the re-approve-or-return decision is hers to force, with the original terms in hand)."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "scn-006",
+  "label": "Data migration outcome starves quietly — no injection, attention just fades",
+  "company_context": {
+    "name": "Ostrava Systems",
+    "profile": "Logistics SaaS, ~250 people",
+    "team": "Data platform team: 1 PM, 7 engineers"
+  },
+  "charter": {
+    "title": "Migrate reporting to the new event pipeline",
+    "outcome": "All customer-facing reports read from the new event pipeline; legacy warehouse decommission unblocked",
+    "metric": "Reports migrated (of 34)",
+    "baseline": "0 of 34",
+    "target": "34 of 34",
+    "timeframe": "FY26 Q3",
+    "reasoning": "The legacy warehouse contract renews in January at 3x cost. Migration this quarter is what makes declining the renewal possible.",
+    "trade_offs": [
+      "New data-export API paused",
+      "Two engineers reassigned from the ingestion team for the quarter"
+    ],
+    "anchored_on": "2026-06-27",
+    "outcome_owner": "Sam Whitfield (PM)",
+    "decision_owner": "Ingrid Halvorsen (CTO)"
+  },
+  "drift": {
+    "type": "quiet_starvation",
+    "severity": "major",
+    "mechanism": "No competing priority arrives. The first 14 migrations are the easy ones and get done by early August; the remaining 20 involve gnarly legacy report logic nobody wants to touch. Engineers gravitate to interesting adjacent work (pipeline performance tuning, internal tooling) that feels related but isn't migration. The PM goes on parental leave for four weeks with a thin handoff. Migration count freezes at 14 for five weeks and nobody is lying, hiding anything, or deciding anything — attention simply left."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-08-07",
+      "source": "doc:migration-tracker",
+      "content": "Tracker shows 14/34. Last row updated Aug 7.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-08-18",
+      "source": "slack:#data-platform",
+      "content": "Channel activity healthy but topic mix shifts: pipeline perf and tooling threads dominate; last message containing 'migration' was Aug 8.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-31",
+      "source": "meeting:standup-transcripts",
+      "content": "Three weeks of standups mention migration zero times. Covering PM reports 'data platform: on track' upward, based on general channel activity.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-09-14",
+      "source": "meeting:pod-sync",
+      "content": "Sam, back from leave: 'The tracker says 14. It said 14 when I left. What happened?' Silence, then: 'The remaining ones are all the horrible cross-tenant reports.'",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Sam Whitfield (PM, outcome owner)",
+    "moment": "Returning from leave (s4), Sam sees the frozen tracker in his first sync. Nobody in the room could name when work had stopped — there was no stopping moment, which is precisely why no one noticed. The covering PM had reported on-track for a month in good faith.",
+    "first_noticed_date": "2026-09-14",
+    "lag_from_first_signal_days": 38,
+    "leadership_awareness": {
+      "aware_on": "2026-09-16",
+      "how": "Sam escalates to the CTO with the January renewal math: 20 hard migrations in 11 remaining weeks including holidays. The CTO has to open renewal negotiations she expected to skip.",
+      "lag_from_first_signal_days": 40
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "attention_decay",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s2",
+    "flag_rationale": "s1 alone is a pause, not a pattern. By s2 the tracker has been frozen ~10 days AND the team's conversational attention has measurably left the outcome — the two together are the starvation signature. This is the inactivity-based Adrift case from the product spec, and it's the case humans are structurally worst at catching because there is no event to notice.",
+    "expected_flag_summary": "Migration count has been frozen at 14/34 since Aug 7 and the outcome has disappeared from team discussion. The remaining 20 reports gate declining the January warehouse renewal. This outcome may be adrift — worth an explicit check-in before the on-track reporting compounds.",
+    "grader_notes": "The purest test of inactivity detection. There is no injection signal to key on; only absence. Also tests the 'reporting says on-track, evidence says frozen' contradiction (s3). Flag timing target: beat s4 by 3+ weeks."
+  },
+  "information_asymmetry": {
+    "team_picture": "Each engineer believed their adjacent work (perf tuning, tooling) was reasonable while someone else carried the hard migrations forward. The covering PM's picture was built from channel activity, which looked healthy, so 'on track' was an honest read of the evidence available to him.",
+    "leadership_picture": "Ingrid's picture was the covering PM's reports: on track. Her January renewal plan rested on it.",
+    "the_gap": "A proxy-signal gap: the covering PM was reporting on activity, leadership was consuming reports about progress, and the two measured different things. Nobody's picture was dishonest — the tracker that would have collided them sat unopened because nothing prompted anyone to open it.",
+    "who_needed_to_hear_the_flag": "The covering PM first (his good-faith 'on track' is the vector carrying the gap upward), then Ingrid, whose renewal timeline depends on the real count."
+  }
+}

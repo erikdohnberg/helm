@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1",
+  "purpose": "Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an anchored Outcome Charter with a signal timeline, the moment drift became visible to people involved, and ground-truth labels for what Helm should have done and when.",
+  "design_notes": {
+    "severity_definitions": {
+      "major": "Drift materially changes what the quarter is about: staffing moved, an anchored outcome effectively replaced or abandoned, or the charter metric can no longer be hit as planned.",
+      "minor": "Drift bleeds capacity or attention from an anchored outcome without formally displacing it. The outcome survives but degraded.",
+      "none": "Control cases. Either a deliberate, recorded change of intent (not drift) or noise that resembles drift but never materializes."
+    },
+    "observability_field": "Each timeline signal is tagged 'explicit' (the drift is stated in the artifact itself) or 'implicit' (drift is only inferable by comparing the artifact against the charter). Implicit-heavy scenarios are the harder detection cases.",
+    "ground_truth_usage": "earliest_reasonable_flag_signal points at the signal id after which a well-calibrated Helm has enough evidence to flag. Flagging earlier is a precision risk; flagging later than human_realization is a recall failure. Evals should also score routing: a flag that reaches only the side that already holds that half of the picture has not closed the gap described in information_asymmetry.",
+    "known_gaps": "All scenarios are single-outcome. Real quarters have interacting outcomes (drift on one funds another); add multi-outcome scenarios in a later version.",
+    "failure_model": "Drift in these scenarios is never concealment. Every actor operates in good faith on a locally coherent picture; the misalignment lives in the gaps between pictures. Typical gap shapes: leadership changes a priority without seeing the trade-off it forces downstream; a team absorbs a change without knowing leadership's intent shifted; two leaders each assume the other reconciled a request against the plan. The information_asymmetry block on each scenario names who held which picture and what each side wrongly assumed the other knew. Helm's job is to close these gaps by testing assumptions against the record of intent — not to catch people hiding things."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "scn-004",
+  "label": "Merchandising asks bleed capacity from a checkout conversion outcome",
+  "company_context": {
+    "name": "Portobello",
+    "profile": "Marketplace for independent food producers, ~80 people",
+    "team": "Checkout pod: 1 PM, 4 engineers"
+  },
+  "charter": {
+    "title": "Raise checkout completion",
+    "outcome": "Fewer carts abandoned between payment entry and confirmation",
+    "metric": "Checkout completion rate",
+    "baseline": "71%",
+    "target": "78%",
+    "timeframe": "FY26 Q3",
+    "reasoning": "Payment-step abandonment is the single largest recoverable revenue leak. One focused quarter beats spreading the pod across the funnel.",
+    "trade_offs": [
+      "Merchandising and promo tooling requests routed to Q4 backlog",
+      "No checkout UI restyle; conversion changes only"
+    ],
+    "anchored_on": "2026-06-29",
+    "outcome_owner": "Leo Grant (PM)",
+    "decision_owner": "Sofia Marsh (Head of Product)"
+  },
+  "drift": {
+    "type": "scope_creep",
+    "severity": "minor",
+    "mechanism": "Growth marketing keeps bringing 'two-day' merchandising asks — a promo banner slot, a bundle-pricing tweak, a seasonal badge. Each is small, each is accepted to be a good partner, none is compared against the charter's explicit routing of merchandising work to Q4. By late August roughly 20% of pod capacity has gone to merchandising, and the two hardest conversion bets keep not starting."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-09",
+      "source": "slack:#checkout-pod",
+      "content": "Growth: 'Tiny ask — can we get a promo banner slot on cart for the harvest campaign? Probably a day of work?' Eng: 'Sure, squeezing it in.'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-23",
+      "source": "slack:#checkout-pod",
+      "content": "Growth: 'Bundle pricing needs a small change for September.' Accepted in-thread, no ticket linked to any outcome.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-05",
+      "source": "meeting:sprint-planning",
+      "content": "Third consecutive sprint carries 'partner asks' as a labeled swimlane, now sized at ~1 engineer-week per sprint. The saved-payment-methods bet slips again.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-08-27",
+      "source": "meeting:retro",
+      "content": "EM in retro: 'We've done nine merchandising tickets this quarter. Did we ever decide that? I thought merchandising was a Q4 thing.'",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Ana Duarte (EM)",
+    "moment": "The retro (s4). No single ask felt like a decision, so nobody compared the accumulating total against the charter until the EM counted tickets. The PM had a vague sense of squeeze but attributed it to estimation, not injection.",
+    "first_noticed_date": "2026-08-27",
+    "lag_from_first_signal_days": 49,
+    "leadership_awareness": {
+      "aware_on": "2026-09-03",
+      "how": "Leo raises it in his 1:1 with Sofia after the retro. Sofia's reaction: mild — 'good catch, cap it at half a day a sprint' — because the outcome is dented, not dead. Completion lands at 75% vs the 78% target.",
+      "lag_from_first_signal_days": 56
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "minor",
+    "drift_type": "priority_displacement",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 and s2 individually are below any sane flagging threshold; flagging single small favors would make Helm insufferable. s3 is the pattern point: a recurring, sized swimlane of charter-excluded work displacing a named conversion bet for the second time.",
+    "expected_flag_summary": "Merchandising asks have become a recurring sprint swimlane (~1 engineer-week per sprint) and the saved-payment-methods bet has slipped twice. The Q3 record of intent routes merchandising work to Q4. Worth a deliberate call: cap it, accept the drag on the 78% target, or re-anchor.",
+    "grader_notes": "This is the accumulation case. Reward detectors that aggregate small signals over time; penalize both per-ask flags (noisy) and silence through s3 (the whole point is catching what no single moment reveals)."
+  },
+  "information_asymmetry": {
+    "team_picture": "Engineers accepted each merchandising ask as isolated neighborliness; the PM sensed schedule pressure but attributed it to estimation error. Nobody held the running total, so nobody's picture contained a decision to compare against the charter.",
+    "leadership_picture": "Sofia believed the Q3 routing of merchandising to Q4 was holding, because no one had asked her to change it — and no one had, because no single ask felt big enough to ask about.",
+    "the_gap": "An aggregation gap rather than a party-to-party one: the drift existed only as a sum, and no individual's picture contained the sum until the EM counted tickets. The misalignment wasn't between people; it was between everyone's episodic view and the cumulative reality.",
+    "who_needed_to_hear_the_flag": "Leo (outcome owner, to make the cap-or-accept call) and the growth team (so asks route through a decision rather than a favor)."
+  }
+}

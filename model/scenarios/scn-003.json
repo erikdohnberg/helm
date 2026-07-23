@@ -1,0 +1,87 @@
+{
+  "id": "scn-003",
+  "label": "Security incident consumes the quarter; the mobile launch outcome silently slips",
+  "company_context": {
+    "name": "Brightmark Health",
+    "profile": "Healthcare scheduling platform, ~200 people, HIPAA-regulated",
+    "team": "Mobile squad: 1 PM, 6 engineers"
+  },
+  "charter": {
+    "title": "Launch patient mobile app in two pilot networks",
+    "outcome": "Patients in two pilot hospital networks book and manage appointments from the app",
+    "metric": "Pilot bookings made via mobile app",
+    "baseline": "0",
+    "target": "5,000 bookings across both networks",
+    "timeframe": "FY26 Q3, launch by Sep 8",
+    "reasoning": "Both pilot contracts have mobile availability written in for Q3. Slipping risks the renewal conversation for one network.",
+    "trade_offs": [
+      "Web rebooking-flow improvements deferred",
+      "Android tablet support out of scope for the pilot"
+    ],
+    "anchored_on": "2026-06-25",
+    "outcome_owner": "Hannah Cho (PM)",
+    "decision_owner": "Marcus Bell (VP Product)"
+  },
+  "drift": {
+    "type": "incident_reprioritization",
+    "severity": "major",
+    "mechanism": "A credential-stuffing incident in mid-July triggers a mandatory hardening program. The mobile squad loses four of six engineers to incident response and remediation for six weeks. Everyone treats this as obviously correct — and it is — but nobody re-anchors the quarter. The squad assumes leadership has connected the staffing plan to the launch date (the plan is leadership's own document); leadership assumes the squad would escalate if the date were at risk. The Sep 8 date lives on in the charter, the pilot contracts, and marketing's plans while both sides believe the other is holding it."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-16",
+      "source": "slack:#incident-1207",
+      "content": "Incident declared. Mobile squad engineers pulled into response rotation 'until further notice.'",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-24",
+      "source": "doc:google",
+      "content": "'Post-Incident Hardening Plan' assigns 4 mobile-squad engineers to remediation workstreams through end of August.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-06",
+      "source": "meeting:mobile-squad-sync",
+      "content": "Hannah: 'Realistically Sep 8 is not happening — I assume Marcus knows, the hardening plan is his org's doc. I'll confirm with him once the incident calms down.' No update reaches the charter or the pilot networks.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-08-19",
+      "source": "slack:#marketing",
+      "content": "Marketing: 'Locking the pilot launch comms for Sep 8 — mobile team, anything blocking?' No reply for two days.",
+      "observability": "implicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "The mobile squad collectively",
+    "moment": "The squad's picture contains the slip by s2 and Hannah names it at s3 — as an acknowledgment of what she assumes is already known upstream, since the staffing plan causing it is a leadership document. The organizational realization comes at s4: marketing's comms question exposes that the slip existed in nobody's picture outside the squad. Hannah tells Marcus on Aug 21 that the launch moves at least five weeks and one pilot contract's language becomes a legal question — the first moment the knowledge and the exposure sit in the same conversation.",
+    "first_noticed_date": "2026-07-24",
+    "lag_from_first_signal_days": 8,
+    "leadership_awareness": {
+      "aware_on": "2026-08-21",
+      "how": "VP Product learns via the marketing thread escalation, 36 days after the hardening plan made the slip inevitable. His words in the retro: 'Nobody decided to slip the launch. It just became true.' — an accurate description: each side assumed the other held the consequence, so no one carried it across.",
+      "lag_from_first_signal_days": 36
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "capacity_withdrawal",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s2",
+    "flag_rationale": "The incident response itself is not drift and must not be flagged as a problem. The flaggable event is s2: a written plan removing two-thirds of the squad through August makes the anchored Sep 8 date unachievable, and the charter carries an external contractual commitment. The gap between operational reality and the record of intent opens at s2.",
+    "expected_flag_summary": "The hardening plan assigns 4 of 6 mobile-squad engineers to remediation through August. The anchored mobile pilot launch (Sep 8, contractual for both networks) cannot hold on remaining capacity. The incident work is not in question — but the launch outcome needs a deliberate re-plan and the pilot networks need a revised date.",
+    "grader_notes": "Tone matters most here. Penalize flags that read as questioning the incident response. Reward flags that separate 'this reprioritization is correct' from 'its consequence to an anchored, externally-committed outcome is unrecorded.'"
+  },
+  "information_asymmetry": {
+    "team_picture": "Hannah and the squad assumed leadership understood the launch consequence of the hardening plan — the incident was company-wide news, the remediation plan was a leadership document, so surely whoever wrote it had done the arithmetic on the mobile date. Saying 'Sep 8 is not happening' inside the squad felt like acknowledging the obvious, not disclosing something new.",
+    "leadership_picture": "Marcus assumed the opposite: the squad tracked its own launch risk and would escalate if the date was in danger. Silence read as 'still on track despite the incident.' The hardening plan's author optimized for security coverage and never looked at what the borrowed engineers had been committed to.",
+    "the_gap": "A mutual-assumption gap: each side believed the other side already knew, so neither side said anything to the other. The knowledge existed fully formed inside the squad and the consequence existed fully formed in the contracts — no one carried it across.",
+    "who_needed_to_hear_the_flag": "Marcus (VP Product) — he holds the pilot-network relationships and the contractual exposure — plus the hardening plan's owner, so the remediation staffing decision could be made with its full cost visible."
+  }
+}

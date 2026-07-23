@@ -1,0 +1,94 @@
+{
+  "id": "scn-002",
+  "label": "Post-conference exec redirect displaces a reliability outcome",
+  "company_context": {
+    "name": "Fieldnote",
+    "profile": "Series C field-service software, ~300 people",
+    "team": "Platform group: 2 PMs, 11 engineers across two pods"
+  },
+  "charter": {
+    "title": "Cut sync failures for offline crews",
+    "outcome": "Field crews on poor connectivity stop losing work to failed syncs",
+    "metric": "Sync failure rate on flaky-network sessions",
+    "baseline": "6.1%",
+    "target": "Under 1.5%",
+    "timeframe": "FY26 Q3",
+    "reasoning": "Sync failures are the top churn-tagged complaint for two consecutive quarters and the top support ticket category. Retention is the year's theme.",
+    "trade_offs": [
+      "No net-new AI features from the platform group this quarter",
+      "Reporting engine refresh deferred"
+    ],
+    "anchored_on": "2026-06-30",
+    "outcome_owner": "Tomás Reyes (PM)",
+    "decision_owner": "June Park (CEO)"
+  },
+  "drift": {
+    "type": "exec_redirect",
+    "severity": "major",
+    "mechanism": "The CEO returns from an industry conference convinced a voice-driven job-notes assistant is existential. She asks the platform group to 'get a demo together for the September customer summit.' The demo becomes a workstream. Nobody frames it as replacing the sync outcome; it is framed as 'in addition,' but the same engineers are doing both, and sync work is what gives."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-20",
+      "source": "meeting:exec-staff",
+      "content": "CEO: 'Every competitor at the show had a voice angle. I want us demoing voice notes at the summit. Platform group should own it since it touches the data layer.'",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-22",
+      "source": "slack:#platform",
+      "content": "Eng manager: 'Spinning up a small voice-notes spike, June's ask. Keeping it timeboxed to a week.'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-07-31",
+      "source": "slack:#platform",
+      "content": "'Spike went well, extending. Amara and Deep moving to voice full-time through the summit. Sync conflict-resolution work moves to the back half.'",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-08-12",
+      "source": "doc:google",
+      "content": "'Summit Demo Plan' doc lists 4 platform engineers, a designer, and weekly CEO reviews. No mention of the sync outcome anywhere in the doc.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s5",
+      "date": "2026-08-25",
+      "source": "meeting:standup-transcripts",
+      "content": "Fourteen consecutive platform standups with zero sync-related updates.",
+      "observability": "implicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Tomás Reyes (PM, outcome owner)",
+    "moment": "Tomás registers the shift at s3 — the moment 'timeboxed spike' becomes two engineers full-time — but his picture at that point is that a decision has been made above him: the CEO redirected the group, so the trade-off must have been weighed at her level. He plans around it as settled direction. The misalignment isn't that he withheld anything; it's that the one person who could see the cost assumed the one person with authority had already seen it.",
+    "first_noticed_date": "2026-07-31",
+    "lag_from_first_signal_days": 11,
+    "leadership_awareness": {
+      "aware_on": "2026-09-30",
+      "how": "At the Q3 board meeting, a director asks about the sync failure metric (it moved from 6.1% to 5.4%, far off target). The CEO realizes the trade she made in July was never made explicitly, never priced, and never communicated to the board that had endorsed the retention theme.",
+      "lag_from_first_signal_days": 72
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "priority_displacement",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 is a legitimate exec exploration and s2 is a timeboxed spike, both compatible with the charter. s3 reassigns named engineers indefinitely and explicitly pushes sync work; that is the commitment point.",
+    "expected_flag_summary": "Two platform engineers moved full-time to the voice-notes summit demo and sync conflict-resolution work was pushed to late quarter. The Q3 record of intent commits this group to cutting sync failures below 1.5% and rules out net-new AI features. If voice replaces or reduces the sync outcome, record that decision and its cost.",
+    "grader_notes": "Hard social case: the drift source is the decision owner herself, and the authority gradient makes the gap self-sealing — the PM reasonably assumes an exec-initiated change was priced, the exec reasonably assumes an unpriced change would be challenged. Score whether the flag is addressed to both sides of that gap (CEO and PM) and whether it frames an unpriced trade-off as a decision to make, not an accusation. Helm's value here is that a neutral record can ask the question neither person's picture prompted them to ask."
+  },
+  "information_asymmetry": {
+    "team_picture": "Tomás read the CEO's summit ask as a decision already made above him — when the decision owner herself redirects the group, a PM reasonably assumes the trade-off was weighed at her level. He planned around it as settled direction, not as something awaiting his challenge.",
+    "leadership_picture": "The CEO genuinely believed the demo was additive — a small, exciting side effort. She never connected 'platform group builds the demo' to 'the sync outcome loses its engineers,' because in her picture the sync work was a whole-group commitment with slack in it.",
+    "the_gap": "A classic authority-gradient gap: the person with the trade-off knowledge (Tomás) assumed the person with the authority (June) already had it; the person with the authority assumed no trade-off existed to know. Both pictures were internally consistent for ten weeks.",
+    "who_needed_to_hear_the_flag": "The CEO, primarily — she is the decision owner who made a trade she couldn't see. Tomás secondarily, as confirmation that the trade-off was in fact never priced and that surfacing it is expected, not insubordinate."
+  }
+}

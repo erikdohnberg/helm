@@ -1,0 +1,89 @@
+{
+  "id": "scn-008",
+  "label": "CONTROL — Competitor launch triggers a deliberate, recorded replacement (not drift)",
+  "company_context": {
+    "name": "Ledgerline",
+    "profile": "Same company as scn-001, following quarter",
+    "team": "Growth pod: 1 PM, 5 engineers"
+  },
+  "charter": {
+    "title": "Expand EU payment methods",
+    "outcome": "EU customers pay with local payment methods instead of cards only",
+    "metric": "EU checkout conversion",
+    "baseline": "58%",
+    "target": "68%",
+    "timeframe": "FY26 Q4",
+    "reasoning": "EU is the fastest-growing segment and card-only checkout is the top cited friction in churn interviews.",
+    "trade_offs": [
+      "US checkout experiments paused",
+      "Payment-provider consolidation deferred"
+    ],
+    "anchored_on": "2026-09-29",
+    "outcome_owner": "Priya Nair (PM)",
+    "decision_owner": "Dana Okafor (CPO)"
+  },
+  "drift": {
+    "type": "none_deliberate_replacement",
+    "severity": "none",
+    "mechanism": "A competitor launches free invoicing in October, directly attacking Ledgerline's wedge. Leadership convenes within a week, decides to replace the EU payments outcome with a defensive invoicing outcome, documents the reasoning and what stops, notifies the pod, and re-anchors. The strategy changed fast and dramatically — but every step was deliberate, recorded, and communicated. This is the process working, not drift."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-10-13",
+      "source": "slack:#competitive-intel",
+      "content": "'Quill just launched free invoicing. This is aimed straight at our SMB base.' Thread gets 40+ replies in a day.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-10-16",
+      "source": "meeting:exec-staff",
+      "content": "Decision meeting: replace EU payments outcome with 'Ship invoicing parity + differentiation by Dec 15.' Explicit discussion of what stops and what it costs (EU conversion target moves to Q1).",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-10-17",
+      "source": "doc:google",
+      "content": "'Q4 Re-anchor: Invoicing Response' doc — new outcome, metric, reasoning, and a 'What stops' section naming the EU payments deferral and its cost. Shared org-wide.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-10-20",
+      "source": "slack:#growth-pod",
+      "content": "Pod pivots sprint planning to invoicing. EU payments work closed out cleanly with a written handoff state.",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "n/a — change was deliberate and communicated before execution shifted",
+    "moment": "No drift-realization moment exists. The pod learned of the change from the decision, not the reverse.",
+    "first_noticed_date": null,
+    "lag_from_first_signal_days": null,
+    "leadership_awareness": {
+      "aware_on": "2026-10-16",
+      "how": "Leadership made the change; awareness precedes execution.",
+      "lag_from_first_signal_days": 3
+    }
+  },
+  "ground_truth": {
+    "is_drift": false,
+    "severity": "none",
+    "drift_type": "none",
+    "control_kind": "deliberate_replacement",
+    "should_flag": false,
+    "earliest_reasonable_flag_signal": null,
+    "flag_rationale": "Between s1 and s2 there is a 3-day window where execution chatter precedes the recorded decision; a flag fired in that window is technically defensible but practically noise. After s3 exists, any drift flag is a false positive. The correct Helm behavior is to record the replacement relationship (invoicing replaces EU payments) and preserve the memory.",
+    "expected_flag_summary": null,
+    "expected_behavior_instead": "Record replacement: 'Invoicing response' replaced 'Expand EU payment methods' on Oct 16; deferral cost noted; both visible in strategic memory.",
+    "grader_notes": "The key false-positive control. A detector that flags every fast pivot will flag this; it must not. Speed and drama of change are not drift — absence of deliberate record is. Score harshly any flag after s3."
+  },
+  "information_asymmetry": {
+    "team_picture": null,
+    "leadership_picture": null,
+    "the_gap": "None. The re-anchor process carried the full picture (decision, cost, what stops) to every party before execution shifted. This is the counterexample: same speed of change as the drift cases, zero asymmetry, because the record moved with the decision.",
+    "who_needed_to_hear_the_flag": null
+  }
+}

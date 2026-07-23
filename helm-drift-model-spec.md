@@ -7,6 +7,7 @@
 
 ## Changelog
 
+- **2026-07-23 — Eval set canonicalized.** The monolithic root `drift-eval-scenarios.json` moved into `model/scenarios/` as one file per scenario plus `_meta.json`, each scenario gaining a `ground_truth.drift_type` from the v1.1 taxonomy (controls use `none` + `control_kind`). Added `model/scenarios/validate.ts` (schema + §3-coverage-agreement checks) and `model/scenarios/generate-doc.ts` (renders `drift-eval-scenarios.md`). §3's coverage-table reference updated to the new location; the JSON is now the source of truth and the markdown is generated.
 - **2026-07-23 — Drift taxonomy → v1.1**, reconciled against the eval set (`drift-eval-scenarios.json`). Net: seven drift types (was six). Changes to §3:
   - **Added `Capacity withdrawal`** — a documented removal of a charter's committed people (reorg, incident-remediation plan) that is incompatible with the target on its face; fires point-in-time from the change-document × charter, not as a trend. Covers scn-003, scn-007, which the six-type space forced into Priority displacement.
   - **Added `Commitment overrun`** — an approved, bounded exception (loan, spike, timeboxed favor) that outlives its stated bound with no re-approval; evidence is stated duration vs. elapsed time, and a correct flag cites the original approval terms. Covers scn-005.
@@ -64,7 +65,7 @@ Explicit non-drift, so the model doesn't cry wolf: seasonal quiet periods (holid
 
 ### Coverage against the eval set
 
-Every v1.1 type mapped to the scenarios in `drift-eval-scenarios.json` that exercise it as the *primary* label. Types with no scenario are shown as explicit gaps to fill, not as candidates to cut.
+Every v1.1 type mapped to the canonical scenarios in `model/scenarios/` (`scn-*.json`) that exercise it as the *primary* label — via each scenario's `ground_truth.drift_type`. `model/scenarios/validate.ts` fails if this table and the scenario files disagree. Types with no scenario are shown as explicit gaps to fill, not as candidates to cut.
 
 | Type | Scenarios (primary) | Status |
 |---|---|---|

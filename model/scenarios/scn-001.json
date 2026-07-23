@@ -1,0 +1,94 @@
+{
+  "id": "scn-001",
+  "label": "Enterprise deal injects SSO work into an activation quarter",
+  "company_context": {
+    "name": "Ledgerline",
+    "profile": "Series B B2B SaaS, ~120 people, product-led with an emerging enterprise sales motion",
+    "team": "Growth pod: 1 PM, 5 engineers, 1 designer"
+  },
+  "charter": {
+    "title": "Double self-serve activation",
+    "outcome": "New workspaces reach their first shared ledger within 24 hours of signup",
+    "metric": "Percentage of new workspaces activated within 24h",
+    "baseline": "17%",
+    "target": "34%",
+    "timeframe": "FY26 Q3",
+    "reasoning": "Paid acquisition is efficient but activation is the leak. Board agreed the quarter is about converting signups we already get, not adding channels or segments.",
+    "trade_offs": [
+      "Enterprise feature requests deferred to Q4, including SSO and audit logs",
+      "No new onboarding experiments for the EU segment this quarter"
+    ],
+    "anchored_on": "2026-06-28",
+    "outcome_owner": "Priya Nair (PM)",
+    "decision_owner": "Dana Okafor (CPO)"
+  },
+  "drift": {
+    "type": "sales_injection",
+    "severity": "major",
+    "mechanism": "A $480k ARR prospect makes SAML SSO a condition of signature. The AE escalates to the CRO, who asks the growth pod's tech lead directly whether SSO is 'a couple weeks of work.' Two engineers start on it without the charter being revisited. The trade-off recorded at anchoring (SSO deferred to Q4) is never mentioned in any of the threads."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-14",
+      "source": "slack:#sales-eng",
+      "content": "AE: 'Meridian Capital is verbal at 480k but SSO is a hard requirement for their security review. Who owns that?'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-15",
+      "source": "slack:#growth-pod",
+      "content": "Tech lead: 'Taking a look at SAML scoping today, CRO asked. Marco is pairing with me. Should be quick.'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-07-17",
+      "source": "doc:google",
+      "content": "New doc 'SAML SSO – Technical Design (Meridian)' created and shared with the growth pod, 9 pages, two named engineers as authors.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-07-21",
+      "source": "meeting:sprint-planning",
+      "content": "Sprint 4 commits 40% of pod capacity to SSO stories. Activation experiment backlog untouched; two onboarding A/B tests pushed a sprint.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s5",
+      "date": "2026-08-04",
+      "source": "meeting:metrics-review",
+      "content": "Activation flat at 18% for three weeks. PM notes 'we shipped less activation work than planned in July.'",
+      "observability": "implicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Priya Nair (PM, outcome owner)",
+    "moment": "At sprint 4 planning (s4), Priya realizes two of five engineers are now on SSO and the activation experiment queue has been pushed twice. Until the board was in front of her, the SSO work read as a side investigation, not a reallocation.",
+    "first_noticed_date": "2026-07-21",
+    "lag_from_first_signal_days": 7,
+    "leadership_awareness": {
+      "aware_on": "2026-08-11",
+      "how": "CPO learns at the mid-quarter review when Priya presents the flat activation number and names SSO as the cause. The CRO and CPO had never compared the SSO ask against the Q3 charter — each assumed the other had, and the pod assumed both had. Three good-faith pictures, none containing the collision.",
+      "lag_from_first_signal_days": 28
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "priority_displacement",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 and s2 alone could be a scoping exercise. A shared technical design doc with two named engineers (s3) is committed effort against a deliverable the charter explicitly deferred. Waiting for s4 still beats the humans but gives up a week.",
+    "expected_flag_summary": "Two growth-pod engineers are building SAML SSO for the Meridian deal. The Q3 record of intent explicitly deferred SSO to Q4 to protect self-serve activation. Re-align with the CPO and CRO before sprint planning, or record a deliberate change of intent and decide what stops.",
+    "grader_notes": "A flag at s1 or s2 should score as premature. The eval should reward citing the specific recorded trade-off, not just detecting new work."
+  },
+  "information_asymmetry": {
+    "team_picture": "The pod's tech lead believed the CRO's ask carried implicit leadership approval — an exec asked, so the priority call had presumably been made. The SSO work felt sanctioned, not injected.",
+    "leadership_picture": "The CRO believed SSO was a small favor that wouldn't move the quarter; he never saw the Q3 charter's explicit deferral. The CPO didn't know the ask had been made at all until mid-quarter.",
+    "the_gap": "Each of the two leaders assumed the other had reconciled the request against the plan; the pod assumed both had. Nobody was wrong within their own picture. The recorded trade-off (SSO deferred to Q4) was the one artifact that could have collided the pictures, and nobody in the thread knew to look at it.",
+    "who_needed_to_hear_the_flag": "CPO (owns the charter she doesn't know is being spent) and CRO (made an ask without seeing its price)."
+  }
+}
