@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Halve carrier onboarding time",
+    "aliases": [
+      "carrier onboarding",
+      "onboarding",
+      "signup-to-first-load",
+      "first accepted load"
+    ],
     "outcome": "New carriers go from signup to first accepted load in days, not weeks",
     "metric": "Median signup-to-first-load time",
     "baseline": "16 days",

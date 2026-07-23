@@ -9,13 +9,17 @@ import { v0InactivityDetector } from "./index.ts";
 
 const N_VALUES = [5, 7, 10, 14];
 
+// v0 = detector version 1.0.0 (no charter aliases; the original zero-mapping
+// run). v0.1 = 1.1.0 (same logic, charters now carry aliases). Pass the version
+// as the 2nd arg; scorecards are append-only so each version writes fresh dirs.
 const runDate =
   process.argv[2] && /^\d{4}-\d{2}-\d{2}$/.test(process.argv[2])
     ? process.argv[2]
     : new Date().toISOString().slice(0, 10);
+const version = process.argv[3] ?? "1.0.0";
 
 for (const n of N_VALUES) {
-  const { card, dir } = runHarness(v0InactivityDetector(n), runDate);
+  const { card, dir } = runHarness(v0InactivityDetector(n, version), runDate);
   const m = card.metrics;
   console.log(
     `N=${String(n).padStart(2)}  recall ${(m.detection_recall * 100).toFixed(0)}%  ` +

@@ -1,0 +1,270 @@
+{
+  "detector": {
+    "name": "v0-inactivity-n14",
+    "version": "1.1.0"
+  },
+  "contracts_version": "1.0.0",
+  "run_date": "2026-07-23",
+  "totals": {
+    "scenarios": 10,
+    "drift_scenarios": 8,
+    "control_scenarios": 2
+  },
+  "metrics": {
+    "detection_recall": 0.625,
+    "precision_proxy": 0.6,
+    "median_lead_time_days": 27,
+    "control_false_positive_count": 0,
+    "control_hard_failures": 0,
+    "type_accuracy": 0.2,
+    "routing_coverage": 1
+  },
+  "timing_breakdown": {
+    "premature": 2,
+    "on_time": 2,
+    "late": 1,
+    "missed": 3
+  },
+  "per_scenario": [
+    {
+      "scenario_id": "scn-001",
+      "label": "Enterprise deal injects SSO work into an activation quarter",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-17",
+      "realization_date": "2026-07-21",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-002",
+      "label": "Post-conference exec redirect displaces a reliability outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-31",
+      "realization_date": "2026-07-31",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-003",
+      "label": "Security incident consumes the quarter; the mobile launch outcome silently slips",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-24",
+      "realization_date": "2026-07-24",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-004",
+      "label": "Merchandising asks bleed capacity from a checkout conversion outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-23",
+      "earliest_date": "2026-08-05",
+      "realization_date": "2026-08-27",
+      "classification": "premature",
+      "lead_time_days": 35,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-leo-grant",
+          "actor-sofia-marsh"
+        ],
+        "covered": [
+          "actor-leo-grant",
+          "actor-sofia-marsh"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-005",
+      "label": "Top-account escalation peels an engineer off 'for two weeks' that become eight",
+      "is_control": false,
+      "expected_drift_type": "commitment_overrun",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-27",
+      "earliest_date": "2026-07-27",
+      "realization_date": "2026-09-01",
+      "classification": "on_time",
+      "lead_time_days": 36,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-grace-obi",
+          "actor-daniel-voss"
+        ],
+        "covered": [
+          "actor-grace-obi",
+          "actor-daniel-voss"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-006",
+      "label": "Data migration outcome starves quietly — no injection, attention just fades",
+      "is_control": false,
+      "expected_drift_type": "attention_decay",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-09-14",
+      "earliest_date": "2026-08-18",
+      "realization_date": "2026-09-14",
+      "classification": "on_time",
+      "lead_time_days": 0,
+      "type_match": true,
+      "routing": {
+        "expected": [
+          "actor-sam-whitfield",
+          "actor-ingrid-halvorsen"
+        ],
+        "covered": [
+          "actor-sam-whitfield",
+          "actor-ingrid-halvorsen"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-007",
+      "label": "Reorg moves 3 of 5 engineers; the charter target is never revised",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-08-11",
+      "earliest_date": "2026-07-28",
+      "realization_date": "2026-07-29",
+      "classification": "late",
+      "lead_time_days": -13,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-ravi-menon",
+          "actor-claire-fontaine"
+        ],
+        "covered": [
+          "actor-ravi-menon",
+          "actor-claire-fontaine"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-008",
+      "label": "CONTROL — Competitor launch triggers a deliberate, recorded replacement (not drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-009",
+      "label": "CONTROL — A partner-integration idea gets a week of Slack energy, then dies (no drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-010",
+      "label": "BORDERLINE — Instrumentation work attaches to an outcome, then grows into its own workstream",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-10-22",
+      "earliest_date": "2026-11-05",
+      "realization_date": "2026-11-18",
+      "classification": "premature",
+      "lead_time_days": 27,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-leo-grant",
+          "actor-sofia-marsh"
+        ],
+        "covered": [
+          "actor-leo-grant",
+          "actor-sofia-marsh"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    }
+  ]
+}

@@ -58,10 +58,10 @@ function citeOf(signal: Signal, date: string): Cite {
   };
 }
 
-export function v0InactivityDetector(n: number): Detector<V0State> {
+export function v0InactivityDetector(n: number, version = "1.0.0"): Detector<V0State> {
   return {
     name: `v0-inactivity-n${n}`,
-    version: "1.0.0",
+    version,
     initialState(charters: Charter[]): V0State {
       const lastMappedDay: Record<string, string | null> = {};
       const lastMappedSignal: Record<string, Cite | null> = {};

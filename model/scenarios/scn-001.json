@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Double self-serve activation",
+    "aliases": [
+      "activation",
+      "self-serve activation",
+      "shared ledger",
+      "activated within 24h"
+    ],
     "outcome": "New workspaces reach their first shared ledger within 24 hours of signup",
     "metric": "Percentage of new workspaces activated within 24h",
     "baseline": "17%",

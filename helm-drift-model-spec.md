@@ -7,6 +7,7 @@
 
 ## Changelog
 
+- **2026-07-23 — §4 clarification: seed-scenario alias hygiene + adversarial trade-offs.** Added charter `aliases` to the eval scenarios and stated two rules in §4: (1) seed aliases derive only from the charter's own text, never the signals (no eval-label leakage); (2) aliases carry outcome vocabulary only — trade-off terms are matched adversarially via `trade_offs` (excluded work, evidence *against* the outcome, never activity on it), so a displacer term like `SSO` can't be folded into aliases. Enables the v0.1 baseline (`model/eval/results/BASELINE.md`); no contract change.
 - **2026-07-23 — Contracts implemented (v1).** The §4/§5/§9 schemas are now runtime-validated code in `model/contracts/` (zod, TypeScript types inferred from the schemas), carrying a `CONTRACTS_VERSION` constant. Spec edits in the same commit keep prose and code in sync:
   - **§9 `DriftEvent`** gains `suggested_recipients[]` (actor id + short reason) — routing is scored by the eval set — and `contradicted_claim_ids[]` (present only when reasoning_contradiction is the primary or a secondary type). Its `drift_events` field list is made explicit to match the contract.
   - **§9 `DriftReport`** gains `contracts_version` next to `model_version`, so a report stamps the contract shape it was produced against instead of the harness reaching for the constant out-of-band.
@@ -110,6 +111,13 @@ Two schema decisions carry most of the weight:
 
 - **`reasoning` as discrete claims.** "We're doing X because churn is driven by onboarding, not pricing" is contradictable by a signal ("data shows pricing is the churn driver"). A paragraph of prose isn't. Charter drafting (a separate model concern, out of scope here) must produce claims at this granularity.
 - **`aliases` as a living list.** Orgs rename things constantly ("the retention work", "Project Compass", "the Q3 thing"). Mapping accuracy depends on the model updating this list from confirmed mappings.
+
+**Clarification — seed-scenario aliases (eval hygiene + adversarial trade-offs).** In production the model *learns* aliases from confirmed mappings (above). For the eval set, aliases are authored by hand under two rules:
+
+1. **Derivation.** Every alias must be justifiable from the charter's **own text** — title words, or terms in the outcome statement or metric name, plus standard abbreviations/nominalizations of those — and may **never** be derived from the signal timelines. An alias picked because it happens to appear in a signal would leak the answer into the input.
+2. **Outcome vocabulary only.** Aliases name the *outcome*, never its trade-offs. Trade-off terms denote work the charter explicitly **excluded**; they are matched through the `trade_offs` field with **adversarial semantics** — a signal containing one is evidence of a *competing priority / contradiction against* the outcome, and must **never** count as activity *on* it. Folding, say, `SSO` into scn-001's aliases would make the displacing work read as charter activity and silently break the activity-vs-against-it distinction the whole inactivity signal depends on.
+
+A consequence, quantified by the v0.1 baseline (`model/eval/results/BASELINE.md`): a charter's own vocabulary is often absent from the chatter (3 of 10 seed scenarios still map zero signals), which is the honest measure of how hard Stage 2's real relevance mapping is.
 
 ---
 

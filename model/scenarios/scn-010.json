@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Recover abandoned carts",
+    "aliases": [
+      "abandoned carts",
+      "abandoned-cart recovery",
+      "cart recovery",
+      "recovery"
+    ],
     "outcome": "Shoppers who abandon carts come back and complete the purchase",
     "metric": "Abandoned-cart recovery rate",
     "baseline": "4%",

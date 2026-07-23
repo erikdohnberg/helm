@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Raise checkout completion",
+    "aliases": [
+      "checkout completion",
+      "checkout",
+      "carts abandoned",
+      "payment entry"
+    ],
     "outcome": "Fewer carts abandoned between payment entry and confirmation",
     "metric": "Checkout completion rate",
     "baseline": "71%",

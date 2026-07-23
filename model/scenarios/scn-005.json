@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Ship scheduled report delivery",
+    "aliases": [
+      "scheduled delivery",
+      "scheduled report delivery",
+      "report exports",
+      "report delivery"
+    ],
     "outcome": "Customers schedule recurring report exports instead of manually re-running them",
     "metric": "Weekly active accounts using scheduled delivery",
     "baseline": "0",

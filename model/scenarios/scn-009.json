@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Make the top 5 integrations self-serve",
+    "aliases": [
+      "integrations",
+      "integration",
+      "self-serve",
+      "integration connections"
+    ],
     "outcome": "Customers connect the five most-used integrations without a support ticket",
     "metric": "Integration connections completed without support involvement",
     "baseline": "22%",

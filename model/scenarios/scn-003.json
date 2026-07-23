@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Launch patient mobile app in two pilot networks",
+    "aliases": [
+      "mobile app",
+      "patient mobile app",
+      "pilot networks",
+      "pilot bookings"
+    ],
     "outcome": "Patients in two pilot hospital networks book and manage appointments from the app",
     "metric": "Pilot bookings made via mobile app",
     "baseline": "0",

@@ -70,7 +70,9 @@ function toCharter(scn: any): Charter {
     reasoning: [{ id: `${scn.id}-r1`, claim: c.reasoning }],
     trade_offs: c.trade_offs ?? [],
     owners,
-    aliases: [c.title],
+    // Title plus the charter's declared aliases (both derived only from the
+    // charter's own text — see spec §4 and _meta.json changelog).
+    aliases: Array.from(new Set([c.title, ...(c.aliases ?? [])])),
     anchored_at: c.anchored_on,
     status: "Anchored",
     baseline: null,

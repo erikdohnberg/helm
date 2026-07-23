@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Expand EU payment methods",
+    "aliases": [
+      "eu payment methods",
+      "payment methods",
+      "eu checkout",
+      "eu"
+    ],
     "outcome": "EU customers pay with local payment methods instead of cards only",
     "metric": "EU checkout conversion",
     "baseline": "58%",

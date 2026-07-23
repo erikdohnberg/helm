@@ -8,6 +8,13 @@
   },
   "charter": {
     "title": "Migrate reporting to the new event pipeline",
+    "aliases": [
+      "migration",
+      "migrate",
+      "event pipeline",
+      "reports migrated",
+      "legacy warehouse"
+    ],
     "outcome": "All customer-facing reports read from the new event pipeline; legacy warehouse decommission unblocked",
     "metric": "Reports migrated (of 34)",
     "baseline": "0 of 34",

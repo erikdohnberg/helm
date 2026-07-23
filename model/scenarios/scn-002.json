@@ -8,6 +8,12 @@
   },
   "charter": {
     "title": "Cut sync failures for offline crews",
+    "aliases": [
+      "sync failures",
+      "sync",
+      "offline crews",
+      "failed syncs"
+    ],
     "outcome": "Field crews on poor connectivity stop losing work to failed syncs",
     "metric": "Sync failure rate on flaky-network sessions",
     "baseline": "6.1%",

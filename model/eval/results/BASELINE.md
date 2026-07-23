@@ -70,3 +70,68 @@ But "beat v0" cannot mean beat those inflated top-line numbers naively — they 
 ## Root cause and next step
 
 The bottleneck is the relevance mapping, precisely as spec §2 warns. The immediate lever is the charters' `aliases`: the loader currently seeds `aliases = [title]` only, and the titles don't appear in the signals. A v1 detector needs real relevance mapping (embeddings + LLM judgment, spec Stage 2), or at minimum a richer alias/keyword set learned from confirmed mappings. Until mapping fires on drift signals, no inactivity rule can distinguish a starving outcome from a busy one — it can only count days.
+
+---
+
+# v0.1 — same detector, charters now carry aliases
+
+v0.1 is the **same detector logic** (`v0-inactivity`, now version **1.1.0**); the only change is that the ten charters now carry an `aliases` list, each alias derived strictly from that charter's own text (title/outcome/metric/trade-offs) and never from the signals (spec §4; `_meta.json` changelog). The v0 zero-mapping result above is kept as history. Scorecards: `2026-07-23-v0-inactivity-n*-1.1.0/`.
+
+## What the mapping now matches
+
+7 of 10 charters now map ≥1 signal; **3 still map zero: scn-004, scn-005, scn-007.**
+
+| Scenario | Maps | On which needle |
+|---|---|---|
+| scn-001 | s4, s5 | "activation" |
+| scn-002 | s3, s4, s5 | "sync" |
+| scn-003 | s3 | "pilot networks" |
+| scn-004 | — | **zero** |
+| scn-005 | — | **zero** |
+| scn-006 | s2, s3 | "migration" |
+| scn-007 | — | **zero** |
+| scn-008 (control) | s2, s3, s4 | "eu" |
+| scn-009 (control) | s2 | "self-serve" |
+| scn-010 | s1, s3, s4 | "recovery" |
+
+**Why the three still map zero — the preview of Stage 2's real difficulty:**
+- **scn-004 & scn-007** — the drift is discussed *entirely* in the vocabulary of the displacing/structural event (promo/bundle/merchandising; reorg/Shipper AI/"8 days"), never in the outcome's own words. Outcome vocabulary is simply absent from the chatter.
+- **scn-005** — the outcome *is* named once, as "**Scheduled-delivery**" (hyphen), which the alias "scheduled delivery" (space) doesn't substring-match. Named and still missed, defeated by punctuation.
+
+These three are the honest measure of how hard real relevance mapping is: on nearly a third of the set, even the outcome's own vocabulary never appears verbatim in colloquial chatter.
+
+**Three mapping behaviors worth naming** (two preview later pipeline stages):
+- **scn-006 — topical relevance ≠ evidence type (the Stage 3 preview).** "migration" matches on s2/s3, but those signals *describe migration's absence* ("last message containing 'migration' was Aug 8", "standups mention migration zero times"). A substring mapper counts discussion *about* the outcome — including discussion of its stagnation — as activity on it, resetting the inactivity clock. Topical relevance and evidence type are different judgments: "last migration message was Aug 8" is topically relevant while being evidence of *absence*. Separating the two is exactly Stage 3's job (evidence extraction), which v0/v0.1 has no notion of.
+- **scn-009 — a true positive, not a false map.** "self-serve" matches on s2's "Salesforce self-serve flow." That is not off-topic: scn-009's charter *is* "make the top 5 integrations self-serve," and the Salesforce self-serve flow is that charter's own work in progress — the engineer is sequencing the Traxion spike *after* it. A crude substring correctly picked up genuine charter activity; activity like that resetting the clock is part of what should keep a live-but-uncommitted outcome clean.
+- **scn-008 — clean via a 2-character alias.** "eu" legitimately hits the EU re-anchor discussion, but a 2-char substring is exactly the over-eager match ("queue", "feud") a real mapper must not lean on.
+
+## Scorecard across N (v0.1)
+
+| N | recall | precision proxy | median lead (d) | control FP | hard fail | type acc | premature / on-time / late / missed |
+|---|---|---|---|---|---|---|---|
+| 5 | 75% | 57% | 13.5 | 1 | 0 | 16.7% | 2 / 3 / 1 / 2 |
+| 7 | 75% | 57% | 13.5 | 1 | 0 | 16.7% | 2 / 3 / 1 / 2 |
+| **10** | **75%** | **67%** | **13.5** | **0** | **0** | **16.7%** | **2 / 2 / 2 / 2** |
+| 14 | 63% | 60% | 27 | 0 | 0 | 20% | 2 / 2 / 1 / 3 |
+
+## What changed from v0, and why it's mostly the aliases working
+
+- **Recall dropped from a spurious 100% to 75%** — and the drop is the point. **scn-001 and scn-002 (displacement) now go `missed`**: the outcome is still discussed ("activation", "sync"), so mapped mentions keep the charter "active" and inactivity never trips. That is exactly what an inactivity detector *should* do on displacement, and it **partially restores the original prediction** ("miss injection/displacement") — for the two cases where the outcome vocabulary appears. scn-004/005/007 are still flagged only because their outcome vocabulary never maps (zero) — an honest limitation traceable to the mapping, not the rule.
+- **scn-006 is now caught on-time with lead 0** — it ties human realization exactly (the "migration"-as-absence mentions reset the clock until the final gap trips right at 09-14). No early warning delivered — a live instance of the scorer's on-time/lead-0 caveat, and closer to the "no real warning" spirit of the original "catch it late" prediction than v0's flattering +27.
+- **The scn-008 hard failure is eliminated.** With aliases, the recorded re-anchor discussion ("EU payments") maps as activity, so the deliberate-replacement control stays clean at **every** N (it was a hard failure at N=5/7 under v0). This is v0.1's clearest genuine improvement. scn-009 still false-positives at N=5/7 (clean at N≥10).
+
+## Revised operating point and bar to beat
+
+**Best operating point: N=10** — highest recall tier (75%) with zero control false positives and the best precision at that recall (67%), median lead 13.5d. N=14 buys lead time (27d) but drops scn-003 to `missed` (recall 63%).
+
+**The revised bar any future detector must beat (v0.1 @ N=10):** recall **75%**, precision proxy **67%**, median lead **13.5d**, control FPs **0**, hard failures **0**, drift-type accuracy **16.7%**, routing coverage 100% (still a proxy gimme). Timing: 2 on-time / 2 late / 2 premature / 2 missed. As before, the meaningful targets are **type accuracy (16.7% — v0.1 still labels everything `attention_decay`)**, control-cleanliness that survives long-timeline controls, and lead time earned by detection rather than by elapsed-time arithmetic on the zero-mappers.
+
+## Known confound: timeline-length leakage
+
+Both v0 and v0.1 still partly discriminate on **timeline length rather than drift signal**. The zero-mapping scenarios (scn-004/005/007) flag purely because their timelines run ≥ N days; the controls stay clean partly because their timelines are short (7–8 days). A control with a 6-week timeline would still be false-flagged; a fast drift with a short timeline would be missed. This is structural to any elapsed-time inactivity rule and **cannot be tuned away with N or with aliases** — every operating-point choice above is contaminated by it.
+
+The structural fix is the **noise-embedding step** — Stage 2's embedding-based relevance mapping (spec §6). Measuring per-outcome activity by semantic similarity (so "Scheduled-delivery" ≈ "scheduled delivery", and "8 days"/"reorg" can attach to the onboarding charter) turns "inactivity" into "no *relevant* activity" instead of "no calendar signals for N days." Only then does the elapsed-time confound disappear, because the clock is driven by outcome-relevant signal, not by the mere passage of dated events.
+
+## Note on alias generosity
+
+v0.1's numbers are sensitive to how generous the alias list is — a hand-tuned knob, not a learned one. This list used **outcome vocabulary only** and deliberately excluded trade-off/displacer terms (SSO, AI features, merchandising, US checkout). A more generous list (including displacer terms) would map more signals, reset more clocks, and push more scenarios to `missed`; a stingier list would leave more zero-mappers flagging on elapsed time. So the operating point moves with alias curation — one more reason the baseline is a floor, not a target, and why learned relevance mapping (not hand-picked substrings) is the real Stage 2 job.
