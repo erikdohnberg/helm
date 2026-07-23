@@ -9,6 +9,7 @@ For the current phase, see the Current phase section of [`CLAUDE.md`](./CLAUDE.m
 ## Layout
 
 - `contracts/` — versioned zod schemas (`Charter`, `Signal`, `DriftReport`/`DriftEvent`, taxonomy) with inferred TS types, `CONTRACTS_VERSION`, and round-trip tests — the only interface between pipeline stages
-- `eval/` — the eval harness: scenario loader, replay runner, scorer, scorecard writer, a `NullDetector` baseline, tests, and committed `results/` scorecards
+- `eval/` — the eval harness: scenario loader, replay runner, scorer, scorecard writer, a `NullDetector` baseline, tests, and committed `results/` scorecards (incl. `results/BASELINE.md`)
+- `detectors/` — pipeline-stage and baseline detectors; currently `v0-inactivity/` (the spec §8.4 baseline)
 - `scenarios/` — canonical labeled drift scenarios (`scn-*.json` + `_meta.json`), a `validate.ts` checker, a `generate-doc.ts` renderer, and the generated `drift-eval-scenarios.md`
 - `CLAUDE.md` — working context for future sessions

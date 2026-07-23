@@ -8,7 +8,7 @@
  * model/eval/results/<run-date>-<detector>-<version>/ and are never overwritten.
  */
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { NullDetector, type Detector } from "./detector.ts";
 import { loadAllScenarios } from "./loader.ts";
@@ -37,19 +37,21 @@ function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-// CLI
-const runDate = process.argv[2] && /^\d{4}-\d{2}-\d{2}$/.test(process.argv[2]) ? process.argv[2] : todayUtc();
-const detectorKey = process.argv[3] ?? "null";
-const detector = DETECTORS[detectorKey];
-if (!detector) {
-  console.error(`unknown detector "${detectorKey}"; known: ${Object.keys(DETECTORS).join(", ")}`);
-  process.exit(1);
+// CLI — only when run.ts is the entry point, not when imported for runHarness.
+const isMain = process.argv[1] ? import.meta.url === pathToFileURL(process.argv[1]).href : false;
+if (isMain) {
+  const runDate = process.argv[2] && /^\d{4}-\d{2}-\d{2}$/.test(process.argv[2]) ? process.argv[2] : todayUtc();
+  const detectorKey = process.argv[3] ?? "null";
+  const detector = DETECTORS[detectorKey];
+  if (!detector) {
+    console.error(`unknown detector "${detectorKey}"; known: ${Object.keys(DETECTORS).join(", ")}`);
+    process.exit(1);
+  }
+  const { card, dir } = runHarness(detector, runDate);
+  console.log(`wrote ${dir}`);
+  console.log(
+    `recall ${(card.metrics.detection_recall * 100).toFixed(1)}% · ` +
+      `control FPs ${card.metrics.control_false_positive_count} · ` +
+      `missed ${card.timing_breakdown.missed}/${card.totals.drift_scenarios}`
+  );
 }
-
-const { card, dir } = runHarness(detector, runDate);
-console.log(`wrote ${dir}`);
-console.log(
-  `recall ${(card.metrics.detection_recall * 100).toFixed(1)}% · ` +
-    `control FPs ${card.metrics.control_false_positive_count} · ` +
-    `missed ${card.timing_breakdown.missed}/${card.totals.drift_scenarios}`
-);

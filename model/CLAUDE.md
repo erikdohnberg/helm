@@ -26,7 +26,9 @@ Operational rules for every working session in this directory. Equal in force to
 
 ## Current phase
 
-**Phase 1 — eval harness and corpora.** Phase 0 is complete: taxonomy v1.1, the v1 contracts (`Charter`/`Signal`/`DriftReport`, frozen at `CONTRACTS_VERSION`), and the canonical scenario set. Phase 1 so far: the eval harness (loader, replay runner, scorer, scorecard writer) and the `NullDetector` floor scorecard are done. **Remaining for Phase 1 exit (spec §10):** implement the v0 inactivity baseline and put its scorecard on the board. **Update this section as phases advance.**
+**Phase 2 — pipeline v1.** Phases 0 and 1 are complete: taxonomy v1.1, the v1 contracts (`Charter`/`Signal`/`DriftReport`, frozen at `CONTRACTS_VERSION`), the canonical scenario set, the eval harness (loader, replay runner, scorer, scorecard writer), and the v0 inactivity baseline — scored, with the bar written up in `eval/results/BASELINE.md`. Phase 2 (spec §10): build pipeline stages 1–5 on the scenarios, iterating stage-by-stage against component evals; exit when the pipeline beats v0 on the end-to-end scorecard with precision above target. **Update this section as phases advance.**
+
+What the baseline actually showed (read `eval/results/BASELINE.md` before building a detector): v0's crude substring mapping matches **0 signals**, so it degenerates into an elapsed-time timer and its 100% recall / 75% precision are spurious dataset artifacts. The first meaningful number to beat is **drift-type accuracy 12.5%**, not recall — and real **relevance mapping is the bottleneck** (spec §2). The zero-mapping cause is the loader seeding `aliases = [title]` only.
 
 Known debt to retire on schedule: routing is scored against charter owners as a proxy for the prose `who_needed_to_hear_the_flag` — the structured `expected_recipients` pass is scheduled scenario-data work, not open-ended "future".
 
@@ -35,7 +37,8 @@ Known debt to retire on schedule: routing is scored against charter owners as a 
 - `README.md` — what this directory is and its current phase
 - `CLAUDE.md` — this file; working context and the hard rules above
 - `contracts/` — versioned zod schemas (`Charter`, `Signal`, `DriftReport`/`DriftEvent`, taxonomy) + inferred TS types, `CONTRACTS_VERSION`, and `roundtrip.test.ts`; the only interface between pipeline stages
-- `eval/` — scenario loader, replay runner, scorer, scorecard writer, `NullDetector`, and tests; scorecards land in `eval/results/<date>-<detector>-<version>/` (append-only, never overwritten)
+- `eval/` — scenario loader, replay runner, scorer, scorecard writer, `NullDetector`, and tests; scorecards land in `eval/results/<date>-<detector>-<version>/` (append-only, never overwritten), with `eval/results/BASELINE.md` as the bar to beat
+- `detectors/` — pipeline-stage and baseline detectors; currently `v0-inactivity/` (the spec §8.4 baseline + its `run-baseline.ts`)
 - `scenarios/` — canonical labeled scenarios (`scn-*.json`), `_meta.json`, `validate.ts`, `generate-doc.ts`, and the generated `drift-eval-scenarios.md`
 - `package.json` — standalone package manifest, independent of the Next.js app
 - `tsconfig.json` — standalone TypeScript config for this directory
