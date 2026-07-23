@@ -5,6 +5,19 @@
 
 ---
 
+## Changelog
+
+- **2026-07-23 — Drift taxonomy → v1.1**, reconciled against the eval set (`drift-eval-scenarios.json`). Net: seven drift types (was six). Changes to §3:
+  - **Added `Capacity withdrawal`** — a documented removal of a charter's committed people (reorg, incident-remediation plan) that is incompatible with the target on its face; fires point-in-time from the change-document × charter, not as a trend. Covers scn-003, scn-007, which the six-type space forced into Priority displacement.
+  - **Added `Commitment overrun`** — an approved, bounded exception (loan, spike, timeboxed favor) that outlives its stated bound with no re-approval; evidence is stated duration vs. elapsed time, and a correct flag cites the original approval terms. Covers scn-005.
+  - **Rewrote `Priority displacement`** to discriminate on *evidence basis* (behavioral, inferred from effort shifting with no authorizing artifact) rather than tempo — because fast pivots (scn-001 commits in ~3 days, scn-002 in one meeting) are still displacement. The behavioral-vs-declared line separates it from Capacity withdrawal.
+  - **Merged `Silent abandonment` into `Attention decay`** as its terminal severity (sustained zero-signal after baseline). Rationale: identical detection signature — absence of activity against baseline — at greater depth; scn-006, the purest starvation case, maps to decay. Abandonment is now a point on the decay severity scale, not a separate type. This drops the count from eight back to seven.
+  - **Extended the explicit non-drift list** with *uncommitted discussion* — charter-excluded work discussed but never staffed/scheduled/documented (reference case: scn-009).
+  - Added a boundary paragraph (behavioral vs. declared vs. bounded-then-breached) and a coverage table mapping every type to its scenarios, with Scope mutation, Reasoning contradiction, and Metric detachment shown as explicit primary-coverage gaps.
+  - **Reconciled §7 (cold start) and §10 (Phase 1) with the seven-type space.** §7 now excludes the four document-relative types (contradiction, scope mutation, capacity withdrawal, commitment overrun) from baseline-relativity and lets them fire during calibration; its calibration-suppression list is the three baseline-relative types (attention decay, priority displacement, metric detachment) — metric detachment added to that list, since metric-mention-rate against a not-yet-built baseline is noise (a pre-existing omission, fixed here). §10 Phase 1 corpus target updated six → seven drift types.
+
+---
+
 ## 1. Reframing
 
 Helm's prior framing treated the product as an agent with integrations, where the intelligence was an implementation detail. This spec inverts that. Helm is a model that answers one question daily:
@@ -31,20 +44,40 @@ Capability 3 is the product. Capabilities 1 and 2 exist to feed it, and each nee
 
 ## 3. Drift taxonomy
 
-"Drift" is currently underspecified in Helm (the prototype detects inactivity only). The model needs a label space before anything else, because the taxonomy defines the training targets, the eval labels, and the output schema. Proposed v1 taxonomy:
+"Drift" is currently underspecified in Helm (the prototype detects inactivity only). The model needs a label space before anything else, because the taxonomy defines the training targets, the eval labels, and the output schema. Taxonomy **v1.1** (reconciled against the eval set; see the changelog):
 
 | Type | Definition | Primary evidence |
 |---|---|---|
-| **Attention decay** | Discussion, decisions, and work referencing the outcome decline below its baseline | Mention frequency, meeting agenda presence, thread activity |
-| **Priority displacement** | A new initiative absorbs the people or time previously spent on the outcome, without an explicit trade-off decision | New topic clusters rising while charter-mapped activity falls; same actors involved in both |
-| **Silent abandonment** | Activity stops entirely with no recorded decision | Sustained zero-signal after a baseline period |
+| **Attention decay** | Discussion, decisions, and work referencing the outcome decline below its baseline. Its terminal severity is *silent abandonment* — sustained zero-signal after the baseline period, with no recorded decision to stop | Mention frequency, meeting agenda presence, thread activity; depth of decline against baseline, up to and including zero |
+| **Priority displacement** | Effort is drifting from the outcome to a competing initiative, inferred from *behavior* — the same actors now working both workstreams, charter-mapped activity falling as the competing topic rises — with no authorizing artifact that prices the trade-off. This is the behavioral counterpart to Capacity withdrawal: displacement is *observed* in what people do; withdrawal is *declared* in a document | Same actors on both workstreams; charter-mapped activity falling while a competing topic cluster rises; absence of any artifact that authorizes the shift or records its cost |
+| **Capacity withdrawal** | A documented removal of the owners or committed capacity a charter depends on — a reorg, an incident-remediation plan, a headcount change — that reassigns those people to other work and is incompatible with the anchored target on its face, with the charter left unrevised | Change-document × charter: a published artifact that reassigns named charter owners/capacity, reconciled against the charter's staffing assumptions and target; fires point-in-time on that incompatibility, not as a trend, and needs no decline window |
+| **Commitment overrun** | An approved, explicitly bounded exception against the charter's capacity — a loan, a spike, a timeboxed favor — that outlives its stated bound with no recorded re-approval | Stated duration/scope of the approved exception vs. elapsed time and current scope; fires when reality exceeds the bound. A correct flag cites the original approval terms (who approved what, for how long) |
 | **Scope mutation** | The outcome is still discussed, but what people mean by it has changed from the charter definition | Semantic distance between charter text and current discussion of the "same" outcome |
 | **Reasoning contradiction** | Decisions are made that conflict with the charter's stated reasoning or trade-offs | Extracted decisions vs. charter rationale |
 | **Metric detachment** | The success metric stops appearing in discussion; progress claims become unquantified | Metric mention rate, presence of numbers in status signals |
 
-Each drift event the model emits carries exactly one primary type (secondary types allowed), a severity, a confidence, and citations to the underlying signals. The taxonomy is versioned; changing it is a breaking change to the output contract.
+The three capacity-related types are deliberately distinct by *evidence signature*, not by outcome — a detector keyed on one signature misses the other two. **Priority displacement** is *behavioral*: it is inferred from what people are observably doing (effort shifting, same actors on both sides, charter activity falling) when no artifact authorizes the shift. **Capacity withdrawal** is *declared*: an artifact exists that reassigns the people and is incompatible with the target on its face, so it can fire point-in-time from the document alone. **Commitment overrun** is *bounded-then-breached*: the reallocation was approved and time-boxed, and the drift is precisely that the bound lapsed without re-approval. Behavioral-vs-declared, not tempo, is the discriminator: displacement can commit within days (a competing priority absorbing capacity fast is still displacement), and withdrawal is recognizable the moment its document lands.
 
-Explicit non-drift, so the model doesn't cry wolf: seasonal quiet periods (holidays, launch weeks focused elsewhere), an outcome that is simply done, and deliberate, recorded re-prioritization. The last one matters – if leadership explicitly decided to stop, that is Helm's "strategic memory" feature working, not drift.
+Each drift event the model emits carries exactly one primary type (secondary types allowed), a severity, a confidence, and citations to the underlying signals. Severity now carries real weight for attention decay, whose deepest point (sustained zero-signal) is silent abandonment rather than a separate type. The taxonomy is versioned; changing it is a breaking change to the output contract.
+
+Explicit non-drift, so the model doesn't cry wolf: seasonal quiet periods (holidays, launch weeks focused elsewhere), an outcome that is simply done, deliberate recorded re-prioritization, and uncommitted discussion — charter-excluded work that is discussed, even enthusiastically, but never staffed, scheduled, or documented as work. Two of these carry the most weight. Recorded re-prioritization: if leadership explicitly decided to stop, that is Helm's "strategic memory" feature working, not drift. Uncommitted discussion (reference case: scn-009, a lively integration thread that dies in a week with no staffing, tickets, or calendar time): discussion of charter-excluded work is healthy; only execution of it is drift — the distinction is commitment, not topic.
+
+### Coverage against the eval set
+
+Every v1.1 type mapped to the scenarios in `drift-eval-scenarios.json` that exercise it as the *primary* label. Types with no scenario are shown as explicit gaps to fill, not as candidates to cut.
+
+| Type | Scenarios (primary) | Status |
+|---|---|---|
+| Priority displacement | 001, 002, 004, 010 | covered |
+| Capacity withdrawal | 003, 007 | covered |
+| Commitment overrun | 005 | covered |
+| Attention decay | 006 | covered (006 is the purest starvation case; its terminal severity is silent abandonment) |
+| Scope mutation | — | **gap** — no primary scenario; add one |
+| Reasoning contradiction | — | **gap** — appears only as a secondary signal (001, 002, 004); add a primary scenario |
+| Metric detachment | — | **gap** — appears only as a secondary signal (006, 007); add a primary scenario |
+| *non-drift control* | 008 (deliberate replacement), 009 (uncommitted discussion) | covered |
+
+This mapping matches the expectation set for these decisions exactly; no scenario is disputed.
 
 ---
 
@@ -134,7 +167,7 @@ Two properties are load-bearing:
 
 ## 7. Baselines and cold start
 
-Every drift type except contradiction is relative to what "normal" looks like for that charter in that org. First [2–4 weeks – to be validated] after anchoring is a calibration window: the model builds the charter's baseline signal profile (activity level, active actors, typical sources) and emits no decay/displacement/abandonment events. Contradiction and scope mutation can fire during calibration since they're relative to the charter text, not to a baseline.
+Every drift type except contradiction, scope mutation, capacity withdrawal, and commitment overrun is relative to what "normal" looks like for that charter in that org. First [2–4 weeks – to be validated] after anchoring is a calibration window: the model builds the charter's baseline signal profile (activity level, active actors, typical sources) and emits no attention-decay, priority-displacement, or metric-detachment events. Contradiction, scope mutation, capacity withdrawal, and commitment overrun can fire during calibration since they're evaluated against the charter text or an authorizing document, not a baseline.
 
 ---
 
@@ -204,7 +237,7 @@ Phases gate on eval results, not on calendar.
 Finalize drift taxonomy, Signal schema, Charter schema, DriftReport contract. Exit: schemas versioned and frozen for v1; taxonomy reviewed against [2–3 real drift stories from orgs you know – to collect].
 
 **Phase 1 – Eval harness and corpora.**
-Build the harness (corpus loader, replay runner, scorecards, adjudication tooling). Generate first synthetic corpora covering all six drift types plus non-drift controls. Implement the v0 inactivity baseline and score it – this produces the first scorecard and validates the harness itself. Exit: harness runs end-to-end; baseline numbers on the board.
+Build the harness (corpus loader, replay runner, scorecards, adjudication tooling). Generate first synthetic corpora covering all seven drift types plus non-drift controls. Implement the v0 inactivity baseline and score it – this produces the first scorecard and validates the harness itself. Exit: harness runs end-to-end; baseline numbers on the board.
 
 **Phase 2 – Pipeline v1.**
 Stages 1–5 as specced, on synthetic corpora. Iterate stage-by-stage using component evals to localize failures. Exit: beats the v0 baseline on the end-to-end scorecard on synthetic data, precision above the working target.
