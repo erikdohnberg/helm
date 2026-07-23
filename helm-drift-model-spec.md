@@ -7,6 +7,12 @@
 
 ## Changelog
 
+- **2026-07-23 — Contracts implemented (v1).** The §4/§5/§9 schemas are now runtime-validated code in `model/contracts/` (zod, TypeScript types inferred from the schemas), carrying a `CONTRACTS_VERSION` constant. Spec edits in the same commit keep prose and code in sync:
+  - **§9 `DriftEvent`** gains `suggested_recipients[]` (actor id + short reason) — routing is scored by the eval set — and `contradicted_claim_ids[]` (present only when reasoning_contradiction is the primary or a secondary type). Its `drift_events` field list is made explicit to match the contract.
+  - **§9 `DriftReport`** gains `contracts_version` next to `model_version`, so a report stamps the contract shape it was produced against instead of the harness reaching for the constant out-of-band.
+  - **§4 `Charter.reasoning`** is now discrete `{ id, claim }` objects rather than bare strings, so a reasoning_contradiction event can cite the specific claim it collides with.
+  - **§5 `Signal.audience`** overlap is now `owner_overlap_charter_ids[]` (which charter owners are present) rather than a bare boolean, which was under-specified for a multi-charter org.
+  - **§3** documents that attention decay's terminal (abandonment) endpoint is expressed as `attention_decay` + `severity: major` + sustained-zero-signal evidence, not a distinct severity value.
 - **2026-07-23 — Eval set canonicalized.** The monolithic root `drift-eval-scenarios.json` moved into `model/scenarios/` as one file per scenario plus `_meta.json`, each scenario gaining a `ground_truth.drift_type` from the v1.1 taxonomy (controls use `none` + `control_kind`). Added `model/scenarios/validate.ts` (schema + §3-coverage-agreement checks) and `model/scenarios/generate-doc.ts` (renders `drift-eval-scenarios.md`). §3's coverage-table reference updated to the new location; the JSON is now the source of truth and the markdown is generated.
 - **2026-07-23 — Drift taxonomy → v1.1**, reconciled against the eval set (`drift-eval-scenarios.json`). Net: seven drift types (was six). Changes to §3:
   - **Added `Capacity withdrawal`** — a documented removal of a charter's committed people (reorg, incident-remediation plan) that is incompatible with the target on its face; fires point-in-time from the change-document × charter, not as a trend. Covers scn-003, scn-007, which the six-type space forced into Priority displacement.
@@ -59,7 +65,7 @@ Capability 3 is the product. Capabilities 1 and 2 exist to feed it, and each nee
 
 The three capacity-related types are deliberately distinct by *evidence signature*, not by outcome — a detector keyed on one signature misses the other two. **Priority displacement** is *behavioral*: it is inferred from what people are observably doing (effort shifting, same actors on both sides, charter activity falling) when no artifact authorizes the shift. **Capacity withdrawal** is *declared*: an artifact exists that reassigns the people and is incompatible with the target on its face, so it can fire point-in-time from the document alone. **Commitment overrun** is *bounded-then-breached*: the reallocation was approved and time-boxed, and the drift is precisely that the bound lapsed without re-approval. Behavioral-vs-declared, not tempo, is the discriminator: displacement can commit within days (a competing priority absorbing capacity fast is still displacement), and withdrawal is recognizable the moment its document lands.
 
-Each drift event the model emits carries exactly one primary type (secondary types allowed), a severity, a confidence, and citations to the underlying signals. Severity now carries real weight for attention decay, whose deepest point (sustained zero-signal) is silent abandonment rather than a separate type. The taxonomy is versioned; changing it is a breaking change to the output contract.
+Each drift event the model emits carries exactly one primary type (secondary types allowed), a severity, a confidence, and citations to the underlying signals. Severity now carries real weight for attention decay, whose deepest point (sustained zero-signal) is silent abandonment rather than a separate type — in the output contract that terminal endpoint is expressed as `attention_decay` with `severity: major` and evidence of sustained zero-signal, not as a distinct severity value (a third severity would desynchronize the contract from the eval ground truth, which knows only major/minor/none). The taxonomy is versioned; changing it is a breaking change to the output contract.
 
 Explicit non-drift, so the model doesn't cry wolf: seasonal quiet periods (holidays, launch weeks focused elsewhere), an outcome that is simply done, deliberate recorded re-prioritization, and uncommitted discussion — charter-excluded work that is discussed, even enthusiastically, but never staffed, scheduled, or documented as work. Two of these carry the most weight. Recorded re-prioritization: if leadership explicitly decided to stop, that is Helm's "strategic memory" feature working, not drift. Uncommitted discussion (reference case: scn-009, a lively integration thread that dies in a week with no staffing, tickets, or calendar time): discussion of charter-excluded work is healthy; only execution of it is drift — the distinction is commitment, not topic.
 
@@ -116,7 +122,7 @@ Signal {
   id, org_id, occurred_at, ingested_at
   source_type      // enum below
   actors[]         // stable person IDs (identity resolution is a connector concern)
-  audience         // channel/meeting/doc membership size + owner-overlap with charters
+  audience         // channel/meeting/doc membership size + which charter owners are present (owner_overlap_charter_ids[])
   content          // text payload
   thread_ref       // conversation grouping key, if any
   parent_ref       // reply-to / revision-of
@@ -216,15 +222,17 @@ Daily, per org:
 
 ```
 DriftReport {
-  org_id, run_date, model_version
+  org_id, run_date, model_version, contracts_version
   charter_states[]     // per charter: alignment score trend, activity vs baseline, open items
-  drift_events[]       // type, severity, confidence, charter_id, evidence[] (quoted, sourced)
+  drift_events[]       // id, type (primary + optional secondary), severity, confidence, charter_id, evidence[] (quoted, sourced), suggested_recipients[] (actor id + reason), contradicted_claim_ids[] (when reasoning_contradiction)
   competing_topics[]   // unanchored topic clusters gaining sustained activity
   coverage             // sources ingested, signal counts, gaps (missed batches, excluded spaces)
 }
 ```
 
 `coverage` is not optional telemetry – consumers must be able to distinguish "no drift" from "no data". A quiet report caused by a broken connector must be identifiable as such.
+
+`suggested_recipients` names the actor ids a drift event should route to, each with a short reason. Routing is part of the contract, not a delivery-layer afterthought: a flag that reaches only the side already holding that half of the picture hasn't closed the gap the event describes, and the eval set scores this explicitly (see the `information_asymmetry` / `who_needed_to_hear_the_flag` fields in the scenarios).
 
 Consumers of this contract (nudge delivery, alignment threads, memory records) are downstream products. None of them are in this spec, and the contract is the only interface they get.
 
