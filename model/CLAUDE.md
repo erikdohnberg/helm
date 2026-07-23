@@ -26,7 +26,9 @@ Operational rules for every working session in this directory. Equal in force to
 
 ## Current phase
 
-**Phase 0 — contracts and taxonomy.** Finalize the drift taxonomy and the `Signal`, `Charter`, and `DriftReport` schemas that the pipeline exchanges. Exit criteria (per spec §10): schemas versioned and frozen for v1, and the taxonomy reviewed against real drift stories. No model logic, schemas, or eval code has been written yet. **Update this section as phases advance** (next: Phase 1 — eval harness and corpora, including the v0 baseline).
+**Phase 1 — eval harness and corpora.** Phase 0 is complete: taxonomy v1.1, the v1 contracts (`Charter`/`Signal`/`DriftReport`, frozen at `CONTRACTS_VERSION`), and the canonical scenario set. Phase 1 so far: the eval harness (loader, replay runner, scorer, scorecard writer) and the `NullDetector` floor scorecard are done. **Remaining for Phase 1 exit (spec §10):** implement the v0 inactivity baseline and put its scorecard on the board. **Update this section as phases advance.**
+
+Known debt to retire on schedule: routing is scored against charter owners as a proxy for the prose `who_needed_to_hear_the_flag` — the structured `expected_recipients` pass is scheduled scenario-data work, not open-ended "future".
 
 ## File map
 
