@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local credentials & machine-local settings
+.claude/settings.local.json
+
+# drift-model pipeline: audit logs are local-only (LLM call transcripts).
+# NOTE: model/pipeline/cache/ is intentionally NOT ignored — response-cache
+# entries are committed by design (see cache spec).
+model/pipeline/logs/
