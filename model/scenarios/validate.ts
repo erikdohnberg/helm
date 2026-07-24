@@ -72,7 +72,9 @@ const REQUIRED_GT = [
   "should_flag",
   "earliest_reasonable_flag_signal",
   "flag_rationale",
+  "expected_recipients",
 ];
+const ROUTING_SIDES = new Set(["team", "leadership", "cross_functional"]);
 
 for (const { file, data: s } of scenarios) {
   const id = s?.id ?? basename(file, ".json");
@@ -157,6 +159,44 @@ for (const { file, data: s } of scenarios) {
     }
   } else if (gt.is_drift === true) {
     fail(id, `is_drift true but earliest_reasonable_flag_signal is null`);
+  }
+
+  // expected_recipients: structured routing target (replaces the charter-owner proxy).
+  const recipients = gt.expected_recipients;
+  if (!Array.isArray(recipients)) {
+    fail(id, `ground_truth.expected_recipients must be an array`);
+  } else {
+    if (gt.is_drift === false && recipients.length > 0) {
+      fail(id, `control scenario must have empty expected_recipients (no one to route to)`);
+    }
+    if (gt.is_drift === true && recipients.length === 0) {
+      fail(id, `drift scenario must name at least one expected_recipient`);
+    }
+    const seen = new Set<string>();
+    for (const r of recipients) {
+      if (!r || typeof r.actor_id !== "string" || !r.actor_id) fail(id, `expected_recipient missing actor_id`);
+      else if (seen.has(r.actor_id)) fail(id, `duplicate expected_recipient ${r.actor_id}`);
+      else seen.add(r.actor_id);
+      if (!ROUTING_SIDES.has(r?.side)) fail(id, `expected_recipient "${r?.actor_id}" side "${r?.side}" invalid (team|leadership|cross_functional)`);
+      if (typeof r?.why !== "string" || !r.why) fail(id, `expected_recipient "${r?.actor_id}" missing a "why"`);
+    }
+  }
+
+  // contradicted_claim_ids (reasoning_contradiction): must reference real reasoning claim ids.
+  if ("contradicted_claim_ids" in gt) {
+    const claimIds = new Set(
+      Array.isArray(s.charter?.reasoning) ? s.charter.reasoning.map((c: any) => c.id) : []
+    );
+    if (!Array.isArray(gt.contradicted_claim_ids) || gt.contradicted_claim_ids.length === 0) {
+      fail(id, `contradicted_claim_ids must be a non-empty array when present`);
+    } else {
+      for (const cid of gt.contradicted_claim_ids) {
+        if (!claimIds.has(cid)) fail(id, `contradicted_claim_ids references "${cid}" — no such reasoning claim (needs discrete { id, claim } reasoning)`);
+      }
+    }
+    if (gt.drift_type !== "reasoning_contradiction" && !(gt.secondary_types ?? []).includes?.("reasoning_contradiction")) {
+      fail(id, `contradicted_claim_ids present but drift_type is not reasoning_contradiction`);
+    }
   }
 }
 

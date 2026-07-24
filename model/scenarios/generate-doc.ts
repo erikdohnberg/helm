@@ -96,7 +96,10 @@ for (const s of scenarios) {
   p("");
   p(`- **${c.title}** — ${c.outcome}`);
   p(`- **Metric:** ${c.metric} (${c.baseline} → ${c.target}, ${c.timeframe})`);
-  p(`- **Reasoning:** ${c.reasoning}`);
+  const reasoningText = Array.isArray(c.reasoning)
+    ? c.reasoning.map((r: any) => (typeof r === "string" ? r : `(${r.id}) ${r.claim}`)).join("  ")
+    : c.reasoning;
+  p(`- **Reasoning:** ${reasoningText}`);
   p(`- **Trade-offs:** ${(c.trade_offs ?? []).map((t: string) => t).join("; ")}`);
   p(`- **Owners:** outcome — ${c.outcome_owner}; decision — ${c.decision_owner}  ·  **Anchored:** ${c.anchored_on}`);
   p("");
@@ -130,6 +133,10 @@ for (const s of scenarios) {
   p(`- **flag_rationale:** ${gt.flag_rationale}`);
   if (gt.expected_flag_summary) p(`- **expected_flag_summary:** ${gt.expected_flag_summary}`);
   if (gt.expected_behavior_instead) p(`- **expected_behavior_instead:** ${gt.expected_behavior_instead}`);
+  if (gt.contradicted_claim_ids) p(`- **contradicted_claim_ids:** ${gt.contradicted_claim_ids.join(", ")}`);
+  if (Array.isArray(gt.expected_recipients) && gt.expected_recipients.length) {
+    p(`- **expected_recipients:** ${gt.expected_recipients.map((r: any) => `${r.actor_id} (${r.side})`).join(", ")}`);
+  }
   if (gt.grader_notes) p(`- **grader_notes:** ${gt.grader_notes}`);
   p("");
 

@@ -19,7 +19,16 @@
     "baseline": "6.1%",
     "target": "Under 1.5%",
     "timeframe": "FY26 Q3",
-    "reasoning": "Sync failures are the top churn-tagged complaint for two consecutive quarters and the top support ticket category. Retention is the year's theme.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Sync failures are the top churn-tagged complaint for two consecutive quarters and the top support ticket category."
+      },
+      {
+        "id": "r2",
+        "claim": "Retention is the year's theme."
+      }
+    ],
     "trade_offs": [
       "No net-new AI features from the platform group this quarter",
       "Reporting engine refresh deferred"
@@ -89,7 +98,19 @@
     "earliest_reasonable_flag_signal": "s3",
     "flag_rationale": "s1 is a legitimate exec exploration and s2 is a timeboxed spike, both compatible with the charter. s3 reassigns named engineers indefinitely and explicitly pushes sync work; that is the commitment point.",
     "expected_flag_summary": "Two platform engineers moved full-time to the voice-notes summit demo and sync conflict-resolution work was pushed to late quarter. The Q3 record of intent commits this group to cutting sync failures below 1.5% and rules out net-new AI features. If voice replaces or reduces the sync outcome, record that decision and its cost.",
-    "grader_notes": "Hard social case: the drift source is the decision owner herself, and the authority gradient makes the gap self-sealing — the PM reasonably assumes an exec-initiated change was priced, the exec reasonably assumes an unpriced change would be challenged. Score whether the flag is addressed to both sides of that gap (CEO and PM) and whether it frames an unpriced trade-off as a decision to make, not an accusation. Helm's value here is that a neutral record can ask the question neither person's picture prompted them to ask."
+    "grader_notes": "Hard social case: the drift source is the decision owner herself, and the authority gradient makes the gap self-sealing — the PM reasonably assumes an exec-initiated change was priced, the exec reasonably assumes an unpriced change would be challenged. Score whether the flag is addressed to both sides of that gap (CEO and PM) and whether it frames an unpriced trade-off as a decision to make, not an accusation. Helm's value here is that a neutral record can ask the question neither person's picture prompted them to ask.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-june-park",
+        "side": "leadership",
+        "why": "decision owner who redirected the group without pricing the trade-off"
+      },
+      {
+        "actor_id": "actor-tomas-reyes",
+        "side": "team",
+        "why": "outcome owner — confirmation that surfacing the unpriced trade is expected, not insubordinate"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "Tomás read the CEO's summit ask as a decision already made above him — when the decision owner herself redirects the group, a PM reasonably assumes the trade-off was weighed at her level. He planned around it as settled direction, not as something awaiting his challenge.",

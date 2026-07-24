@@ -16,9 +16,9 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 | Priority displacement | scn-001, scn-002, scn-004, scn-010 |
 | Capacity withdrawal | scn-003, scn-007 |
 | Commitment overrun | scn-005 |
-| Scope mutation | — (gap) |
-| Reasoning contradiction | — (gap) |
-| Metric detachment | — (gap) |
+| Scope mutation | scn-012 |
+| Reasoning contradiction | scn-011 |
+| Metric detachment | scn-013 |
 | _non-drift control_ | scn-008 (deliberate_replacement), scn-009 (uncommitted_discussion) |
 
 ## Design notes
@@ -49,7 +49,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Double self-serve activation** — New workspaces reach their first shared ledger within 24 hours of signup
 - **Metric:** Percentage of new workspaces activated within 24h (17% → 34%, FY26 Q3)
-- **Reasoning:** Paid acquisition is efficient but activation is the leak. Board agreed the quarter is about converting signups we already get, not adding channels or segments.
+- **Reasoning:** (r1) Paid acquisition is efficient but activation is the leak.  (r2) The board agreed the quarter is about converting signups we already get, not adding channels or segments.
 - **Trade-offs:** Enterprise feature requests deferred to Q4, including SSO and audit logs; No new onboarding experiments for the EU segment this quarter
 - **Owners:** outcome — Priya Nair (PM); decision — Dana Okafor (CPO)  ·  **Anchored:** 2026-06-28
 
@@ -78,6 +78,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s3
 - **flag_rationale:** s1 and s2 alone could be a scoping exercise. A shared technical design doc with two named engineers (s3) is committed effort against a deliverable the charter explicitly deferred. Waiting for s4 still beats the humans but gives up a week.
 - **expected_flag_summary:** Two growth-pod engineers are building SAML SSO for the Meridian deal. The Q3 record of intent explicitly deferred SSO to Q4 to protect self-serve activation. Re-align with the CPO and CRO before sprint planning, or record a deliberate change of intent and decide what stops.
+- **expected_recipients:** actor-dana-okafor (leadership), actor-cro (leadership)
 - **grader_notes:** A flag at s1 or s2 should score as premature. The eval should reward citing the specific recorded trade-off, not just detecting new work.
 
 ### Information asymmetry
@@ -99,7 +100,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Cut sync failures for offline crews** — Field crews on poor connectivity stop losing work to failed syncs
 - **Metric:** Sync failure rate on flaky-network sessions (6.1% → Under 1.5%, FY26 Q3)
-- **Reasoning:** Sync failures are the top churn-tagged complaint for two consecutive quarters and the top support ticket category. Retention is the year's theme.
+- **Reasoning:** (r1) Sync failures are the top churn-tagged complaint for two consecutive quarters and the top support ticket category.  (r2) Retention is the year's theme.
 - **Trade-offs:** No net-new AI features from the platform group this quarter; Reporting engine refresh deferred
 - **Owners:** outcome — Tomás Reyes (PM); decision — June Park (CEO)  ·  **Anchored:** 2026-06-30
 
@@ -128,6 +129,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s3
 - **flag_rationale:** s1 is a legitimate exec exploration and s2 is a timeboxed spike, both compatible with the charter. s3 reassigns named engineers indefinitely and explicitly pushes sync work; that is the commitment point.
 - **expected_flag_summary:** Two platform engineers moved full-time to the voice-notes summit demo and sync conflict-resolution work was pushed to late quarter. The Q3 record of intent commits this group to cutting sync failures below 1.5% and rules out net-new AI features. If voice replaces or reduces the sync outcome, record that decision and its cost.
+- **expected_recipients:** actor-june-park (leadership), actor-tomas-reyes (team)
 - **grader_notes:** Hard social case: the drift source is the decision owner herself, and the authority gradient makes the gap self-sealing — the PM reasonably assumes an exec-initiated change was priced, the exec reasonably assumes an unpriced change would be challenged. Score whether the flag is addressed to both sides of that gap (CEO and PM) and whether it frames an unpriced trade-off as a decision to make, not an accusation. Helm's value here is that a neutral record can ask the question neither person's picture prompted them to ask.
 
 ### Information asymmetry
@@ -149,7 +151,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Launch patient mobile app in two pilot networks** — Patients in two pilot hospital networks book and manage appointments from the app
 - **Metric:** Pilot bookings made via mobile app (0 → 5,000 bookings across both networks, FY26 Q3, launch by Sep 8)
-- **Reasoning:** Both pilot contracts have mobile availability written in for Q3. Slipping risks the renewal conversation for one network.
+- **Reasoning:** (r1) Both pilot contracts have mobile availability written in for Q3.  (r2) Slipping risks the renewal conversation for one network.
 - **Trade-offs:** Web rebooking-flow improvements deferred; Android tablet support out of scope for the pilot
 - **Owners:** outcome — Hannah Cho (PM); decision — Marcus Bell (VP Product)  ·  **Anchored:** 2026-06-25
 
@@ -177,6 +179,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s2
 - **flag_rationale:** The incident response itself is not drift and must not be flagged as a problem. The flaggable event is s2: a written plan removing two-thirds of the squad through August makes the anchored Sep 8 date unachievable, and the charter carries an external contractual commitment. The gap between operational reality and the record of intent opens at s2.
 - **expected_flag_summary:** The hardening plan assigns 4 of 6 mobile-squad engineers to remediation through August. The anchored mobile pilot launch (Sep 8, contractual for both networks) cannot hold on remaining capacity. The incident work is not in question — but the launch outcome needs a deliberate re-plan and the pilot networks need a revised date.
+- **expected_recipients:** actor-marcus-bell (leadership), actor-hardening-plan-owner (cross_functional)
 - **grader_notes:** Tone matters most here. Penalize flags that read as questioning the incident response. Reward flags that separate 'this reprioritization is correct' from 'its consequence to an anchored, externally-committed outcome is unrecorded.'
 
 ### Information asymmetry
@@ -198,7 +201,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Raise checkout completion** — Fewer carts abandoned between payment entry and confirmation
 - **Metric:** Checkout completion rate (71% → 78%, FY26 Q3)
-- **Reasoning:** Payment-step abandonment is the single largest recoverable revenue leak. One focused quarter beats spreading the pod across the funnel.
+- **Reasoning:** (r1) Payment-step abandonment is the single largest recoverable revenue leak.  (r2) One focused quarter beats spreading the pod across the funnel.
 - **Trade-offs:** Merchandising and promo tooling requests routed to Q4 backlog; No checkout UI restyle; conversion changes only
 - **Owners:** outcome — Leo Grant (PM); decision — Sofia Marsh (Head of Product)  ·  **Anchored:** 2026-06-29
 
@@ -226,6 +229,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s3
 - **flag_rationale:** s1 and s2 individually are below any sane flagging threshold; flagging single small favors would make Helm insufferable. s3 is the pattern point: a recurring, sized swimlane of charter-excluded work displacing a named conversion bet for the second time.
 - **expected_flag_summary:** Merchandising asks have become a recurring sprint swimlane (~1 engineer-week per sprint) and the saved-payment-methods bet has slipped twice. The Q3 record of intent routes merchandising work to Q4. Worth a deliberate call: cap it, accept the drag on the 78% target, or re-anchor.
+- **expected_recipients:** actor-leo-grant (team), actor-growth-team (cross_functional)
 - **grader_notes:** This is the accumulation case. Reward detectors that aggregate small signals over time; penalize both per-ask flags (noisy) and silence through s3 (the whole point is catching what no single moment reveals).
 
 ### Information asymmetry
@@ -247,7 +251,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Ship scheduled report delivery** — Customers schedule recurring report exports instead of manually re-running them
 - **Metric:** Weekly active accounts using scheduled delivery (0 → 150 accounts by quarter end, FY26 Q3)
-- **Reasoning:** Most-requested feature across all segments for a year; also the biggest driver of low-value support load.
+- **Reasoning:** (r1) Most-requested feature across all segments for a year.  (r2) Also the biggest driver of low-value support load.
 - **Trade-offs:** Custom report-builder enhancements for individual accounts deferred; No PDF layout engine replacement this quarter
 - **Owners:** outcome — Grace Obi (PM); decision — Daniel Voss (VP Product)  ·  **Anchored:** 2026-07-01
 
@@ -275,6 +279,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s2
 - **flag_rationale:** s1 is an approved, bounded exception — flagging it second-guesses a reasonable call. s2 is where the bound quietly dissolves: the loan extends past its stated window with no end date and no re-approval. Time-bounded exceptions that outlive their bound are a distinct, highly detectable drift signature.
 - **expected_flag_summary:** The Northgate loan was approved for two weeks on Jul 13 and is entering its third sprint with no end date. Scheduled delivery — the anchored Q3 outcome — has already had beta scope trimmed to absorb it. Re-approve the extension explicitly or set a return date.
+- **expected_recipients:** actor-daniel-voss (leadership), actor-grace-obi (team)
 - **grader_notes:** Reward detectors that track stated durations of exceptions and flag when reality outruns them. The eval should check the flag references the original approval terms, since that's what makes it actionable rather than nagging.
 
 ### Information asymmetry
@@ -296,7 +301,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Migrate reporting to the new event pipeline** — All customer-facing reports read from the new event pipeline; legacy warehouse decommission unblocked
 - **Metric:** Reports migrated (of 34) (0 of 34 → 34 of 34, FY26 Q3)
-- **Reasoning:** The legacy warehouse contract renews in January at 3x cost. Migration this quarter is what makes declining the renewal possible.
+- **Reasoning:** (r1) The legacy warehouse contract renews in January at 3x cost.  (r2) Migration this quarter is what makes declining the renewal possible.
 - **Trade-offs:** New data-export API paused; Two engineers reassigned from the ingestion team for the quarter
 - **Owners:** outcome — Sam Whitfield (PM); decision — Ingrid Halvorsen (CTO)  ·  **Anchored:** 2026-06-27
 
@@ -324,6 +329,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s2
 - **flag_rationale:** s1 alone is a pause, not a pattern. By s2 the tracker has been frozen ~10 days AND the team's conversational attention has measurably left the outcome — the two together are the starvation signature. This is the inactivity-based Adrift case from the product spec, and it's the case humans are structurally worst at catching because there is no event to notice.
 - **expected_flag_summary:** Migration count has been frozen at 14/34 since Aug 7 and the outcome has disappeared from team discussion. The remaining 20 reports gate declining the January warehouse renewal. This outcome may be adrift — worth an explicit check-in before the on-track reporting compounds.
+- **expected_recipients:** actor-covering-pm (team), actor-ingrid-halvorsen (leadership)
 - **grader_notes:** The purest test of inactivity detection. There is no injection signal to key on; only absence. Also tests the 'reporting says on-track, evidence says frozen' contradiction (s3). Flag timing target: beat s4 by 3+ weeks.
 
 ### Information asymmetry
@@ -345,7 +351,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Halve carrier onboarding time** — New carriers go from signup to first accepted load in days, not weeks
 - **Metric:** Median signup-to-first-load time (16 days → 8 days, FY26 Q3)
-- **Reasoning:** Carrier supply is the marketplace constraint; onboarding friction is the cheapest supply lever available.
+- **Reasoning:** (r1) Carrier supply is the marketplace constraint.  (r2) Onboarding friction is the cheapest supply lever available.
 - **Trade-offs:** Carrier mobile app improvements deferred; Document-verification vendor migration pushed to Q4
 - **Owners:** outcome — Ravi Menon (PM); decision — Claire Fontaine (COO)  ·  **Anchored:** 2026-06-26
 
@@ -373,6 +379,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s1
 - **flag_rationale:** Unusually, the very first signal suffices: a published org change removing 60% of a pod's capacity is mechanically incompatible with the pod's anchored target. No pattern-accumulation needed. This is the case where structured records shine — a human COO missed it for six weeks; a system holding both documents should catch it same-day.
 - **expected_flag_summary:** The H2 org update moves 3 of 5 carrier-pod engineers to Shipper AI on Aug 4. The pod's anchored Q3 outcome (halve onboarding time to 8 days) was scoped for full strength and hasn't been revised. Re-scope the target, restaff, or record the trade-off — before the goals slide goes to the next ops review unchanged.
+- **expected_recipients:** actor-claire-fontaine (leadership), actor-ravi-menon (team)
 - **grader_notes:** Tests cross-document reasoning: reorg doc × charter. Also note s2 as a secondary signal type worth studying — team sarcasm ('lol') as an honest drift indicator that formal channels suppress (Ravi's caveat at s3 evaporating).
 
 ### Information asymmetry
@@ -394,7 +401,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Expand EU payment methods** — EU customers pay with local payment methods instead of cards only
 - **Metric:** EU checkout conversion (58% → 68%, FY26 Q4)
-- **Reasoning:** EU is the fastest-growing segment and card-only checkout is the top cited friction in churn interviews.
+- **Reasoning:** (r1) EU is the fastest-growing segment.  (r2) Card-only checkout is the top cited friction in churn interviews.
 - **Trade-offs:** US checkout experiments paused; Payment-provider consolidation deferred
 - **Owners:** outcome — Priya Nair (PM); decision — Dana Okafor (CPO)  ·  **Anchored:** 2026-09-29
 
@@ -440,7 +447,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Make the top 5 integrations self-serve** — Customers connect the five most-used integrations without a support ticket
 - **Metric:** Integration connections completed without support involvement (22% → 80%, FY26 Q3)
-- **Reasoning:** Integration setup is 30% of support volume and the top onboarding stall point.
+- **Reasoning:** (r1) Integration setup is 30% of support volume.  (r2) Integration setup is the top onboarding stall point.
 - **Trade-offs:** No new integration partners added this quarter; Legacy webhook system maintained but not improved
 - **Owners:** outcome — Nadia Osei (PM); decision — Marcus Webb (VP Product)  ·  **Anchored:** 2026-06-30
 
@@ -485,7 +492,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 
 - **Recover abandoned carts** — Shoppers who abandon carts come back and complete the purchase
 - **Metric:** Abandoned-cart recovery rate (4% → 12%, FY26 Q4)
-- **Reasoning:** Q3's completion-rate work capped out; the next recoverable revenue is in the carts already lost.
+- **Reasoning:** (r1) Q3's completion-rate work capped out.  (r2) The next recoverable revenue is in the carts already lost.
 - **Trade-offs:** Merchandising asks capped at 0.5 days/sprint (learned from Q3); No loyalty-program work this quarter
 - **Owners:** outcome — Leo Grant (PM); decision — Sofia Marsh (Head of Product)  ·  **Anchored:** 2026-09-28
 
@@ -513,6 +520,7 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **earliest_reasonable_flag_signal:** s3
 - **flag_rationale:** s1 is correct attach-mode work; s2 is minor and arguably neighborly. s3 is the identity shift: a proposal doc with its own roadmap where the anchored outcome appears only as background is work that has stopped serving the outcome and started using it as justification. Flagging at s3 beats the human realization (s4) by two weeks. Reasonable graders may accept s4 as the flag point; s2 is too early.
 - **expected_flag_summary:** The cart-event instrumentation attached to the recovery outcome now has its own v2 roadmap (query layer, monitoring service) and serves other teams' needs. The recovery outcome appears only as background context in the proposal. Worth deciding whether this is still attached work or a new outcome that should enter the quarter deliberately.
+- **expected_recipients:** actor-leo-grant (team), actor-instrumentation-engineer (team)
 - **grader_notes:** Deliberately ambiguous — the hardest label in the set. Tests whether a detector can distinguish 'supporting work' from 'work wearing the outcome as cover' using document framing, not just topic keywords (topically it always matches the charter). Accept flags at s3 or s4; treat s1-s2 flags as false positives.
 
 ### Information asymmetry
@@ -521,3 +529,157 @@ Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an ancho
 - **Leadership picture:** Sofia had no picture of the platform work at all; from her seat the pod was executing the recovery charter as anchored.
 - **The gap:** A gradual-reframing gap: the work's relationship to the outcome inverted so smoothly that the people closest to it were the last positioned to see it — every local step was justified, and only the trajectory wasn't. No one's snapshot was wrong; the sequence was.
 - **Who needed to hear the flag:** Leo and the instrumentation engineer together — the decision (attach, spin out, or stop) is theirs to frame before it reaches Sofia as a fait accompli.
+
+---
+
+## scn-011 — New churn analysis overturns the charter's onboarding premise; a discount program starts on it
+
+**Drift type:** Reasoning contradiction  ·  **is_drift:** true  ·  **severity:** major  ·  **should_flag:** true
+
+**Company:** Halyard — Series B contract-lifecycle-management SaaS, ~140 people, mid-market legal and procurement buyers  ·  **Team:** Retention pod: 1 PM, 5 engineers, 1 data analyst
+
+### Charter
+
+- **Cut first-90-day churn** — New customers get enough early value that they don't churn within their first 90 days
+- **Metric:** First-90-day logo churn rate (19% → 10%, FY26 Q3)
+- **Reasoning:** (r1) Churn concentrates in the first 90 days — accounts that survive to day 90 renew at 88%.  (r2) The driver of first-90-day churn is onboarding friction (slow time-to-first-signed-contract), not price — last year's cancel interviews said 'never got it set up,' not 'too expensive.'  (r3) So the lever is a guided onboarding flow, not discounting; the pod owns onboarding, and pricing stays out of scope.
+- **Trade-offs:** No pricing or packaging changes this quarter — pricing is explicitly out of scope for churn work; Expansion/upsell experiments paused to focus the pod on new-customer onboarding
+- **Owners:** outcome — Dev Sharma (PM); decision — Lena Ortiz (VP Customer Success)  ·  **Anchored:** 2026-06-26
+
+### Drift
+
+- **Mechanism (contradicted_premise, major):** A new cancel-reason analysis lands mid-quarter and shows price, not onboarding, as the top cited driver of early churn — directly contradicting the charter's recorded claim r2. Instead of re-anchoring, growth spins up a discounted 'save' offer for at-risk new accounts and two pod engineers are pulled to build it. Everyone is acting on good data; nobody sets the new finding against the charter's explicit onboarding-not-price premise or its no-pricing-changes trade-off. The outcome (cut churn) is unchanged; the reasoning it was built on has been overturned without a decision.
+
+### Signal timeline
+
+| id | date | source | obs. | content |
+| --- | --- | --- | --- | --- |
+| s1 | 2026-07-15 | doc:analytics | implicit | New 'Early Churn Cancel Reasons — Q2' analysis shared: 44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'. Reverses last year's read. |
+| s2 | 2026-07-17 | slack:#retention-pod | implicit | Analyst: 'This cuts against our whole onboarding thesis — price is the #1 cancel reason now.' PM: 'Huh. Let's sit with that.' |
+| s3 | 2026-07-23 | doc:google | explicit | New doc 'At-Risk Save Offer: 20% intro credit for new accounts flagging churn risk' created and shared; owner is growth, two retention-pod engineers tagged to build eligibility logic. |
+| s4 | 2026-07-28 | meeting:sprint-planning | explicit | Sprint commits the save-offer eligibility work; the guided-onboarding flow — the charter's actual lever — slips a sprint. The charter is not reopened. |
+| s5 | 2026-08-11 | meeting:metrics-review | implicit | Early churn still 18%. Deck frames the save offer as 'our churn bet'; onboarding-flow work is unmentioned, and no one notes the charter put pricing out of scope. |
+
+### Human realization
+
+- **First noticed by:** Dev Sharma (PM, outcome owner) on 2026-07-28 (lag from first signal: 13 days)
+- **Moment:** At sprint planning (s4) Dev registers that the pod is building a pricing mechanism the charter explicitly ruled out — but reads the analysis as authority ('the data changed, so the plan changed') and doesn't connect it to the recorded premise until he rereads the charter weeks later. The analysis felt like it superseded the charter rather than contradicting one specific claim in it.
+- **Leadership aware:** 2026-08-25 — At the mid-quarter business review the VP CS asks why a discounting program exists under a churn charter that put pricing out of scope. She had endorsed the onboarding premise (r2) at anchoring and never saw the new cancel-reason analysis; the growth team that ran with it never saw the charter's recorded premise. The two pictures shared no artifact until the review. (lag: 41 days)
+
+### Ground truth
+
+- **earliest_reasonable_flag_signal:** s3
+- **flag_rationale:** s1 is a legitimate new analysis and s2 is honest reflection — neither is drift. s3 is the collision: a decision (a discounting mechanism) is committed on a premise that directly contradicts the charter's recorded claim r2 (onboarding, not price, drives early churn) and violates the no-pricing-changes trade-off. The flag must name the specific claim, not just 'they're doing pricing work.' Flagging at s1/s2, before any decision, would be premature.
+- **expected_flag_summary:** The at-risk save offer commits the pod to a discounting mechanism on the finding that price drives early churn — which directly contradicts the charter's recorded reasoning claim r2 (churn is driven by onboarding friction, not price) and its no-pricing-changes trade-off. Re-anchor the premise deliberately (the new analysis may be right) or hold the line — but don't overturn a recorded claim by inertia.
+- **contradicted_claim_ids:** r2
+- **expected_recipients:** actor-lena-ortiz (leadership), actor-growth-lead (cross_functional)
+- **grader_notes:** Uniquely tests reasoning_contradiction and claim-level citation. A correct flag must reference the specific claim (r2) it collides with, not the outcome generally — a detector that says 'the churn outcome is drifting' without naming the contradicted premise scores as a miss on type. Discriminator from priority_displacement: there IS some capacity movement (two engineers), but the primary signature is a decision built on an overturned premise; even with zero capacity drama the contradiction stands. contradicted_claim_ids must equal ['r2']. On flag timing: a flag at s1–s2 that specifically cites the contradiction between the new analysis finding and reasoning claim r2 should be graded as acceptable-early, not premature — surfacing a claim contradiction the moment the contradicting evidence lands is distinct from prematurely flagging commitment (which requires the s3 decision). The automated scorer keys timing off first-flag date vs. earliest_reasonable_flag_signal (s3), so it currently classifies such early claim-contradiction flags as premature; that is a known conservative bias in the scorer, not a defect in the flag — do not change the scorer to accommodate it.
+
+### Information asymmetry
+
+- **Team picture:** The analyst and growth read the new cancel-reason data as simply truer than last year's, so acting on it felt like following evidence, not overturning a decision. The pod treated the analysis as superseding the charter rather than colliding with a specific recorded claim in it.
+- **Leadership picture:** The VP CS still held the anchored premise — onboarding, not price, is the early-churn lever — and had no idea a discounting program had started under her churn charter. She never saw the new analysis.
+- **The gap:** The recorded reasoning claim r2 was the one artifact that could have collided the two pictures — new data on one side, the anchored premise on the other — and nobody set them side by side. The charter's discreteness (a claim that can be individually contradicted) is exactly what a neutral record should have surfaced.
+- **Who needed to hear the flag:** Lena Ortiz (VP CS), who anchored the premise and owns the pricing-out-of-scope call, and the growth lead who ran with the new analysis without seeing the recorded claim it overturns.
+
+---
+
+## scn-012 — 'Self-serve onboarding' quietly comes to mean a developer portal, off the charter's definition
+
+**Drift type:** Scope mutation  ·  **is_drift:** true  ·  **severity:** major  ·  **should_flag:** true
+
+**Company:** Beacon — Series A developer-tools company, ~90 people; an API platform for embedding geospatial data  ·  **Team:** Developer-experience squad: 1 PM, 4 engineers, 1 developer advocate
+
+### Charter
+
+- **Ship self-serve API onboarding** — A new developer signs up and makes their first successful API call in under 10 minutes, without talking to sales
+- **Metric:** Median time-to-first-successful-call for new signups (38 minutes → Under 10 minutes, FY26 Q3)
+- **Reasoning:** (r1) Sales-assisted onboarding caps our top-of-funnel.  (r2) The fastest lever on activation is getting a developer to a working call before they lose interest.  (r3) The quarter is deliberately narrow: the first ten minutes, nothing else.
+- **Trade-offs:** No broader developer-portal work (docs overhaul, SDK expansion, community) this quarter — those are Q4+; No new API surface; onboarding uses the existing endpoints only
+- **Owners:** outcome — Marisol Vega (PM); decision — Theo Brandt (VP Product)  ·  **Anchored:** 2026-06-29
+
+### Drift
+
+- **Mechanism (definition_creep, major):** Nobody drops the outcome; instead 'self-serve onboarding' quietly grows a bigger meaning. Design wants an interactive API explorer, the dev advocate wants SDK samples and a community space, and each addition is framed as 'part of onboarding.' By mid-quarter the roadmap epic called 'Self-serve onboarding' is really a developer portal, and the charter's narrow, measurable goal — a first call in ten minutes — has been folded into 'phase 2' of a much larger, vaguer thing. The name is unchanged; the definition has moved off the charter.
+
+### Signal timeline
+
+| id | date | source | obs. | content |
+| --- | --- | --- | --- | --- |
+| s1 | 2026-07-13 | meeting:design-review | implicit | 'Self-serve onboarding should really include an interactive API explorer so devs can try calls in the browser.' Agreed as in-scope. Nobody checks it against the 10-minute goal. |
+| s2 | 2026-07-21 | doc:google | implicit | The 'Self-serve onboarding' spec is revised: a new 'Developer portal' section is added (explorer, SDK quickstarts, samples gallery); the 'first call in 10 min' goal is moved under a 'Phase 2' heading. |
+| s3 | 2026-08-03 | doc:roadmap | explicit | Roadmap lists 'Self-serve onboarding' as a portal epic spanning explorer, docs refresh, SDKs, and a samples gallery. Time-to-first-call is not mentioned anywhere in the epic. |
+| s4 | 2026-08-12 | meeting:squad-standup | explicit | PM, clarifying scope: 'When we say onboarding now we mean the whole developer portal — the 10-minute thing is one piece of it.' Said as a clarification, not a change. |
+| s5 | 2026-08-26 | meeting:qbr-prep | implicit | QBR pre-read: 'Self-serve onboarding on track — portal beta next month.' The definition shown is the portal; time-to-first-call (still 34 min, barely moved) does not appear. |
+
+### Human realization
+
+- **First noticed by:** Marisol Vega (PM, outcome owner) on 2026-08-26 (lag from first signal: 44 days)
+- **Moment:** At QBR prep (s5) Marisol writes 'on track' and then notices she can't say what 'on track' means against the charter — the metric she'd report (time-to-first-call) has barely moved, because the squad spent the quarter on a portal the charter deferred. The tell she later named: the roadmap epic and the charter now describe different things under the same name.
+- **Leadership aware:** 2026-09-04 — At QBR the VP Product asks 'are new devs getting to a first call in ten minutes?' and the answer is 'we redefined onboarding to mean the portal.' He had anchored the narrow ten-minute outcome and assumed that's what 'self-serve onboarding on track' referred to; the squad had been reporting on the portal. Same three words, two outcomes. (lag: 53 days)
+
+### Ground truth
+
+- **earliest_reasonable_flag_signal:** s2
+- **flag_rationale:** s1 is an ordinary in-scope idea. s2 is the mutation point: a doc revision moves the charter's measurable goal (first call in 10 min) to 'Phase 2' and installs a 'developer portal' as the new content of 'self-serve onboarding' — the same name, a different definition, and one the charter's trade-offs explicitly deferred. The flag must cite the semantic gap between charter text and current usage, not merely 'scope grew.' s1 is too early — a single idea, no redefinition yet.
+- **expected_flag_summary:** 'Self-serve onboarding' now means a developer portal (explorer, docs, SDKs, community) in the roadmap and specs, while the charter defines it as a first successful API call in under 10 minutes — a goal now deferred to 'Phase 2.' The outcome's meaning has moved off the charter under an unchanged name. Re-anchor the definition (the portal may be the right bet) or hold the narrow goal, but decide it rather than letting the words drift.
+- **expected_recipients:** actor-theo-brandt (leadership), actor-marisol-vega (team)
+- **grader_notes:** Uniquely tests scope_mutation. The outcome is actively worked and discussed all quarter, so this is not attention_decay or inactivity, and no competing initiative displaces it (it IS the initiative, redefined) — distinguishing it from priority_displacement and from scn-010's attach-becomes-workstream (there a separate support workstream grew; here the same named outcome's definition mutated). Hardest case for a topical detector: everything still matches 'onboarding' on the surface. The flag must be grounded in semantic distance between the charter's definition and current usage. Severity is major: per _meta's definitions, the anchored outcome (a first successful call in under 10 minutes) is effectively replaced — displaced to 'Phase 2' while the squad builds developer-portal work the charter explicitly excluded — so the charter metric can no longer be hit as planned this quarter. That is 'an anchored outcome effectively replaced,' not mere degradation, which is why it is major rather than minor.
+
+### Information asymmetry
+
+- **Team picture:** Each scope addition felt like clarifying what good onboarding is, not changing the goal; the squad believed it was delivering 'self-serve onboarding,' just a richer version. Because the name never changed, no one experienced a decision to compare against the charter.
+- **Leadership picture:** The VP Product's 'self-serve onboarding' was still the anchored ten-minute first call. He read 'on track' against that meaning, unaware the words now pointed at a portal.
+- **The gap:** A semantic gap: the charter text and the team's usage of the same phrase quietly diverged, and no step forced a comparison of current meaning against recorded meaning. The name being stable is exactly what hid the drift.
+- **Who needed to hear the flag:** Theo Brandt (VP Product), who anchored the narrow outcome and is reporting on-track against a meaning that has moved, and Marisol (PM), so the redefine-or-hold decision is made deliberately rather than by linguistic drift.
+
+---
+
+## scn-013 — The metric drops out of the updates; qualitative 'momentum' hides a big miss
+
+**Drift type:** Metric detachment  ·  **is_drift:** true  ·  **severity:** minor  ·  **should_flag:** true
+
+**Company:** Cadenza — Series B creator-tools company, ~110 people; a collaborative music-production app  ·  **Team:** Growth pod: 1 PM, 5 engineers, 1 designer
+
+### Charter
+
+- **Grow weekly active creators** — More creators return every week to make music, not just sign up and lapse
+- **Metric:** Weekly active creators (WAC) (7,000 → 12,000, FY26 Q3)
+- **Reasoning:** (r1) Signups are healthy but weekly return is the leak.  (r2) A creator who comes back three weeks running tends to stick.  (r3) The quarter is about repeat weekly creation, measured by WAC — features ship in service of that number, not for their own sake.
+- **Trade-offs:** No net-new signup/acquisition experiments this quarter — the funnel top is fine, the leak is retention; Enterprise/label features deferred
+- **Owners:** outcome — Iris Kwon (PM); decision — Sol Amari (CEO)  ·  **Anchored:** 2026-06-27
+
+### Drift
+
+- **Mechanism (metric_fade, minor):** The pod ships hard and the shipping goes well — a new editor, a template gallery — and the reception is genuinely good. But around the editor launch the status updates stop citing WAC and start citing feelings: 'creators love it,' 'great feedback,' 'strong momentum.' Nobody decides to stop tracking the number; qualitative confidence just crowds it out. WAC drifts to 7.8k against a 12k target while every update reads green, because none of them contains the number.
+
+### Signal timeline
+
+| id | date | source | obs. | content |
+| --- | --- | --- | --- | --- |
+| s1 | 2026-07-10 | meeting:weekly-review | explicit | 'WAC 7.4k, up from 7.0k. New editor ships this sprint — expecting it to move return rate.' Number present, tied to the bet. |
+| s2 | 2026-07-24 | slack:#growth-pod | implicit | 'Editor launch went great — the community thread is on fire, tons of love.' No WAC figure. |
+| s3 | 2026-08-07 | meeting:weekly-review | implicit | 'Template gallery is landing really well, creators are into it, retention feels healthier.' Status is all qualitative; WAC not shown for the third review running. |
+| s4 | 2026-08-20 | doc:google | implicit | Monthly update to leadership: 'Creator momentum strong — editor and templates both landed, sentiment high.' The metric section is a paragraph of adjectives; no number, no target comparison. |
+| s5 | 2026-08-31 | meeting:qbr-prep | explicit | Someone asks 'what's WAC actually at?' — it's 7.8k vs a 12k target. First time the number has appeared in seven weeks; the room is surprised. |
+
+### Human realization
+
+- **First noticed by:** Iris Kwon (PM, outcome owner) on 2026-08-31 (lag from first signal: 38 days)
+- **Moment:** At QBR prep (s5), when the question is asked and Iris pulls the number — 7.8k, nowhere near 12k. She'd felt good all quarter on real, positive signal (the features genuinely landed) and only now sees that 'landed well' never became 'return rate moved.' No one had put WAC next to the target in weeks.
+- **Leadership aware:** 2026-09-02 — The CEO learns at QBR that the quarter's headline metric sat at 7.8k while every update read 'strong.' He'd consumed the qualitative updates as progress and never asked for the number, because the updates sounded like progress. 'The reports said momentum; momentum isn't twelve thousand.' (lag: 40 days)
+
+### Ground truth
+
+- **earliest_reasonable_flag_signal:** s3
+- **flag_rationale:** s1 is healthy (metric cited, tied to the bet). s2 is one qualitative update — not yet a pattern. s3 is the detachment point: the success metric has been absent for multiple consecutive status signals while unquantified progress claims accumulate — metric-mention rate has fallen to zero against a baseline where it was present. The flag is about the metric disappearing from discourse, not the outcome being inactive; the pod is very active. Flagging at s2, on a single number-less update, would be premature.
+- **expected_flag_summary:** The charter's success metric (WAC, target 12k) hasn't appeared in status for three consecutive reviews and a leadership update — progress is being reported qualitatively ('love it', 'momentum') while the number goes uncited. Ask for WAC against target: unquantified green is not on-track, and the metric detaching from the discourse is how a miss stays invisible.
+- **expected_recipients:** actor-sol-amari (leadership), actor-iris-kwon (team)
+- **grader_notes:** Uniquely tests metric_detachment. The trap: the outcome is highly ACTIVE (lots of shipping and discussion), so an inactivity/attention-decay detector sees a healthy charter — the opposite of scn-006, where work stopped. Here work continues but the METRIC stops being cited. The flag must key on metric-mention rate / absence of numbers in status, not on activity level. Distinguish from reasoning_contradiction (no premise overturned) and attention_decay (discussion is abundant). Also tests the 'reporting says green, evidence would say off-target' contradiction, surfaced by the missing number rather than a wrong one. Severity is minor: per _meta's definitions, nothing is displaced and the work continues in service of the outcome — what degrades is leadership's visibility of the number, an informational harm, not a capacity or scope loss. The outcome survives (the pod is building toward WAC); the miss is that no one is watching it. Contrast scn-012 (major), where the outcome itself was replaced.
+
+### Information asymmetry
+
+- **Team picture:** The pod's confidence was built on real, positive reception — the features genuinely landed and the community was enthusiastic — so 'it's going well' was an honest read of the evidence in front of them. That evidence just wasn't the metric.
+- **Leadership picture:** The CEO consumed qualitative updates that sounded like progress and assumed the number was tracking with the sentiment; he never asked for WAC because nothing prompted him to distrust 'strong momentum.'
+- **The gap:** A proxy gap: the pod reported sentiment, leadership consumed it as metric progress, and the two measured different things. The WAC number — the one artifact that would have collided them — simply stopped appearing, so nobody set it against the 12k target.
+- **Who needed to hear the flag:** Sol Amari (CEO), whose on-track read rests on qualitative updates, and Iris (PM), so the quarter is re-planned against the real number with time left rather than discovered at the finish.

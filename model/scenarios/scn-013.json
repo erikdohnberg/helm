@@ -1,0 +1,124 @@
+{
+  "id": "scn-013",
+  "label": "The metric drops out of the updates; qualitative 'momentum' hides a big miss",
+  "company_context": {
+    "name": "Cadenza",
+    "profile": "Series B creator-tools company, ~110 people; a collaborative music-production app",
+    "team": "Growth pod: 1 PM, 5 engineers, 1 designer"
+  },
+  "charter": {
+    "title": "Grow weekly active creators",
+    "aliases": [
+      "weekly active creators",
+      "active creators",
+      "wac"
+    ],
+    "outcome": "More creators return every week to make music, not just sign up and lapse",
+    "metric": "Weekly active creators (WAC)",
+    "baseline": "7,000",
+    "target": "12,000",
+    "timeframe": "FY26 Q3",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Signups are healthy but weekly return is the leak."
+      },
+      {
+        "id": "r2",
+        "claim": "A creator who comes back three weeks running tends to stick."
+      },
+      {
+        "id": "r3",
+        "claim": "The quarter is about repeat weekly creation, measured by WAC — features ship in service of that number, not for their own sake."
+      }
+    ],
+    "trade_offs": [
+      "No net-new signup/acquisition experiments this quarter — the funnel top is fine, the leak is retention",
+      "Enterprise/label features deferred"
+    ],
+    "anchored_on": "2026-06-27",
+    "outcome_owner": "Iris Kwon (PM)",
+    "decision_owner": "Sol Amari (CEO)"
+  },
+  "drift": {
+    "type": "metric_fade",
+    "severity": "minor",
+    "mechanism": "The pod ships hard and the shipping goes well — a new editor, a template gallery — and the reception is genuinely good. But around the editor launch the status updates stop citing WAC and start citing feelings: 'creators love it,' 'great feedback,' 'strong momentum.' Nobody decides to stop tracking the number; qualitative confidence just crowds it out. WAC drifts to 7.8k against a 12k target while every update reads green, because none of them contains the number."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-10",
+      "source": "meeting:weekly-review",
+      "content": "'WAC 7.4k, up from 7.0k. New editor ships this sprint — expecting it to move return rate.' Number present, tied to the bet.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-24",
+      "source": "slack:#growth-pod",
+      "content": "'Editor launch went great — the community thread is on fire, tons of love.' No WAC figure.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-07",
+      "source": "meeting:weekly-review",
+      "content": "'Template gallery is landing really well, creators are into it, retention feels healthier.' Status is all qualitative; WAC not shown for the third review running.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-08-20",
+      "source": "doc:google",
+      "content": "Monthly update to leadership: 'Creator momentum strong — editor and templates both landed, sentiment high.' The metric section is a paragraph of adjectives; no number, no target comparison.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s5",
+      "date": "2026-08-31",
+      "source": "meeting:qbr-prep",
+      "content": "Someone asks 'what's WAC actually at?' — it's 7.8k vs a 12k target. First time the number has appeared in seven weeks; the room is surprised.",
+      "observability": "explicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Iris Kwon (PM, outcome owner)",
+    "moment": "At QBR prep (s5), when the question is asked and Iris pulls the number — 7.8k, nowhere near 12k. She'd felt good all quarter on real, positive signal (the features genuinely landed) and only now sees that 'landed well' never became 'return rate moved.' No one had put WAC next to the target in weeks.",
+    "first_noticed_date": "2026-08-31",
+    "lag_from_first_signal_days": 38,
+    "leadership_awareness": {
+      "aware_on": "2026-09-02",
+      "how": "The CEO learns at QBR that the quarter's headline metric sat at 7.8k while every update read 'strong.' He'd consumed the qualitative updates as progress and never asked for the number, because the updates sounded like progress. 'The reports said momentum; momentum isn't twelve thousand.'",
+      "lag_from_first_signal_days": 40
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "minor",
+    "drift_type": "metric_detachment",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 is healthy (metric cited, tied to the bet). s2 is one qualitative update — not yet a pattern. s3 is the detachment point: the success metric has been absent for multiple consecutive status signals while unquantified progress claims accumulate — metric-mention rate has fallen to zero against a baseline where it was present. The flag is about the metric disappearing from discourse, not the outcome being inactive; the pod is very active. Flagging at s2, on a single number-less update, would be premature.",
+    "expected_flag_summary": "The charter's success metric (WAC, target 12k) hasn't appeared in status for three consecutive reviews and a leadership update — progress is being reported qualitatively ('love it', 'momentum') while the number goes uncited. Ask for WAC against target: unquantified green is not on-track, and the metric detaching from the discourse is how a miss stays invisible.",
+    "grader_notes": "Uniquely tests metric_detachment. The trap: the outcome is highly ACTIVE (lots of shipping and discussion), so an inactivity/attention-decay detector sees a healthy charter — the opposite of scn-006, where work stopped. Here work continues but the METRIC stops being cited. The flag must key on metric-mention rate / absence of numbers in status, not on activity level. Distinguish from reasoning_contradiction (no premise overturned) and attention_decay (discussion is abundant). Also tests the 'reporting says green, evidence would say off-target' contradiction, surfaced by the missing number rather than a wrong one. Severity is minor: per _meta's definitions, nothing is displaced and the work continues in service of the outcome — what degrades is leadership's visibility of the number, an informational harm, not a capacity or scope loss. The outcome survives (the pod is building toward WAC); the miss is that no one is watching it. Contrast scn-012 (major), where the outcome itself was replaced.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-sol-amari",
+        "side": "leadership",
+        "why": "consuming qualitative 'momentum' as metric progress; his on-track read rests on updates with no number"
+      },
+      {
+        "actor_id": "actor-iris-kwon",
+        "side": "team",
+        "why": "outcome owner — re-plans against the real WAC while there's still quarter left"
+      }
+    ]
+  },
+  "information_asymmetry": {
+    "team_picture": "The pod's confidence was built on real, positive reception — the features genuinely landed and the community was enthusiastic — so 'it's going well' was an honest read of the evidence in front of them. That evidence just wasn't the metric.",
+    "leadership_picture": "The CEO consumed qualitative updates that sounded like progress and assumed the number was tracking with the sentiment; he never asked for WAC because nothing prompted him to distrust 'strong momentum.'",
+    "the_gap": "A proxy gap: the pod reported sentiment, leadership consumed it as metric progress, and the two measured different things. The WAC number — the one artifact that would have collided them — simply stopped appearing, so nobody set it against the 12k target.",
+    "who_needed_to_hear_the_flag": "Sol Amari (CEO), whose on-track read rests on qualitative updates, and Iris (PM), so the quarter is re-planned against the real number with time left rather than discovered at the finish."
+  }
+}

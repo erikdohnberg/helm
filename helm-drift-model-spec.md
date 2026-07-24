@@ -80,12 +80,12 @@ Every v1.1 type mapped to the canonical scenarios in `model/scenarios/` (`scn-*.
 | Capacity withdrawal | 003, 007 | covered |
 | Commitment overrun | 005 | covered |
 | Attention decay | 006 | covered (006 is the purest starvation case; its terminal severity is silent abandonment) |
-| Scope mutation | — | **gap** — no primary scenario; add one |
-| Reasoning contradiction | — | **gap** — appears only as a secondary signal (001, 002, 004); add a primary scenario |
-| Metric detachment | — | **gap** — appears only as a secondary signal (006, 007); add a primary scenario |
+| Scope mutation | 012 | covered |
+| Reasoning contradiction | 011 | covered |
+| Metric detachment | 013 | covered |
 | *non-drift control* | 008 (deliberate replacement), 009 (uncommitted discussion) | covered |
 
-This mapping matches the expectation set for these decisions exactly; no scenario is disputed.
+Every v1.1 type now has primary scenario coverage (scn-011/012/013 close the three former gaps). The mapping matches the scenario files' `ground_truth.drift_type` exactly, enforced by `model/scenarios/validate.ts`.
 
 ---
 

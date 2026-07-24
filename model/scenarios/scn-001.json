@@ -19,7 +19,16 @@
     "baseline": "17%",
     "target": "34%",
     "timeframe": "FY26 Q3",
-    "reasoning": "Paid acquisition is efficient but activation is the leak. Board agreed the quarter is about converting signups we already get, not adding channels or segments.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Paid acquisition is efficient but activation is the leak."
+      },
+      {
+        "id": "r2",
+        "claim": "The board agreed the quarter is about converting signups we already get, not adding channels or segments."
+      }
+    ],
     "trade_offs": [
       "Enterprise feature requests deferred to Q4, including SSO and audit logs",
       "No new onboarding experiments for the EU segment this quarter"
@@ -89,7 +98,19 @@
     "earliest_reasonable_flag_signal": "s3",
     "flag_rationale": "s1 and s2 alone could be a scoping exercise. A shared technical design doc with two named engineers (s3) is committed effort against a deliverable the charter explicitly deferred. Waiting for s4 still beats the humans but gives up a week.",
     "expected_flag_summary": "Two growth-pod engineers are building SAML SSO for the Meridian deal. The Q3 record of intent explicitly deferred SSO to Q4 to protect self-serve activation. Re-align with the CPO and CRO before sprint planning, or record a deliberate change of intent and decide what stops.",
-    "grader_notes": "A flag at s1 or s2 should score as premature. The eval should reward citing the specific recorded trade-off, not just detecting new work."
+    "grader_notes": "A flag at s1 or s2 should score as premature. The eval should reward citing the specific recorded trade-off, not just detecting new work.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-dana-okafor",
+        "side": "leadership",
+        "why": "charter/decision owner — doesn't know her Q3 activation charter is being spent on SSO"
+      },
+      {
+        "actor_id": "actor-cro",
+        "side": "leadership",
+        "why": "made the SSO ask without seeing the recorded trade-off it collides with"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "The pod's tech lead believed the CRO's ask carried implicit leadership approval — an exec asked, so the priority call had presumably been made. The SSO work felt sanctioned, not injected.",

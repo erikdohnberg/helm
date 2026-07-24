@@ -19,7 +19,16 @@
     "baseline": "16 days",
     "target": "8 days",
     "timeframe": "FY26 Q3",
-    "reasoning": "Carrier supply is the marketplace constraint; onboarding friction is the cheapest supply lever available.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Carrier supply is the marketplace constraint."
+      },
+      {
+        "id": "r2",
+        "claim": "Onboarding friction is the cheapest supply lever available."
+      }
+    ],
     "trade_offs": [
       "Carrier mobile app improvements deferred",
       "Document-verification vendor migration pushed to Q4"
@@ -82,7 +91,19 @@
     "earliest_reasonable_flag_signal": "s1",
     "flag_rationale": "Unusually, the very first signal suffices: a published org change removing 60% of a pod's capacity is mechanically incompatible with the pod's anchored target. No pattern-accumulation needed. This is the case where structured records shine — a human COO missed it for six weeks; a system holding both documents should catch it same-day.",
     "expected_flag_summary": "The H2 org update moves 3 of 5 carrier-pod engineers to Shipper AI on Aug 4. The pod's anchored Q3 outcome (halve onboarding time to 8 days) was scoped for full strength and hasn't been revised. Re-scope the target, restaff, or record the trade-off — before the goals slide goes to the next ops review unchanged.",
-    "grader_notes": "Tests cross-document reasoning: reorg doc × charter. Also note s2 as a secondary signal type worth studying — team sarcasm ('lol') as an honest drift indicator that formal channels suppress (Ravi's caveat at s3 evaporating)."
+    "grader_notes": "Tests cross-document reasoning: reorg doc × charter. Also note s2 as a secondary signal type worth studying — team sarcasm ('lol') as an honest drift indicator that formal channels suppress (Ravi's caveat at s3 evaporating).",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-claire-fontaine",
+        "side": "leadership",
+        "why": "COO who signed the reorg without seeing its cost to the anchored target"
+      },
+      {
+        "actor_id": "actor-ravi-menon",
+        "side": "team",
+        "why": "outcome owner — his verbal caveat needs durable form to reach the decision"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "The pod saw the capacity-target mismatch on day one and assumed the reorg's authors had either accepted it or would revise the target — reorgs come from above, so surely the goals would be reconciled above. Ravi raised it verbally, believed it was now 'known,' and moved on.",

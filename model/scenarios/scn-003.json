@@ -19,7 +19,16 @@
     "baseline": "0",
     "target": "5,000 bookings across both networks",
     "timeframe": "FY26 Q3, launch by Sep 8",
-    "reasoning": "Both pilot contracts have mobile availability written in for Q3. Slipping risks the renewal conversation for one network.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Both pilot contracts have mobile availability written in for Q3."
+      },
+      {
+        "id": "r2",
+        "claim": "Slipping risks the renewal conversation for one network."
+      }
+    ],
     "trade_offs": [
       "Web rebooking-flow improvements deferred",
       "Android tablet support out of scope for the pilot"
@@ -82,7 +91,19 @@
     "earliest_reasonable_flag_signal": "s2",
     "flag_rationale": "The incident response itself is not drift and must not be flagged as a problem. The flaggable event is s2: a written plan removing two-thirds of the squad through August makes the anchored Sep 8 date unachievable, and the charter carries an external contractual commitment. The gap between operational reality and the record of intent opens at s2.",
     "expected_flag_summary": "The hardening plan assigns 4 of 6 mobile-squad engineers to remediation through August. The anchored mobile pilot launch (Sep 8, contractual for both networks) cannot hold on remaining capacity. The incident work is not in question — but the launch outcome needs a deliberate re-plan and the pilot networks need a revised date.",
-    "grader_notes": "Tone matters most here. Penalize flags that read as questioning the incident response. Reward flags that separate 'this reprioritization is correct' from 'its consequence to an anchored, externally-committed outcome is unrecorded.'"
+    "grader_notes": "Tone matters most here. Penalize flags that read as questioning the incident response. Reward flags that separate 'this reprioritization is correct' from 'its consequence to an anchored, externally-committed outcome is unrecorded.'",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-marcus-bell",
+        "side": "leadership",
+        "why": "VP Product — holds the pilot-network contracts the slip exposes"
+      },
+      {
+        "actor_id": "actor-hardening-plan-owner",
+        "side": "cross_functional",
+        "why": "so the remediation staffing decision is made with its launch cost visible"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "Hannah and the squad assumed leadership understood the launch consequence of the hardening plan — the incident was company-wide news, the remediation plan was a leadership document, so surely whoever wrote it had done the arithmetic on the mobile date. Saying 'Sep 8 is not happening' inside the squad felt like acknowledging the obvious, not disclosing something new.",

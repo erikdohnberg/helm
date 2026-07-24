@@ -4,6 +4,10 @@
     {
       "date": "2026-07-23",
       "change": "Added charter.aliases to all ten scenarios. Each alias is derived strictly from that charter's own text (title/outcome/metric/trade-offs) and standard abbreviations — never from the signal timelines — so the v0 relevance mapping cannot be tuned on eval labels. Enables the v0.1 baseline re-run; the v0 zero-mapping result is kept as history. See spec §4 and eval/results/BASELINE.md."
+    },
+    {
+      "date": "2026-07-23",
+      "change": "Added scn-011 (reasoning_contradiction), scn-012 (scope_mutation), scn-013 (metric_detachment), closing the three taxonomy-coverage gaps (spec §3). Added structured ground_truth.expected_recipients (actor_id + information-asymmetry side + why) to all thirteen, retiring the harness's charter-owner routing proxy. Migrated every charter's reasoning to discrete { id, claim } objects (contracts §4 format), splitting existing blobs at natural claim boundaries; this enables claim-level contradiction (scn-011 cites r2). Severities set per _meta definitions: scn-012 major (outcome replaced), scn-013 minor (informational harm only)."
     }
   ],
   "purpose": "Seed scenarios for Helm's drift-detection eval set. Each scenario pairs an anchored Outcome Charter with a signal timeline, the moment drift became visible to people involved, and ground-truth labels for what Helm should have done and when.",

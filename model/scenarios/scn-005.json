@@ -19,7 +19,16 @@
     "baseline": "0",
     "target": "150 accounts by quarter end",
     "timeframe": "FY26 Q3",
-    "reasoning": "Most-requested feature across all segments for a year; also the biggest driver of low-value support load.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Most-requested feature across all segments for a year."
+      },
+      {
+        "id": "r2",
+        "claim": "Also the biggest driver of low-value support load."
+      }
+    ],
     "trade_offs": [
       "Custom report-builder enhancements for individual accounts deferred",
       "No PDF layout engine replacement this quarter"
@@ -82,7 +91,19 @@
     "earliest_reasonable_flag_signal": "s2",
     "flag_rationale": "s1 is an approved, bounded exception — flagging it second-guesses a reasonable call. s2 is where the bound quietly dissolves: the loan extends past its stated window with no end date and no re-approval. Time-bounded exceptions that outlive their bound are a distinct, highly detectable drift signature.",
     "expected_flag_summary": "The Northgate loan was approved for two weeks on Jul 13 and is entering its third sprint with no end date. Scheduled delivery — the anchored Q3 outcome — has already had beta scope trimmed to absorb it. Re-approve the extension explicitly or set a return date.",
-    "grader_notes": "Reward detectors that track stated durations of exceptions and flag when reality outruns them. The eval should check the flag references the original approval terms, since that's what makes it actionable rather than nagging."
+    "grader_notes": "Reward detectors that track stated durations of exceptions and flag when reality outruns them. The eval should check the flag references the original approval terms, since that's what makes it actionable rather than nagging.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-daniel-voss",
+        "side": "leadership",
+        "why": "approved the two-week loan; it's being extended past its bound without him"
+      },
+      {
+        "actor_id": "actor-grace-obi",
+        "side": "team",
+        "why": "outcome owner — forces the re-approve-or-return call with the original terms in hand"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "The loaned engineer and Grace each treated every extension as the tail of the original approved exception — 'still on the Northgate thing Daniel okayed.' Each sprint's extension inherited legitimacy from July's approval.",

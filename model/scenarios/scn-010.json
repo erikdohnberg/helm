@@ -19,7 +19,16 @@
     "baseline": "4%",
     "target": "12%",
     "timeframe": "FY26 Q4",
-    "reasoning": "Q3's completion-rate work capped out; the next recoverable revenue is in the carts already lost.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Q3's completion-rate work capped out."
+      },
+      {
+        "id": "r2",
+        "claim": "The next recoverable revenue is in the carts already lost."
+      }
+    ],
     "trade_offs": [
       "Merchandising asks capped at 0.5 days/sprint (learned from Q3)",
       "No loyalty-program work this quarter"
@@ -82,7 +91,19 @@
     "earliest_reasonable_flag_signal": "s3",
     "flag_rationale": "s1 is correct attach-mode work; s2 is minor and arguably neighborly. s3 is the identity shift: a proposal doc with its own roadmap where the anchored outcome appears only as background is work that has stopped serving the outcome and started using it as justification. Flagging at s3 beats the human realization (s4) by two weeks. Reasonable graders may accept s4 as the flag point; s2 is too early.",
     "expected_flag_summary": "The cart-event instrumentation attached to the recovery outcome now has its own v2 roadmap (query layer, monitoring service) and serves other teams' needs. The recovery outcome appears only as background context in the proposal. Worth deciding whether this is still attached work or a new outcome that should enter the quarter deliberately.",
-    "grader_notes": "Deliberately ambiguous — the hardest label in the set. Tests whether a detector can distinguish 'supporting work' from 'work wearing the outcome as cover' using document framing, not just topic keywords (topically it always matches the charter). Accept flags at s3 or s4; treat s1-s2 flags as false positives."
+    "grader_notes": "Deliberately ambiguous — the hardest label in the set. Tests whether a detector can distinguish 'supporting work' from 'work wearing the outcome as cover' using document framing, not just topic keywords (topically it always matches the charter). Accept flags at s3 or s4; treat s1-s2 flags as false positives.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-leo-grant",
+        "side": "team",
+        "why": "outcome owner — frames attach/spin-out/stop"
+      },
+      {
+        "actor_id": "actor-instrumentation-engineer",
+        "side": "team",
+        "why": "built the platform; frames the decision with Leo before it reaches Sofia as a fait accompli"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "The instrumentation engineer believed each increment served the outcome — early on it truly did, and the belief carried forward on momentum. Leo shared that picture through s3 because the work always matched the charter topically.",

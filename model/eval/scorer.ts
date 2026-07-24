@@ -5,7 +5,6 @@
 import { CONTRACTS_VERSION } from "../contracts/index.ts";
 import type { Detector } from "./detector.ts";
 import type { EmittedFlag } from "./runner.ts";
-import { actorIdFor } from "./loader.ts";
 
 export type Classification =
   | "premature" // flagged before earliest_reasonable_flag_signal
@@ -45,11 +44,13 @@ function signalDate(scn: any, signalId: string | null): string | null {
   return sig ? sig.date : null;
 }
 
-/** Charter owners are the structured routing target: the parties who_needed_to_hear centers on. */
+/**
+ * The scenario's structured routing target: the actor ids named in
+ * ground_truth.expected_recipients (derived from who_needed_to_hear_the_flag).
+ * Empty for controls.
+ */
 function expectedRecipients(scn: any): string[] {
-  return Array.from(
-    new Set([actorIdFor(scn.charter.outcome_owner), actorIdFor(scn.charter.decision_owner)])
-  );
+  return (scn.ground_truth?.expected_recipients ?? []).map((r: any) => r.actor_id);
 }
 
 export function scoreScenario(scn: any, emitted: EmittedFlag[]): ScenarioScore {

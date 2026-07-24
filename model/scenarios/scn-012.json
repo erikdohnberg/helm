@@ -1,0 +1,125 @@
+{
+  "id": "scn-012",
+  "label": "'Self-serve onboarding' quietly comes to mean a developer portal, off the charter's definition",
+  "company_context": {
+    "name": "Beacon",
+    "profile": "Series A developer-tools company, ~90 people; an API platform for embedding geospatial data",
+    "team": "Developer-experience squad: 1 PM, 4 engineers, 1 developer advocate"
+  },
+  "charter": {
+    "title": "Ship self-serve API onboarding",
+    "aliases": [
+      "self-serve onboarding",
+      "self-serve api onboarding",
+      "time to first call",
+      "first successful call"
+    ],
+    "outcome": "A new developer signs up and makes their first successful API call in under 10 minutes, without talking to sales",
+    "metric": "Median time-to-first-successful-call for new signups",
+    "baseline": "38 minutes",
+    "target": "Under 10 minutes",
+    "timeframe": "FY26 Q3",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Sales-assisted onboarding caps our top-of-funnel."
+      },
+      {
+        "id": "r2",
+        "claim": "The fastest lever on activation is getting a developer to a working call before they lose interest."
+      },
+      {
+        "id": "r3",
+        "claim": "The quarter is deliberately narrow: the first ten minutes, nothing else."
+      }
+    ],
+    "trade_offs": [
+      "No broader developer-portal work (docs overhaul, SDK expansion, community) this quarter — those are Q4+",
+      "No new API surface; onboarding uses the existing endpoints only"
+    ],
+    "anchored_on": "2026-06-29",
+    "outcome_owner": "Marisol Vega (PM)",
+    "decision_owner": "Theo Brandt (VP Product)"
+  },
+  "drift": {
+    "type": "definition_creep",
+    "severity": "major",
+    "mechanism": "Nobody drops the outcome; instead 'self-serve onboarding' quietly grows a bigger meaning. Design wants an interactive API explorer, the dev advocate wants SDK samples and a community space, and each addition is framed as 'part of onboarding.' By mid-quarter the roadmap epic called 'Self-serve onboarding' is really a developer portal, and the charter's narrow, measurable goal — a first call in ten minutes — has been folded into 'phase 2' of a much larger, vaguer thing. The name is unchanged; the definition has moved off the charter."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-13",
+      "source": "meeting:design-review",
+      "content": "'Self-serve onboarding should really include an interactive API explorer so devs can try calls in the browser.' Agreed as in-scope. Nobody checks it against the 10-minute goal.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-21",
+      "source": "doc:google",
+      "content": "The 'Self-serve onboarding' spec is revised: a new 'Developer portal' section is added (explorer, SDK quickstarts, samples gallery); the 'first call in 10 min' goal is moved under a 'Phase 2' heading.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-08-03",
+      "source": "doc:roadmap",
+      "content": "Roadmap lists 'Self-serve onboarding' as a portal epic spanning explorer, docs refresh, SDKs, and a samples gallery. Time-to-first-call is not mentioned anywhere in the epic.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-08-12",
+      "source": "meeting:squad-standup",
+      "content": "PM, clarifying scope: 'When we say onboarding now we mean the whole developer portal — the 10-minute thing is one piece of it.' Said as a clarification, not a change.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s5",
+      "date": "2026-08-26",
+      "source": "meeting:qbr-prep",
+      "content": "QBR pre-read: 'Self-serve onboarding on track — portal beta next month.' The definition shown is the portal; time-to-first-call (still 34 min, barely moved) does not appear.",
+      "observability": "implicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Marisol Vega (PM, outcome owner)",
+    "moment": "At QBR prep (s5) Marisol writes 'on track' and then notices she can't say what 'on track' means against the charter — the metric she'd report (time-to-first-call) has barely moved, because the squad spent the quarter on a portal the charter deferred. The tell she later named: the roadmap epic and the charter now describe different things under the same name.",
+    "first_noticed_date": "2026-08-26",
+    "lag_from_first_signal_days": 44,
+    "leadership_awareness": {
+      "aware_on": "2026-09-04",
+      "how": "At QBR the VP Product asks 'are new devs getting to a first call in ten minutes?' and the answer is 'we redefined onboarding to mean the portal.' He had anchored the narrow ten-minute outcome and assumed that's what 'self-serve onboarding on track' referred to; the squad had been reporting on the portal. Same three words, two outcomes.",
+      "lag_from_first_signal_days": 53
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "scope_mutation",
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s2",
+    "flag_rationale": "s1 is an ordinary in-scope idea. s2 is the mutation point: a doc revision moves the charter's measurable goal (first call in 10 min) to 'Phase 2' and installs a 'developer portal' as the new content of 'self-serve onboarding' — the same name, a different definition, and one the charter's trade-offs explicitly deferred. The flag must cite the semantic gap between charter text and current usage, not merely 'scope grew.' s1 is too early — a single idea, no redefinition yet.",
+    "expected_flag_summary": "'Self-serve onboarding' now means a developer portal (explorer, docs, SDKs, community) in the roadmap and specs, while the charter defines it as a first successful API call in under 10 minutes — a goal now deferred to 'Phase 2.' The outcome's meaning has moved off the charter under an unchanged name. Re-anchor the definition (the portal may be the right bet) or hold the narrow goal, but decide it rather than letting the words drift.",
+    "grader_notes": "Uniquely tests scope_mutation. The outcome is actively worked and discussed all quarter, so this is not attention_decay or inactivity, and no competing initiative displaces it (it IS the initiative, redefined) — distinguishing it from priority_displacement and from scn-010's attach-becomes-workstream (there a separate support workstream grew; here the same named outcome's definition mutated). Hardest case for a topical detector: everything still matches 'onboarding' on the surface. The flag must be grounded in semantic distance between the charter's definition and current usage. Severity is major: per _meta's definitions, the anchored outcome (a first successful call in under 10 minutes) is effectively replaced — displaced to 'Phase 2' while the squad builds developer-portal work the charter explicitly excluded — so the charter metric can no longer be hit as planned this quarter. That is 'an anchored outcome effectively replaced,' not mere degradation, which is why it is major rather than minor.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-theo-brandt",
+        "side": "leadership",
+        "why": "anchored the narrow 10-minute outcome; reading 'on track' against a definition that has silently moved"
+      },
+      {
+        "actor_id": "actor-marisol-vega",
+        "side": "team",
+        "why": "outcome owner — makes the redefine-or-hold call before the QBR ratifies the drifted meaning"
+      }
+    ]
+  },
+  "information_asymmetry": {
+    "team_picture": "Each scope addition felt like clarifying what good onboarding is, not changing the goal; the squad believed it was delivering 'self-serve onboarding,' just a richer version. Because the name never changed, no one experienced a decision to compare against the charter.",
+    "leadership_picture": "The VP Product's 'self-serve onboarding' was still the anchored ten-minute first call. He read 'on track' against that meaning, unaware the words now pointed at a portal.",
+    "the_gap": "A semantic gap: the charter text and the team's usage of the same phrase quietly diverged, and no step forced a comparison of current meaning against recorded meaning. The name being stable is exactly what hid the drift.",
+    "who_needed_to_hear_the_flag": "Theo Brandt (VP Product), who anchored the narrow outcome and is reporting on-track against a meaning that has moved, and Marisol (PM), so the redefine-or-hold decision is made deliberately rather than by linguistic drift."
+  }
+}

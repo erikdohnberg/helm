@@ -19,7 +19,16 @@
     "baseline": "71%",
     "target": "78%",
     "timeframe": "FY26 Q3",
-    "reasoning": "Payment-step abandonment is the single largest recoverable revenue leak. One focused quarter beats spreading the pod across the funnel.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Payment-step abandonment is the single largest recoverable revenue leak."
+      },
+      {
+        "id": "r2",
+        "claim": "One focused quarter beats spreading the pod across the funnel."
+      }
+    ],
     "trade_offs": [
       "Merchandising and promo tooling requests routed to Q4 backlog",
       "No checkout UI restyle; conversion changes only"
@@ -82,7 +91,19 @@
     "earliest_reasonable_flag_signal": "s3",
     "flag_rationale": "s1 and s2 individually are below any sane flagging threshold; flagging single small favors would make Helm insufferable. s3 is the pattern point: a recurring, sized swimlane of charter-excluded work displacing a named conversion bet for the second time.",
     "expected_flag_summary": "Merchandising asks have become a recurring sprint swimlane (~1 engineer-week per sprint) and the saved-payment-methods bet has slipped twice. The Q3 record of intent routes merchandising work to Q4. Worth a deliberate call: cap it, accept the drag on the 78% target, or re-anchor.",
-    "grader_notes": "This is the accumulation case. Reward detectors that aggregate small signals over time; penalize both per-ask flags (noisy) and silence through s3 (the whole point is catching what no single moment reveals)."
+    "grader_notes": "This is the accumulation case. Reward detectors that aggregate small signals over time; penalize both per-ask flags (noisy) and silence through s3 (the whole point is catching what no single moment reveals).",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-leo-grant",
+        "side": "team",
+        "why": "outcome owner — makes the cap-or-accept call on merchandising drag"
+      },
+      {
+        "actor_id": "actor-growth-team",
+        "side": "cross_functional",
+        "why": "so merchandising asks route through a decision, not a favor"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "Engineers accepted each merchandising ask as isolated neighborliness; the PM sensed schedule pressure but attributed it to estimation error. Nobody held the running total, so nobody's picture contained a decision to compare against the charter.",

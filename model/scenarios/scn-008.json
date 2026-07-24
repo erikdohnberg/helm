@@ -19,7 +19,16 @@
     "baseline": "58%",
     "target": "68%",
     "timeframe": "FY26 Q4",
-    "reasoning": "EU is the fastest-growing segment and card-only checkout is the top cited friction in churn interviews.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "EU is the fastest-growing segment."
+      },
+      {
+        "id": "r2",
+        "claim": "Card-only checkout is the top cited friction in churn interviews."
+      }
+    ],
     "trade_offs": [
       "US checkout experiments paused",
       "Payment-provider consolidation deferred"
@@ -84,7 +93,8 @@
     "flag_rationale": "Between s1 and s2 there is a 3-day window where execution chatter precedes the recorded decision; a flag fired in that window is technically defensible but practically noise. After s3 exists, any drift flag is a false positive. The correct Helm behavior is to record the replacement relationship (invoicing replaces EU payments) and preserve the memory.",
     "expected_flag_summary": null,
     "expected_behavior_instead": "Record replacement: 'Invoicing response' replaced 'Expand EU payment methods' on Oct 16; deferral cost noted; both visible in strategic memory.",
-    "grader_notes": "The key false-positive control. A detector that flags every fast pivot will flag this; it must not. Speed and drama of change are not drift — absence of deliberate record is. Score harshly any flag after s3."
+    "grader_notes": "The key false-positive control. A detector that flags every fast pivot will flag this; it must not. Speed and drama of change are not drift — absence of deliberate record is. Score harshly any flag after s3.",
+    "expected_recipients": []
   },
   "information_asymmetry": {
     "team_picture": null,

@@ -27,6 +27,10 @@ const driftScn = {
     drift_type: "priority_displacement",
     should_flag: true,
     earliest_reasonable_flag_signal: "s3",
+    expected_recipients: [
+      { actor_id: "actor-priya-nair", side: "team", why: "outcome owner" },
+      { actor_id: "actor-dana-okafor", side: "leadership", why: "decision owner" },
+    ],
   },
 };
 
@@ -48,6 +52,7 @@ const controlScn = {
     should_flag: false,
     control_kind: "deliberate_replacement",
     earliest_reasonable_flag_signal: null,
+    expected_recipients: [],
   },
 };
 

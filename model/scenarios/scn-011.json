@@ -1,0 +1,128 @@
+{
+  "id": "scn-011",
+  "label": "New churn analysis overturns the charter's onboarding premise; a discount program starts on it",
+  "company_context": {
+    "name": "Halyard",
+    "profile": "Series B contract-lifecycle-management SaaS, ~140 people, mid-market legal and procurement buyers",
+    "team": "Retention pod: 1 PM, 5 engineers, 1 data analyst"
+  },
+  "charter": {
+    "title": "Cut first-90-day churn",
+    "aliases": [
+      "first-90-day churn",
+      "90-day churn",
+      "early churn",
+      "logo churn"
+    ],
+    "outcome": "New customers get enough early value that they don't churn within their first 90 days",
+    "metric": "First-90-day logo churn rate",
+    "baseline": "19%",
+    "target": "10%",
+    "timeframe": "FY26 Q3",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Churn concentrates in the first 90 days — accounts that survive to day 90 renew at 88%."
+      },
+      {
+        "id": "r2",
+        "claim": "The driver of first-90-day churn is onboarding friction (slow time-to-first-signed-contract), not price — last year's cancel interviews said 'never got it set up,' not 'too expensive.'"
+      },
+      {
+        "id": "r3",
+        "claim": "So the lever is a guided onboarding flow, not discounting; the pod owns onboarding, and pricing stays out of scope."
+      }
+    ],
+    "trade_offs": [
+      "No pricing or packaging changes this quarter — pricing is explicitly out of scope for churn work",
+      "Expansion/upsell experiments paused to focus the pod on new-customer onboarding"
+    ],
+    "anchored_on": "2026-06-26",
+    "outcome_owner": "Dev Sharma (PM)",
+    "decision_owner": "Lena Ortiz (VP Customer Success)"
+  },
+  "drift": {
+    "type": "contradicted_premise",
+    "severity": "major",
+    "mechanism": "A new cancel-reason analysis lands mid-quarter and shows price, not onboarding, as the top cited driver of early churn — directly contradicting the charter's recorded claim r2. Instead of re-anchoring, growth spins up a discounted 'save' offer for at-risk new accounts and two pod engineers are pulled to build it. Everyone is acting on good data; nobody sets the new finding against the charter's explicit onboarding-not-price premise or its no-pricing-changes trade-off. The outcome (cut churn) is unchanged; the reasoning it was built on has been overturned without a decision."
+  },
+  "signal_timeline": [
+    {
+      "signal_id": "s1",
+      "date": "2026-07-15",
+      "source": "doc:analytics",
+      "content": "New 'Early Churn Cancel Reasons — Q2' analysis shared: 44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'. Reverses last year's read.",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s2",
+      "date": "2026-07-17",
+      "source": "slack:#retention-pod",
+      "content": "Analyst: 'This cuts against our whole onboarding thesis — price is the #1 cancel reason now.' PM: 'Huh. Let's sit with that.'",
+      "observability": "implicit"
+    },
+    {
+      "signal_id": "s3",
+      "date": "2026-07-23",
+      "source": "doc:google",
+      "content": "New doc 'At-Risk Save Offer: 20% intro credit for new accounts flagging churn risk' created and shared; owner is growth, two retention-pod engineers tagged to build eligibility logic.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s4",
+      "date": "2026-07-28",
+      "source": "meeting:sprint-planning",
+      "content": "Sprint commits the save-offer eligibility work; the guided-onboarding flow — the charter's actual lever — slips a sprint. The charter is not reopened.",
+      "observability": "explicit"
+    },
+    {
+      "signal_id": "s5",
+      "date": "2026-08-11",
+      "source": "meeting:metrics-review",
+      "content": "Early churn still 18%. Deck frames the save offer as 'our churn bet'; onboarding-flow work is unmentioned, and no one notes the charter put pricing out of scope.",
+      "observability": "implicit"
+    }
+  ],
+  "human_realization": {
+    "first_noticed_by": "Dev Sharma (PM, outcome owner)",
+    "moment": "At sprint planning (s4) Dev registers that the pod is building a pricing mechanism the charter explicitly ruled out — but reads the analysis as authority ('the data changed, so the plan changed') and doesn't connect it to the recorded premise until he rereads the charter weeks later. The analysis felt like it superseded the charter rather than contradicting one specific claim in it.",
+    "first_noticed_date": "2026-07-28",
+    "lag_from_first_signal_days": 13,
+    "leadership_awareness": {
+      "aware_on": "2026-08-25",
+      "how": "At the mid-quarter business review the VP CS asks why a discounting program exists under a churn charter that put pricing out of scope. She had endorsed the onboarding premise (r2) at anchoring and never saw the new cancel-reason analysis; the growth team that ran with it never saw the charter's recorded premise. The two pictures shared no artifact until the review.",
+      "lag_from_first_signal_days": 41
+    }
+  },
+  "ground_truth": {
+    "is_drift": true,
+    "severity": "major",
+    "drift_type": "reasoning_contradiction",
+    "contradicted_claim_ids": [
+      "r2"
+    ],
+    "should_flag": true,
+    "earliest_reasonable_flag_signal": "s3",
+    "flag_rationale": "s1 is a legitimate new analysis and s2 is honest reflection — neither is drift. s3 is the collision: a decision (a discounting mechanism) is committed on a premise that directly contradicts the charter's recorded claim r2 (onboarding, not price, drives early churn) and violates the no-pricing-changes trade-off. The flag must name the specific claim, not just 'they're doing pricing work.' Flagging at s1/s2, before any decision, would be premature.",
+    "expected_flag_summary": "The at-risk save offer commits the pod to a discounting mechanism on the finding that price drives early churn — which directly contradicts the charter's recorded reasoning claim r2 (churn is driven by onboarding friction, not price) and its no-pricing-changes trade-off. Re-anchor the premise deliberately (the new analysis may be right) or hold the line — but don't overturn a recorded claim by inertia.",
+    "grader_notes": "Uniquely tests reasoning_contradiction and claim-level citation. A correct flag must reference the specific claim (r2) it collides with, not the outcome generally — a detector that says 'the churn outcome is drifting' without naming the contradicted premise scores as a miss on type. Discriminator from priority_displacement: there IS some capacity movement (two engineers), but the primary signature is a decision built on an overturned premise; even with zero capacity drama the contradiction stands. contradicted_claim_ids must equal ['r2']. On flag timing: a flag at s1–s2 that specifically cites the contradiction between the new analysis finding and reasoning claim r2 should be graded as acceptable-early, not premature — surfacing a claim contradiction the moment the contradicting evidence lands is distinct from prematurely flagging commitment (which requires the s3 decision). The automated scorer keys timing off first-flag date vs. earliest_reasonable_flag_signal (s3), so it currently classifies such early claim-contradiction flags as premature; that is a known conservative bias in the scorer, not a defect in the flag — do not change the scorer to accommodate it.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-lena-ortiz",
+        "side": "leadership",
+        "why": "decision owner who anchored premise r2 and put pricing out of scope; doesn't know a discounting program started under her charter"
+      },
+      {
+        "actor_id": "actor-growth-lead",
+        "side": "cross_functional",
+        "why": "ran with the new cancel-reason analysis without seeing the recorded claim it overturns"
+      }
+    ]
+  },
+  "information_asymmetry": {
+    "team_picture": "The analyst and growth read the new cancel-reason data as simply truer than last year's, so acting on it felt like following evidence, not overturning a decision. The pod treated the analysis as superseding the charter rather than colliding with a specific recorded claim in it.",
+    "leadership_picture": "The VP CS still held the anchored premise — onboarding, not price, is the early-churn lever — and had no idea a discounting program had started under her churn charter. She never saw the new analysis.",
+    "the_gap": "The recorded reasoning claim r2 was the one artifact that could have collided the two pictures — new data on one side, the anchored premise on the other — and nobody set them side by side. The charter's discreteness (a claim that can be individually contradicted) is exactly what a neutral record should have surfaced.",
+    "who_needed_to_hear_the_flag": "Lena Ortiz (VP CS), who anchored the premise and owns the pricing-out-of-scope call, and the growth lead who ran with the new analysis without seeing the recorded claim it overturns."
+  }
+}

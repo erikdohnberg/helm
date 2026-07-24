@@ -65,9 +65,8 @@ function toCharter(scn: any): Charter {
     quarter: c.timeframe,
     outcome_statement: c.outcome,
     success_metric: { name: c.metric, target_value: c.target, current_value: c.baseline },
-    // The seed charters carry one reasoning blob; represent it as a single
-    // discrete claim (the contract requires >=1). Real charters split further.
-    reasoning: [{ id: `${scn.id}-r1`, claim: c.reasoning }],
+    // Charters carry discrete { id, claim } reasoning (contracts §4); pass through.
+    reasoning: c.reasoning.map((r: any) => ({ id: r.id, claim: r.claim })),
     trade_offs: c.trade_offs ?? [],
     owners,
     // Title plus the charter's declared aliases (both derived only from the

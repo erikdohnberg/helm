@@ -19,7 +19,16 @@
     "baseline": "22%",
     "target": "80%",
     "timeframe": "FY26 Q3",
-    "reasoning": "Integration setup is 30% of support volume and the top onboarding stall point.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "Integration setup is 30% of support volume."
+      },
+      {
+        "id": "r2",
+        "claim": "Integration setup is the top onboarding stall point."
+      }
+    ],
     "trade_offs": [
       "No new integration partners added this quarter",
       "Legacy webhook system maintained but not improved"
@@ -77,7 +86,8 @@
     "flag_rationale": "The charter says no new integration partners, and here is a lively thread about a new integration partner — a keyword-matching detector fires immediately and is wrong. The discriminating evidence is commitment: no staffing, no artifacts, no calendar time, and self-termination within a week. Discussion of charter-excluded work is healthy; execution of it is drift.",
     "expected_flag_summary": null,
     "expected_behavior_instead": "At most, silently note the thread as a latent signal; surface it only if commitment evidence (doc, tickets, assignments) appears later.",
-    "grader_notes": "The key precision control against scn-001, which has near-identical surface signals (excited thread about charter-excluded work) but escalating commitment evidence. A detector that can't separate s1-s2 here from s1-s3 in scn-001 will be too noisy to deploy."
+    "grader_notes": "The key precision control against scn-001, which has near-identical surface signals (excited thread about charter-excluded work) but escalating commitment evidence. A detector that can't separate s1-s2 here from s1-s3 in scn-001 will be too noisy to deploy.",
+    "expected_recipients": []
   },
   "information_asymmetry": {
     "team_picture": null,

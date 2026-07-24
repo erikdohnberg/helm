@@ -20,7 +20,16 @@
     "baseline": "0 of 34",
     "target": "34 of 34",
     "timeframe": "FY26 Q3",
-    "reasoning": "The legacy warehouse contract renews in January at 3x cost. Migration this quarter is what makes declining the renewal possible.",
+    "reasoning": [
+      {
+        "id": "r1",
+        "claim": "The legacy warehouse contract renews in January at 3x cost."
+      },
+      {
+        "id": "r2",
+        "claim": "Migration this quarter is what makes declining the renewal possible."
+      }
+    ],
     "trade_offs": [
       "New data-export API paused",
       "Two engineers reassigned from the ingestion team for the quarter"
@@ -83,7 +92,19 @@
     "earliest_reasonable_flag_signal": "s2",
     "flag_rationale": "s1 alone is a pause, not a pattern. By s2 the tracker has been frozen ~10 days AND the team's conversational attention has measurably left the outcome — the two together are the starvation signature. This is the inactivity-based Adrift case from the product spec, and it's the case humans are structurally worst at catching because there is no event to notice.",
     "expected_flag_summary": "Migration count has been frozen at 14/34 since Aug 7 and the outcome has disappeared from team discussion. The remaining 20 reports gate declining the January warehouse renewal. This outcome may be adrift — worth an explicit check-in before the on-track reporting compounds.",
-    "grader_notes": "The purest test of inactivity detection. There is no injection signal to key on; only absence. Also tests the 'reporting says on-track, evidence says frozen' contradiction (s3). Flag timing target: beat s4 by 3+ weeks."
+    "grader_notes": "The purest test of inactivity detection. There is no injection signal to key on; only absence. Also tests the 'reporting says on-track, evidence says frozen' contradiction (s3). Flag timing target: beat s4 by 3+ weeks.",
+    "expected_recipients": [
+      {
+        "actor_id": "actor-covering-pm",
+        "side": "team",
+        "why": "reporting 'on track' from channel activity, not the frozen count — the vector carrying the gap upward"
+      },
+      {
+        "actor_id": "actor-ingrid-halvorsen",
+        "side": "leadership",
+        "why": "CTO whose January renewal plan depends on the real migration count"
+      }
+    ]
   },
   "information_asymmetry": {
     "team_picture": "Each engineer believed their adjacent work (perf tuning, tooling) was reasonable while someone else carried the hard migrations forward. The covering PM's picture was built from channel activity, which looked healthy, so 'on track' was an honest read of the evidence available to him.",
