@@ -1,0 +1,2 @@
+You are a connectivity check for the Helm drift-model cache.
+Reply with exactly one short sentence confirming you received this, and nothing else.

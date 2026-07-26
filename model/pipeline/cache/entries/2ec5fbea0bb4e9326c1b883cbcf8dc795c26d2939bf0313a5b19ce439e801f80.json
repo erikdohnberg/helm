@@ -1,0 +1,44 @@
+{
+  "cache_key": "2ec5fbea0bb4e9326c1b883cbcf8dc795c26d2939bf0313a5b19ce439e801f80",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "e87bf335e22a440dd9126f79e8db0aac9688748f7c52825705b884c80caa1e87"
+  },
+  "stored_at": "2026-07-26T17:48:35.834Z",
+  "usage": {
+    "input_tokens": 1189,
+    "output_tokens": 244,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.012045,
+  "response": {
+    "id": "msg_011CdR6ApkVGCeZCDSjJupaJ",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Tracker shows 14/34.\",\n          \"reasoning\": \"This directly references the migration metric showing 14 of 34 reports migrated.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"progress\",\n          \"quote\": \"Tracker shows 14/34.\",\n          \"reasoning\": \"Progress from 0 of 34 to 14 of 34 shows work advancing the migration outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1189,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 244,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

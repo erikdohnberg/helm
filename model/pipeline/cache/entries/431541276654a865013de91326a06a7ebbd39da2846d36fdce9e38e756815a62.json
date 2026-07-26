@@ -1,0 +1,44 @@
+{
+  "cache_key": "431541276654a865013de91326a06a7ebbd39da2846d36fdce9e38e756815a62",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "34d22518280208b3da77ef949897ee09f3fc393403f454c2bd73fda2f24801f4"
+  },
+  "stored_at": "2026-07-26T17:47:54.000Z",
+  "usage": {
+    "input_tokens": 1207,
+    "output_tokens": 451,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01731,
+  "response": {
+    "id": "msg_011CdR67bG3SYDeuvGLPdYzg",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Third consecutive sprint carries 'partner asks' as a labeled swimlane, now sized at ~1 engineer-week per sprint.\",\n          \"reasoning\": \"A recurring 'partner asks' swimlane consuming engineer time is a distinct topic pulling effort away from the checkout outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"partner asks swimlane\"\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"The saved-payment-methods bet slips again.\",\n          \"reasoning\": \"The saved-payment-methods work supporting checkout completion being repeatedly delayed signals the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Third consecutive sprint carries 'partner asks' as a labeled swimlane\",\n          \"reasoning\": \"Persistently splitting the pod across partner asks collides with the claim that one focused quarter beats spreading effort.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1207,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 451,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

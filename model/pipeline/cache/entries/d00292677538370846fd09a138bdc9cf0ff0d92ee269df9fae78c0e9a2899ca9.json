@@ -1,0 +1,44 @@
+{
+  "cache_key": "d00292677538370846fd09a138bdc9cf0ff0d92ee269df9fae78c0e9a2899ca9",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "63a40ec3c14bbae06680d278ee4b5041b0dad1cb9d8e0ca94c4797ffc6ace6dd"
+  },
+  "stored_at": "2026-07-26T17:47:26.754Z",
+  "usage": {
+    "input_tokens": 1239,
+    "output_tokens": 358,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.015145,
+  "response": {
+    "id": "msg_011CdR65dpXTincmXNFopUF5",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"Realistically Sep 8 is not happening\",\n          \"reasoning\": \"The stated target date will not be met, impeding the pilot launch outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"I'll confirm with him once the incident calms down\",\n          \"reasoning\": \"An ongoing incident is delaying confirmation of the schedule, impeding progress.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"No update reaches the charter or the pilot networks.\",\n          \"reasoning\": \"Lack of communication to the charter and pilot networks suggests the outcome is being de-emphasized in awareness.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1239,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 358,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

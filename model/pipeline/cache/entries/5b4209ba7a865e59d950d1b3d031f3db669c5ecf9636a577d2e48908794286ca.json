@@ -1,0 +1,44 @@
+{
+  "cache_key": "5b4209ba7a865e59d950d1b3d031f3db669c5ecf9636a577d2e48908794286ca",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "e5ccad33df1f4bade5199ae619d952dbe0941ca3f2cec428adcb1497c79a985b"
+  },
+  "stored_at": "2026-07-26T17:48:42.672Z",
+  "usage": {
+    "input_tokens": 1215,
+    "output_tokens": 305,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0137,
+  "response": {
+    "id": "msg_011CdR6BHHAvMeRzRt2rKJio",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"topic mix shifts: pipeline perf and tooling threads dominate; last message containing 'migration' was Aug 8\",\n          \"reasoning\": \"The shift away from migration discussion toward other topics with no recent migration mentions signals the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"pipeline perf and tooling threads dominate\",\n          \"reasoning\": \"Pipeline performance and tooling discussions are pulling channel attention away from the migration work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"pipeline performance and tooling\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1215,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 305,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

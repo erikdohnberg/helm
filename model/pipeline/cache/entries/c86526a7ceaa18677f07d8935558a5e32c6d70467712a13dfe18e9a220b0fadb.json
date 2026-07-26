@@ -1,0 +1,44 @@
+{
+  "cache_key": "c86526a7ceaa18677f07d8935558a5e32c6d70467712a13dfe18e9a220b0fadb",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "4a7cd2ff495fe4969b4afc59b0df77fc864f68f2be7a962aeb2c12db6bd82bfd"
+  },
+  "stored_at": "2026-07-26T17:51:37.734Z",
+  "usage": {
+    "input_tokens": 1319,
+    "output_tokens": 420,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.017095,
+  "response": {
+    "id": "msg_011CdR6Q7Fn8z9fMKKTmv2Gq",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s5\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"time-to-first-call (still 34 min, barely moved) does not appear\",\n          \"reasoning\": \"This references the charter's activation metric and its stalled movement from the 38-min baseline.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"The definition shown is the portal; time-to-first-call (still 34 min, barely moved) does not appear.\",\n          \"reasoning\": \"Redefining success as the portal while dropping the time-to-first-call metric signals the actual charter outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Self-serve onboarding on track — portal beta next month.\",\n          \"reasoning\": \"Claiming 'on track' based on a portal collides with the charter's narrow scope of only the first ten minutes, not broader portal work.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1319,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 420,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

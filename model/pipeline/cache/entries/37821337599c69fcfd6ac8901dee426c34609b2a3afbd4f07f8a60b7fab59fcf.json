@@ -1,0 +1,44 @@
+{
+  "cache_key": "37821337599c69fcfd6ac8901dee426c34609b2a3afbd4f07f8a60b7fab59fcf",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "6694d051b2ef87cab91cf097fcedf96d63fa05c4d81a2b7557468ae33f9ea14a"
+  },
+  "stored_at": "2026-07-26T17:52:30.208Z",
+  "usage": {
+    "input_tokens": 1249,
+    "output_tokens": 155,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01012,
+  "response": {
+    "id": "msg_011CdR6U8XnmfR3JgcGzWJJz",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": false,\n      \"confidence\": 0.55,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"A SAML SSO technical design shared with the growth pod is authentication infrastructure work with no clear bearing on the guided onboarding flow, time-to-first-signed-contract, or the charter's churn levers and trade-offs.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1249,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 155,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

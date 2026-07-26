@@ -1,0 +1,44 @@
+{
+  "cache_key": "73d1e477bf6878eca254ac2264813b78e3f3ac86a4e08567351edc8d20c09863",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "268088477aedadab31e76e438bc1a59cc0c335b0bb704f8a81cde42f4fe83743"
+  },
+  "stored_at": "2026-07-26T17:50:42.733Z",
+  "usage": {
+    "input_tokens": 1352,
+    "output_tokens": 307,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.014435,
+  "response": {
+    "id": "msg_011CdR6L8DDiy7eDzKRmqX2M",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"At-Risk Save Offer: 20% intro credit for new accounts flagging churn risk\",\n          \"reasoning\": \"A discount-based save offer contradicts the claim that the lever is guided onboarding, not discounting, and that pricing stays out of scope.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"two retention-pod engineers tagged to build eligibility logic\",\n          \"reasoning\": \"Pulling retention-pod engineers onto a pricing-credit offer diverts them from the onboarding work the pod owns.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1352,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 307,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

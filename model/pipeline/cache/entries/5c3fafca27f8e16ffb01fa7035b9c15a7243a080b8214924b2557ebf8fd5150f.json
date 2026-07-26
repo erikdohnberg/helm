@@ -1,0 +1,44 @@
+{
+  "cache_key": "5c3fafca27f8e16ffb01fa7035b9c15a7243a080b8214924b2557ebf8fd5150f",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "9ca2c361468cb9817de975335ff6814ced2918abf6c079bed8945aa81dfcd3dc"
+  },
+  "stored_at": "2026-07-26T17:50:03.232Z",
+  "usage": {
+    "input_tokens": 1173,
+    "output_tokens": 168,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010065000000000001,
+  "response": {
+    "id": "msg_011CdR6HJFP8ZSmktcPZpZkF",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"progress\",\n          \"quote\": \"Could be worth a spike after the Salesforce self-serve flow ships.\",\n          \"reasoning\": \"References an in-flight Salesforce self-serve flow expected to ship, advancing the self-serve integration outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1173,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 168,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

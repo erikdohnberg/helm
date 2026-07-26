@@ -1,0 +1,44 @@
+{
+  "cache_key": "516d890423c4c1e3a8105d850ad656febdf612d8f7519044209a60897b5cee4c",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "df7e09504931bfd35b9af894dc75831e32c8f3fa6c0a196f588d1b73fe08727d"
+  },
+  "stored_at": "2026-07-26T16:21:40.694Z",
+  "usage": {
+    "input_tokens": 1719,
+    "output_tokens": 528,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.021795000000000002,
+  "response": {
+    "id": "msg_011CdQyY69xkLR71RzMpz1gN",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"reasoning\",\n      \"rationale\": \"Directly challenges r2's premise that onboarding friction, not price, drives first-90-day churn.\"\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.93,\n      \"basis\": \"reasoning\",\n      \"rationale\": \"Explicitly contests the onboarding thesis (r2/r3), asserting price is the top cancel reason.\"\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"A discount/intro-credit save offer collides with the recorded trade-off that pricing/packaging is out of scope, and pulls retention-pod engineers off the charter.\"\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": true,\n      \"confidence\": 0.97,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"Commits the pricing save-offer work while slipping the charter's actual onboarding lever (r3), displacing committed capacity.\"\n    },\n    {\n      \"signal_id\": \"s5\",\n      \"relevant\": true,\n      \"confidence\": 0.96,\n      \"basis\": \"metric\",\n      \"rationale\": \"Reports early churn at 18% against the 10% target and reframes the pricing save offer as the churn bet, contradicting r3 and the pricing trade-off.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1719,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 528,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

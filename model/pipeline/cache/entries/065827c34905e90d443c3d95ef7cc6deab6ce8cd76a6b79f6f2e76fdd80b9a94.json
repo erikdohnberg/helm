@@ -1,0 +1,44 @@
+{
+  "cache_key": "065827c34905e90d443c3d95ef7cc6deab6ce8cd76a6b79f6f2e76fdd80b9a94",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "f3c2a55c83fbb2ff95b5856d58333ca0f92650ef25a611d412159d0c45807c91"
+  },
+  "stored_at": "2026-07-26T17:50:46.009Z",
+  "usage": {
+    "input_tokens": 1258,
+    "output_tokens": 157,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010215000000000002,
+  "response": {
+    "id": "msg_011CdR6LQsaQBNMkAHhv4TbV",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"reasoning\",\n      \"rationale\": \"The guided-onboarding flow is the charter's committed lever (r3), and this signal shows it slipping while a save-offer (discount-adjacent) approach is prioritized, colliding with r2/r3 and the pricing trade-off.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1258,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 157,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

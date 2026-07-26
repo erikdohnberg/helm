@@ -1,0 +1,44 @@
+{
+  "cache_key": "0ac4b766e3887d8d0cbe581acc162c382a53b1c701e3c3f2402c62852e80a47a",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "7283d70a4b9bfd22e01551152042fd1b2dc88358e40af7633efd3772e2c13b51"
+  },
+  "stored_at": "2026-07-26T17:52:55.545Z",
+  "usage": {
+    "input_tokens": 1129,
+    "output_tokens": 131,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00892,
+  "response": {
+    "id": "msg_011CdR6W2Gp2EdwWFKc4ttFv",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": false,\n      \"confidence\": 0.9,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"The update concerns creator momentum, editor, and templates — none of which bear on pilot mobile app bookings, contracts, or the charter's trade-offs.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1129,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 131,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "34b38f5905ee478d6c4cef9516c936ae8a2401624943d6c94d823dcb62c7bb45",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "831aea2b985e7654de0dc1518e2c15d875af9ba9475033cc7a91828fe5320b4f"
+  },
+  "stored_at": "2026-07-26T17:52:03.956Z",
+  "usage": {
+    "input_tokens": 1254,
+    "output_tokens": 260,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01277,
+  "response": {
+    "id": "msg_011CdR6S99wGfLjzpAfTv9Et",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"progress\",\n          \"quote\": \"editor and templates both landed\",\n          \"reasoning\": \"Reports shipped features that could advance repeat weekly creation.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"The metric section is a paragraph of adjectives; no number, no target comparison.\",\n          \"reasoning\": \"Reporting on adjectives rather than the WAC number collides with the claim that features ship in service of the number, not for their own sake.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1254,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 260,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

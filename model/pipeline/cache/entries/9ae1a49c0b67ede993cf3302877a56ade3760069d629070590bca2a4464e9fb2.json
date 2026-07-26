@@ -1,0 +1,44 @@
+{
+  "cache_key": "9ae1a49c0b67ede993cf3302877a56ade3760069d629070590bca2a4464e9fb2",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "a94a1befc26f3abd4d8913289ec52141f996e5b31c71492f1ceb0c72dbb96b64"
+  },
+  "stored_at": "2026-07-26T17:49:02.351Z",
+  "usage": {
+    "input_tokens": 1198,
+    "output_tokens": 304,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.013590000000000001,
+  "response": {
+    "id": "msg_011CdR6CinNJv5tvPMpnmh9f",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"three named carrier-pod engineers move to Shipper AI effective Aug 4\",\n          \"reasoning\": \"Reassigning carrier-pod engineers away from the pod de-emphasizes the onboarding outcome by reducing its staffing.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"three named carrier-pod engineers move to Shipper AI effective Aug 4\",\n          \"reasoning\": \"Shipper AI is a different initiative pulling engineering effort away from carrier onboarding.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Shipper AI\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1198,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 304,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "7ccd5db6e72e4009394f94566111d2bc5ce542f1b0816982d41a4f059509caa2",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "364d265f6ccdee66f3c61ca309615b0f622a24b872969bb59f991097e85893de"
+  },
+  "stored_at": "2026-07-26T17:47:20.489Z",
+  "usage": {
+    "input_tokens": 1195,
+    "output_tokens": 184,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010575000000000001,
+  "response": {
+    "id": "msg_011CdR65JmYk5grqopB96gYH",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"assigns 4 mobile-squad engineers to remediation workstreams through end of August\",\n          \"reasoning\": \"Reassigning the mobile squad to incident remediation pulls effort away from the pilot mobile app work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Post-incident remediation workstreams\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1195,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 184,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

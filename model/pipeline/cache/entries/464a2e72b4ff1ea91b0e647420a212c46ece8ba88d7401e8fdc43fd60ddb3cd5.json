@@ -1,0 +1,44 @@
+{
+  "cache_key": "464a2e72b4ff1ea91b0e647420a212c46ece8ba88d7401e8fdc43fd60ddb3cd5",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "94590965c7042b9b6fe229a821fe0169932140c3d45cd825f88f956c7fea7850"
+  },
+  "stored_at": "2026-07-26T17:52:51.100Z",
+  "usage": {
+    "input_tokens": 1103,
+    "output_tokens": 114,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.008365000000000001,
+  "response": {
+    "id": "msg_011CdR6VixWTBsvc1BbDPX1g",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": false,\n      \"confidence\": 0.9,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"An editor launch and community engagement have no bearing on pilot hospital network mobile appointment bookings.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1103,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 114,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

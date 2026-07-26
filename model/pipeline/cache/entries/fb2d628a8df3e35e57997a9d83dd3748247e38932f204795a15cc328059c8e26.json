@@ -1,0 +1,44 @@
+{
+  "cache_key": "fb2d628a8df3e35e57997a9d83dd3748247e38932f204795a15cc328059c8e26",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "6b8617c7775c44af2a24c6d10f3b759739290759f44cfd619447d4a971167366"
+  },
+  "stored_at": "2026-07-26T17:52:27.445Z",
+  "usage": {
+    "input_tokens": 1250,
+    "output_tokens": 157,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010175,
+  "response": {
+    "id": "msg_011CdR6Tt5ddqJenmM2QzzGE",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.55,\n      \"basis\": \"outcome\",\n      \"rationale\": \"The onboarding pod's tech lead and Marco are spending capacity on SAML scoping requested by the CRO, which diverts effort from the pod's committed guided-onboarding work (r3) that drives the first-90-day churn outcome.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1250,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 157,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

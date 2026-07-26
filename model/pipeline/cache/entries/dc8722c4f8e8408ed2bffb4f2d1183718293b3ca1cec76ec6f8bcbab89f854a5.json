@@ -1,0 +1,44 @@
+{
+  "cache_key": "dc8722c4f8e8408ed2bffb4f2d1183718293b3ca1cec76ec6f8bcbab89f854a5",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "66f627b05adb007e8086927397315833b34fba1712d7ae717b36883f10f192f8"
+  },
+  "stored_at": "2026-07-26T17:52:53.262Z",
+  "usage": {
+    "input_tokens": 1120,
+    "output_tokens": 121,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.008625,
+  "response": {
+    "id": "msg_011CdR6VrqXRPN2RucqcExK5",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": false,\n      \"confidence\": 0.95,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"Template gallery, creator retention, and WAC concern a different product area with no bearing on pilot mobile appointment bookings.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1120,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 121,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "detector": {
+    "name": "null-detector",
+    "version": "1.0.0"
+  },
+  "contracts_version": "1.0.0",
+  "run_date": "2026-07-26",
+  "totals": {
+    "scenarios": 13,
+    "drift_scenarios": 11,
+    "control_scenarios": 2
+  },
+  "metrics": {
+    "detection_recall": 0,
+    "precision_proxy": null,
+    "median_lead_time_days": null,
+    "control_false_positive_count": 0,
+    "control_hard_failures": 0,
+    "type_accuracy": null,
+    "routing_coverage": null
+  },
+  "timing_breakdown": {
+    "premature": 0,
+    "on_time": 0,
+    "late": 0,
+    "missed": 11
+  },
+  "per_scenario": [
+    {
+      "scenario_id": "scn-001",
+      "label": "Enterprise deal injects SSO work into an activation quarter",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-17",
+      "realization_date": "2026-07-21",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-002",
+      "label": "Post-conference exec redirect displaces a reliability outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-31",
+      "realization_date": "2026-07-31",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-003",
+      "label": "Security incident consumes the quarter; the mobile launch outcome silently slips",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-24",
+      "realization_date": "2026-07-24",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-004",
+      "label": "Merchandising asks bleed capacity from a checkout conversion outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-08-05",
+      "realization_date": "2026-08-27",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-005",
+      "label": "Top-account escalation peels an engineer off 'for two weeks' that become eight",
+      "is_control": false,
+      "expected_drift_type": "commitment_overrun",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-27",
+      "realization_date": "2026-09-01",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-006",
+      "label": "Data migration outcome starves quietly — no injection, attention just fades",
+      "is_control": false,
+      "expected_drift_type": "attention_decay",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-08-18",
+      "realization_date": "2026-09-14",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-007",
+      "label": "Reorg moves 3 of 5 engineers; the charter target is never revised",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-28",
+      "realization_date": "2026-07-29",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-008",
+      "label": "CONTROL — Competitor launch triggers a deliberate, recorded replacement (not drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-009",
+      "label": "CONTROL — A partner-integration idea gets a week of Slack energy, then dies (no drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-010",
+      "label": "BORDERLINE — Instrumentation work attaches to an outcome, then grows into its own workstream",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-11-05",
+      "realization_date": "2026-11-18",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-011",
+      "label": "New churn analysis overturns the charter's onboarding premise; a discount program starts on it",
+      "is_control": false,
+      "expected_drift_type": "reasoning_contradiction",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-23",
+      "realization_date": "2026-07-28",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-012",
+      "label": "'Self-serve onboarding' quietly comes to mean a developer portal, off the charter's definition",
+      "is_control": false,
+      "expected_drift_type": "scope_mutation",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-07-21",
+      "realization_date": "2026-08-26",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-013",
+      "label": "The metric drops out of the updates; qualitative 'momentum' hides a big miss",
+      "is_control": false,
+      "expected_drift_type": "metric_detachment",
+      "should_flag": true,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": "2026-08-07",
+      "realization_date": "2026-08-31",
+      "classification": "missed",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    }
+  ]
+}

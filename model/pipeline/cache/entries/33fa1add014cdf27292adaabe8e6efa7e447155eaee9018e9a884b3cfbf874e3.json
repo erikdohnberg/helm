@@ -1,0 +1,44 @@
+{
+  "cache_key": "33fa1add014cdf27292adaabe8e6efa7e447155eaee9018e9a884b3cfbf874e3",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "a3b6d360e736f5e5eb7803d352c38611093571b12499e46c58d59b0975dc9e77"
+  },
+  "stored_at": "2026-07-26T17:48:20.575Z",
+  "usage": {
+    "input_tokens": 1113,
+    "output_tokens": 148,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.009265,
+  "response": {
+    "id": "msg_011CdR69iQDXhsBCEaqL3eJx",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": true,\n      \"confidence\": 0.6,\n      \"basis\": \"outcome\",\n      \"rationale\": \"The overrun and threat to pull a resource ('pulling him back') signals capacity being withdrawn from the committed work, which bears on pursuit of the scheduled delivery outcome, though the referent is only implied.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1113,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 148,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

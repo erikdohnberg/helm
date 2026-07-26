@@ -1,0 +1,44 @@
+{
+  "cache_key": "aeed98344cbce1c4bd18d4158eda95a9460563a75665215d898af6b7ea7a5405",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "76d9340ced664ce8040d88c2504010776e7b93a2338c06c404d43e26accdfc7e"
+  },
+  "stored_at": "2026-07-26T17:48:55.951Z",
+  "usage": {
+    "input_tokens": 1231,
+    "output_tokens": 261,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01268,
+  "response": {
+    "id": "msg_011CdR6CFpPp5PjshVTvvLY7",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"The tracker says 14. It said 14 when I left. What happened?\",\n          \"reasoning\": \"This references the migration progress count (reports migrated) and notes it has not moved.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"The remaining ones are all the horrible cross-tenant reports.\",\n          \"reasoning\": \"The remaining reports being the difficult cross-tenant ones impedes completing the migration.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1231,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 261,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "c8f5b8637372c25e7534522be8738454185f002c6354003a428d32e3f7c55d09",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "1269f2a2acec442a15b359a1b629de0f990f0686366b2657a30eb96fcc840442"
+  },
+  "stored_at": "2026-07-26T17:47:59.758Z",
+  "usage": {
+    "input_tokens": 1194,
+    "output_tokens": 282,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01302,
+  "response": {
+    "id": "msg_011CdR688gQrsMS7afhFj8C3",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"We've done nine merchandising tickets this quarter.\",\n          \"reasoning\": \"Merchandising work is consuming pod effort that was meant to focus on the checkout outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"merchandising tickets\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"I thought merchandising was a Q4 thing.\",\n          \"reasoning\": \"Doing merchandising work now collides with the trade-off routing it to Q4 and with keeping the pod focused for one quarter.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1194,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 282,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

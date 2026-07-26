@@ -1,0 +1,44 @@
+{
+  "cache_key": "a4aa23dee3fb2cc61c5efebca3dd2aaebc89726cc4c9489fdbc2109030a02d82",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "7b538351e4d5f7cc6a8fc3358a28b387547cabd595231d3af1283167f86ec099"
+  },
+  "stored_at": "2026-07-26T17:47:05.056Z",
+  "usage": {
+    "input_tokens": 1206,
+    "output_tokens": 305,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.013655,
+  "response": {
+    "id": "msg_011CdR6451YJ2cWGsESSQbyf",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"'Summit Demo Plan' doc lists 4 platform engineers, a designer, and weekly CEO reviews.\",\n          \"reasoning\": \"The Summit Demo effort is pulling platform engineers and CEO attention away from the sync outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Summit Demo Plan\"\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"No mention of the sync outcome anywhere in the doc.\",\n          \"reasoning\": \"The sync outcome's absence from a resourced, CEO-reviewed plan signals it is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1206,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 305,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

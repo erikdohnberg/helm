@@ -1,0 +1,44 @@
+{
+  "cache_key": "591a492faba04a245ee3e81894864a493bea920c54d409858de60cb974dec63e",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "f715770db6c2ca64e8ee440ffae3eb35d0cf355c6be2674240feb398179543c9"
+  },
+  "stored_at": "2026-07-26T17:50:10.193Z",
+  "usage": {
+    "input_tokens": 1197,
+    "output_tokens": 178,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010435,
+  "response": {
+    "id": "msg_011CdR6HqLuBCK9Cjewp9e4P",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"progress\",\n          \"quote\": \"'Cart-event instrumentation' sized at 1 sprint, framed as prerequisite for recovery experiments.\",\n          \"reasoning\": \"Sizing and committing instrumentation work as a prerequisite advances the cart-recovery outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1197,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 178,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

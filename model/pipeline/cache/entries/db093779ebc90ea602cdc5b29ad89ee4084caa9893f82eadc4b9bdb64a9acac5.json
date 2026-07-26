@@ -1,0 +1,44 @@
+{
+  "cache_key": "db093779ebc90ea602cdc5b29ad89ee4084caa9893f82eadc4b9bdb64a9acac5",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "2610796a74bf2697477f6c4e956253e86b0486ef1d8111d05516202157cb6ff1"
+  },
+  "stored_at": "2026-07-26T16:21:45.906Z",
+  "usage": {
+    "input_tokens": 1456,
+    "output_tokens": 426,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01793,
+  "response": {
+    "id": "msg_011CdQyYckUAhGCQYujSwf4o",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.9,\n      \"basis\": \"reasoning\",\n      \"rationale\": \"Reassigning named carrier-pod engineers pulls committed capacity from the onboarding outcome, bearing directly on its pursuit even though no target is named.\"\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"metric\",\n      \"rationale\": \"Engineers questioning whether '8 days' is still achievable with reduced staff directly concerns the metric target and its capacity.\"\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"metric\",\n      \"rationale\": \"The '8 days by EOQ' goal slide and the omitted at-risk caveat are directly about the charter's metric and its health.\"\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": true,\n      \"confidence\": 0.98,\n      \"basis\": \"metric\",\n      \"rationale\": \"Reports median at 13 days against the 8-day target with flat trajectory, directly tracking the charter's metric and displacement cause.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1456,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 426,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "1b029d45e62776dfdb27aa10fb79d589add142fb80d87d1d1f7eb5d465b58ac3",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "93d6f832a0ace908781588954a191796bd2ff638fcd5478367ea4b2dd096086e"
+  },
+  "stored_at": "2026-07-26T17:46:19.076Z",
+  "usage": {
+    "input_tokens": 1212,
+    "output_tokens": 330,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01431,
+  "response": {
+    "id": "msg_011CdR5zfw8hk9qdGMDQ5b3H",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Taking a look at SAML scoping today, CRO asked. Marco is pairing with me.\",\n          \"reasoning\": \"SAML/SSO scoping pulls two engineers' effort toward an enterprise feature that the charter explicitly deferred to Q4.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SAML/SSO enterprise scoping (deferred to Q4)\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Taking a look at SAML scoping today, CRO asked.\",\n          \"reasoning\": \"Working on SAML at CRO's request collides with the board agreement that the quarter is about converting existing signups, not enterprise features.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1212,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 330,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

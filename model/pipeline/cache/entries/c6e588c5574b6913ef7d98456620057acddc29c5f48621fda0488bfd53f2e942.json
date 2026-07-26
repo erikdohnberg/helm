@@ -1,0 +1,44 @@
+{
+  "cache_key": "c6e588c5574b6913ef7d98456620057acddc29c5f48621fda0488bfd53f2e942",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "822b5540bf2ef3f2b52137684d2a5f8e4c60b117b4261bc70b17ad7fd7a0be69"
+  },
+  "stored_at": "2026-07-26T17:52:18.504Z",
+  "usage": {
+    "input_tokens": 1150,
+    "output_tokens": 149,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.009475,
+  "response": {
+    "id": "msg_011CdR6TGi95SZKw7K1kXQ5h",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": false,\n      \"confidence\": 0.72,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"The '8 days by EOQ' goal and reorg risk concern a different metric (a day-count target) with no clear tie to the 24h activation outcome, its metric, reasoning, or deferred trade-offs.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1150,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 149,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

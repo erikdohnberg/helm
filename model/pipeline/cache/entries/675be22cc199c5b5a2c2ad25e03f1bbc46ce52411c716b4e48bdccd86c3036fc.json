@@ -1,0 +1,44 @@
+{
+  "cache_key": "675be22cc199c5b5a2c2ad25e03f1bbc46ce52411c716b4e48bdccd86c3036fc",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "99c7924a2dea83b222d1ad301621d62c40e824c14289d8cce4bb95ab1e3a9bff"
+  },
+  "stored_at": "2026-07-26T17:51:30.169Z",
+  "usage": {
+    "input_tokens": 1313,
+    "output_tokens": 438,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.017515,
+  "response": {
+    "id": "msg_011CdR6PVGaVeNu8RpK7Rg5y",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"When we say onboarding now we mean the whole developer portal — the 10-minute thing is one piece of it.\",\n          \"reasoning\": \"Redefining onboarding to mean the whole developer portal displaces the narrow 10-minute focus into just one piece.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"we mean the whole developer portal\",\n          \"reasoning\": \"Expanding scope to the whole developer portal collides with the claim that the quarter is deliberately narrow: the first ten minutes, nothing else.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"the whole developer portal\",\n          \"reasoning\": \"The whole developer portal is a broader topic that pulls attention away from the narrow first-ten-minutes outcome, which the charter explicitly defers to Q4+.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"whole developer portal (docs, SDK, community)\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1313,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 438,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "49c8cec8722ea68cc69be285d8ab7f4d0632bfe8545fefcdb86288fc95e84e25",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "1a937bab87fcbf8e6d73f6a9416a679819020b385639d62bf17dce2dd76c67b2"
+  },
+  "stored_at": "2026-07-26T17:51:50.962Z",
+  "usage": {
+    "input_tokens": 1228,
+    "output_tokens": 252,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01244,
+  "response": {
+    "id": "msg_011CdR6RAYFq6D46aZ9k5GuT",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"progress\",\n          \"quote\": \"Editor launch went great — the community thread is on fire, tons of love.\",\n          \"reasoning\": \"Reports a shipped feature launch with positive community reception, which could advance weekly creation.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"No WAC figure.\",\n          \"reasoning\": \"Explicitly notes the absence of the charter's WAC metric despite claiming success, referencing the metric.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1228,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 252,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

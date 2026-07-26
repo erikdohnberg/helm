@@ -1,0 +1,44 @@
+{
+  "cache_key": "2d544eb10ca60355abfe3bd0b53c352c14e5ed7a56a84b5fe78634fff5b456e8",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "f4a687b88984022a14645ed27e5c60102040aca17a38ce36723469d868a806fb"
+  },
+  "stored_at": "2026-07-26T17:49:04.702Z",
+  "usage": {
+    "input_tokens": 1105,
+    "output_tokens": 134,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.008875000000000001,
+  "response": {
+    "id": "msg_011CdR6CzxxCov3pRrE6ctTX",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.85,\n      \"basis\": \"metric\",\n      \"rationale\": \"The engineer questions whether the 8-day median signup-to-first-load target is achievable with reduced staffing, directly bearing on the charter's metric and its committed capacity.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1105,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 134,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

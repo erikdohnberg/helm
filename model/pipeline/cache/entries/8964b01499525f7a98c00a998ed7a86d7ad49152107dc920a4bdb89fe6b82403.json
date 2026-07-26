@@ -1,0 +1,44 @@
+{
+  "cache_key": "8964b01499525f7a98c00a998ed7a86d7ad49152107dc920a4bdb89fe6b82403",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "395a9abd0b5aa746f7cbbbb739d797721c547647e761ce95469e7bcf1d4d24bc"
+  },
+  "stored_at": "2026-07-26T17:46:48.465Z",
+  "usage": {
+    "input_tokens": 1109,
+    "output_tokens": 157,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.009470000000000001,
+  "response": {
+    "id": "msg_011CdR62xNADgWt4UtP6pz6Q",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.62,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"A new voice-notes spike from the platform group appears to be net-new feature work the charter explicitly deferred ('No net-new AI features from the platform group this quarter'), colliding with the recorded trade-off and diverting committed capacity.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1109,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 157,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

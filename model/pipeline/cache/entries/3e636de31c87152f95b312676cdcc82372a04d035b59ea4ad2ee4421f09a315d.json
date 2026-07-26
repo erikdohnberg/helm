@@ -1,0 +1,44 @@
+{
+  "cache_key": "3e636de31c87152f95b312676cdcc82372a04d035b59ea4ad2ee4421f09a315d",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "288dcfca2cd5374aa3b40dee91221aecae5f9032eaf76a6c1a9b1c688c3f9026"
+  },
+  "stored_at": "2026-07-26T17:52:23.931Z",
+  "usage": {
+    "input_tokens": 1248,
+    "output_tokens": 138,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00969,
+  "response": {
+    "id": "msg_011CdR6Tgi2HeNUHWEJHU5iA",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": false,\n      \"confidence\": 0.72,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"A pre-sale deal negotiation over an SSO requirement concerns closing a new deal, not the post-signature onboarding friction or first-90-day churn the charter tracks.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1248,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 138,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

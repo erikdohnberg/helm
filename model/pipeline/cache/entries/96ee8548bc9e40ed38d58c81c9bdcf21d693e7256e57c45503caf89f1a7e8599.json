@@ -1,0 +1,44 @@
+{
+  "cache_key": "96ee8548bc9e40ed38d58c81c9bdcf21d693e7256e57c45503caf89f1a7e8599",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "382d33423916f3777c24e51ab512a3ebcb0511d84adbc9904ec31be8a6f98296"
+  },
+  "stored_at": "2026-07-26T17:51:58.227Z",
+  "usage": {
+    "input_tokens": 1245,
+    "output_tokens": 394,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.016075000000000002,
+  "response": {
+    "id": "msg_011CdR6RbwUWLmrnj3F97aov",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"progress\",\n          \"quote\": \"Template gallery is landing really well, creators are into it, retention feels healthier.\",\n          \"reasoning\": \"Describes a shipped feature being received positively and a qualitative sense of improved retention, which advances the return outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"WAC not shown for the third review running\",\n          \"reasoning\": \"Explicitly references the WAC metric and notes its absence across reviews, a reference to the outcome's metric.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Status is all qualitative; WAC not shown for the third review running.\",\n          \"reasoning\": \"Repeated omission of the target metric in favor of qualitative status suggests the measured outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1245,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 394,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "869b28a03657b2d0e5112c02b59ceb43d05e1e38acc837b1e2be0dfc883bd8fb",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "7a084ad538a04bfe8ee5116a75a92799c530259de00b1f5d51d131714ecf56e1"
+  },
+  "stored_at": "2026-07-26T17:46:33.805Z",
+  "usage": {
+    "input_tokens": 1223,
+    "output_tokens": 431,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.016890000000000002,
+  "response": {
+    "id": "msg_011CdR61gX8bWsxNtQ1xAvn9",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Sprint 4 commits 40% of pod capacity to SSO stories\",\n          \"reasoning\": \"Committing significant capacity to SSO pulls effort away from activation work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SSO stories\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Sprint 4 commits 40% of pod capacity to SSO stories\",\n          \"reasoning\": \"SSO was explicitly deferred to Q4 and the quarter was agreed to be about converting existing signups, so committing capacity to SSO collides with the board's focus.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Activation experiment backlog untouched; two onboarding A/B tests pushed a sprint.\",\n          \"reasoning\": \"Leaving the activation backlog untouched and delaying onboarding tests signals activation work is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1223,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 431,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

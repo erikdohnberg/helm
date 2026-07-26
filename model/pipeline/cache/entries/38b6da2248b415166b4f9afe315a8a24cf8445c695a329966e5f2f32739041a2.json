@@ -1,0 +1,44 @@
+{
+  "cache_key": "38b6da2248b415166b4f9afe315a8a24cf8445c695a329966e5f2f32739041a2",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "39809c1ef03cce4b0525435d2fc5037c07acd69d97ed74c0a77a460823875a05"
+  },
+  "stored_at": "2026-07-26T17:48:23.648Z",
+  "usage": {
+    "input_tokens": 1198,
+    "output_tokens": 256,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.012390000000000002,
+  "response": {
+    "id": "msg_011CdR69vaCjXuQEYuf7JDf5",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"We said two weeks in July. It's been seven.\",\n          \"reasoning\": \"Indicates the work has slipped far beyond estimate, impeding the outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"I'm pulling him back after this sprint unless someone tells me otherwise.\",\n          \"reasoning\": \"Signals the person working on this may be removed, de-emphasizing the outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1198,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 256,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

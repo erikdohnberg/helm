@@ -1,0 +1,44 @@
+{
+  "cache_key": "892b474f0ae5adff9f0f29933f83ff65b7b6c100394c8b70afc6b628c3a49eef",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "1f9b21033866cb5c95a086815e28d90a20bc0346e88a2d3511943b5504844b52"
+  },
+  "stored_at": "2026-07-26T16:22:16.232Z",
+  "usage": {
+    "input_tokens": 1645,
+    "output_tokens": 573,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.02255,
+  "response": {
+    "id": "msg_011CdQyagjdzVW3J6WwnWEd1",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.55,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"An SSO requirement for a large deal is enterprise/sales-driven work that could pull the pod away from onboarding, the capacity focus the charter recorded protecting.\"\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.7,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"The pod's tech lead and Marco are scoping SSO at the CRO's request, diverting the pod committed to new-customer onboarding per the recorded trade-off.\"\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"relevant\": true,\n      \"confidence\": 0.75,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"A formal SSO design doc authored by pod engineers shows deferred non-onboarding work being taken on, colliding with the pod-focus trade-off.\"\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"relevant\": true,\n      \"confidence\": 0.95,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"40% of pod capacity going to SSO while onboarding A/B tests slip directly displaces the onboarding lever (r3) and the recorded focus trade-off.\"\n    },\n    {\n      \"signal_id\": \"s5\",\n      \"relevant\": true,\n      \"confidence\": 0.9,\n      \"basis\": \"metric\",\n      \"rationale\": \"Flat activation and admittedly under-shipped activation work is direct evidence of stalled progress on the onboarding lever driving first-90-day churn.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1645,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 573,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

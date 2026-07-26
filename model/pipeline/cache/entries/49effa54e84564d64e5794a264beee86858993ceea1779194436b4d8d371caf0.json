@@ -1,0 +1,44 @@
+{
+  "cache_key": "49effa54e84564d64e5794a264beee86858993ceea1779194436b4d8d371caf0",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "0a5910f1250a12adf30e719d893240687c0f8dc3c141631183cc08ebbff8dbbd"
+  },
+  "stored_at": "2026-07-26T17:47:40.687Z",
+  "usage": {
+    "input_tokens": 1209,
+    "output_tokens": 413,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.016370000000000003,
+  "response": {
+    "id": "msg_011CdR66cF3fpZyokX7tP4MD",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"can we get a promo banner slot on cart for the harvest campaign?\",\n          \"reasoning\": \"A promo banner campaign is a different topic pulling pod effort away from checkout completion work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Promo banner slot for harvest campaign\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Sure, squeezing it in.\",\n          \"reasoning\": \"Agreeing to squeeze in promo tooling work spreads the pod across the funnel, contradicting the focus claim.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"can we get a promo banner slot on cart for the harvest campaign?\",\n          \"reasoning\": \"Promo tooling was slated for the Q4 backlog per trade-offs, so pulling it forward signals de-emphasis of the checkout focus.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1209,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 413,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

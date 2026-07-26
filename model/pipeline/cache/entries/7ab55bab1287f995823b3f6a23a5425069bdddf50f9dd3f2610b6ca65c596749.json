@@ -1,0 +1,44 @@
+{
+  "cache_key": "7ab55bab1287f995823b3f6a23a5425069bdddf50f9dd3f2610b6ca65c596749",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "0b28fc7dc50eda9ca1225c5a183c689d2708875650ee6c9427a4cd391cd6a04e"
+  },
+  "stored_at": "2026-07-26T17:51:07.507Z",
+  "usage": {
+    "input_tokens": 1313,
+    "output_tokens": 307,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.014240000000000001,
+  "response": {
+    "id": "msg_011CdR6MxJiH39EhzmoNv3V5",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"decision\",\n          \"quote\": \"Agreed as in-scope.\",\n          \"reasoning\": \"The team decided to add an interactive API explorer to the scope, a decision affecting the onboarding outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"'Self-serve onboarding should really include an interactive API explorer so devs can try calls in the browser.' Agreed as in-scope. Nobody checks it against the 10-minute goal.\",\n          \"reasoning\": \"Expanding scope to a browser API explorer collides with the charter's deliberately narrow focus on only the first ten minutes.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1313,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 307,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

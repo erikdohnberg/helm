@@ -1,0 +1,44 @@
+{
+  "cache_key": "e4743d6c82b5ad6731441f05cd3772d1b0968ef3b30d0bcf4b61a0ca04178977",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "780f66260eac50fedb8e667af459e47ca65a8814b562f133f5ab4b32dc8c4de0"
+  },
+  "stored_at": "2026-07-26T17:49:41.511Z",
+  "usage": {
+    "input_tokens": 1179,
+    "output_tokens": 314,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.013745,
+  "response": {
+    "id": "msg_011CdR6FdtGjVdu9haST8CPk",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"a 'What stops' section naming the EU payments deferral and its cost\",\n          \"reasoning\": \"The doc explicitly names an EU payments deferral, signaling the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"'Q4 Re-anchor: Invoicing Response' doc — new outcome, metric, reasoning\",\n          \"reasoning\": \"A re-anchor toward invoicing with a new outcome and metric pulls attention away from EU payment methods.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Q4 Invoicing Response re-anchor\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1179,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 314,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

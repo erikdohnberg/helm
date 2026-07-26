@@ -1,0 +1,44 @@
+{
+  "cache_key": "52b71281ef9265e6853f69af12ab95cb081c1a04fe544fc786aca36a8451257b",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "681dc397a4f50628ba4b773e0deb9fe39bd46c992c0996bd9803b661a6ff5b40"
+  },
+  "stored_at": "2026-07-26T17:15:33.358Z",
+  "usage": {
+    "input_tokens": 1607,
+    "output_tokens": 1149,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.03676,
+  "response": {
+    "id": "msg_011CdR3e4km3miLtbqXaeeT1",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"SSO is a hard requirement for their security review\",\n          \"reasoning\": \"SSO is an enterprise feature deferred to Q4 per the charter trade-offs, now pulling attention.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Enterprise SSO for Meridian Capital\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Meridian Capital is verbal at 480k but SSO is a hard requirement for their security review\",\n          \"reasoning\": \"Chasing a new enterprise deal via SSO contradicts the board agreement to focus on converting existing signups, not adding segments.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Taking a look at SAML scoping today, CRO asked. Marco is pairing with me.\",\n          \"reasoning\": \"SAML/SSO scoping work is consuming engineering effort that competes with activation work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SAML/SSO scoping\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"New doc 'SAML SSO – Technical Design (Meridian)' created and shared with the growth pod, 9 pages, two named engineers as authors.\",\n          \"reasoning\": \"A detailed SSO technical design with two engineers indicates deferred enterprise work is actively pulling the growth pod's effort.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SAML SSO technical design\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Activation experiment backlog untouched; two onboarding A/B tests pushed a sprint.\",\n          \"reasoning\": \"Activation experiments being untouched and onboarding tests deferred signals activation is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Sprint 4 commits 40% of pod capacity to SSO stories.\",\n          \"reasoning\": \"Nearly half of pod capacity going to SSO diverts effort from the activation outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SSO stories\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s5\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Activation flat at 18% for three weeks.\",\n          \"reasoning\": \"Directly references the activation metric and its stagnant movement.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"we shipped less activation work than planned in July.\",\n          \"reasoning\": \"Under-shipping planned activation work is impeding progress toward the outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1607,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1149,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "fab969ad37b61ba3f62c295e4755da938abd4a6b5fa776711b9cb995f821d46f",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "ac98eb10df63b22620566887c0ceb56a228e33b0305c290a774968be563d7685"
+  },
+  "stored_at": "2026-07-26T17:50:50.518Z",
+  "usage": {
+    "input_tokens": 1343,
+    "output_tokens": 410,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.016965,
+  "response": {
+    "id": "msg_011CdR6LeCWtTNgbb3CFU3Ls",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"the guided-onboarding flow — the charter's actual lever — slips a sprint\",\n          \"reasoning\": \"The charter's core lever is being delayed, signaling the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Sprint commits the save-offer eligibility work\",\n          \"reasoning\": \"Save-offer eligibility work is pulling sprint effort away from the guided-onboarding flow.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"save-offer eligibility work\"\n        },\n        {\n          \"type\": \"decision\",\n          \"quote\": \"the guided-onboarding flow — the charter's actual lever — slips a sprint. The charter is not reopened.\",\n          \"reasoning\": \"A sprint-planning decision to slip the lever while leaving the charter unchanged affects the outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1343,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 410,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

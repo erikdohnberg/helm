@@ -1,0 +1,44 @@
+{
+  "cache_key": "b397ead11c460e57e2add9e3ace5e72f643d22f660283741f2d8b3d1e2fbbbce",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "13593a558fe3555ac860d3eba1dc6f3c68d7265bff4e11033fa3c721f41213b5"
+  },
+  "stored_at": "2026-07-26T17:48:02.169Z",
+  "usage": {
+    "input_tokens": 1122,
+    "output_tokens": 150,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00936,
+  "response": {
+    "id": "msg_011CdR68PoFigrbVAx5L55V4",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.85,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"Requesting the reporting pod loan someone to close report-builder gaps collides with the charter's recorded trade-off deferring custom report-builder enhancements and pulls committed capacity away from scheduled delivery.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1122,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 150,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cache_key": "ebe9a984b554b843982806015a9767d3a77c17d4433a4849e89ae38e9891ffa3",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "b25b04c94d41d5b11091aa57b23d4d36c295bd3a89d9ef145885d79a191e89d9"
+  },
+  "stored_at": "2026-07-26T17:52:34.990Z",
+  "usage": {
+    "input_tokens": 1241,
+    "output_tokens": 125,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.009330000000000001,
+  "response": {
+    "id": "msg_011CdR6UWHjJwycNJMNCL5Zj",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s5\",\n      \"relevant\": true,\n      \"confidence\": 0.62,\n      \"basis\": \"reasoning\",\n      \"rationale\": \"Flat activation and reduced activation/onboarding work bears on r2/r3's premise that guided onboarding is the lever against early churn.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1241,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 125,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

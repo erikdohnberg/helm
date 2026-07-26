@@ -1,0 +1,44 @@
+{
+  "cache_key": "6fba6a9313de056743645fa4e5c4ad172198577c411fa87734ffbf43d61e241a",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "5d8f9a9145dd9716f0bd176c65f26ada75e1ded671796cb665753bbd657c02aa"
+  },
+  "stored_at": "2026-07-26T17:48:08.446Z",
+  "usage": {
+    "input_tokens": 1100,
+    "output_tokens": 147,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.009175,
+  "response": {
+    "id": "msg_011CdR68sJy4yPrxmCq4SiPZ",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s2\",\n      \"relevant\": true,\n      \"confidence\": 0.55,\n      \"basis\": \"trade_off\",\n      \"rationale\": \"An engineer's committed capacity is being consumed by Northgate account-specific issues, which collides with the deferred custom report-builder enhancements for individual accounts and may pull effort from scheduled delivery.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1100,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 147,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

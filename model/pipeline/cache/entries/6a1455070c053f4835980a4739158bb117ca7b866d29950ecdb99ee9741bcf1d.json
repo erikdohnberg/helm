@@ -1,0 +1,44 @@
+{
+  "cache_key": "6a1455070c053f4835980a4739158bb117ca7b866d29950ecdb99ee9741bcf1d",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "9893595bbc285c009eae4ba517a5dc3e052debc98f256785ff28634095f9d0f2"
+  },
+  "stored_at": "2026-07-26T17:15:40.886Z",
+  "usage": {
+    "input_tokens": 1383,
+    "output_tokens": 603,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.02199,
+  "response": {
+    "id": "msg_011CdR3ewgdiDWhpVPLDW7Y2",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Great call with Traxion (equipment telematics). If we integrated, their reps say they'd co-sell.\",\n          \"reasoning\": \"Enthusiasm to add a new integration partner pulls attention toward a new partnership rather than making the top 5 self-serve.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"New integration partner Traxion (co-sell BD opportunity)\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Could be worth a spike after the Salesforce self-serve flow ships.\",\n          \"reasoning\": \"Proposing engineering effort on a new Traxion integration competes with the charter's self-serve work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Traxion integration spike\"\n        },\n        {\n          \"type\": \"progress\",\n          \"quote\": \"after the Salesforce self-serve flow ships\",\n          \"reasoning\": \"References an in-flight Salesforce self-serve flow advancing the top-5 self-serve outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Traxion went quiet, their champion is on leave. Parking this.\",\n          \"reasoning\": \"The competing Traxion effort is being shelved, indicating that distraction is de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1383,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 603,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

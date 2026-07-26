@@ -1,0 +1,44 @@
+{
+  "cache_key": "5ee7cfcc1408f63e942c691f9236a36c3398b3157be83786d165a452f5bd6867",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "275841fce6f44585c3797b3865576cf277862a9d428660701900272db9ffe44d"
+  },
+  "stored_at": "2026-07-26T17:52:05.842Z",
+  "usage": {
+    "input_tokens": 1168,
+    "output_tokens": 115,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.008715,
+  "response": {
+    "id": "msg_011CdR6SPcqPS6q75hZe44zb",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s5\",\n      \"relevant\": true,\n      \"confidence\": 0.99,\n      \"basis\": \"metric\",\n      \"rationale\": \"Directly reports the WAC metric (7.8k vs 12k target), the charter's core measure of weekly return.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1168,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 115,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

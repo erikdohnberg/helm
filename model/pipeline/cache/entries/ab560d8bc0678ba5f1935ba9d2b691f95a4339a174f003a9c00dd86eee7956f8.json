@@ -1,0 +1,44 @@
+{
+  "cache_key": "ab560d8bc0678ba5f1935ba9d2b691f95a4339a174f003a9c00dd86eee7956f8",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "5fc864c547e3776bcb92aee22bdb5476cf3d7dcf0d27864140d375e0e12c2db0"
+  },
+  "stored_at": "2026-07-26T17:46:12.318Z",
+  "usage": {
+    "input_tokens": 1210,
+    "output_tokens": 347,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.014725000000000002,
+  "response": {
+    "id": "msg_011CdR5z8dDDDjyKWYNwgKzt",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Meridian Capital is verbal at 480k but SSO is a hard requirement for their security review. Who owns that?\",\n          \"reasoning\": \"A large enterprise deal is creating pressure for SSO work, pulling attention toward enterprise needs rather than self-serve activation.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Enterprise SSO for a large deal (Meridian Capital)\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"SSO is a hard requirement for their security review\",\n          \"reasoning\": \"SSO is an explicitly deferred enterprise feature, so demanding it now collides with the board's agreement to focus the quarter on converting existing signups rather than enterprise/new segments.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1210,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 347,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

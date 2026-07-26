@@ -1,0 +1,44 @@
+{
+  "cache_key": "28e35b18ce3d11d0af8775ae3790f89701676732628edd00d5feaf0c7b1d7cc2",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "32ed762a09cf0dadc4f488924b087019015eb9df939b9160cdc06b3db47f68c8"
+  },
+  "stored_at": "2026-07-26T17:51:15.361Z",
+  "usage": {
+    "input_tokens": 1330,
+    "output_tokens": 476,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01855,
+  "response": {
+    "id": "msg_011CdR6NR1pBbYrQtPiiLYeN",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"the 'first call in 10 min' goal is moved under a 'Phase 2' heading\",\n          \"reasoning\": \"Moving the charter's core 10-minute goal to Phase 2 signals it is being de-emphasized relative to other work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"a new 'Developer portal' section is added (explorer, SDK quickstarts, samples gallery)\",\n          \"reasoning\": \"Adding developer-portal, SDK, and samples work collides with the charter's deliberate narrowing to only the first ten minutes.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"a new 'Developer portal' section is added (explorer, SDK quickstarts, samples gallery)\",\n          \"reasoning\": \"The portal, SDK quickstarts, and samples gallery are explicitly deferred trade-off work now pulling effort into the spec.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Developer portal (explorer, SDK quickstarts, samples gallery)\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1330,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 476,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

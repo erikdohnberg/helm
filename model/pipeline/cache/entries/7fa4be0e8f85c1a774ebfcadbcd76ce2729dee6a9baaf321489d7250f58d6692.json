@@ -1,0 +1,44 @@
+{
+  "cache_key": "7fa4be0e8f85c1a774ebfcadbcd76ce2729dee6a9baaf321489d7250f58d6692",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "41ec81d4b60269707efebb5a59dc35b43c43a31222e1d72c7ea15498749421b7"
+  },
+  "stored_at": "2026-07-26T17:48:06.294Z",
+  "usage": {
+    "input_tokens": 1207,
+    "output_tokens": 315,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01391,
+  "response": {
+    "id": "msg_011CdR68Zi4KkEb1km2FsUDB",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Can reporting pod loan someone for two weeks? Daniel is fine with it.\",\n          \"reasoning\": \"Requests pulling reporting pod effort toward report-builder gaps, diverting attention from scheduled delivery work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Northgate report-builder gaps / renewal support\"\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Northgate renewal is shaky over report-builder gaps\",\n          \"reasoning\": \"Escalating report-builder work (an explicitly deferred trade-off) signals the scheduled delivery outcome may be displaced.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1207,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 315,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

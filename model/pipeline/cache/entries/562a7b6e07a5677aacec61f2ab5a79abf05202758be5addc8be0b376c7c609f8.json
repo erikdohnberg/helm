@@ -1,0 +1,44 @@
+{
+  "cache_key": "562a7b6e07a5677aacec61f2ab5a79abf05202758be5addc8be0b376c7c609f8",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "d497347dc57c5d9bcfa89d7054fdc837fc0dcb74b7bfbd702584d673e4bf676d"
+  },
+  "stored_at": "2026-07-26T17:50:26.150Z",
+  "usage": {
+    "input_tokens": 1190,
+    "output_tokens": 385,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.015575,
+  "response": {
+    "id": "msg_011CdR6JrKiX1CpJe5kMrFkt",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"Recovery experiment #3 delayed for 'platform hardening.'\",\n          \"reasoning\": \"The recovery experiment being delayed directly impedes progress toward the cart-recovery outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"First time outcome work yields to the platform rather than the reverse.\",\n          \"reasoning\": \"Platform hardening is a different topic pulling effort away from the recovery outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"platform hardening\"\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"First time outcome work yields to the platform rather than the reverse.\",\n          \"reasoning\": \"Outcome work yielding to platform work signals the recovery outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1190,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 385,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

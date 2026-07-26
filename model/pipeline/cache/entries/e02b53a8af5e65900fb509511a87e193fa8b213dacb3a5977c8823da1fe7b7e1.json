@@ -1,0 +1,44 @@
+{
+  "cache_key": "e02b53a8af5e65900fb509511a87e193fa8b213dacb3a5977c8823da1fe7b7e1",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "ddec1ebe51be3562ae228175902d0d90f9a5d9ed4e305fe1caa4d546d8393c58"
+  },
+  "stored_at": "2026-07-26T17:46:39.731Z",
+  "usage": {
+    "input_tokens": 1203,
+    "output_tokens": 239,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01199,
+  "response": {
+    "id": "msg_011CdR62FRYgvKfsAh4GUqVK",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s5\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Activation flat at 18% for three weeks.\",\n          \"reasoning\": \"This directly references the activation metric and its lack of movement.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"we shipped less activation work than planned in July.\",\n          \"reasoning\": \"Under-delivering planned activation work is impeding progress toward the activation outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1203,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 239,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

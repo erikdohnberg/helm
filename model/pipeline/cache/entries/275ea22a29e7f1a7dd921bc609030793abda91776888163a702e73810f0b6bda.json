@@ -1,0 +1,44 @@
+{
+  "cache_key": "275ea22a29e7f1a7dd921bc609030793abda91776888163a702e73810f0b6bda",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "cb8b3f56e6decab28b006b1ddb249236bce228e3a1cdb1749739e1100b8ddcaf"
+  },
+  "stored_at": "2026-07-26T17:49:07.634Z",
+  "usage": {
+    "input_tokens": 1190,
+    "output_tokens": 250,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0122,
+  "response": {
+    "id": "msg_011CdR6DB5AqBqUNqebmRK7U",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"so are we still doing 8 days with two of us? lol.\",\n          \"reasoning\": \"Engineer questions whether the 8-day target is achievable with reduced staffing, signaling a capacity impediment.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"are we still doing 8 days\",\n          \"reasoning\": \"Directly references the outcome's target metric value of 8 days.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1190,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 250,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

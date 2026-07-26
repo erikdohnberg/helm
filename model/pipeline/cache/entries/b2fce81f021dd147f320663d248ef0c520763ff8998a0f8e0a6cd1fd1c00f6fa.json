@@ -1,0 +1,44 @@
+{
+  "cache_key": "b2fce81f021dd147f320663d248ef0c520763ff8998a0f8e0a6cd1fd1c00f6fa",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "1103a1c542a1462e6e0c3d27bf289bb9a74d8467f9a9df0924a468eab96b26cb"
+  },
+  "stored_at": "2026-07-26T17:46:57.476Z",
+  "usage": {
+    "input_tokens": 1200,
+    "output_tokens": 278,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01295,
+  "response": {
+    "id": "msg_011CdR63YgeadKA9x1UczS7j",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Sync conflict-resolution work moves to the back half.\",\n          \"reasoning\": \"Pushing sync conflict-resolution work to the back half signals the sync outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Amara and Deep moving to voice full-time through the summit.\",\n          \"reasoning\": \"Two engineers being reassigned full-time to voice pulls effort away from sync work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"voice feature work\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1200,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 278,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

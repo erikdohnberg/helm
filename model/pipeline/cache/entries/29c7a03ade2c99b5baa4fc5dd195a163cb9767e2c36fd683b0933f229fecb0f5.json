@@ -1,0 +1,44 @@
+{
+  "cache_key": "29c7a03ade2c99b5baa4fc5dd195a163cb9767e2c36fd683b0933f229fecb0f5",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "b5c59f5e321ade8f9b23e54aa1bf8518459557bd9de2b82970770ef5306bfce1"
+  },
+  "stored_at": "2026-07-26T17:50:19.747Z",
+  "usage": {
+    "input_tokens": 1219,
+    "output_tokens": 346,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.014745000000000001,
+  "response": {
+    "id": "msg_011CdR6JNkH4aDPxeo1rPXUE",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Recovery experiments mentioned once, in the background section.\",\n          \"reasoning\": \"Recovery work being relegated to a background mention in a doc with 'a roadmap of its own' signals the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"'Checkout Events Platform — v2 proposal' doc: self-serve query layer, data-quality monitoring, a roadmap of its own.\",\n          \"reasoning\": \"A separate platform proposal with its own roadmap is pulling the instrumentation engineer's effort away from recovery work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Checkout Events Platform v2 (self-serve query layer, data-quality monitoring)\"\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1219,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 346,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

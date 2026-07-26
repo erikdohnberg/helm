@@ -1,0 +1,44 @@
+{
+  "cache_key": "8a20aaa19536c1b6a06c7551f560f9d1e19054c8aee28fd92fe8058612cfd959",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "5e0cb44fb216f35797d69f080130e38d362ebe33ab1bc17a004c8bc64f6e712a"
+  },
+  "stored_at": "2026-07-26T17:49:18.911Z",
+  "usage": {
+    "input_tokens": 1211,
+    "output_tokens": 251,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01233,
+  "response": {
+    "id": "msg_011CdR6DzmaAWfwL6KKGZE1H",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Metric at 13 days, trajectory flat.\",\n          \"reasoning\": \"Directly references the signup-to-first-load metric's current value and its lack of movement.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"We lost three engineers in the reorg.\",\n          \"reasoning\": \"Loss of engineering capacity is impeding progress toward the onboarding-time outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1211,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 251,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

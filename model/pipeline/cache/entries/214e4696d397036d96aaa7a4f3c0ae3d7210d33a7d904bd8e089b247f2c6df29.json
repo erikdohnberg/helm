@@ -1,0 +1,44 @@
+{
+  "cache_key": "214e4696d397036d96aaa7a4f3c0ae3d7210d33a7d904bd8e089b247f2c6df29",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "823128e0bb061c9963b24913a6db92ea327e0c72d952a21632bbe17895435d58"
+  },
+  "stored_at": "2026-07-26T17:51:03.794Z",
+  "usage": {
+    "input_tokens": 1228,
+    "output_tokens": 142,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00969,
+  "response": {
+    "id": "msg_011CdR6MigvF3z5TH6cj7Q2D",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.9,\n      \"basis\": \"outcome\",\n      \"rationale\": \"An interactive API explorer for self-serve onboarding directly touches the outcome of a developer making their first successful call, while also potentially colliding with the trade-off deferring broader developer-portal work.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1228,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 142,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

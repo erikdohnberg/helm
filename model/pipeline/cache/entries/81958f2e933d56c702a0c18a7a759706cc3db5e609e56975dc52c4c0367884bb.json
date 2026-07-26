@@ -1,0 +1,44 @@
+{
+  "cache_key": "81958f2e933d56c702a0c18a7a759706cc3db5e609e56975dc52c4c0367884bb",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "d446ad1c86eb4a0e8f23949c9a2f0ef0a51619e5c6d676b22be876813260c37e"
+  },
+  "stored_at": "2026-07-26T17:51:22.059Z",
+  "usage": {
+    "input_tokens": 1326,
+    "output_tokens": 347,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.015305000000000001,
+  "response": {
+    "id": "msg_011CdR6NzxF1csvBarJKRtvh",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"Time-to-first-call is not mentioned anywhere in the epic.\",\n          \"reasoning\": \"The charter's core metric is absent from the epic that supposedly covers this outcome, signaling it is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Roadmap lists 'Self-serve onboarding' as a portal epic spanning explorer, docs refresh, SDKs, and a samples gallery.\",\n          \"reasoning\": \"The epic scopes docs, SDKs, and samples — precisely the broader portal work the charter defers to Q4+, contradicting the deliberately narrow first-ten-minutes focus.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1326,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 347,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

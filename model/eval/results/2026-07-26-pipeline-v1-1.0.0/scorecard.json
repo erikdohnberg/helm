@@ -1,0 +1,362 @@
+{
+  "detector": {
+    "name": "pipeline-v1",
+    "version": "1.0.0"
+  },
+  "contracts_version": "1.0.0",
+  "run_date": "2026-07-26",
+  "totals": {
+    "scenarios": 13,
+    "drift_scenarios": 11,
+    "control_scenarios": 2
+  },
+  "metrics": {
+    "detection_recall": 1,
+    "precision_proxy": 0.45454545454545453,
+    "median_lead_time_days": 13,
+    "control_false_positive_count": 0,
+    "control_hard_failures": 0,
+    "type_accuracy": 0.36363636363636365,
+    "routing_coverage": 0.6818181818181818
+  },
+  "timing_breakdown": {
+    "premature": 6,
+    "on_time": 5,
+    "late": 0,
+    "missed": 0
+  },
+  "per_scenario": [
+    {
+      "scenario_id": "scn-001",
+      "label": "Enterprise deal injects SSO work into an activation quarter",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-14",
+      "earliest_date": "2026-07-17",
+      "realization_date": "2026-07-21",
+      "classification": "premature",
+      "lead_time_days": 7,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-dana-okafor",
+          "actor-cro"
+        ],
+        "covered": [
+          "actor-dana-okafor"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-002",
+      "label": "Post-conference exec redirect displaces a reliability outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-20",
+      "earliest_date": "2026-07-31",
+      "realization_date": "2026-07-31",
+      "classification": "premature",
+      "lead_time_days": 11,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-june-park",
+          "actor-tomas-reyes"
+        ],
+        "covered": [
+          "actor-june-park"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-003",
+      "label": "Security incident consumes the quarter; the mobile launch outcome silently slips",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-24",
+      "earliest_date": "2026-07-24",
+      "realization_date": "2026-07-24",
+      "classification": "on_time",
+      "lead_time_days": 0,
+      "type_match": true,
+      "routing": {
+        "expected": [
+          "actor-marcus-bell",
+          "actor-hardening-plan-owner"
+        ],
+        "covered": [
+          "actor-marcus-bell"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-004",
+      "label": "Merchandising asks bleed capacity from a checkout conversion outcome",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-09",
+      "earliest_date": "2026-08-05",
+      "realization_date": "2026-08-27",
+      "classification": "premature",
+      "lead_time_days": 49,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-leo-grant",
+          "actor-growth-team"
+        ],
+        "covered": [
+          "actor-leo-grant"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-005",
+      "label": "Top-account escalation peels an engineer off 'for two weeks' that become eight",
+      "is_control": false,
+      "expected_drift_type": "commitment_overrun",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-27",
+      "earliest_date": "2026-07-27",
+      "realization_date": "2026-09-01",
+      "classification": "on_time",
+      "lead_time_days": 36,
+      "type_match": true,
+      "routing": {
+        "expected": [
+          "actor-daniel-voss",
+          "actor-grace-obi"
+        ],
+        "covered": [
+          "actor-daniel-voss",
+          "actor-grace-obi"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-006",
+      "label": "Data migration outcome starves quietly — no injection, attention just fades",
+      "is_control": false,
+      "expected_drift_type": "attention_decay",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-08-31",
+      "earliest_date": "2026-08-18",
+      "realization_date": "2026-09-14",
+      "classification": "on_time",
+      "lead_time_days": 14,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-covering-pm",
+          "actor-ingrid-halvorsen"
+        ],
+        "covered": [
+          "actor-ingrid-halvorsen"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-007",
+      "label": "Reorg moves 3 of 5 engineers; the charter target is never revised",
+      "is_control": false,
+      "expected_drift_type": "capacity_withdrawal",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-28",
+      "earliest_date": "2026-07-28",
+      "realization_date": "2026-07-29",
+      "classification": "on_time",
+      "lead_time_days": 1,
+      "type_match": true,
+      "routing": {
+        "expected": [
+          "actor-claire-fontaine",
+          "actor-ravi-menon"
+        ],
+        "covered": [
+          "actor-claire-fontaine",
+          "actor-ravi-menon"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-008",
+      "label": "CONTROL — Competitor launch triggers a deliberate, recorded replacement (not drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-009",
+      "label": "CONTROL — A partner-integration idea gets a week of Slack energy, then dies (no drift)",
+      "is_control": true,
+      "expected_drift_type": "none",
+      "should_flag": false,
+      "flagged": false,
+      "num_events": 0,
+      "first_flag_date": null,
+      "earliest_date": null,
+      "realization_date": null,
+      "classification": "control_clean",
+      "lead_time_days": null,
+      "type_match": null,
+      "routing": {
+        "expected": [],
+        "covered": [],
+        "coverage": null
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-010",
+      "label": "BORDERLINE — Instrumentation work attaches to an outcome, then grows into its own workstream",
+      "is_control": false,
+      "expected_drift_type": "priority_displacement",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-10-22",
+      "earliest_date": "2026-11-05",
+      "realization_date": "2026-11-18",
+      "classification": "premature",
+      "lead_time_days": 27,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-leo-grant",
+          "actor-instrumentation-engineer"
+        ],
+        "covered": [
+          "actor-leo-grant"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-011",
+      "label": "New churn analysis overturns the charter's onboarding premise; a discount program starts on it",
+      "is_control": false,
+      "expected_drift_type": "reasoning_contradiction",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-15",
+      "earliest_date": "2026-07-23",
+      "realization_date": "2026-07-28",
+      "classification": "premature",
+      "lead_time_days": 13,
+      "type_match": true,
+      "routing": {
+        "expected": [
+          "actor-lena-ortiz",
+          "actor-growth-lead"
+        ],
+        "covered": [
+          "actor-lena-ortiz"
+        ],
+        "coverage": 0.5
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-012",
+      "label": "'Self-serve onboarding' quietly comes to mean a developer portal, off the charter's definition",
+      "is_control": false,
+      "expected_drift_type": "scope_mutation",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-07-13",
+      "earliest_date": "2026-07-21",
+      "realization_date": "2026-08-26",
+      "classification": "premature",
+      "lead_time_days": 44,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-theo-brandt",
+          "actor-marisol-vega"
+        ],
+        "covered": [
+          "actor-theo-brandt",
+          "actor-marisol-vega"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    },
+    {
+      "scenario_id": "scn-013",
+      "label": "The metric drops out of the updates; qualitative 'momentum' hides a big miss",
+      "is_control": false,
+      "expected_drift_type": "metric_detachment",
+      "should_flag": true,
+      "flagged": true,
+      "num_events": 1,
+      "first_flag_date": "2026-08-20",
+      "earliest_date": "2026-08-07",
+      "realization_date": "2026-08-31",
+      "classification": "on_time",
+      "lead_time_days": 11,
+      "type_match": false,
+      "routing": {
+        "expected": [
+          "actor-sol-amari",
+          "actor-iris-kwon"
+        ],
+        "covered": [
+          "actor-sol-amari",
+          "actor-iris-kwon"
+        ],
+        "coverage": 1
+      },
+      "control_hard_failure": false
+    }
+  ]
+}

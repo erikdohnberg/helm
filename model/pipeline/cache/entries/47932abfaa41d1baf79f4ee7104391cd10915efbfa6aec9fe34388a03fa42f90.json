@@ -1,0 +1,44 @@
+{
+  "cache_key": "47932abfaa41d1baf79f4ee7104391cd10915efbfa6aec9fe34388a03fa42f90",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "16b08b1d76a57c4e7c613345dc1e84916e6d1795f375abe6373d97e2e4dc6865"
+  },
+  "stored_at": "2026-07-26T17:52:37.366Z",
+  "usage": {
+    "input_tokens": 1141,
+    "output_tokens": 153,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00953,
+  "response": {
+    "id": "msg_011CdR6Ug7qB15fnJgJ2WZ1R",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": false,\n      \"confidence\": 0.85,\n      \"basis\": \"unrelated\",\n      \"rationale\": \"This concerns self-serve onboarding and an interactive API explorer, which has no bearing on migrating reports to the event pipeline or the warehouse decommission; the paused data-export API trade-off is distinct from this onboarding API explorer.\"\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1141,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 153,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

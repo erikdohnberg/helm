@@ -1,0 +1,44 @@
+{
+  "cache_key": "c1661af089c82932e68b769a921f19187f1889ad960c8873e3be16e01de5d8d5",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "b848abe4b13145c750f9ab4482f7937c88384c4d46979d886afa2692564ca2db"
+  },
+  "stored_at": "2026-07-26T17:49:35.896Z",
+  "usage": {
+    "input_tokens": 1188,
+    "output_tokens": 415,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.016315000000000003,
+  "response": {
+    "id": "msg_011CdR6F7mngfoP7AUBRM7hw",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"decision\",\n          \"quote\": \"Decision meeting: replace EU payments outcome with 'Ship invoicing parity + differentiation by Dec 15.'\",\n          \"reasoning\": \"A formal decision to replace the EU payments outcome directly affects the charter's outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"EU conversion target moves to Q1\",\n          \"reasoning\": \"Pushing the EU conversion target to Q1 signals the outcome is being de-emphasized.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"replace EU payments outcome with 'Ship invoicing parity + differentiation by Dec 15.'\",\n          \"reasoning\": \"Invoicing parity and differentiation is a different topic being prioritized over EU payments.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"Invoicing parity + differentiation\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1188,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 415,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

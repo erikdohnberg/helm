@@ -1,0 +1,44 @@
+{
+  "cache_key": "a0f5570291252647bce5776459d35a138c3492a6ac09525a18101ab24665776a",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "b12e089b0d1a6eef8f04ecf7f24a0f72b9998a0927abd5b7a0d8e6b648d115b5"
+  },
+  "stored_at": "2026-07-26T17:46:45.958Z",
+  "usage": {
+    "input_tokens": 1207,
+    "output_tokens": 301,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.013560000000000001,
+  "response": {
+    "id": "msg_011CdR62fLUPU4CAFuZP6xzB",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"I want us demoing voice notes at the summit. Platform group should own it since it touches the data layer.\",\n          \"reasoning\": \"A new voice notes feature is pulling the platform group's effort, competing with the sync-reliability outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"voice notes demo at the summit\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"Platform group should own it since it touches the data layer.\",\n          \"reasoning\": \"Assigning net-new voice work to the platform group collides with the charter's trade-off of no net-new features and its retention theme.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1207,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 301,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

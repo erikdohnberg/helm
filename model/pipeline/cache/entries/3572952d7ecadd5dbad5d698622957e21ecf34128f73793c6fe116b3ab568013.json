@@ -1,0 +1,44 @@
+{
+  "cache_key": "3572952d7ecadd5dbad5d698622957e21ecf34128f73793c6fe116b3ab568013",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "834b50923dd660e51429f9e0a474b0b639d0f8a4c9c5f5c8e215bbe95c4bfc62"
+  },
+  "stored_at": "2026-07-26T17:49:13.772Z",
+  "usage": {
+    "input_tokens": 1212,
+    "output_tokens": 290,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01331,
+  "response": {
+    "id": "msg_011CdR6DaCiTxLYwtprap8Pa",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Q3 goals slide shown to COO still lists '8 days by EOQ' with no annotation\",\n          \"reasoning\": \"This references the outcome's target metric of 8 days still being tracked as a goal.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"Ravi's spoken caveat ('with the reorg this is at risk') doesn't make it into the deck or notes\",\n          \"reasoning\": \"The reorg is stated to put the outcome at risk, indicating an impediment to achieving it.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1212,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 290,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

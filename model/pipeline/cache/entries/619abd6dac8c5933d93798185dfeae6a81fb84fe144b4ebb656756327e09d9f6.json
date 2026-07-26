@@ -1,0 +1,44 @@
+{
+  "cache_key": "619abd6dac8c5933d93798185dfeae6a81fb84fe144b4ebb656756327e09d9f6",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "577ea9d5f2ce8f985ec494b2f5cb8be410fa5efcb0eeb42b8b96e8cc627c37c7"
+  },
+  "stored_at": "2026-07-26T17:47:15.463Z",
+  "usage": {
+    "input_tokens": 1189,
+    "output_tokens": 285,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.013070000000000002,
+  "response": {
+    "id": "msg_011CdR64smPokCq1vjZwEGLd",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"blocker\",\n          \"quote\": \"Mobile squad engineers pulled into response rotation 'until further notice.'\",\n          \"reasoning\": \"Pulling mobile engineers into incident response indefinitely impedes progress toward the mobile app pilot.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Incident declared. Mobile squad engineers pulled into response rotation 'until further notice.'\",\n          \"reasoning\": \"An active incident is pulling mobile squad effort away from the pilot outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"incident response rotation\"\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1189,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 285,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

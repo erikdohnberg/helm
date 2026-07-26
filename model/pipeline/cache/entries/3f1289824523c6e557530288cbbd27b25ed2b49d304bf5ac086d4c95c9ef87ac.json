@@ -1,0 +1,44 @@
+{
+  "cache_key": "3f1289824523c6e557530288cbbd27b25ed2b49d304bf5ac086d4c95c9ef87ac",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "e267784d1e13ffa63610b075ae9b40a0f2d0e3e4f0f6f8ee4103e11aaa8bbbf3"
+  },
+  "stored_at": "2026-07-26T16:22:28.420Z",
+  "usage": {
+    "input_tokens": 1804,
+    "output_tokens": 1200,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.03902,
+  "response": {
+    "id": "msg_011CdQybEQ9CMiH383JTSpRD",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "max_tokens",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'. Reverses last year's read.\",\n          \"reasoning\": \"This finding directly reverses the charter's claim that onboarding friction, not price, drives early churn.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'\",\n          \"reasoning\": \"References the composition of sub-90-day cancels, the outcome's churn metric.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"This cuts against our whole onboarding thesis — price is the #1 cancel reason now.\",\n          \"reasoning\": \"Explicitly states the new data contradicts the onboarding-driver thesis in favor of price.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"decision\",\n          \"quote\": \"New doc 'At-Risk Save Offer: 20% intro credit for new accounts flagging churn risk' created and shared; owner is growth, two retention-pod engineers tagged to build eligibility logic.\",\n          \"reasoning\": \"A pricing-based save offer is being stood up with pod engineers, a decision affecting the churn outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"20% intro credit for new accounts flagging churn risk\",\n          \"reasoning\": \"A pricing discount lever collides with the charter's claim that the lever is onboarding, not discounting, and pricing is out of scope.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"the guided-onboarding flow — the charter's actual lever — slips a sprint\",\n          \"reasoning\": \"The charter's actual lever is being deprioritized in favor of the save-offer work.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Sprint commits the save-offer eligibility work; the guided-onboarding flow — the charter's actual lever — slips a sprint.\",\n          \"reasoning\": \"The save-offer work is displacing effort from the charter's onboarding lever.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"save-offer eligibility work (pricing credit)\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s5\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Early churn still 18%.\",\n          \"reasoning\": \"Directly references the first-90-day churn metric and its current level.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"onboarding-flow work is unmentioned, and no one notes the charter put"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1804,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1200,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

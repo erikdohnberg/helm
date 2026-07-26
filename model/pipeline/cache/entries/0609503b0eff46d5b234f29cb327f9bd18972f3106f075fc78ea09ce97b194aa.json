@@ -1,0 +1,44 @@
+{
+  "cache_key": "0609503b0eff46d5b234f29cb327f9bd18972f3106f075fc78ea09ce97b194aa",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "f3d0d71493ea19ff8ffda901c7f78f5819dc99a4fb53850e2989028f819aae65"
+  },
+  "stored_at": "2026-07-26T17:15:10.828Z",
+  "usage": {
+    "input_tokens": 1804,
+    "output_tokens": 1729,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.052245,
+  "response": {
+    "id": "msg_011CdR3bxNj9FsPsZ1osrVED",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s1\",\n      \"extractions\": [\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'. Reverses last year's read.\",\n          \"reasoning\": \"This data claims price, not onboarding friction, is the top cancel reason, colliding with the charter's claim that friction (not price) drives churn.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"44% of sub-90-day cancels cite 'price / value mismatch', 21% 'hard to set up'\",\n          \"reasoning\": \"Directly references the composition of first-90-day churn drivers, the outcome's core metric.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"This cuts against our whole onboarding thesis — price is the #1 cancel reason now.\",\n          \"reasoning\": \"Explicitly states price is now the top cancel reason, contradicting the charter's claim that the driver is onboarding friction not price.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"PM: 'Huh. Let's sit with that.'\",\n          \"reasoning\": \"The PM's hesitation signals the onboarding thesis and its lever may be de-emphasized in response to the new data.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"New doc 'At-Risk Save Offer: 20% intro credit for new accounts flagging churn risk' created and shared; owner is growth, two retention-pod engineers tagged to build eligibility logic.\",\n          \"reasoning\": \"A pricing-based save offer pulls retention-pod engineering effort toward work the charter explicitly puts out of scope.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"pricing-based at-risk save offer (20% intro credit)\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"20% intro credit for new accounts flagging churn risk\",\n          \"reasoning\": \"A pricing/discount intervention directly violates the charter's claim that the lever is onboarding, not discounting, with pricing out of scope.\",\n          \"contradicts_claim\": \"r3\",\n          \"competing_topic\": null\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s4\",\n      \"extractions\": [\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"the guided-onboarding flow — the charter's actual lever — slips a sprint\",\n          \"reasoning\": \"The charter's designated lever is being delayed in favor of other work, signaling de-emphasis of the sanctioned approach.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"decision\",\n          \"quote\": \"Sprint commits the save-offer eligibility work\",\n          \"reasoning\": \"A committed sprint decision prioritizes the out-of-scope save offer over the charter lever.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Sprint commits the save-offer eligibility work; the guided-onboarding flow — the charter's actual lever — slips a sprint.\",\n          \"reasoning\": \"The save-offer work is displacing the onboarding flow, pulling pod effort from the sanctioned outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"save-offer eligibility work\"\n        }\n      ]\n    },\n    {\n      \"signal_id\": \"s5\",\n      \"extractions\": [\n        {\n          \"type\": \"metric_reference\",\n          \"quote\": \"Early churn still 18%.\",\n          \"reasoning\": \"Directly references the first-90-day churn metric and its current (barely-moved) value.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"deprioritization_cue\",\n          \"quote\": \"onboarding-flow work is unmentioned, and no one notes the charter put pricing out of scope\",\n          \"reasoning\": \"The charter's lever is dropped from view while the out-of-scope pricing bet is unchallenged, signaling the outcome's sanctioned approach is being displaced.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        },\n        {\n          \"type\": \"decision\",\n          \"quote\": \"Deck frames the save offer as 'our churn bet'\",\n          \"reasoning\": \"Reframing the pricing save offer as the primary churn strategy is a decision displacing the charter's onboarding approach.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1804,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1729,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

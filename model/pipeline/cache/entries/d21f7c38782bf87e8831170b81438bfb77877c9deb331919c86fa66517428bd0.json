@@ -1,0 +1,44 @@
+{
+  "cache_key": "d21f7c38782bf87e8831170b81438bfb77877c9deb331919c86fa66517428bd0",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "618893f1932ecfaac8d58315c50d139016f4deda80deac81762b50276cc1b81b"
+  },
+  "stored_at": "2026-07-26T17:46:51.198Z",
+  "usage": {
+    "input_tokens": 1194,
+    "output_tokens": 185,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.010595,
+  "response": {
+    "id": "msg_011CdR638kzCHdQCp69wdiLY",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s2\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"Spinning up a small voice-notes spike, June's ask. Keeping it timeboxed to a week.\",\n          \"reasoning\": \"A voice-notes spike is a different topic pulling engineering effort away from the sync-failure outcome.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"voice-notes spike\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1194,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 185,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

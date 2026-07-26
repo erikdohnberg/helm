@@ -1,0 +1,44 @@
+{
+  "cache_key": "b9d6414702147bb2e7fe0259a4172883bcf9b4261a4b625e2944c8f6e5b8d12b",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage3-evidence.md",
+    "prompt_sha256": "e42f5c7c8667d4682440bbd14ac076efbb135e9268656d7daad98037393e86bf",
+    "input_sha256": "829f54da5b320774c29e0b857442f15a90103e3eda17e2ada7ffd03157369f95"
+  },
+  "stored_at": "2026-07-26T17:46:25.734Z",
+  "usage": {
+    "input_tokens": 1211,
+    "output_tokens": 361,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.01508,
+  "response": {
+    "id": "msg_011CdR619nwEyRzJsCJ59xHH",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"signals\": [\n    {\n      \"signal_id\": \"s3\",\n      \"extractions\": [\n        {\n          \"type\": \"competing_priority\",\n          \"quote\": \"New doc 'SAML SSO – Technical Design (Meridian)' created and shared with the growth pod, 9 pages, two named engineers as authors.\",\n          \"reasoning\": \"SSO design work is pulling growth pod engineers toward an enterprise feature that the charter deferred to Q4, competing with activation.\",\n          \"contradicts_claim\": null,\n          \"competing_topic\": \"SAML SSO technical design (enterprise feature deferred to Q4)\"\n        },\n        {\n          \"type\": \"contradiction\",\n          \"quote\": \"New doc 'SAML SSO – Technical Design (Meridian)' created and shared with the growth pod\",\n          \"reasoning\": \"Actively designing SSO collides with the board's agreement that the quarter is about converting existing signups rather than enterprise features.\",\n          \"contradicts_claim\": \"r2\",\n          \"competing_topic\": null\n        }\n      ]\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1211,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 361,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

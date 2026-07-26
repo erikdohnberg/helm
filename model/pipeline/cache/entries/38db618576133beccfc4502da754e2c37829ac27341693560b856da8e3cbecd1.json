@@ -1,0 +1,44 @@
+{
+  "cache_key": "38db618576133beccfc4502da754e2c37829ac27341693560b856da8e3cbecd1",
+  "key_components": {
+    "model": "claude-opus-4-8",
+    "prompt_path": "model/pipeline/prompts/stage2-relevance.md",
+    "prompt_sha256": "35dc2982e8ef0ad8351acdacb18c9f3935d6d060e0b889506b482fdf5a17b117",
+    "input_sha256": "3601295f0bbd51b198fb3a7fc83ef2d1937943ebcae5b8003a8ef8273bca0dbe"
+  },
+  "stored_at": "2026-07-26T17:51:40.091Z",
+  "usage": {
+    "input_tokens": 1162,
+    "output_tokens": 130,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.00906,
+  "response": {
+    "id": "msg_011CdR6QTN1FtFEM8wM3GEWj",
+    "model": "claude-opus-4-8",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "content": [
+      {
+        "type": "text",
+        "text": "```json\n{\n  \"mappings\": [\n    {\n      \"signal_id\": \"s1\",\n      \"relevant\": true,\n      \"confidence\": 0.98,\n      \"basis\": \"metric\",\n      \"rationale\": \"Reports WAC (7.4k vs 7.0k current) and ties a shipping feature to moving return rate, directly matching the metric and reasoning r3.\"\n    }\n  ]\n}\n```"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1162,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 130,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

@@ -7,6 +7,9 @@
 
 ## Changelog
 
+- **2026-07-26 — §6/§8.2 reproducibility: pinned-model + cached-replay policy.** The pipeline's LLM stages call the SDK only through a committed, content-addressed response cache (`model/pipeline/cache/`). Two spec edits, no contract change:
+  - **§6** gains **§6.1 Inference reproducibility.** States plainly that the pinned model `claude-opus-4-8` rejects `temperature`/`top_p`/`top_k`, so temperature-0 bit-reproducibility is unavailable; reproducibility instead comes from cached replay keyed on (model id, prompt-file **byte** hash, full rendered input). Warm cache replays byte-for-byte at $0; cold cache issues real billed calls. Records the cost report + append-only ledger + per-run budget cap. Note: the pre-existing spec carried **no** temperature-0 requirement to remove — this documents the actual policy for the first time, and reframes the §5 idempotency claim as cache-backed rather than model-intrinsic.
+  - **§8.2 Stability** rewritten: warm-cache re-run must reproduce the identical scorecard (tolerance zero); cold-cache re-run measures true sampling variance for the same model version and is run deliberately, not routinely.
 - **2026-07-23 — §4 clarification: seed-scenario alias hygiene + adversarial trade-offs.** Added charter `aliases` to the eval scenarios and stated two rules in §4: (1) seed aliases derive only from the charter's own text, never the signals (no eval-label leakage); (2) aliases carry outcome vocabulary only — trade-off terms are matched adversarially via `trade_offs` (excluded work, evidence *against* the outcome, never activity on it), so a displacer term like `SSO` can't be folded into aliases. Enables the v0.1 baseline (`model/eval/results/BASELINE.md`); no contract change.
 - **2026-07-23 — Contracts implemented (v1).** The §4/§5/§9 schemas are now runtime-validated code in `model/contracts/` (zod, TypeScript types inferred from the schemas), carrying a `CONTRACTS_VERSION` constant. Spec edits in the same commit keep prose and code in sync:
   - **§9 `DriftEvent`** gains `suggested_recipients[]` (actor id + short reason) — routing is scored by the eval set — and `contradicted_claim_ids[]` (present only when reasoning_contradiction is the primary or a secondary type). Its `drift_events` field list is made explicit to match the contract.
@@ -178,6 +181,20 @@ Two properties are load-bearing:
 - **Drift is a trend judgment, not a daily judgment.** Stages 1–3 run on one day of data; stages 4–5 run on rolling state. A single quiet day must never fire an event.
 - **Full auditability.** Every emitted event traces to specific quoted signals. If the model can't cite it, it can't claim it. This is both a trust requirement and what makes human eval labeling feasible.
 
+### 6.1 Inference reproducibility (pinned model + cached replay)
+
+The LLM stages (2, 3, and any future model-backed stage) do not reach the Anthropic SDK directly. Every inference call goes through a single **cached client** (`model/pipeline/cache/`) that sits between the stages and the SDK.
+
+Reproducibility is **not** obtained from deterministic sampling. The pinned model, `claude-opus-4-8`, rejects `temperature`/`top_p`/`top_k` (the API returns an error), so temperature-0 greedy decoding — the classic route to bit-identical output — is unavailable. We do not pretend otherwise: a fresh (cold-cache) call carries real sampling variance.
+
+Instead, reproducibility comes from **cached replay**. The cache is content-addressed: the key is a SHA-256 of (1) the pinned model id, (2) the **byte hash of the prompt file** — the actual bytes, not a version label, so an unversioned prompt edit cannot silently serve a stale response — and (3) the full rendered request. Each response is stored as a **committed JSON entry** (response, key components, timestamp, token usage — never the API key or request headers). Consequences:
+
+- **Warm cache = deterministic.** Re-running against committed entries replays stored responses byte-for-byte, so a run over an unchanged model + prompts + inputs reproduces the identical scorecard. A fresh clone re-runs the eval set at **$0**.
+- **Cold cache = measured variance.** Deleting an entry (or changing model/prompt/input) re-issues a real, billed call. This is the only way true sampling variance appears, and it is exercised deliberately (§8.2), not on every run.
+- **Cost governance.** Every run prints a cost report (hits, misses, tokens billed, dollars) and appends to an append-only ledger (`model/pipeline/cache/LEDGER.md`); a per-run budget cap halts the run rather than overspending silently.
+
+This is also what backs the §5 idempotency contract ("reprocessing a day must produce identical output given identical model version"): identical output is guaranteed by the cache for a given model version, not by the model being intrinsically deterministic.
+
 ---
 
 ## 7. Baselines and cold start
@@ -206,7 +223,7 @@ Run against full labeled corpora, reported per drift type:
 - **Precision at operating threshold:** of emitted events, what fraction do human adjudicators agree are real? This is the alert-fatigue number and the one that kills adoption if it's bad. Working target: [target precision, e.g. ≥0.8] before any real org sees output.
 - **Lead time:** median days between the model's first event and the moment drift became human-obvious in the corpus (a leadership discussion, a retro admission, an explicit kill decision). If lead time isn't meaningfully positive, Helm tells people what they already know.
 - **Calibration:** do 0.9-confidence events verify more often than 0.6-confidence events? Required for severity to mean anything.
-- **Stability:** rerunning the same corpus with the same model version produces the same events (tolerance near zero); adjacent model versions produce explainable diffs.
+- **Stability:** the pinned model (`claude-opus-4-8`) does not accept temperature, so bit-reproducibility from deterministic sampling is off the table (see §6.1). Stability is therefore defined against the response cache in two modes: **(a) warm-cache replay** — rerunning the same corpus against committed cache entries (same model version, same prompts, same inputs) must reproduce the **identical** scorecard, tolerance zero; this is the reproducibility guarantee the eval relies on day to day. **(b) cold-cache re-run** — deliberately clearing entries and re-issuing real calls measures the model's **true sampling variance** for the same version; it is billed, run intentionally rather than routinely, and its event-diff quantifies how much of any scorecard change is sampling noise vs. a real code change. Adjacent model versions produce explainable diffs (a cold-cache re-key by construction).
 
 ### 8.3 Labeled corpora (the hard part)
 
