@@ -41,7 +41,8 @@ the system** — it should not survive into the enhanced output.
 | Marketing | `previews/marketing/landing.html` | Hero, brass CTAs, feature carousel, on-navy waitlist form |
 
 Each file's first line is a `<!-- @dsCard group="…" -->` marker; the Design
-System pane builds its card index from it.
+System pane builds its card index from it. Groups are prefixed `Helm · ` so
+these cards stay visually separate from any other design system's cards.
 
 ## Build
 
@@ -51,13 +52,17 @@ node design-system/build.mjs
 
 Runs the app's own Tailwind theme (`tailwind.config.ts`, via
 `tailwind.preview.config.ts`) over `previews/` with `app/globals.css` as input,
-then inlines the compiled CSS into each page and writes the result to `dist/`.
-Previews therefore inherit the real token layer rather than a copy of it — if a
-preview looks wrong, the markup is wrong, not the theme.
+then inlines the compiled CSS into each page and writes the result to
+`dist/helm-design-system/`. Previews therefore inherit the real token layer
+rather than a copy of it — if a preview looks wrong, the markup is wrong, not
+the theme.
 
 `dist/` is generated and gitignored. Rebuild before syncing.
 
 ## Syncing to Claude Design
+
+This bundle is meant to become **its own new design-system project**. It is not
+an update to any existing one.
 
 `DesignSync` cannot authorise from Claude Code on the web — `/design-login`
 needs an interactive terminal. **Run this from Claude Code in a local terminal:**
@@ -67,6 +72,24 @@ git pull && node design-system/build.mjs
 /design-login
 /design-sync design-system/dist
 ```
+
+When it asks which project to target, choose **create a new project** — do not
+select an existing one. Name it something unambiguous, e.g. `Helm — app UI`.
+
+### Two safeguards against touching another project
+
+1. **Namespaced paths.** Every file is emitted under a single
+   `helm-design-system/` directory. Uploads are written by path, so a bundle
+   whose paths are all namespaced can only *add* a folder — it has no path in
+   common with an existing project's files and therefore cannot overwrite one.
+   `build.mjs` enforces this; don't flatten it away.
+
+2. **The plan is shown before anything is written.** `DesignSync` locks the
+   exact write list via `finalize_plan` and displays it independently of
+   whatever the assistant says it is doing. **Check two things before
+   approving:** the target project is the newly created one, and every path in
+   the list begins with `helm-design-system/`. If either is not true, reject the
+   plan.
 
 ## Known scope
 

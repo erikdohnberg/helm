@@ -22,8 +22,16 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const previewsDir = join(here, "previews");
-const distDir = join(here, "dist");
 const cssPath = join(here, ".tailwind-preview.css");
+
+/**
+ * Everything is emitted under this single top-level directory so the uploaded
+ * paths can never collide with files already in a Claude Design project. If
+ * this bundle is ever pointed at the wrong project it adds a folder; it cannot
+ * overwrite anything. Do not flatten this away.
+ */
+const NAMESPACE = "helm-design-system";
+const distDir = join(here, "dist", NAMESPACE);
 
 function htmlFilesIn(dir) {
   return readdirSync(dir).flatMap((entry) => {
@@ -51,7 +59,7 @@ execFileSync(
 );
 
 const css = readFileSync(cssPath, "utf8");
-rmSync(distDir, { recursive: true, force: true });
+rmSync(join(here, "dist"), { recursive: true, force: true });
 
 const files = htmlFilesIn(previewsDir);
 for (const file of files) {
