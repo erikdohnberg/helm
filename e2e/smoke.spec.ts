@@ -26,4 +26,25 @@ test.describe("smoke", () => {
     await page.goto("/quarter");
     await expect(page).toHaveURL(/\/landing/);
   });
+
+  test("scorecard is publicly reachable at /scorecard", async ({ page }) => {
+    await page.goto("/scorecard");
+    // Rewritten to the static page, not redirected to /scorecard.html.
+    await expect(page).toHaveURL(/\/scorecard$/);
+    await expect(
+      page.getByRole("heading", { level: 1, name: /stops matching the work/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/side project/i)).toHaveCount(0);
+  });
+
+  test("scorecard brand fonts are served", async ({ request }) => {
+    for (const font of [
+      "/fonts/sanchez-regular.woff2",
+      "/fonts/raleway-variable.woff2",
+      "/fonts/caveat-variable.woff2",
+    ]) {
+      const response = await request.get(font);
+      expect(response.status(), font).toBe(200);
+    }
+  });
 });
