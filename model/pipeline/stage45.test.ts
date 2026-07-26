@@ -189,6 +189,58 @@ test("a recorded re-anchor suppresses the declared-artifact branches", () => {
   assert.equal(scoreDrift(charter, state, "2026-07-01"), null);
 });
 
+test("v1.1: a contradiction only fires once something commits to it", () => {
+  // Spec §3 is "decisions are made that conflict" — an analysis that reverses a
+  // premise is new information; a plan that staffs work on the reversed premise
+  // is the drift. (scn-011's shape: s1 analysis doc, s3 save-offer plan.)
+  const analysis = ref("1", "New 'Cancel Reasons' analysis shared: 44% cite price. Reverses last year's read.", "2026-07-15", true);
+  const plan = ref(
+    "2",
+    "New doc 'At-Risk Save Offer: 20% intro credit' created and shared; two pod engineers tagged to build eligibility logic.",
+    "2026-07-23",
+    true
+  );
+  const index = indexOf(["s1", analysis], ["s2", plan]);
+  const state = initCharterState(charter.id, charter.anchored_at);
+
+  const contradiction = (quote: string) => ex("contradiction", quote, { contradicts_claim: "r1" });
+  foldDay(state, day("2026-07-15", [{ signal_id: "s1", extractions: [contradiction("44% cite price")] }], ["s1"]), index);
+  assert.equal(scoreDrift(charter, state, "2026-07-15"), null, "an analysis is not a decision");
+  assert.equal(scoreDrift(charter, state, "2026-07-22"), null, "and does not ripen with time");
+
+  foldDay(state, day("2026-07-23", [{ signal_id: "s2", extractions: [contradiction("20% intro credit")] }], ["s2"]), index);
+  const event = scoreDrift(charter, state, "2026-07-23");
+  assert.equal(event?.drift_type, "reasoning_contradiction");
+  assert.deepEqual(event?.contradicted_claim_ids, ["r1"]);
+});
+
+test("v1.1: branches compete on evidence, not on evaluation order", () => {
+  // Both a declared capacity withdrawal and a qualifying contradiction land on
+  // the same day. v1.0 gave it to whichever branch ran first (contradiction);
+  // the stronger signature must win instead.
+  const doc = ref("1", "H2 Org Update: three engineers move to Shipper AI; the pod is staffed to it.", "2026-07-01", true);
+  const index = indexOf(["s1", doc]);
+  const state = initCharterState(charter.id, charter.anchored_at);
+  foldDay(
+    state,
+    day(
+      "2026-07-01",
+      [
+        {
+          signal_id: "s1",
+          extractions: [
+            ex("competing_priority", "three engineers move to Shipper AI", { competing_topic: "Shipper AI" }),
+            ex("contradiction", "the pod is staffed to it", { contradicts_claim: "r1" }),
+          ],
+        },
+      ],
+      ["s1"]
+    ),
+    index
+  );
+  assert.equal(scoreDrift(charter, state, "2026-07-01")?.drift_type, "capacity_withdrawal");
+});
+
 test("stage 4 folds only the day it is given (no future leakage by construction)", () => {
   const r1 = ref("1", "a", "2026-07-01");
   const r2 = ref("2", "b", "2026-07-05");

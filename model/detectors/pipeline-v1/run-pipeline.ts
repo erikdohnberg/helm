@@ -14,8 +14,12 @@
  *
  *   node detectors/pipeline-v1/run-pipeline.ts [run-date]
  */
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { CachedClient } from "../../pipeline/cache/client.ts";
-import { NullDetector } from "../../eval/detector.ts";
+import { NullDetector, type Detector } from "../../eval/detector.ts";
 import { loadAllScenarios } from "../../eval/loader.ts";
 import { runHarness } from "../../eval/run.ts";
 import { v0InactivityDetector } from "../v0-inactivity/index.ts";
@@ -23,6 +27,25 @@ import { pipelineDetector, prepareScenarios } from "./index.ts";
 import type { Scorecard } from "../../eval/scorer.ts";
 
 const BUDGET_USD = 5;
+const RESULTS_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../eval/results");
+
+/**
+ * Baselines are re-scored only once per (date, version). A later pipeline
+ * version on the same day reads the scorecard already on disk rather than
+ * re-running into an existing directory — session rule #2, results are
+ * append-only history. The baselines are deterministic and LLM-free, so the
+ * stored card and a fresh run are the same numbers.
+ */
+function scoreOrReuse(detector: Detector<any>, runDate: string): { card: Scorecard; dir: string } {
+  const existing = readdirSync(RESULTS_ROOT).find((d) =>
+    d.startsWith(`${runDate}-${detector.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${detector.version}`)
+  );
+  if (existing && existsSync(join(RESULTS_ROOT, existing, "scorecard.json"))) {
+    const card = JSON.parse(readFileSync(join(RESULTS_ROOT, existing, "scorecard.json"), "utf8")) as Scorecard;
+    return { card, dir: `${join(RESULTS_ROOT, existing)} (reused)` };
+  }
+  return runHarness(detector, runDate);
+}
 
 const pct = (x: number | null) => (x === null ? "n/a" : `${(x * 100).toFixed(1)}%`);
 const num = (x: number | null) => (x === null ? "n/a" : String(x));
@@ -36,6 +59,17 @@ function summary(card: Scorecard): string {
     `${m.control_false_positive_count} | ${m.control_hard_failures} | ${pct(m.type_accuracy)} | ` +
     `${pct(m.routing_coverage)} | ${t.premature} / ${t.on_time} / ${t.late} / ${t.missed} |`
   );
+}
+
+/** The newest committed pipeline-v1 scorecard that isn't the version just run. */
+function loadPrevPipelineCard(currentVersion: string): Scorecard | null {
+  const dirs = readdirSync(RESULTS_ROOT)
+    .filter((d) => /-pipeline-v1-\d+\.\d+\.\d+$/.test(d) && !d.endsWith(`-${currentVersion}`))
+    .sort();
+  const dir = dirs.at(-1);
+  if (!dir) return null;
+  const file = join(RESULTS_ROOT, dir, "scorecard.json");
+  return existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as Scorecard) : null;
 }
 
 async function main() {
@@ -67,15 +101,21 @@ async function main() {
   const cards: Scorecard[] = [];
   const dirs: string[] = [];
 
+  const pipeline = pipelineDetector(prepared);
+  {
+    const { card, dir } = runHarness(pipeline, runDate);
+    cards.push(card);
+    dirs.push(dir);
+    console.log(`\npipeline-v${pipeline.version}: wrote ${dir}`);
+  }
   for (const [detector, label] of [
-    [pipelineDetector(prepared), "pipeline-v1.0"],
     [v0InactivityDetector(10, "1.1.0"), "v0.1 @ N=10"],
     [NullDetector, "null"],
   ] as const) {
-    const { card, dir } = runHarness(detector, runDate);
+    const { card, dir } = scoreOrReuse(detector, runDate);
     cards.push(card);
     dirs.push(dir);
-    console.log(`\n${label}: wrote ${dir}`);
+    console.log(`${label}: ${dir}`);
   }
 
   console.log("\n=== COMPARISON (all 13 scenarios, same scorer) ===\n");
@@ -85,7 +125,27 @@ async function main() {
   console.log("| --- | --- | --- | --- | --- | --- | --- | --- | --- |");
   for (const c of cards) console.log(summary(c));
 
-  console.log("\n=== pipeline-v1.0 per scenario ===\n");
+  // ── Per-scenario delta against the previous pipeline version ──────────────
+  const prev = loadPrevPipelineCard(cards[0].detector.version);
+  if (prev) {
+    console.log(
+      `\n=== PER-SCENARIO DELTA: v${prev.detector.version} (${prev.run_date}) → v${cards[0].detector.version} ===\n`
+    );
+    console.log("| Scenario | Expected | v" + prev.detector.version + " | v" + cards[0].detector.version + " | Δ |");
+    console.log("| --- | --- | --- | --- | --- |");
+    const before = new Map(prev.per_scenario.map((s) => [s.scenario_id, s]));
+    for (const now of cards[0].per_scenario) {
+      const was = before.get(now.scenario_id);
+      const fmt = (s: typeof now | undefined) =>
+        !s ? "—" : `${s.classification}${s.flagged ? ` ${s.first_flag_date} as ${s.type_match ? "correct type" : "wrong type"}` : ""}`;
+      const changed = !was || was.classification !== now.classification || was.type_match !== now.type_match;
+      console.log(
+        `| ${now.scenario_id} | ${now.is_control ? "control" : now.expected_drift_type} | ${fmt(was)} | ${fmt(now)} | ${changed ? "**changed**" : "same" } |`
+      );
+    }
+  }
+
+  console.log(`\n=== pipeline-v${cards[0].detector.version} per scenario ===\n`);
   for (const s of cards[0].per_scenario) {
     const evented = s.flagged ? `${s.first_flag_date}` : "—";
     console.log(

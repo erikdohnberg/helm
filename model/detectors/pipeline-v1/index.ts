@@ -37,7 +37,18 @@ import type { Detector } from "../../eval/detector.ts";
 import type { LoadedScenario } from "../../eval/loader.ts";
 import type { Charter, DriftEvent, Signal } from "../../contracts/index.ts";
 
-export const PIPELINE_VERSION = "1.0.0";
+/**
+ * 1.1.x — Stage 5 only: the `reasoning_contradiction` branch is gated on a
+ * committing decision/artifact, given the same evidentiary bar as every other
+ * branch, and no longer wins by running first. Stages 1–4 and both prompts are
+ * byte-identical to 1.0.0, so the whole run replays from the 1.0.0 cache.
+ *
+ * 1.1.1 fixes 1.1.0's gate vocabulary: 1.1.0 reused COMMITMENT_TOKEN, whose bare
+ * `\d+% of` matched a statistic in an analysis doc ("44% of sub-90-day cancels")
+ * and let scn-011 fire on the analysis instead of the plan. Both runs are kept —
+ * results are append-only (session rule #2).
+ */
+export const PIPELINE_VERSION = "1.1.1";
 
 /** One scenario's precomputed Stage 2/3 output plus the signal index Stage 4 cites through. */
 export interface PreparedScenario {

@@ -33,8 +33,15 @@
  * ── How a type is chosen ───────────────────────────────────────────────────
  * Type assignment keys on the *evidence signature*, never on ground truth.
  * Spec §3's discriminators are declared-artifact vs behavioral vs
- * bounded-then-breached, and those are what the rules below test. Branches are
- * ordered strongest-signature-first; the first one to fire wins.
+ * bounded-then-breached, and those are what the rules below test.
+ *
+ * v1.1: every branch is now evaluated, each producing a *candidate* only if its
+ * own evidentiary bar is met; `PRECEDENCE` then picks among the candidates that
+ * actually qualified. In v1.0 the branches returned early, so evaluation order
+ * doubled as authority: `reasoning_contradiction` ran first and had no bar, and
+ * therefore pre-empted branches with real evidence behind them (5 of 6 premature
+ * flags — see the v1.0 ANALYSIS §3). Precedence still breaks ties, but a branch
+ * can now only win against branches that also qualified.
  *
  * ── Explicit non-drift (spec §3) ───────────────────────────────────────────
  * Two of the spec's non-drift cases are enforced here rather than left to luck:
@@ -70,6 +77,24 @@ export const RELATIVE_TYPES = new Set<DriftType>([
 /** Where the calibration window starts. See the eval-mode note above. */
 export type CalibrationMode = "anchor" | "eval-observed";
 
+/**
+ * Precedence over evidence signature, applied AFTER every branch has been
+ * evaluated. Ordered by how much the signature commits the organization:
+ * a published artifact that reassigns capacity or redefines the outcome is a
+ * stronger claim about intent than a behavioral pattern, which is stronger than
+ * an absence. This decides only between branches that each cleared their own
+ * bar; it never lets an unqualified branch fire.
+ */
+const PRECEDENCE: DriftType[] = [
+  "capacity_withdrawal",
+  "scope_mutation",
+  "reasoning_contradiction",
+  "commitment_overrun",
+  "priority_displacement",
+  "metric_detachment",
+  "attention_decay",
+];
+
 const MS_PER_DAY = 86_400_000;
 const daysBetween = (from: string, to: string) =>
   Math.round((Date.parse(to) - Date.parse(from)) / MS_PER_DAY);
@@ -86,6 +111,18 @@ const APPROVAL_TOKEN =
 /** Explicit capacity-commitment language — separates displacement from mere talk. */
 const COMMITMENT_TOKEN =
   /\b(\d+% of|% of (pod )?capacity|sprint \d* ?commits?|sprint commits|committ\w+|staffed|tagged to build|assigned|pairing on|design doc|technical design|slips a sprint)\b/i;
+/**
+ * A published artifact that COMMITS action — names people, capacity, or a build
+ * plan — as opposed to one that reports, analyses, or re-describes. This is the
+ * "decision" half of spec §3's "decisions are made that conflict…" arriving as a
+ * document rather than as a meeting.
+ *
+ * Deliberately NOT `COMMITMENT_TOKEN`: that vocabulary carries a bare `\d+% of`
+ * for capacity share, which matches any statistic ("44% of sub-90-day cancels"
+ * in an analysis doc) and re-opens exactly the hole this gate exists to close.
+ */
+const COMMITTING_ARTIFACT =
+  /\b(design doc|technical design|assign(s|ed)?|staffed|tagged to build|committ\w+|pairing on|% of (pod )?capacity|sprint \d* ?commits?)\b/i;
 /** The competing work was dropped or never committed (uncommitted-discussion control). */
 const PARKED =
   /\b(parking|parked|on hold|shelved|went quiet|dropped|dead|no longer|not pursuing)\b/i;
@@ -166,6 +203,16 @@ export interface ScoreOptions {
   calibration?: CalibrationMode;
 }
 
+/** One branch's proposed flag, before precedence selection. */
+interface Candidate {
+  type: DriftType;
+  severity: "minor" | "major";
+  confidence: number;
+  cites: LedgerEntry[];
+  reason: string;
+  claims?: string[];
+}
+
 /**
  * Score one charter's state as of `today`. Returns a DriftEvent to emit, or null.
  * Assumes the caller has already folded `today` into `state`, and checks
@@ -195,22 +242,48 @@ export function scoreDrift(
   const costed = ledger.some((e) => STOP_COST_DECL.test(entryText(e)));
   const recordedReanchor = declared && costed;
 
-  // ── 1. Reasoning contradiction (absolute, fires the day it lands) ─────────
-  // Signature: Stage 3 tied a decision/claim to a specific charter reasoning id.
-  const contradictions = state.contradictions.filter(upto);
-  if (allow("reasoning_contradiction") && contradictions.length > 0) {
-    const claims = [...new Set(contradictions.map((c) => c.contradicts_claim!).filter(Boolean))];
-    return buildEvent(
-      charter,
-      today,
-      "reasoning_contradiction",
-      "major",
-      0.85,
-      contradictions,
-      "charter owner — a decision/claim collides with the charter's recorded reasoning",
-      fallback,
-      claims
+  // Candidates from every branch; `PRECEDENCE` chooses at the end.
+  const candidates: Candidate[] = [];
+  const add = (c: Candidate) => {
+    if (allow(c.type)) candidates.push(c);
+  };
+
+  // ── 1. Reasoning contradiction (absolute) ─────────────────────────────────
+  // Spec §3: "decisions are made that conflict with the charter's stated
+  // reasoning." A *decision*, not a remark — and v1.0's failure was treating
+  // every Stage 3 `contradiction` extraction as one. Two things are required:
+  //
+  //   (a) THE COLLISION IS COMMITTING. The contradicted claim is carried either
+  //       by a signal Stage 3 also read as a `decision`, or by a published
+  //       artifact that commits people or capacity to the conflicting work
+  //       (COMMITTING_ARTIFACT). An analysis that merely *reverses a premise* is
+  //       new information, not drift; a plan that staffs work on the reversed
+  //       premise is the drift.
+  //   (b) IT CLEARS THE SAME BAR AS EVERY OTHER BRANCH — a published artifact,
+  //       or sustained across ≥2 distinct days.
+  const decisionSignals = new Set(
+    ledger.filter((e) => e.type === "decision").map((e) => `${e.date}::${e.scenario_signal_id}`)
+  );
+  const committingContradictions = state.contradictions
+    .filter(upto)
+    .filter(
+      (e) =>
+        (e.ref.is_doc && COMMITTING_ARTIFACT.test(entryText(e))) ||
+        decisionSignals.has(`${e.date}::${e.scenario_signal_id}`)
     );
+  const contradictionOnDoc = committingContradictions.some((e) => e.ref.is_doc);
+  const contradictionDays = new Set(committingContradictions.map((e) => e.date)).size;
+  if (committingContradictions.length > 0 && (contradictionOnDoc || contradictionDays >= 2)) {
+    add({
+      type: "reasoning_contradiction",
+      severity: "major",
+      confidence: 0.85,
+      cites: committingContradictions,
+      reason: "charter owner — a committed decision collides with the charter's recorded reasoning",
+      claims: [
+        ...new Set(committingContradictions.map((c) => c.contradicts_claim!).filter(Boolean)),
+      ],
+    });
   }
 
   // ── 2. Capacity withdrawal (declared: a doc reassigns committed capacity) ──
@@ -225,17 +298,15 @@ export function scoreDrift(
         e.type === "decision" ||
         e.type === "blocker")
   );
-  if (allow("capacity_withdrawal") && !recordedReanchor && withdrawalCites.length > 0) {
-    return buildEvent(
-      charter,
-      today,
-      "capacity_withdrawal",
-      "major",
-      0.8,
-      withdrawalCites,
-      "charter owner + decision owner — a published change removes committed capacity; re-scope or record the trade-off",
-      fallback
-    );
+  if (!recordedReanchor && withdrawalCites.length > 0) {
+    add({
+      type: "capacity_withdrawal",
+      severity: "major",
+      confidence: 0.8,
+      cites: withdrawalCites,
+      reason:
+        "charter owner + decision owner — a published change removes committed capacity; re-scope or record the trade-off",
+    });
   }
 
   // ── 3. Scope mutation (declared: the name survives, the definition doesn't) ─
@@ -248,17 +319,15 @@ export function scoreDrift(
   );
   const scopeOnDoc = scopeCites.some((e) => e.ref.is_doc);
   const scopeDays = new Set(scopeCites.map((e) => e.date)).size;
-  if (allow("scope_mutation") && !recordedReanchor && scopeOnDoc && scopeDays >= 2) {
-    return buildEvent(
-      charter,
-      today,
-      "scope_mutation",
-      "major",
-      0.75,
-      scopeCites,
-      "charter owner + decision owner — the outcome's definition has widened past the charter; re-anchor it or restore the original scope",
-      fallback
-    );
+  if (!recordedReanchor && scopeOnDoc && scopeDays >= 2) {
+    add({
+      type: "scope_mutation",
+      severity: "major",
+      confidence: 0.75,
+      cites: scopeCites,
+      reason:
+        "charter owner + decision owner — the outcome's definition has widened past the charter; re-anchor it or restore the original scope",
+    });
   }
 
   // ── 4. Commitment overrun (bounded exception that outlived its bound) ──────
@@ -269,20 +338,18 @@ export function scoreDrift(
   const boundEntries = ledger.filter((e) => BOUND_EXCEPTION.test(entryText(e)));
   const approved = boundEntries.some((e) => APPROVAL_TOKEN.test(entryText(e)));
   const boundParked = boundEntries.length > 0 && PARKED.test(entryText(latest(boundEntries)));
-  if (allow("commitment_overrun") && boundEntries.length > 0 && approved && !boundParked) {
+  if (boundEntries.length > 0 && approved && !boundParked) {
     const boundDays = [...new Set(boundEntries.map((e) => e.date))].sort();
     const persistsPastBound = boundDays.length >= 2 || ledger.some((e) => e.date > boundDays[0]);
     if (persistsPastBound) {
-      return buildEvent(
-        charter,
-        today,
-        "commitment_overrun",
-        "minor",
-        0.65,
-        boundEntries,
-        "charter owner — an approved, time-boxed exception has outlived its stated bound without re-approval",
-        fallback
-      );
+      add({
+        type: "commitment_overrun",
+        severity: "minor",
+        confidence: 0.65,
+        cites: boundEntries,
+        reason:
+          "charter owner — an approved, time-boxed exception has outlived its stated bound without re-approval",
+      });
     }
   }
 
@@ -301,17 +368,15 @@ export function scoreDrift(
     const distinctDays = new Set(topicEntries.map((e) => e.date)).size;
     const committed = topicEntries.some((e) => COMMITMENT_TOKEN.test(entryText(e)));
     const parked = PARKED.test(entryText(latest(topicEntries)));
-    if (allow("priority_displacement") && distinctDays >= 2 && committed && !parked) {
-      return buildEvent(
-        charter,
-        today,
-        "priority_displacement",
-        "major",
-        0.7,
-        topicEntries,
-        `charter owner + decision owner — committed effort is shifting to "${stat.topic}" with no authorizing trade-off`,
-        fallback
-      );
+    if (distinctDays >= 2 && committed && !parked) {
+      add({
+        type: "priority_displacement",
+        severity: "major",
+        confidence: 0.7,
+        cites: topicEntries,
+        reason: `charter owner + decision owner — committed effort is shifting to "${stat.topic}" with no authorizing trade-off`,
+      });
+      break;
     }
   }
 
@@ -327,21 +392,18 @@ export function scoreDrift(
   );
   const progressDays = new Set(progressSince.map((e) => e.date)).size;
   if (
-    allow("metric_detachment") &&
     metricClockFrom &&
     daysBetween(metricClockFrom, today) >= METRIC_GAP_DAYS &&
     progressDays >= 2
   ) {
-    return buildEvent(
-      charter,
-      today,
-      "metric_detachment",
-      "minor",
-      0.6,
-      progressSince,
-      "charter owner — progress is being reported without the success metric; quantify or re-baseline",
-      fallback
-    );
+    add({
+      type: "metric_detachment",
+      severity: "minor",
+      confidence: 0.6,
+      cites: progressSince,
+      reason:
+        "charter owner — progress is being reported without the success metric; quantify or re-baseline",
+    });
   }
 
   // ── 7. Attention decay (sustained silence on the outcome) ─────────────────
@@ -350,25 +412,37 @@ export function scoreDrift(
   // relevant but is not work on it, and must not reset the clock — the failure
   // BASELINE.md identified in v0.1 on scn-006.
   const decayFrom = state.last_active_day ?? state.first_observed_day;
-  if (allow("attention_decay") && decayFrom) {
+  if (decayFrom) {
     const gap = daysBetween(decayFrom, today);
     if (gap >= DECAY_GAP_DAYS) {
       const fromLastActive = ledger.filter((e) => e.date === decayFrom);
       const cites = fromLastActive.length ? fromLastActive : ledger.slice(-1);
-      return buildEvent(
-        charter,
-        today,
-        "attention_decay",
-        "major",
-        0.6,
+      add({
+        type: "attention_decay",
+        severity: "major",
+        confidence: 0.6,
         cites,
-        `charter owner — no activity on the outcome for ${gap}+ days; the outcome is going quiet`,
-        fallback
-      );
+        reason: `charter owner — no activity on the outcome for ${gap}+ days; the outcome is going quiet`,
+      });
     }
   }
 
-  return null;
+  // ── Selection: strongest qualifying signature wins (see PRECEDENCE) ────────
+  if (candidates.length === 0) return null;
+  const best = candidates.reduce((a, b) =>
+    PRECEDENCE.indexOf(b.type) < PRECEDENCE.indexOf(a.type) ? b : a
+  );
+  return buildEvent(
+    charter,
+    today,
+    best.type,
+    best.severity,
+    best.confidence,
+    best.cites,
+    best.reason,
+    fallback,
+    best.claims
+  );
 }
 
 /** The latest-dated entry in a non-empty list. */
