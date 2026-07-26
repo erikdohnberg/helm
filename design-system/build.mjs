@@ -9,6 +9,7 @@
  */
 import { execFileSync } from "node:child_process";
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -99,5 +100,12 @@ for (const file of files) {
   writeFileSync(out, source.replace("</head>", `<style>${css}</style>\n</head>`));
 }
 
+// base.html is also written outside dist/ and committed, so the one-file
+// starting point can be opened or uploaded without anyone running this build.
+copyFileSync(join(distDir, "base.html"), join(here, "helm-base.html"));
+
 rmSync(cssPath, { force: true });
-console.log(`Built ${files.length} previews into design-system/dist/`);
+console.log(
+  `Built ${files.length} previews into design-system/dist/\n` +
+    `Refreshed design-system/helm-base.html`
+);
