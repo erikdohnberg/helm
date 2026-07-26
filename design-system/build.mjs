@@ -9,6 +9,7 @@
  */
 import { execFileSync } from "node:child_process";
 import {
+  existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
@@ -41,12 +42,29 @@ function htmlFilesIn(dir) {
   });
 }
 
+// Invoke the locally installed binary directly rather than via npx: npx will
+// happily reach for the network when the package is missing, and its
+// "could not determine executable to run" is not a useful diagnostic.
+const tailwindBin = join(
+  repoRoot,
+  "node_modules",
+  ".bin",
+  process.platform === "win32" ? "tailwindcss.cmd" : "tailwindcss"
+);
+
+if (!existsSync(tailwindBin)) {
+  console.error(
+    "tailwindcss is not installed.\n\n" +
+      "  Run `npm install` from the repo root, then try again.\n"
+  );
+  process.exit(1);
+}
+
 // The app's globals.css is the input, so previews inherit the real token layer
 // (light + dark) rather than a copy that can drift out of sync.
 execFileSync(
-  "npx",
+  tailwindBin,
   [
-    "tailwindcss",
     "--input",
     "app/globals.css",
     "--output",
