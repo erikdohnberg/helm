@@ -1,0 +1,136 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Card — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-4xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Card</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          One of only three real components in
+          <code class="font-mono text-xs">components/ui/</code>. Straight shadcn
+          — six parts, no variants, p-6 rhythm. It is also the most bypassed
+          component in the codebase.
+        </p>
+      </header>
+
+      <!-- ── The component ───────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">components/ui/card.tsx — as built</h2>
+
+        <div class="max-w-lg rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="font-semibold leading-none tracking-tight">Ship partner co-sell motion</h3>
+            <p class="text-sm text-muted-foreground">FY26 Q1 · Anchored outcome</p>
+          </div>
+          <div class="p-6 pt-0">
+            <p class="text-sm text-muted-foreground">
+              Two named design partners live on the co-sell motion, with a
+              repeatable deal desk process documented and handed to sales.
+            </p>
+          </div>
+          <div class="flex items-center p-6 pt-0">
+            <button type="button" class="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted">View charter</button>
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>Card &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— rounded-lg border border-border bg-card text-card-foreground shadow-sm</div>
+          <div>CardHeader &nbsp;— flex flex-col space-y-1.5 p-6</div>
+          <div>CardTitle &nbsp;&nbsp;— h3 · font-semibold leading-none tracking-tight (no size — inherits)</div>
+          <div>CardDescription — p · text-sm text-muted-foreground</div>
+          <div>CardContent — p-6 pt-0</div>
+          <div>CardFooter &nbsp;— flex items-center p-6 pt-0</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — CardTitle sets no font size, so it renders at whatever the
+          parent inherits (text-base here). Every other title role in the app
+          declares its size explicitly.
+        </div>
+      </section>
+
+      <!-- ── Bypasses ────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Hand-rolled card surfaces</h2>
+          <p class="text-sm text-muted-foreground">
+            Written inline rather than using the component — mostly because
+            p-6 was too much padding and the component offers no way to say so.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
+            <div class="text-sm font-medium text-foreground">Compact card</div>
+            <p class="mt-1 text-sm text-muted-foreground">Same shell, p-4 instead of p-6.</p>
+            <div class="mt-3 font-mono text-[11px] text-muted-foreground">…bg-card p-4 text-card-foreground shadow-sm · ×3</div>
+          </div>
+
+          <div class="rounded-lg border border-border bg-card p-4 shadow-sm">
+            <div class="text-sm font-medium text-foreground">Compact card, no fg token</div>
+            <p class="mt-1 text-sm text-muted-foreground">Drops text-card-foreground.</p>
+            <div class="mt-3 font-mono text-[11px] text-muted-foreground">…bg-card p-4 shadow-sm · ×3</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="rounded-md border border-border p-4">
+            <div class="text-sm font-medium text-foreground">Bare bordered container</div>
+            <p class="mt-1 text-sm text-muted-foreground">
+              No fill, no shadow, rounded-md rather than rounded-lg. Used to
+              wrap tables and grouped settings.
+            </p>
+          </div>
+          <div class="font-mono text-[11px] text-muted-foreground">rounded-md border border-border · ×3</div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+            <div class="text-sm font-medium text-foreground">Dialog surface</div>
+            <p class="mt-1 text-xs text-muted-foreground">
+              bg-background rather than bg-card, and shadow-lg. See the Dialog card.
+            </p>
+          </div>
+          <div class="font-mono text-[11px] text-muted-foreground">w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg · ×3</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — four surface treatments beyond the component: card+p-4,
+          card+p-4 without the fg token, bare bordered, and the dialog surface.
+          The real signal is that a single fixed p-6 forced three of them.
+          Density is the variant axis this component is missing.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Dark</h2>
+        <div class="dark rounded-lg border border-border bg-background p-6">
+          <div class="max-w-lg rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+            <div class="flex flex-col space-y-1.5 p-6">
+              <h3 class="font-semibold leading-none tracking-tight">Ship partner co-sell motion</h3>
+              <p class="text-sm text-muted-foreground">FY26 Q1 · Anchored outcome</p>
+            </div>
+            <div class="p-6 pt-0">
+              <p class="text-sm text-muted-foreground">
+                Two named design partners live on the co-sell motion, with a
+                repeatable deal desk process documented and handed to sales.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — in dark, card (oklch 0.205) lifts off background (oklch 0.145)
+          so the fill carries the separation. In light both are pure white and
+          only the border and shadow separate them. The component reads quite
+          differently across modes.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<!-- @dsCard group="Marketing" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marketing — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-5xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Marketing</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          A separate visual language from the app: navy and brass, editorial
+          typography, generous vertical rhythm, a nautical motif. Almost none
+          of it uses the token layer — colours are inline hex, so this entire
+          surface is invisible to dark mode.
+        </p>
+      </header>
+
+      <!-- ── Hero ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Hero</h2>
+
+        <div class="relative isolate overflow-hidden rounded-lg bg-navy">
+          <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_38%,rgba(255,255,255,0.14),transparent_45%)]"></div>
+            <svg class="absolute inset-0 h-full w-full opacity-[0.045]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <line x1="0" y1="180" x2="1440" y2="180" stroke="white" stroke-width="0.6" />
+              <line x1="0" y1="360" x2="1440" y2="360" stroke="white" stroke-width="0.6" />
+              <line x1="0" y1="540" x2="1440" y2="540" stroke="white" stroke-width="0.6" />
+              <line x1="0" y1="720" x2="1440" y2="720" stroke="white" stroke-width="0.6" />
+              <line x1="120" y1="0" x2="120" y2="900" stroke="white" stroke-width="0.6" />
+              <line x1="380" y1="0" x2="380" y2="900" stroke="white" stroke-width="0.6" />
+              <line x1="640" y1="0" x2="640" y2="900" stroke="white" stroke-width="0.6" />
+              <line x1="900" y1="0" x2="900" y2="900" stroke="white" stroke-width="0.6" />
+              <line x1="1160" y1="0" x2="1160" y2="900" stroke="white" stroke-width="0.6" />
+              <g transform="translate(1320 -80)" opacity="0.5">
+                <circle cx="0" cy="0" r="320" fill="none" stroke="white" stroke-width="1.2" />
+                <circle cx="0" cy="0" r="200" fill="none" stroke="white" stroke-width="0.7" />
+                <line x1="0" y1="-320" x2="0" y2="320" stroke="white" stroke-width="0.8" />
+                <line x1="-320" y1="0" x2="320" y2="0" stroke="white" stroke-width="0.8" />
+                <line x1="-226" y1="-226" x2="226" y2="226" stroke="white" stroke-width="0.5" />
+                <line x1="226" y1="-226" x2="-226" y2="226" stroke="white" stroke-width="0.5" />
+                <circle cx="0" cy="0" r="20" fill="white" fill-opacity="0.6" />
+              </g>
+              <path d="M-60 320 C280 400, 500 260, 780 340 S1200 400, 1520 320" fill="none" stroke="white" stroke-width="0.7" stroke-dasharray="6 14" opacity="0.35" />
+              <path d="M40 580 C320 500, 620 660, 920 560 S1280 460, 1540 560" fill="none" stroke="white" stroke-width="0.6" stroke-dasharray="6 16" opacity="0.28" />
+            </svg>
+          </div>
+
+          <div class="relative mx-auto max-w-[900px] px-6 py-16 text-center">
+            <h3 class="mx-auto mt-4 max-w-[860px] text-5xl font-semibold tracking-tight text-white md:leading-[0.95]">
+              <span class="block">Keep strategy</span>
+              <span class="block">on <span class="font-bold">course.</span></span>
+            </h3>
+            <p class="mx-auto mt-7 max-w-[760px] text-lg leading-8 text-white/95">
+              Helm is an AI team member that listens where strategy happens,
+              turns signals into outcome charters, and nudges teams when
+              strategic drift begins.
+            </p>
+            <div class="mt-10 flex flex-col items-center gap-4">
+              <a href="#" class="inline-flex min-w-[210px] items-center justify-center rounded-xl bg-brass px-7 py-4 text-base font-medium text-white shadow-[0_14px_34px_rgba(194,168,120,0.35)] transition-all hover:translate-y-[-1px] hover:bg-brass/90">Open app</a>
+              <a href="#" class="text-sm text-white/90 underline hover:text-white">Subscribe to email list</a>
+              <p class="text-sm text-white/85">Currently in private prototype.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>section — relative isolate overflow-hidden bg-navy</div>
+          <div>frame &nbsp;&nbsp;— mx-auto max-w-[900px] px-6 py-[104px] md:py-[120px]</div>
+          <div>overlay — radial glow + vignette + 0.045-opacity SVG grid, compass rose, dashed route lines</div>
+          <div>display — text-5xl md:text-7xl font-semibold tracking-tight, md:leading-[0.95]</div>
+          <div>lede &nbsp;&nbsp;&nbsp;— text-lg leading-8 md:text-[22px] md:leading-9, text-white/95</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the compass rose, route lines, and grid are the only brand
+          motif Helm has. They exist here and nowhere else; the app carries no
+          trace of them. The white alpha ramp (/85 /90 /95 /25 /10 /50) is
+          entirely ad hoc — six steps, no tokens.
+        </div>
+      </section>
+
+      <!-- ── Feature card ────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Feature carousel</h2>
+
+        <div class="rounded-lg bg-page-bg p-8">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+              <div class="flex items-center gap-2">
+                <svg class="h-5 w-5 text-[#C2A878]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg>
+                <div class="text-sm font-medium text-[#111]">Outcome charter</div>
+              </div>
+              <div class="mt-4 space-y-4">
+                <div>
+                  <div class="text-[11px] uppercase tracking-wide text-[#777]">Outcome</div>
+                  <div class="mt-1 h-2 w-4/5 rounded bg-black/10"></div>
+                </div>
+                <div>
+                  <div class="text-[11px] uppercase tracking-wide text-[#777]">Metric</div>
+                  <div class="mt-1 h-2 w-2/3 rounded bg-black/10"></div>
+                </div>
+                <div>
+                  <div class="text-[11px] uppercase tracking-wide text-[#777]">Trade-offs</div>
+                  <div class="mt-1 space-y-2">
+                    <div class="h-2 w-5/6 rounded bg-black/10"></div>
+                    <div class="h-2 w-3/5 rounded bg-black/10"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+              <div class="flex items-center gap-2">
+                <svg class="h-5 w-5 text-[#C2A878]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 12H3" /><path d="m16 6 4 6-4 6" /><path d="M21 12H9" /></svg>
+                <div class="text-sm font-medium text-[#111]">Leadership review</div>
+              </div>
+              <div class="mt-4 h-2 w-5/6 rounded bg-black/10"></div>
+              <div class="mt-2 h-2 w-2/3 rounded bg-black/10"></div>
+              <div class="mt-2 h-2 rounded bg-black/8"></div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center justify-center gap-4">
+            <button type="button" class="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]" aria-label="Previous">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#C2A878]/40 bg-white text-lg font-semibold text-[#1B2A38] shadow-sm">02</div>
+            <button type="button" class="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]" aria-label="Next">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — this is the app's own UI, redrawn as a marketing mock in a
+          different visual language. The skeleton bars (bg-black/8 and
+          bg-black/10, two alpha steps) are the only "loading" pattern in the
+          repo, and they are decorative rather than real. Card shells here are
+          rounded-xl border-black/5 bg-white; the app's are rounded-lg
+          border-border bg-card. Same concept, no shared code.
+        </div>
+      </section>
+
+      <!-- ── Waitlist ────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Waitlist form — on navy</h2>
+
+        <div class="rounded-lg bg-navy p-8">
+          <h3 class="text-xl font-semibold text-white">Join the waitlist</h3>
+          <p class="mt-2 max-w-md leading-relaxed text-white/90">
+            Helm is in private prototype. Leave an email and we'll be in touch
+            when there's something to see.
+          </p>
+          <form class="mt-6 max-w-md space-y-4">
+            <div class="space-y-2">
+              <label for="m-email" class="text-sm font-medium text-white/95">Email</label>
+              <input id="m-email" type="email" placeholder="you@company.com" class="w-full rounded-md border border-white/25 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/50" />
+              <p class="text-sm text-amber-200" role="alert">Enter a valid email address.</p>
+            </div>
+            <button type="button" class="rounded-md bg-brass px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brass/90">Join waitlist</button>
+          </form>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — a sixth input variant, on-navy: border-white/25, bg-white/10,
+          and a brass focus ring (focus:border-brass focus:ring-brass/50). It is
+          the only input in the codebase whose focus ring is not the ring token,
+          and the only one that changes border colour on focus as well.
+          The error text is text-amber-200 — the fifth raw-palette colour, and
+          the only error in the app that does not use the destructive token.
+        </div>
+      </section>
+
+      <!-- ── Rhythm ──────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Section rhythm</h2>
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>hero &nbsp;&nbsp;&nbsp;&nbsp;— py-[104px] md:py-[120px]</div>
+          <div>sections — py-20 md:py-24, separated by border-t border-border</div>
+          <div>widths &nbsp;&nbsp;— max-w-[900px] · [860px] · [820px] · [760px] · [360px] · [210px]</div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the marketing pages are where "generous spacing" from the tone
+          rules actually shows up. Every measure is an arbitrary pixel value
+          rather than a scale step, but the resulting rhythm is deliberate and
+          consistent. If the app moves toward the tone rules, this is the
+          rhythm it would move toward.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

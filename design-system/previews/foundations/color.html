@@ -1,0 +1,291 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Color — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-5xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Color</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          Defined in <code class="font-mono text-xs">app/globals.css</code> and
+          mapped to utilities in
+          <code class="font-mono text-xs">tailwind.config.ts</code>. Every value
+          is oklch except the marketing palette, which is raw hex.
+        </p>
+      </header>
+
+      <!-- ── Semantic tokens ─────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Semantic tokens — light</h2>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-background"></div>
+            <div class="text-xs font-medium">background</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(1 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-foreground"></div>
+            <div class="text-xs font-medium">foreground</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.145 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-card"></div>
+            <div class="text-xs font-medium">card</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(1 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-popover"></div>
+            <div class="text-xs font-medium">popover</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(1 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-primary"></div>
+            <div class="text-xs font-medium">primary</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.205 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-secondary"></div>
+            <div class="text-xs font-medium">secondary</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.97 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-muted"></div>
+            <div class="text-xs font-medium">muted</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.97 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-accent"></div>
+            <div class="text-xs font-medium">accent</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.97 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-destructive"></div>
+            <div class="text-xs font-medium">destructive</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.577 0.245 27.325)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border-2 border-border bg-background"></div>
+            <div class="text-xs font-medium">border</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.922 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border-2 border-input bg-background"></div>
+            <div class="text-xs font-medium">input</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.922 0 0)</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-background ring-2 ring-ring"></div>
+            <div class="text-xs font-medium">ring</div>
+            <div class="font-mono text-[11px] text-muted-foreground">oklch(0.708 0 0)</div>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — accent and secondary are both oklch(0.97 0 0), identical to
+          muted. Three token names, one value. Nothing in the app currently
+          distinguishes them.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Semantic tokens — dark</h2>
+        <div class="dark rounded-lg border border-border bg-background p-5">
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-background"></div>
+              <div class="text-xs font-medium text-foreground">background</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.145 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-foreground"></div>
+              <div class="text-xs font-medium text-foreground">foreground</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.985 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-card"></div>
+              <div class="text-xs font-medium text-foreground">card</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.205 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-popover"></div>
+              <div class="text-xs font-medium text-foreground">popover</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.269 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-primary"></div>
+              <div class="text-xs font-medium text-foreground">primary</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.922 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-secondary"></div>
+              <div class="text-xs font-medium text-foreground">secondary</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.269 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-muted"></div>
+              <div class="text-xs font-medium text-foreground">muted</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.269 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-accent"></div>
+              <div class="text-xs font-medium text-foreground">accent</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.371 0 0)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-destructive"></div>
+              <div class="text-xs font-medium text-foreground">destructive</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.704 0.191 22.216)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border-2 border-border bg-background"></div>
+              <div class="text-xs font-medium text-foreground">border</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(1 0 0 / 10%)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border-2 border-input bg-background"></div>
+              <div class="text-xs font-medium text-foreground">input</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(1 0 0 / 15%)</div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-14 rounded-md border border-border bg-background ring-2 ring-ring"></div>
+              <div class="text-xs font-medium text-foreground">ring</div>
+              <div class="font-mono text-[11px] text-muted-foreground">oklch(0.556 0 0)</div>
+            </div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — dark mode flips border and input to alpha-on-white
+          (oklch(1 0 0 / 10%)) while light mode uses an opaque grey. The two
+          modes are built on different mechanics.
+        </div>
+      </section>
+
+      <!-- ── Marketing ───────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Marketing palette</h2>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-navy"></div>
+            <div class="text-xs font-medium">navy</div>
+            <div class="font-mono text-[11px] text-muted-foreground">#1B2A38</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-brass"></div>
+            <div class="text-xs font-medium">brass</div>
+            <div class="font-mono text-[11px] text-muted-foreground">#C2A878</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-page-bg"></div>
+            <div class="text-xs font-medium">page-bg</div>
+            <div class="font-mono text-[11px] text-muted-foreground">#F7F6F2</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-text-primary"></div>
+            <div class="text-xs font-medium">text-primary</div>
+            <div class="font-mono text-[11px] text-muted-foreground">#111</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-14 rounded-md border border-border bg-text-secondary"></div>
+            <div class="text-xs font-medium">text-secondary</div>
+            <div class="font-mono text-[11px] text-muted-foreground">#555</div>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — all five tokens exist, and the marketing pages mostly bypass
+          them: 19 hardcoded [#C2A878], 9 [#111], 5 [#555], 4 [#F7F6F2],
+          3 [#1B2A38]. Because the hex is inline rather than tokenised, the
+          entire marketing surface is invisible to dark mode.
+        </div>
+      </section>
+
+      <!-- ── Untokenised greys ───────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Greys with no token at all</h2>
+        <div class="flex flex-wrap gap-3">
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#333]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#333 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#444]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#444 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#666]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#666 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#777]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#777 ×3</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#888]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#888 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#999]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#999 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#8A6A2F]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#8A6A2F ×3</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#F8F6F1]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#F8F6F1 ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 w-16 rounded-md border border-border bg-[#FCFBF8]"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">#FCFBF8 ×1</div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — a six-step grey ramp assembled ad hoc, plus a darker brass
+          (#8A6A2F) and two off-whites that sit near page-bg. None are tokens.
+          Open question for the design pass: how many neutral steps does the
+          system actually need?
+        </div>
+      </section>
+
+      <!-- ── Orphans ─────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Declared but unused</h2>
+        <div class="grid grid-cols-5 gap-3">
+          <div class="space-y-1.5">
+            <div class="h-10 rounded-md border border-border" style="background: oklch(0.646 0.222 41.116)"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">chart-1</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 rounded-md border border-border" style="background: oklch(0.6 0.118 184.704)"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">chart-2</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 rounded-md border border-border" style="background: oklch(0.398 0.07 227.392)"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">chart-3</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 rounded-md border border-border" style="background: oklch(0.828 0.189 84.429)"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">chart-4</div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-10 rounded-md border border-border" style="background: oklch(0.769 0.188 70.08)"></div>
+            <div class="font-mono text-[11px] text-muted-foreground">chart-5</div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — chart-1..5 and eight sidebar-* tokens are inherited from the
+          shadcn zinc preset. Zero usages in the codebase, and they are not
+          mapped in tailwind.config.ts. The chart colours are also markedly more
+          saturated than anything else here, which reads against the
+          "no bright status colors" rule. Keep, restyle, or delete.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dialog — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-4xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Dialog</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          No Dialog component. Five modals across the app, each assembled
+          inline from the same four pieces. Shown here in place rather than as
+          an overlay so the structure is visible.
+        </p>
+      </header>
+
+      <!-- ── The pattern ─────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">The pattern, as written</h2>
+
+        <div class="rounded-lg bg-black/50 p-10">
+          <div class="mx-auto w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+            <h2 class="text-sm font-medium text-foreground">Add team</h2>
+            <p class="mt-1 text-xs text-muted-foreground">
+              Enter the team name and Slack user ID. We'll look up the leader's
+              name and profile image when supported.
+            </p>
+
+            <div class="mt-4 space-y-3">
+              <div>
+                <label for="d-name" class="block text-sm font-medium text-foreground">Team name</label>
+                <input id="d-name" type="text" placeholder="e.g. Product" class="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              </div>
+              <div>
+                <label for="d-chat" class="block text-sm font-medium text-foreground">Slack user ID</label>
+                <input id="d-chat" type="text" placeholder="e.g. U01ABC" class="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-mono" />
+              </div>
+              <p class="text-sm text-destructive">Team name is required.</p>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">Save</button>
+              <button type="button" class="rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>overlay — fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4</div>
+          <div>panel &nbsp;&nbsp;— w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg</div>
+          <div>title &nbsp;&nbsp;— text-sm font-medium text-foreground</div>
+          <div>desc &nbsp;&nbsp;&nbsp;— mt-1 text-xs text-muted-foreground</div>
+          <div>body &nbsp;&nbsp;&nbsp;— mt-4 space-y-3</div>
+          <div>footer &nbsp;— mt-4 flex flex-wrap gap-2</div>
+        </div>
+      </section>
+
+      <!-- ── Sizes ───────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Panel widths in use</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-4">
+            <div class="h-9 w-full max-w-md rounded-lg border border-border bg-background shadow-lg"></div>
+            <span class="shrink-0 font-mono text-[11px] text-muted-foreground">max-w-md · ×3</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="h-9 w-full max-w-lg rounded-lg border border-border bg-background shadow-lg"></div>
+            <span class="shrink-0 font-mono text-[11px] text-muted-foreground">max-w-lg · ×1</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="h-9 w-full max-w-2xl rounded-lg border border-border bg-background shadow-lg"></div>
+            <span class="shrink-0 font-mono text-[11px] text-muted-foreground">max-w-2xl · ×1 — the multi-step new-outcome flow</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Title drift ─────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Title treatment</h2>
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-baseline gap-4">
+            <span class="text-sm font-medium text-foreground">Add team</span>
+            <span class="font-mono text-[11px] text-muted-foreground">text-sm font-medium — most dialogs</span>
+          </div>
+          <div class="flex flex-wrap items-baseline gap-4">
+            <span class="text-base font-medium text-foreground">Move outcome adrift</span>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">text-base</span> font-medium</span>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — a dialog title at text-sm font-medium is the same treatment as
+          a field label. Nothing in the type system marks it as a heading.
+        </div>
+      </section>
+
+      <!-- ── Behaviour gaps ──────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Behaviour</h2>
+          <p class="text-sm text-muted-foreground">
+            Not visual, but it constrains what the component can be. Recorded
+            here so the design pass knows what does not exist yet.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-md border border-border">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-border bg-muted/50">
+                <th class="p-3 font-medium">Behaviour</th>
+                <th class="p-3 font-medium">State</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="p-3">Close on Escape</td>
+                <td class="p-3 text-muted-foreground">Not implemented — zero keydown handlers in the codebase</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Focus trap</td>
+                <td class="p-3 text-muted-foreground">None</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Focus restore on close</td>
+                <td class="p-3 text-muted-foreground">None</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Background scroll lock</td>
+                <td class="p-3 text-muted-foreground">None</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Click-outside to close</td>
+                <td class="p-3 text-muted-foreground">1 of 5 — implemented as a full-bleed <code class="font-mono text-xs">&lt;button aria-label="Close dialog"&gt;</code></td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Enter/exit animation</td>
+                <td class="p-3 text-muted-foreground">None — tailwindcss-animate is installed but unused</td>
+              </tr>
+              <tr>
+                <td class="p-3"><code class="font-mono text-xs">role="dialog" aria-modal</code> placement</td>
+                <td class="p-3 text-muted-foreground">4 of 5 put it on the full-screen overlay rather than the panel</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — every dialog is labelled with aria-labelledby and a real title
+          id, so the intent was there. The gaps are the things a component
+          would have provided for free.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Dark</h2>
+        <div class="dark rounded-lg bg-black/50 p-10">
+          <div class="mx-auto w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
+            <h2 class="text-sm font-medium text-foreground">Add team</h2>
+            <p class="mt-1 text-xs text-muted-foreground">Enter the team name and Slack user ID.</p>
+            <div class="mt-4 space-y-3">
+              <div>
+                <label for="d-name-dark" class="block text-sm font-medium text-foreground">Team name</label>
+                <input id="d-name-dark" type="text" placeholder="e.g. Product" class="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">Save</button>
+              <button type="button" class="rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — the overlay is a fixed bg-black/50 in both modes. Against a
+          near-black dark background it barely reads as a scrim, and the panel
+          uses bg-background, so panel and backdrop are close in value.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

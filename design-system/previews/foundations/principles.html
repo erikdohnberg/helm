@@ -1,0 +1,120 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Principles — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-3xl space-y-12 p-8">
+      <header class="space-y-3">
+        <h1 class="text-2xl font-semibold tracking-tight">Principles</h1>
+        <p class="text-sm text-muted-foreground">
+          Verbatim from
+          <code class="font-mono text-xs">lib/design/README.md</code>. These
+          predate this kit and are the constraint the visual work should be
+          judged against — not a summary written for the handoff.
+        </p>
+      </header>
+
+      <!-- ── Tone ────────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">UX tone rules</h2>
+        <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">calm</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">editorial</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">minimal</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">generous spacing</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">no dashboard density</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">no bright status colors</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">no gamified scoring</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground">muted chips only</li>
+          <li class="rounded-md border border-border bg-card px-4 py-3 text-sm text-card-foreground sm:col-span-2">external links show external-link icon</li>
+        </ul>
+      </section>
+
+      <!-- ── What the product is ─────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">What Helm is</h2>
+        <div class="space-y-3 text-sm leading-relaxed">
+          <p>
+            A <span class="font-medium">strategic alignment layer</span> — not a
+            task manager, sprint planner, roadmap tool, or OKR platform.
+          </p>
+          <p>
+            The core artifact is the
+            <span class="font-medium">Outcome Charter</span>. Anchored outcomes
+            represent the official direction of a quarter, and new priorities
+            must not enter the system silently.
+          </p>
+          <p>
+            Helm's job is to surface one question:
+            <span class="font-medium">"What stops?"</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- ── Design consequences ─────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Where the rules bite</h2>
+
+        <div class="space-y-4">
+          <div class="space-y-2 border-l-2 border-border pl-4">
+            <div class="text-sm font-medium">"no bright status colors" vs. the token set</div>
+            <p class="text-sm text-muted-foreground">
+              The inherited shadcn preset ships five saturated chart colours.
+              They are unused today. Drift severity, outcome state, and
+              replacement relationships all need visual encoding — and none of
+              them may reach for a red/amber/green vocabulary.
+            </p>
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Anchored</span>
+              <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Replaced</span>
+              <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Additive</span>
+              <span class="font-mono text-[11px] text-muted-foreground">— all states currently render identically</span>
+            </div>
+          </div>
+
+          <div class="space-y-2 border-l-2 border-border pl-4">
+            <div class="text-sm font-medium">"muted chips only"</div>
+            <p class="text-sm text-muted-foreground">
+              Honoured — <code class="font-mono text-xs">Chip</code> has no
+              variant API and only ever renders bg-muted. The constraint is
+              currently enforced by the component having no other options, not
+              by a decision. If chips gain variants, this is the rule they must
+              stay inside.
+            </p>
+          </div>
+
+          <div class="space-y-2 border-l-2 border-border pl-4">
+            <div class="text-sm font-medium">"editorial" vs. two visual languages</div>
+            <p class="text-sm text-muted-foreground">
+              The marketing surface is editorial — navy, brass, generous
+              vertical rhythm, a compass-rose motif, real typographic care. The
+              app surface is neutral shadcn zinc. They share a repo and almost
+              nothing else. Whether these converge is the largest open question
+              in this handoff.
+            </p>
+          </div>
+
+          <div class="space-y-2 border-l-2 border-border pl-4">
+            <div class="text-sm font-medium">"no dashboard density" / "generous spacing"</div>
+            <p class="text-sm text-muted-foreground">
+              The app is built on text-sm with p-3 table cells and a 2/3/4/6
+              spacing ladder — closer to dense-admin than to the marketing
+              pages' py-[104px] rhythm. This is the rule the app diverges from
+              most.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+        NOTE — these rules are prose in a README today. Nothing enforces them.
+        A goal of the design pass is to push as many as possible into the
+        component APIs, where they hold by construction.
+      </div>
+    </main>
+  </body>
+</html>

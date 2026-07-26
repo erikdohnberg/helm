@@ -1,0 +1,254 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Button — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-4xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Button</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          There is no Button component. 39
+          <code class="font-mono text-xs">&lt;button&gt;</code> elements across
+          the app carry 21 distinct className strings, reproduced verbatim
+          below. They resolve to four semantic roles — the variance inside each
+          role is unresolved drift, not intent.
+        </p>
+      </header>
+
+      <!-- ── Solid ───────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Role 1 — Solid / commit</h2>
+          <p class="text-sm text-muted-foreground">Save, Continue, primary form submit. 11 uses, 5 spellings.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">Save</button>
+            <span class="font-mono text-[11px] text-muted-foreground">px-3 py-2 · disabled:opacity-50 · ×5 (as w-full)</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none">Save</button>
+            <span class="font-mono text-[11px] text-muted-foreground">px-3 <span class="text-destructive">py-1.5</span> · disabled:opacity-50 <span class="text-destructive">+ pointer-events-none</span> · ×2</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">Save</button>
+            <span class="font-mono text-[11px] text-muted-foreground">px-3 py-1.5 · <span class="text-destructive">no disabled handling</span> · ×2</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:bg-foreground/90">Save</button>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">bg-foreground / text-background</span> instead of primary · ×1</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" disabled class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">Saving…</button>
+            <span class="font-mono text-[11px] text-muted-foreground">disabled — pending state, label swaps to "Saving…"</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Outline ─────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Role 2 — Outline / default action</h2>
+          <p class="text-sm text-muted-foreground">The workhorse. Add team, Cancel, Choose folder, Edit selected. 15 uses, 8 spellings.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted">Add team</button>
+            <span class="font-mono text-[11px] text-muted-foreground">border-input · hover:bg-muted · ×6 — the modal spelling</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50">Add team</button>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">border-border</span> · <span class="text-destructive">hover:bg-muted/50</span> · ×2</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted">Choose folder</button>
+            <span class="font-mono text-[11px] text-muted-foreground">same, plus <span class="text-destructive">inline-flex items-center</span> · ×3</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1.5 text-sm text-foreground hover:bg-muted transition-colors">
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
+              Open in Drive
+            </button>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">px-2.5</span> · no font-medium · <span class="text-destructive">transition-colors</span> · ×1</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50">Cancel</button>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">py-2</span> · <span class="text-destructive">text-muted-foreground</span>, not text-foreground · ×1 — the dialog Cancel</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" disabled class="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none">Remove selected</button>
+            <span class="font-mono text-[11px] text-muted-foreground">disabled — nothing selected</span>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — border-input and border-border resolve to the same value in
+          light mode (oklch(0.922 0 0)) but diverge in dark mode
+          (15% vs 10% white). The two spellings are visibly different in dark,
+          identical in light, which is why this drifted unnoticed.
+        </div>
+      </section>
+
+      <!-- ── Compact ─────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Role 3 — Compact / row action</h2>
+          <p class="text-sm text-muted-foreground">Inline table actions. The only place a smaller size exists.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <button type="button" class="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Edit</button>
+          <button type="button" class="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Add details</button>
+          <span class="font-mono text-[11px] text-muted-foreground">px-2 py-1 text-xs · ×3</span>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — this is the de facto "sm" size, but it is a separate string
+          rather than a size modifier on the outline role. There is no "lg"
+          anywhere in the app.
+        </div>
+      </section>
+
+      <!-- ── Ghost / link ────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Role 4 — Ghost / link</h2>
+          <p class="text-sm text-muted-foreground">Dismiss, sign out, tertiary text actions. 4 uses, 4 spellings.</p>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Dismiss">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            </button>
+            <span class="font-mono text-[11px] text-muted-foreground">icon-only · <span class="text-destructive">bare `rounded`</span> (4px, off-scale) · ×1</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80">Sign out</button>
+            <span class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">py-3</span> to match nav height · ×1</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="button" class="text-sm font-medium text-foreground underline-offset-4 hover:underline disabled:opacity-50">Reconnect</button>
+            <span class="font-mono text-[11px] text-muted-foreground">link style, no padding · ×1</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 rounded-md bg-navy px-4 py-3">
+            <button type="button" class="text-sm text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white">Sign out</button>
+            <span class="font-mono text-[11px] text-white/60">on-navy variant — hardcoded white alphas · ×1</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Marketing ───────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Role 5 — Marketing CTA (brass)</h2>
+          <p class="text-sm text-muted-foreground">A separate visual language. Only appears on marketing routes.</p>
+        </div>
+        <div class="space-y-4 rounded-lg bg-navy p-8">
+          <div class="flex flex-col items-start gap-3">
+            <a href="#" class="inline-flex min-w-[210px] items-center justify-center rounded-xl bg-brass px-7 py-4 text-base font-medium text-white shadow-[0_14px_34px_rgba(194,168,120,0.35)] transition-all hover:translate-y-[-1px] hover:bg-brass/90">Open app</a>
+            <span class="font-mono text-[11px] text-white/60">hero CTA — rounded-xl, px-7 py-4, text-base, coloured glow, translate on hover</span>
+          </div>
+          <div class="flex flex-col items-start gap-3">
+            <button type="button" class="rounded-md bg-brass px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brass/90">Join waitlist</button>
+            <span class="font-mono text-[11px] text-white/60">waitlist CTA — <span class="text-brass">rounded-md, px-5 py-2.5, text-sm, no shadow</span></span>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-4 rounded-lg bg-page-bg p-6">
+          <button type="button" class="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]" aria-label="Previous">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+          </button>
+          <button type="button" class="rounded-xl border border-black/10 bg-white p-3 text-[#555] transition hover:border-[#C2A878]/50 hover:text-[#1B2A38]" aria-label="Next">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+          <span class="font-mono text-[11px] text-[#777]">carousel arrows — all colours hardcoded hex, not tokens · ×2</span>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — the two brass CTAs share only their fill. Different radius,
+          padding, size, shadow, and hover mechanic. They are the first and last
+          thing a visitor sees on the landing page.
+        </div>
+      </section>
+
+      <!-- ── Focus ───────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Focus state</h2>
+          <p class="text-sm text-muted-foreground">
+            None of the 39 buttons define one. There are zero occurrences of
+            <code class="font-mono text-xs">focus-visible</code> in the
+            codebase, so keyboard users get only the UA default — which the
+            reset suppresses on some elements.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-6">
+          <div class="space-y-2">
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">Current</button>
+            <div class="font-mono text-[11px] text-muted-foreground">as shipped — no ring</div>
+          </div>
+          <div class="space-y-2">
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground ring-2 ring-ring ring-offset-2 ring-offset-background hover:bg-primary/90">Illustrative</button>
+            <div class="font-mono text-[11px] text-muted-foreground">what the ring token affords, unused</div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the second button is drawn with a permanent ring purely to show
+          the token. It is not a proposal; the focus treatment is an open design
+          decision. eslint-plugin-jsx-a11y is installed but does not catch this.
+        </div>
+      </section>
+
+      <!-- ── Summary ─────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Drift axes to resolve</h2>
+        <div class="overflow-x-auto rounded-md border border-border">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-border bg-muted/50">
+                <th class="p-3 font-medium">Axis</th>
+                <th class="p-3 font-medium">Competing values</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="p-3">Vertical padding</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">py-1 · py-1.5 · py-2 · py-2.5 · py-3 · py-4</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Outline border</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">border-input · border-border</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Outline hover</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">hover:bg-muted · hover:bg-muted/50</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Disabled</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">none · opacity-50 · opacity-50 + pointer-events-none</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Solid fill</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">bg-primary · bg-foreground · bg-brass</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Transition</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">absent (most) · transition-colors · transition-all · transition</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Radius</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">rounded · rounded-md · rounded-xl</td>
+              </tr>
+              <tr>
+                <td class="p-3">Focus</td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">nothing, everywhere</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

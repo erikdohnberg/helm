@@ -1,0 +1,182 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Field &amp; form controls — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-3xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Field &amp; form controls</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          No Input, Label, Select, or Field component exists. The
+          label / control / help / error stack is hand-assembled at every call
+          site — 14 labels, 8 help lines, 7 error lines, 12 controls.
+        </p>
+      </header>
+
+      <!-- ── The canonical stack ─────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">The recurring stack</h2>
+          <p class="text-sm text-muted-foreground">Assembled from four independent class strings, in this order, every time.</p>
+        </div>
+
+        <div class="max-w-md space-y-3 rounded-md border border-border p-4">
+          <div>
+            <label for="f-team" class="block text-sm font-medium text-foreground">Team name</label>
+            <input id="f-team" type="text" placeholder="e.g. Product" class="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+            <p class="mt-1 text-sm text-muted-foreground">Shown on the outcome charter.</p>
+          </div>
+          <div>
+            <label for="f-chat" class="block text-sm font-medium text-foreground">Slack user ID</label>
+            <input id="f-chat" type="text" placeholder="e.g. U01ABC" class="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-mono" />
+            <p class="text-sm text-destructive">No user found for that ID.</p>
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>label &nbsp;— block text-sm font-medium text-foreground · ×14</div>
+          <div>input &nbsp;— mt-1.5 w-full rounded-md border border-input … focus:ring-2 focus:ring-ring · ×4</div>
+          <div>help &nbsp;&nbsp;— mt-1 text-sm text-muted-foreground · ×8</div>
+          <div>error &nbsp;— text-sm text-destructive · ×7</div>
+        </div>
+      </section>
+
+      <!-- ── Input drift ─────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Text input — 5 spellings</h2>
+          <p class="text-sm text-muted-foreground">Focus treatment is the axis that drifted hardest.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="space-y-1.5">
+            <input type="text" placeholder="Placeholder" class="w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+            <div class="font-mono text-[11px] text-muted-foreground">border-input · py-2 · ring-2 · placeholder styled · ×7 (4 with mt-1.5)</div>
+          </div>
+          <div class="space-y-1.5">
+            <input type="text" placeholder="Placeholder" class="w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+            <div class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">no placeholder:text-muted-foreground</span> · ×3</div>
+          </div>
+          <div class="space-y-1.5">
+            <input type="text" value="12" class="w-24 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring" />
+            <div class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">ring-1</span> and <span class="text-destructive">focus:border-ring</span> — a different focus mechanic · ×3</div>
+          </div>
+          <div class="space-y-1.5">
+            <input type="text" placeholder="Placeholder" class="max-w-md rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" />
+            <div class="font-mono text-[11px] text-muted-foreground"><span class="text-destructive">border-border</span> · <span class="text-destructive">py-1.5</span> · <span class="text-destructive">ring-offset-2</span> · ×1</div>
+          </div>
+          <div class="space-y-1.5">
+            <input type="text" disabled value="Disabled" class="w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+            <div class="font-mono text-[11px] text-muted-foreground">disabled — <span class="text-destructive">no disabled styling defined anywhere</span>; UA default only</div>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — three different focus rings (ring-2, ring-1 + border shift,
+          ring-2 + offset-2). All use `focus:` rather than `focus-visible:`, so
+          the ring also fires on mouse click. Inputs are the only elements in
+          Helm with any focus styling at all.
+        </div>
+      </section>
+
+      <!-- ── Textarea ────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Textarea</h2>
+        <div class="space-y-1.5">
+          <textarea rows="3" placeholder="Paste the charter text…" class="w-full max-w-md resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"></textarea>
+          <div class="font-mono text-[11px] text-muted-foreground">resize-y · otherwise identical to the primary input · ×2 (mt-3 and mt-1.5)</div>
+        </div>
+      </section>
+
+      <!-- ── Select ──────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Select</h2>
+        <div class="space-y-1.5">
+          <label for="f-quarter" class="block text-sm font-medium text-foreground">Quarter</label>
+          <select id="f-quarter" class="w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+            <option>FY26 Q1</option>
+            <option>FY26 Q2</option>
+          </select>
+          <div class="font-mono text-[11px] text-muted-foreground">native select, input styling reused · ×4 — no custom chevron, no menu styling</div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — selects are fully native, so the open menu is OS-rendered and
+          outside the system. Worth an explicit keep-or-replace decision.
+        </div>
+      </section>
+
+      <!-- ── Choice controls ─────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Checkbox &amp; radio</h2>
+
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm">
+              <input type="checkbox" class="rounded border-border" />
+              Select all rows
+            </label>
+            <div class="font-mono text-[11px] text-muted-foreground">checkbox — <span class="text-destructive">`rounded border-border` only</span>; no size, no checked colour · ×3</div>
+          </div>
+
+          <fieldset class="space-y-2">
+            <legend class="text-sm font-medium text-foreground">How does this outcome enter the quarter?</legend>
+            <label class="flex items-start gap-2 pt-1 text-sm">
+              <input type="radio" name="entry" checked class="mt-1 h-4 w-4 border-input text-primary focus:ring-ring" />
+              <span>
+                <span class="block">Attach to an existing outcome</span>
+                <span class="mt-1 block text-xs text-muted-foreground">No new commitment enters the quarter.</span>
+              </span>
+            </label>
+            <label class="flex items-start gap-2 text-sm">
+              <input type="radio" name="entry" class="mt-1 h-4 w-4 border-input text-primary focus:ring-ring" />
+              <span>
+                <span class="block">Replace an anchored outcome</span>
+                <span class="mt-1 block text-xs text-muted-foreground">The replaced outcome stays visible in the record.</span>
+              </span>
+            </label>
+            <label class="flex items-start gap-2 text-sm">
+              <input type="radio" name="entry" class="mt-1 h-4 w-4 border-input text-primary focus:ring-ring" />
+              <span>
+                <span class="block">Add as new, with a focus warning</span>
+                <span class="mt-1 block text-xs text-muted-foreground">Surfaces "What stops?" before committing.</span>
+              </span>
+            </label>
+          </fieldset>
+          <div class="font-mono text-[11px] text-muted-foreground">radio — mt-1 h-4 w-4 border-input text-primary focus:ring-ring · ×3</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — checkbox and radio disagree on everything: border-border vs
+          border-input, no sizing vs h-4 w-4, no focus vs focus:ring-ring. Both
+          rely on the browser's native control rendering underneath. This radio
+          group encodes rule 5 of the product spec ("every new outcome must
+          declare how it enters the quarter"), so it carries more weight than
+          its styling suggests.
+        </div>
+      </section>
+
+      <!-- ── Help text drift ─────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Help text — 3 spellings</h2>
+        <div class="space-y-3">
+          <div>
+            <p class="mt-1 text-sm text-muted-foreground">Help text at mt-1, text-sm</p>
+            <div class="font-mono text-[11px] text-muted-foreground">×8</div>
+          </div>
+          <div>
+            <p class="mt-2 text-sm text-muted-foreground">Help text at mt-2, text-sm</p>
+            <div class="font-mono text-[11px] text-muted-foreground">×6</div>
+          </div>
+          <div>
+            <p class="mt-1 text-xs text-muted-foreground">Help text at mt-1, text-xs</p>
+            <div class="font-mono text-[11px] text-muted-foreground">×3</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

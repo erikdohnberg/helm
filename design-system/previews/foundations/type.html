@@ -1,0 +1,147 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Type — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-4xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Type</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          System font stack, deliberately — Helm avoids
+          <code class="font-mono text-xs">next/font/google</code> so dev works
+          offline. No custom typeface is loaded anywhere in the app.
+        </p>
+        <p class="font-mono text-[11px] text-muted-foreground">
+          ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe
+          UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif
+        </p>
+      </header>
+
+      <!-- ── Scale in use ────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Scale, by actual usage</h2>
+
+        <div class="space-y-5">
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-sm ×203</span>
+            <span class="text-sm">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-xs ×37</span>
+            <span class="text-xs">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-base ×13</span>
+            <span class="text-base">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-xl ×11</span>
+            <span class="text-xl">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-lg ×7</span>
+            <span class="text-lg">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-2xl ×3</span>
+            <span class="text-2xl">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-3xl ×1</span>
+            <span class="text-3xl">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6 border-b border-border pb-4">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-4xl ×1</span>
+            <span class="text-4xl">Keep strategy on course</span>
+          </div>
+          <div class="flex items-baseline gap-6">
+            <span class="w-24 shrink-0 font-mono text-[11px] text-muted-foreground">text-5xl ×1</span>
+            <span class="text-5xl font-semibold tracking-tight">Keep strategy on course</span>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — 203 of 277 sized elements are text-sm. The app is effectively a
+          two-size system (sm for everything, xs for metadata) with a handful of
+          headings on top. The large end (3xl/4xl/5xl, one use each) is entirely
+          marketing hero.
+        </div>
+      </section>
+
+      <!-- ── Roles ───────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Recurring roles</h2>
+
+        <div class="space-y-4">
+          <div class="space-y-1">
+            <div class="text-xl font-semibold text-foreground">Page title</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-xl font-semibold text-foreground — ×7</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-lg font-medium text-foreground">Section heading</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-lg font-medium text-foreground — ×4</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-sm font-medium text-foreground">Field label / dialog title</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-sm font-medium text-foreground — ×21 (+14 with block)</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-sm text-muted-foreground">Body and help text</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-sm text-muted-foreground — ×24</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-xs text-muted-foreground">Metadata, row detail</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-xs text-muted-foreground — ×15</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Eyebrow label</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-xs font-medium uppercase tracking-wide text-muted-foreground — ×4</div>
+          </div>
+          <div class="space-y-1">
+            <div class="text-sm text-destructive">Inline validation error</div>
+            <div class="font-mono text-[11px] text-muted-foreground">text-sm text-destructive — ×7</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-mono text-xs text-muted-foreground">U01ABC — identifier</div>
+            <div class="font-mono text-[11px] text-muted-foreground">font-mono text-xs text-muted-foreground — chat/user IDs in tables</div>
+          </div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — the eyebrow role exists twice: the app uses
+          text-xs uppercase tracking-wide text-muted-foreground, marketing uses
+          text-[11px] uppercase tracking-wide text-[#777]. Same intent, different
+          size and a hardcoded colour. text-[11px] appears 6 times and is the
+          only arbitrary font size in the codebase.
+        </div>
+      </section>
+
+      <!-- ── Marketing display ───────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Marketing display</h2>
+        <div class="rounded-lg bg-navy p-10">
+          <h3 class="mx-auto max-w-[860px] text-center text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[0.95]">
+            <span class="block">Keep strategy</span>
+            <span class="block">on <span class="font-bold">course.</span></span>
+          </h3>
+          <p class="mx-auto mt-7 max-w-[760px] text-center text-lg leading-8 text-white/95 md:text-[22px] md:leading-9">
+            Helm is an AI team member that listens where strategy happens, turns
+            signals into outcome charters, and nudges teams when strategic drift
+            begins.
+          </p>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the display scale is expressed with arbitrary values
+          (md:text-[22px], md:leading-[0.95], max-w-[860px], max-w-[760px])
+          rather than scale steps. It is the only place in Helm where type is
+          treated typographically — tracking, leading, and weight contrast all
+          get deliberate handling.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+<!-- @dsCard group="Navigation" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Navigation — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-4xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Navigation</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          Two levels: the app shell top nav and the settings tab strip. Both
+          are real components. Both solve "which item is active?" differently.
+        </p>
+        <p class="text-sm text-muted-foreground">
+          Structure is fixed —
+          <code class="font-mono text-xs">.cursor/rules/project-constraints.mdc</code>
+          forbids adding, removing, or renaming nav items. Styling is open.
+        </p>
+      </header>
+
+      <!-- ── Top nav ─────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">App shell — components/app-shell/top-nav.tsx</h2>
+
+        <nav class="rounded-md border border-border bg-background" aria-label="Main navigation">
+          <ul class="flex flex-1 items-center gap-1 px-4">
+            <li>
+              <a href="#" aria-label="Helm" class="flex items-center border-b-2 border-foreground/20 -mb-px px-3 py-3">
+                <span class="text-base font-semibold tracking-tight">Helm</span>
+              </a>
+            </li>
+            <li><a href="#" class="px-3 py-3 text-sm font-medium text-foreground border-b-2 border-foreground/20 -mb-px transition-colors">Quarter</a></li>
+            <li><a href="#" class="px-3 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground/80">Outcomes</a></li>
+            <li><a href="#" class="px-3 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground/80">Settings</a></li>
+            <li class="ml-auto"><button type="button" class="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80">Sign out</button></li>
+          </ul>
+        </nav>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>bar &nbsp;&nbsp;&nbsp;— border-b border-border bg-background</div>
+          <div>item &nbsp;&nbsp;— px-3 py-3 text-sm transition-colors</div>
+          <div>active — font-medium text-foreground border-b-2 border-foreground/20 -mb-px</div>
+          <div>rest &nbsp;&nbsp;— text-muted-foreground hover:text-foreground/80</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the active underline is border-foreground/20, a 20% alpha, so
+          it reads as a faint grey rule rather than a selection marker. Active
+          state leans mostly on the weight change. The real logo is an image
+          asset (black/white swap via dark:hidden); a text placeholder stands in
+          here.
+        </div>
+      </section>
+
+      <!-- ── Tabs ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Settings tabs — components/settings/settings-tabs.tsx</h2>
+
+        <nav aria-label="Settings sections" class="border-b border-border">
+          <ul class="flex gap-0.5">
+            <li><a href="#" class="-mb-px rounded-t-md border border-b-0 border-border bg-muted px-4 py-2.5 text-sm font-medium text-foreground transition-colors">Team</a></li>
+            <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground">Integrations</a></li>
+            <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground">Defaults</a></li>
+            <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground">System</a></li>
+          </ul>
+        </nav>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>strip &nbsp;— border-b border-border, items at gap-0.5</div>
+          <div>item &nbsp;&nbsp;— px-4 py-2.5 text-sm font-medium rounded-t-md -mb-px</div>
+          <div>active — bg-muted text-foreground border border-b-0 border-border</div>
+          <div>rest &nbsp;&nbsp;— text-muted-foreground hover:text-foreground hover:bg-muted/50</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — two navigation levels, two unrelated active treatments:
+          the top nav uses a bottom underline, the tabs use a filled folder tab
+          that breaks the border line. Padding differs too (py-3 vs py-2.5,
+          px-3 vs px-4), as does the resting weight (normal vs font-medium).
+        </div>
+      </section>
+
+      <!-- ── Together ────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Stacked, as they appear on /settings</h2>
+        <div class="rounded-md border border-border">
+          <nav class="border-b border-border bg-background" aria-label="Main navigation">
+            <ul class="flex flex-1 items-center gap-1 px-4">
+              <li><a href="#" class="flex items-center px-3 py-3 opacity-90"><span class="text-base font-semibold tracking-tight">Helm</span></a></li>
+              <li><a href="#" class="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80">Quarter</a></li>
+              <li><a href="#" class="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80">Outcomes</a></li>
+              <li><a href="#" class="-mb-px border-b-2 border-foreground/20 px-3 py-3 text-sm font-medium text-foreground">Settings</a></li>
+              <li class="ml-auto"><button type="button" class="px-3 py-3 text-sm text-muted-foreground hover:text-foreground/80">Sign out</button></li>
+            </ul>
+          </nav>
+          <div class="space-y-6 p-6">
+            <div class="space-y-1">
+              <h3 class="text-xl font-semibold text-foreground">Settings</h3>
+              <p class="text-sm text-muted-foreground">Manage your organization, integrations, and defaults.</p>
+            </div>
+            <nav aria-label="Settings sections" class="border-b border-border">
+              <ul class="flex gap-0.5">
+                <li><a href="#" class="-mb-px rounded-t-md border border-b-0 border-border bg-muted px-4 py-2.5 text-sm font-medium text-foreground">Team</a></li>
+                <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground">Integrations</a></li>
+                <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground">Defaults</a></li>
+                <li><a href="#" class="-mb-px rounded-t-md px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground">System</a></li>
+              </ul>
+            </nav>
+            <div>
+              <h4 class="text-lg font-medium text-foreground">Teams</h4>
+              <p class="text-sm text-muted-foreground">Helm members can be linked to a team and Slack ID.</p>
+            </div>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — three horizontal rules stack within ~200px (nav bottom border,
+          tab strip border, and the section beneath). Against "calm / generous
+          spacing / no dashboard density", this header region is the densest
+          part of the app.
+        </div>
+      </section>
+
+      <!-- ── Focus ───────────────────────────────────────────────────────── -->
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium">Focus</h2>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — as with buttons, no nav item defines a focus style. Tabbing
+          through the shell produces no visible indicator beyond the UA default.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,178 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Table — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-5xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Table</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          One table in the app — the team roster in Settings. Written inline,
+          no component. Reproduced verbatim, including the empty state and
+          selection behaviour.
+        </p>
+      </header>
+
+      <!-- ── Populated ───────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">With rows and a selection</h2>
+
+        <div class="overflow-x-auto rounded-md border border-border">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-border bg-muted/50">
+                <th class="w-10 p-3"><input type="checkbox" aria-label="Select all rows" class="rounded border-border" /></th>
+                <th class="p-3 font-medium text-foreground">Member</th>
+                <th class="p-3 font-medium text-foreground">Team</th>
+                <th class="p-3 font-medium text-foreground">Leader</th>
+                <th class="p-3 font-medium text-foreground">Slack user ID</th>
+                <th class="p-3 font-medium text-foreground">Admin</th>
+                <th class="w-28 p-3 font-medium text-foreground"><span class="sr-only">Edit</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border bg-muted/30">
+                <td class="p-3"><input type="checkbox" checked aria-label="Select Ada Lovelace" class="rounded border-border" /></td>
+                <td class="p-3">
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-foreground">Ada Lovelace</span>
+                    <span class="text-xs text-muted-foreground">ada@example.com</span>
+                    <span class="text-xs text-muted-foreground">(you)</span>
+                  </div>
+                </td>
+                <td class="p-3 text-foreground">Product</td>
+                <td class="p-3">
+                  <div class="flex items-center gap-2">
+                    <span class="h-8 w-8 shrink-0 rounded-full border border-border bg-muted"></span>
+                    <span class="text-foreground">Ada Lovelace</span>
+                  </div>
+                </td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">U01ABC</td>
+                <td class="p-3"><span class="inline-flex rounded-md border border-border bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground" title="Organization admin">Admin</span></td>
+                <td class="p-3"><button type="button" class="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Edit</button></td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3"><input type="checkbox" aria-label="Select Grace Hopper" class="rounded border-border" /></td>
+                <td class="p-3">
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-foreground">Grace Hopper</span>
+                    <span class="text-xs text-muted-foreground">grace@example.com</span>
+                  </div>
+                </td>
+                <td class="p-3 text-foreground">—</td>
+                <td class="p-3"><span class="text-muted-foreground">—</span></td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">—</td>
+                <td class="p-3"><span class="text-muted-foreground">—</span></td>
+                <td class="p-3"><button type="button" class="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Add details</button></td>
+              </tr>
+              <tr class="last:border-b-0">
+                <td class="p-3"><input type="checkbox" aria-label="Select team Platform" class="rounded border-border" /></td>
+                <td class="p-3 text-muted-foreground"><span class="text-xs">Not a Helm member</span></td>
+                <td class="p-3 text-foreground">Platform</td>
+                <td class="p-3">
+                  <div class="flex items-center gap-2">
+                    <span class="h-8 w-8 shrink-0 rounded-full border border-border bg-muted"></span>
+                    <span class="text-foreground">Alan Turing</span>
+                  </div>
+                </td>
+                <td class="p-3 font-mono text-xs text-muted-foreground">U02DEF</td>
+                <td class="p-3 text-muted-foreground">—</td>
+                <td class="p-3"><button type="button" class="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button type="button" class="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none">Add team</button>
+          <button type="button" class="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none">Remove selected</button>
+          <button type="button" class="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50">Edit selected member</button>
+        </div>
+
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>wrapper &nbsp;— rounded-md border border-border</div>
+          <div>table &nbsp;&nbsp;&nbsp;— w-full text-left text-sm</div>
+          <div>head row — border-b border-border bg-muted/50</div>
+          <div>th &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— p-3 font-medium text-foreground</div>
+          <div>row &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— border-b border-border last:border-b-0</div>
+          <div>selected — bg-muted/30</div>
+          <div>td &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— p-3</div>
+          <div>identifiers — font-mono text-xs text-muted-foreground</div>
+          <div>empty cell &nbsp;— an em dash, text-muted-foreground</div>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — selection uses bg-muted/30, hover uses nothing, and the header
+          uses bg-muted/50. Three alpha steps of the same token doing three
+          jobs, with no hover affordance on rows at all. Actions appear per-row
+          *and* in a toolbar below, so the same operation has two entry points.
+        </div>
+      </section>
+
+      <!-- ── Empty ───────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Empty state</h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-lg font-medium text-foreground">Teams</h3>
+            <p class="text-sm text-muted-foreground">
+              Helm members can be linked to a team and Slack ID. Add team only
+              needs a team name and chat user ID—we resolve the leader's name
+              and profile image when the platform supports it.
+            </p>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            No teams yet. Admins can use Add team with a team name and chat user
+            ID (no Helm member required), or add teammates who already belong to
+            the org and use Add details on their row.
+          </p>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — the empty state is a bare paragraph. No container, no
+          illustration, no framed call to action, and the explanatory copy runs
+          long enough to read as an error. Empty states have no pattern at all
+          in this system.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Dark</h2>
+        <div class="dark rounded-lg border border-border bg-background p-6">
+          <div class="overflow-x-auto rounded-md border border-border">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-border bg-muted/50">
+                  <th class="p-3 font-medium text-foreground">Member</th>
+                  <th class="p-3 font-medium text-foreground">Team</th>
+                  <th class="p-3 font-medium text-foreground">Slack user ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-border bg-muted/30">
+                  <td class="p-3 text-foreground">Ada Lovelace</td>
+                  <td class="p-3 text-foreground">Product</td>
+                  <td class="p-3 font-mono text-xs text-muted-foreground">U01ABC</td>
+                </tr>
+                <tr>
+                  <td class="p-3 text-foreground">Grace Hopper</td>
+                  <td class="p-3 text-foreground">—</td>
+                  <td class="p-3 font-mono text-xs text-muted-foreground">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — in dark, border is 10% white and bg-muted/50 is a 50% alpha of
+          an already-dark grey, so the header band and row rules nearly vanish.
+          Table structure is noticeably weaker in dark than light.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

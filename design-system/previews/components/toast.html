@@ -1,0 +1,117 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toast — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-3xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Toast</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          The third and last real component. A context provider plus a
+          bottom-centre stack. One visual treatment, message string only.
+        </p>
+      </header>
+
+      <!-- ── As built ────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">components/ui/toast.tsx — as built</h2>
+        <div class="flex flex-col items-center gap-2 rounded-lg border border-border bg-muted/30 p-10">
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Team added</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Team details saved</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Could not remove</div>
+        </div>
+        <div class="space-y-1 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          <div>container — pointer-events-none fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 flex-col gap-2</div>
+          <div>toast &nbsp;&nbsp;&nbsp;&nbsp;— pointer-events-auto rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md</div>
+          <div>lifetime &nbsp;— 3000ms, fixed</div>
+          <div>a11y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— aria-live="polite" on the container</div>
+        </div>
+      </section>
+
+      <!-- ── What it does not distinguish ────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Success and failure look identical</h2>
+          <p class="text-sm text-muted-foreground">
+            Every call site passes a bare string. These four are all the same
+            component in the same state.
+          </p>
+        </div>
+        <div class="flex flex-col items-start gap-2">
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Team added</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Could not add team</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Removed selected team data</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Google token refresh failed — could not reach Google</div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          OPEN QUESTION — errors surface through this component
+          (<code>toast(e.message)</code> in every catch block), so failure
+          currently has no visual signal at all. A destructive token exists and
+          is used for inline field errors. Whether toast should adopt it, or
+          stay uniformly quiet per "calm / no bright status colors", is a design
+          decision this handoff does not pre-empt.
+        </div>
+      </section>
+
+      <!-- ── Gaps ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Behaviour</h2>
+        <div class="overflow-x-auto rounded-md border border-border">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-border bg-muted/50">
+                <th class="p-3 font-medium">Behaviour</th>
+                <th class="p-3 font-medium">State</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="p-3">Enter/exit animation</td>
+                <td class="p-3 text-muted-foreground">None — appears and vanishes instantly</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Manual dismiss</td>
+                <td class="p-3 text-muted-foreground">None — no close affordance</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Pause on hover</td>
+                <td class="p-3 text-muted-foreground">None</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="p-3">Stack limit</td>
+                <td class="p-3 text-muted-foreground">Unbounded</td>
+              </tr>
+              <tr>
+                <td class="p-3">Action slot</td>
+                <td class="p-3 text-muted-foreground">None — message string only</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — a 3s lifetime with no pause and no dismiss means the longest
+          error strings above are unlikely to be fully read. tailwindcss-animate
+          is installed and unused; this is the most obvious place for it.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Dark</h2>
+        <div class="dark flex flex-col items-center gap-2 rounded-lg border border-border bg-background p-10">
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Team added</div>
+          <div class="rounded-md border border-border bg-popover px-4 py-2.5 text-sm text-popover-foreground shadow-md">Could not add team</div>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — popover is the one token that differs from card in dark
+          (0.269 vs 0.205), so the toast does lift off the surface. It is the
+          only component using popover.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

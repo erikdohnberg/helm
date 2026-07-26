@@ -1,0 +1,123 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chip &amp; badge — Helm</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <main class="mx-auto max-w-3xl space-y-12 p-8">
+      <header class="space-y-2">
+        <h1 class="text-2xl font-semibold tracking-tight">Chip &amp; badge</h1>
+        <p class="max-w-2xl text-sm text-muted-foreground">
+          The product's status vocabulary. Governed by one hard rule from
+          <code class="font-mono text-xs">lib/design/README.md</code>:
+          <span class="font-medium text-foreground">muted chips only</span>, and
+          <span class="font-medium text-foreground">no bright status colors</span>.
+        </p>
+      </header>
+
+      <!-- ── The component ───────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">components/ui/chip.tsx — as built</h2>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Anchored</span>
+          <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Q1 FY26</span>
+          <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Product</span>
+          <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Slack</span>
+        </div>
+        <div class="font-mono text-[11px] text-muted-foreground">
+          inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          NOTE — the whole component is 20 lines and takes only { label,
+          className }. It has no variant API, which is precisely why the
+          "muted chips only" rule has held: there is no other option to reach
+          for. Any variant added here is the first real test of that rule.
+        </div>
+      </section>
+
+      <!-- ── The badge that isn't a chip ─────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">Admin badge — a second, inline badge</h2>
+          <p class="text-sm text-muted-foreground">Same job, different shape. Written inline in the team table.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="inline-flex rounded-md border border-border bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground" title="Organization admin">Admin</span>
+          <span class="font-mono text-[11px] text-muted-foreground">rounded-<span class="text-destructive">md</span> · <span class="text-destructive">border</span> · bg-muted<span class="text-destructive">/50</span> · px-<span class="text-destructive">2</span> · ×1</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Admin</span>
+          <span class="font-mono text-[11px] text-muted-foreground">the same label, if it had used Chip</span>
+        </div>
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          DRIFT — two badge shapes coexist: pill (Chip) and rounded rectangle
+          with a border (Admin). Both are muted, so the rule holds either way,
+          but there is no stated reason for the difference.
+        </div>
+      </section>
+
+      <!-- ── The unsolved problem ────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <div class="space-y-1">
+          <h2 class="text-sm font-medium">The states that need encoding</h2>
+          <p class="text-sm text-muted-foreground">
+            Helm's domain has real status semantics. Today every one of them
+            renders identically.
+          </p>
+        </div>
+
+        <div class="space-y-4 rounded-md border border-border p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Anchored</span>
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Replaced</span>
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Additive</span>
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Attached</span>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Outcome entry modes — rules 3 and 5 of the product spec. "Anchored"
+            means official direction; "Replaced" means something was
+            deliberately stopped. Visually indistinguishable.
+          </p>
+        </div>
+
+        <div class="space-y-3 rounded-md border border-border p-5">
+          <div class="flex items-start gap-2">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+            <p class="text-sm text-foreground">
+              Partner co-sell was deferred to Q2 in the Q1 record of intent, but
+              appears in this week's plan.
+            </p>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            The drift flag — the product's differentiator. Currently carried
+            entirely by a muted icon and body copy, with no chip at all.
+          </p>
+        </div>
+
+        <div class="border-l-2 border-dashed border-muted-foreground/40 pl-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          OPEN QUESTION — this is the central design problem in the handoff.
+          Helm needs to distinguish anchored / replaced / additive states and
+          flag drift severity, while "no bright status colors" and "no gamified
+          scoring" rule out the conventional answers (red-amber-green, severity
+          dots, score meters). Weight, border, icon, typography, and position
+          are all still available. Colour is mostly not.
+        </div>
+      </section>
+
+      <!-- ── Dark ────────────────────────────────────────────────────────── -->
+      <section class="space-y-5">
+        <h2 class="text-sm font-medium">Dark</h2>
+        <div class="dark rounded-lg border border-border bg-background p-6">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Anchored</span>
+            <span class="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">Q1 FY26</span>
+            <span class="inline-flex rounded-md border border-border bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground">Admin</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
