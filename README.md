@@ -56,6 +56,8 @@ Helm is not a task manager, sprint planning tool, roadmap manager, or OKR platfo
 
 Helm is currently in private prototype. The codebase is source-available so others can explore the ideas and learn from the implementation.
 
+How well the drift detection actually works — precision, recall, how much warning it gives, and what the numbers cannot claim yet — is written up at **[`/scorecard`](public/scorecard.html)** (a public page on any running instance). The model spec behind it is [`helm-drift-model-spec.md`](helm-drift-model-spec.md).
+
 ---
 
 ## Setup
