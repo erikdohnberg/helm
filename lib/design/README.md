@@ -43,6 +43,10 @@ to draw.
 `app/(app)/**` and `/demo` are app surfaces. `app/(marketing)/**` is a log
 surface — wrap it in `<LogPage>` from `components/log/log.tsx`.
 
+`public/scorecard.html` is also a log surface, but a standalone one: it inlines
+a subset of the tokens rather than importing them, so it never fights the app's
+Tailwind layer. If you change a token, change its block too.
+
 ---
 
 ## Where things live

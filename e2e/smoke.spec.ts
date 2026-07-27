@@ -37,11 +37,14 @@ test.describe("smoke", () => {
     await expect(page.getByText(/side project/i)).toHaveCount(0);
   });
 
-  test("scorecard brand fonts are served", async ({ request }) => {
+  test("brand fonts are served", async ({ request }) => {
+    // Source Serif 4 does one job in the design system — outcome titles and
+    // page display — and is self-hosted so the record never depends on a CDN.
     for (const font of [
-      "/fonts/sanchez-regular.woff2",
-      "/fonts/raleway-variable.woff2",
-      "/fonts/caveat-variable.woff2",
+      "/fonts/source-serif-4-latin.woff2",
+      "/fonts/source-serif-4-latin-ext.woff2",
+      "/fonts/source-serif-4-latin-italic.woff2",
+      "/fonts/source-serif-4-latin-ext-italic.woff2",
     ]) {
       const response = await request.get(font);
       expect(response.status(), font).toBe(200);

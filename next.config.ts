@@ -14,10 +14,12 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // The drift model scorecard is a self-contained static page (its own fonts,
-      // tokens and CSS from the Erik Dohnberg design system) served from /public,
-      // so it stays out of the app's Tailwind layer. The rewrite gives it a clean
-      // shareable URL. It is deliberately outside middleware's matcher, so it is
+      // The drift model scorecard is a self-contained static page served from
+      // /public: it inlines a subset of the Helm tokens rather than importing
+      // them, so it stays out of the app's Tailwind layer while still reading as
+      // a Helm log surface. Keep that block in sync with
+      // styles/design-system/tokens/. The rewrite gives it a clean shareable
+      // URL, and it is deliberately outside middleware's matcher, so it is
       // public and does not bounce signed-in visitors into the app.
       { source: "/scorecard", destination: "/scorecard.html" },
       // The Helm design system is likewise self-contained static HTML in /public,
