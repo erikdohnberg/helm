@@ -18,10 +18,6 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       { source: "/design-system", destination: "/design-system/index.html" },
-      {
-        source: "/design-system/marketing",
-        destination: "/design-system/marketing.html",
-      },
     ];
   },
 };
