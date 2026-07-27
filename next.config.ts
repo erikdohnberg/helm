@@ -12,6 +12,18 @@ const nextConfig: NextConfig = {
     // Smaller client chunks for next-auth/react (helps avoid dev ChunkLoadError timeouts on slow disks).
     optimizePackageImports: ["next-auth/react"],
   },
+  // The design system is static HTML in public/, so it is reachable at
+  // /design-system/index.html by default. These give it clean URLs. It sits
+  // outside the middleware matcher, so it needs no auth — same as /demo.
+  async rewrites() {
+    return [
+      { source: "/design-system", destination: "/design-system/index.html" },
+      {
+        source: "/design-system/marketing",
+        destination: "/design-system/marketing.html",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
