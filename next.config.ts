@@ -12,11 +12,17 @@ const nextConfig: NextConfig = {
     // Smaller client chunks for next-auth/react (helps avoid dev ChunkLoadError timeouts on slow disks).
     optimizePackageImports: ["next-auth/react"],
   },
-  // The design system is static HTML in public/, so it is reachable at
-  // /design-system/index.html by default. These give it clean URLs. It sits
-  // outside the middleware matcher, so it needs no auth — same as /demo.
   async rewrites() {
     return [
+      // The drift model scorecard is a self-contained static page (its own fonts,
+      // tokens and CSS from the Erik Dohnberg design system) served from /public,
+      // so it stays out of the app's Tailwind layer. The rewrite gives it a clean
+      // shareable URL. It is deliberately outside middleware's matcher, so it is
+      // public and does not bounce signed-in visitors into the app.
+      { source: "/scorecard", destination: "/scorecard.html" },
+      // The Helm design system is likewise self-contained static HTML in /public,
+      // reachable at /design-system/index.html by default; this gives it a clean
+      // URL. Also outside the middleware matcher, so it stays public.
       { source: "/design-system", destination: "/design-system/index.html" },
     ];
   },
