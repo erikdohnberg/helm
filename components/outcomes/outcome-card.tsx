@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
-import { Icon, type IconName } from "@/components/ui/icon";
 import { Observed } from "@/components/ui/chip";
+import { Icon, type IconName } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 /**
  * The Outcome Charter — the core artifact in Helm.

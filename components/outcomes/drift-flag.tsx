@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
-import { Icon } from "@/components/ui/icon";
 import { Observed } from "@/components/ui/chip";
+import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 /**
  * The reserved exception.
@@ -22,16 +22,18 @@ import { Observed } from "@/components/ui/chip";
  */
 export type DriftLevel = "notice" | "contradiction" | "halt";
 
-const LEVELS: Record<DriftLevel, { rule: string; label: string; weight: string }> =
-  {
-    notice: { rule: "w-px opacity-50", label: "Notice", weight: "font-semibold" },
-    contradiction: {
-      rule: "w-[3px]",
-      label: "Contradiction",
-      weight: "font-bold",
-    },
-    halt: { rule: "w-[3px]", label: "Halt", weight: "font-bold" },
-  };
+const LEVELS: Record<
+  DriftLevel,
+  { rule: string; label: string; weight: string }
+> = {
+  notice: { rule: "w-px opacity-50", label: "Notice", weight: "font-semibold" },
+  contradiction: {
+    rule: "w-[3px]",
+    label: "Contradiction",
+    weight: "font-bold",
+  },
+  halt: { rule: "w-[3px]", label: "Halt", weight: "font-bold" },
+};
 
 export type DriftFlagProps = {
   level?: DriftLevel;
@@ -78,25 +80,20 @@ export function DriftFlag({
               className="h-2 w-2 flex-none rotate-45 bg-drift"
             />
             <span
-              className={cn(
-                "text-eyebrow uppercase text-drift",
-                spec.weight
-              )}
+              className={cn("text-eyebrow uppercase text-drift", spec.weight)}
             >
               {spec.label}
             </span>
-            <Icon
-              name="bearing-off"
-              size={18}
-              className="ml-auto text-drift"
-            />
+            <Icon name="bearing-off" size={18} className="ml-auto text-drift" />
           </div>
           <p className="max-w-prose font-serif text-[19px] leading-[1.4] text-foreground">
             {statement}
           </p>
           {observed && <Observed className="text-help">{observed}</Observed>}
           {question && (
-            <p className="text-body font-semibold text-foreground">{question}</p>
+            <p className="text-body font-semibold text-foreground">
+              {question}
+            </p>
           )}
           {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
         </div>

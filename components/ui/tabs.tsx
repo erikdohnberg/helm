@@ -4,8 +4,8 @@ import * as React from "react";
 
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
 import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 /**
  * Underline tabs. The active tab is marked by weight plus a 2px ink rule —
@@ -127,9 +127,7 @@ export function Breadcrumb({
                 {item.label}
               </Link>
             )}
-            {!last && (
-              <Icon name="chevron" size={14} className="opacity-50" />
-            )}
+            {!last && <Icon name="chevron" size={14} className="opacity-50" />}
           </React.Fragment>
         );
       })}

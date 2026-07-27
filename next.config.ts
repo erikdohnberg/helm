@@ -4,10 +4,10 @@ const nextConfig: NextConfig = {
   // Allow loading the dev app from http://127.0.0.1:3000 (not only localhost) without
   // Next.js cross-origin warnings on /_next/* — matches common Picker API referrer setup.
   allowedDevOrigins: ["127.0.0.1"],
-  // The repo's .eslintrc references @typescript-eslint rules without registering the
-  // plugin, so `next build`'s lint step errors. The demo deploy doesn't need lint;
-  // skip it during build (does not affect `npm run lint` or editor linting).
-  eslint: { ignoreDuringBuilds: true },
+  // Lint runs during the build. Besides the usual rules, .eslintrc carries the
+  // design-system adherence checks — raw hex, off-system palettes, non-instrument
+  // icon sets, banned vocabulary — so a build is the last place a screen can
+  // quietly leave the system. See lib/design/README.md.
   experimental: {
     // Smaller client chunks for next-auth/react (helps avoid dev ChunkLoadError timeouts on slow disks).
     optimizePackageImports: ["next-auth/react"],

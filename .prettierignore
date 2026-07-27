@@ -4,3 +4,8 @@ out
 build
 dist
 package-lock.json
+
+# Verbatim copies of the Claude Design project. Reformatting them turns every
+# re-sync into a diff of whitespace. See .claude/skills/helm-design/github.md.
+.claude/skills/helm-design
+styles/design-system/tokens

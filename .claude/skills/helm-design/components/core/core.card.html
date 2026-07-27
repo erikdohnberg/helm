@@ -1,0 +1,49 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Core — Button, Chip, Card, Icon" subtitle="Actions, facts, record surfaces and the instrument set" -->
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:22px;background:var(--background);color:var(--foreground);font-family:var(--font-sans);font-size:var(--text-body);line-height:var(--leading-body)}
+.lbl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sea);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
+a{color:var(--foreground)}a:hover{color:var(--sea)}
+@keyframes helm-shimmer{0%{background-position:-220px 0}100%{background-position:220px 0}}
+</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const H = window.HelmDesignSystem_ea1bb8;
+const {Button, IconButton, Chip, Observed, Card, Eyebrow, RecordTitle, Icon} = H;
+function Demo(){return(<div>
+<p className="lbl">Button</p>
+<div className="row">
+<Button>Record this decision</Button>
+<Button variant="outline">Attach work</Button>
+<Button variant="ghost">Dismiss</Button>
+<Button variant="link">Open decision note</Button>
+<Button variant="destructive">Retire outcome</Button>
+<Button disabled>Disabled</Button>
+<IconButton label="Outcome actions"><Icon name="more-vertical" size={18}/></IconButton>
+</div>
+<p className="lbl">Chip · facts only, never state</p>
+<div className="row">
+<Chip label="FY26 Q1"/><Chip variant="outline" label="Admin"/><Chip variant="observed" label="Observed"/><Chip label="Growth" onRemove={()=>{}}/>
+<Observed>7 attachments since 02 Feb, up from 3</Observed>
+</div>
+<p className="lbl">Icon · the instrument set</p>
+<div className="row" style={{gap:22}}>
+{['anchor','helm-mark','bearing-off','shackle','sounding','beacon','provenance','heading','logged','watch','search','close'].map(n=>(
+<span key={n} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:6,width:64}}>
+<Icon name={n} size={24}/><span style={{fontSize:10.5,color:'var(--subtle-foreground)'}}>{n}</span></span>))}
+</div>
+<p className="lbl">Card · the record surface</p>
+<div className="row" style={{alignItems:'stretch'}}>
+<Card state="anchored" style={{flex:1}}><Eyebrow>FY26 Q1</Eyebrow><RecordTitle style={{marginTop:8}}>Two named design partners live</RecordTitle></Card>
+<Card elevation="e1" surface="app" style={{flex:1}}><Eyebrow tone="muted">Draft</Eyebrow><RecordTitle style={{marginTop:8}}>Self-serve billing</RecordTitle></Card>
+</div>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

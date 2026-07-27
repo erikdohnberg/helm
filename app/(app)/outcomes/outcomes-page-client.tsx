@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 
 import Link from "next/link";
 
+import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { Button } from "@/components/ui/button";
 import { Eyebrow, RecordTitle } from "@/components/ui/card";
 import { Chip, Observed } from "@/components/ui/chip";
@@ -16,24 +17,18 @@ import {
 } from "@/components/ui/field";
 import { Modal } from "@/components/ui/modal";
 import { EmptyState } from "@/components/ui/table";
-import { OutcomeCard } from "@/components/outcomes/outcome-card";
+import { useDemoData } from "@/lib/demo-data-context";
 import {
   formatOutcomeStatus,
   formatRecordDate,
   outcomeStateOf,
 } from "@/lib/design/outcome-state";
-import { useDemoData } from "@/lib/demo-data-context";
 import {
   getOutcomeById,
   getOutcomesByQuarter,
   getQuarterById,
 } from "@/lib/mock/mockData";
-import type {
-  EntryMode,
-  Outcome,
-  Quarter,
-  SourceType,
-} from "@/lib/types";
+import type { EntryMode, Outcome, Quarter, SourceType } from "@/lib/types";
 
 /** Quarter order on outcomes page: FY26 Q2, then FY26 Q1, then older. */
 const OUTCOMES_QUARTER_ORDER = ["q-fy26-q2", "q-fy26-q1", "q-fy25-q4"];
@@ -422,8 +417,8 @@ export default function OutcomesPageClient({
         })}
 
       {/* ── Entry-mode decision · e3 ───────────────────────────────────────
-        * Nothing enters the quarter silently. Every option is recorded, and
-        * each states its consequence in the same breath. */}
+       * Nothing enters the quarter silently. Every option is recorded, and
+       * each states its consequence in the same breath. */}
       <Modal
         open={newOutcomeModalOpen}
         onClose={closeNewOutcomeModalAndReset}

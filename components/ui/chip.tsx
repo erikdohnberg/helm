@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 /**
  * Facts only — quarter, owner, role, source. Never state and never severity.

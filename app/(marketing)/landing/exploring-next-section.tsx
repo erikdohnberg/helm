@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronUp } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { FeatureVote } from "@/lib/types";
+
+import { LogRow } from "@/components/log/log";
+import { Button } from "@/components/ui/button";
+import { Observed } from "@/components/ui/chip";
+import { Input } from "@/components/ui/field";
+import { Modal } from "@/components/ui/modal";
 import { seedFeatureIdeas } from "@/lib/mock/feature-ideas";
+import type { FeatureVote } from "@/lib/types";
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
@@ -16,7 +20,6 @@ function isValidEmail(value: string): boolean {
 
 export function ExploringNextSection() {
   const [votes, setVotes] = useState<FeatureVote[]>([]);
-  const [waitlistEmails, setWaitlistEmails] = useState<Set<string>>(new Set());
   const [modal, setModal] = useState<{
     featureId: string;
     featureTitle: string;
@@ -46,11 +49,13 @@ export function ExploringNextSection() {
 
     const normalized = normalizeEmail(emailDraft);
     if (!emailDraft.trim()) {
-      setEmailError("Please enter your email.");
+      setEmailError("A vote is recorded against an email address.");
       return;
     }
     if (!isValidEmail(emailDraft)) {
-      setEmailError("Please enter a valid email address.");
+      setEmailError(
+        "That is not an email address. It needs an @ and a domain, like ada@example.com."
+      );
       return;
     }
 
@@ -58,11 +63,10 @@ export function ExploringNextSection() {
       (v) => v.featureId === modal.featureId && v.email === normalized
     );
     if (alreadyVoted) {
-      setEmailError("You've already voted for this feature.");
+      setEmailError("This address already voted for that one.");
       return;
     }
 
-    setWaitlistEmails((prev) => new Set(prev).add(normalized));
     setVotes((prev) => [
       ...prev,
       {
@@ -75,93 +79,66 @@ export function ExploringNextSection() {
   }
 
   return (
-    <section className="space-y-6">
-      <h2 className="text-xl font-semibold text-foreground">
-        What We&apos;re Exploring Next
-      </h2>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {seedFeatureIdeas.map(({ id, title, description }) => (
-          <Card key={id}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{title}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm text-muted-foreground">{description}</p>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => openVoteModal(id, title)}
-                  className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1.5 text-sm text-foreground hover:bg-muted transition-colors"
-                  aria-label={`Upvote ${title}`}
-                >
-                  <ChevronUp className="h-4 w-4" />
-                  Upvote
-                </button>
-                <span className="text-sm text-muted-foreground">
-                  {voteCountByFeature(id)} vote{voteCountByFeature(id) !== 1 ? "s" : ""}
-                </span>
+    <>
+      <div className="border-t-2 border-foreground">
+        {seedFeatureIdeas.map(({ id, title, description }) => {
+          const count = voteCountByFeature(id);
+          return (
+            <LogRow key={id} label={title}>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <p className="min-w-[28ch] max-w-prose flex-1 text-[16px] text-muted-foreground">
+                  {description}
+                </p>
+                <div className="flex flex-none items-center gap-3">
+                  {count > 0 && (
+                    <Observed className="text-help">
+                      {count === 1 ? "1 vote" : `${count} votes`}
+                    </Observed>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => openVoteModal(id, title)}
+                  >
+                    Vote for this
+                  </Button>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </LogRow>
+          );
+        })}
       </div>
 
-      {modal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="vote-email-modal-title"
-        >
-          <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
-            <h3
-              id="vote-email-modal-title"
-              className="text-sm font-medium text-foreground"
-            >
-              Enter your email to upvote &quot;{modal.featureTitle}&quot;
-            </h3>
-            <form onSubmit={submitVoteEmail} className="mt-4 space-y-3">
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="vote-email-input"
-                  className="text-sm font-medium text-foreground"
-                >
-                  Email
-                </label>
-                <input
-                  id="vote-email-input"
-                  type="email"
-                  autoComplete="email"
-                  value={emailDraft}
-                  onChange={(e) => setEmailDraft(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="you@company.com"
-                />
-                {emailError && (
-                  <p className="text-sm text-destructive" role="alert">
-                    {emailError}
-                  </p>
-                )}
-              </div>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={closeVoteModal}
-                  className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:bg-foreground/90"
-                >
-                  Submit vote
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </section>
+      <Modal
+        open={modal != null}
+        onClose={closeVoteModal}
+        width="440px"
+        title={modal ? `Vote for ${modal.featureTitle}` : undefined}
+        description="A vote is recorded against an email address so it counts once. It joins the same list as the waitlist."
+        footer={
+          <>
+            <Button variant="outline" onClick={closeVoteModal}>
+              Never mind
+            </Button>
+            <Button form="vote-form" type="submit">
+              Record this vote
+            </Button>
+          </>
+        }
+      >
+        <form id="vote-form" onSubmit={submitVoteEmail}>
+          <Input
+            id="vote-email-input"
+            type="email"
+            autoComplete="email"
+            label="Email"
+            value={emailDraft}
+            onChange={(e) => setEmailDraft(e.target.value)}
+            placeholder="ada@example.com"
+            error={emailError ?? undefined}
+          />
+        </form>
+      </Modal>
+    </>
   );
 }

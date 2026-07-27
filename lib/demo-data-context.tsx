@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+
 import { resetDemoData as resetMockDemoData } from "@/lib/mock/mockData";
 
 const STORAGE_KEY = "helm-demo-mode";
@@ -23,7 +24,8 @@ const DemoDataContext = createContext<DemoDataContextValue | null>(null);
 
 export function useDemoData(): DemoDataContextValue {
   const value = useContext(DemoDataContext);
-  if (!value) throw new Error("useDemoData must be used within DemoDataProvider");
+  if (!value)
+    throw new Error("useDemoData must be used within DemoDataProvider");
   return value;
 }
 

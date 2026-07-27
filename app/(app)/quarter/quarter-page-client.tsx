@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 
 import Link from "next/link";
 
+import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { Button, IconButton } from "@/components/ui/button";
 import { Eyebrow, RecordTitle } from "@/components/ui/card";
 import { Observed } from "@/components/ui/chip";
@@ -11,7 +12,6 @@ import { ExternalLink, Textarea } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
 import { Modal } from "@/components/ui/modal";
 import { EmptyState } from "@/components/ui/table";
-import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { useDemoData } from "@/lib/demo-data-context";
 import {
   getCurrentQuarter,
@@ -199,7 +199,8 @@ export default function QuarterPageClient({
   const currentIndex = orderedQuarters.findIndex(
     (q) => q.id === currentQuarterId
   );
-  const prevQuarter = currentIndex > 0 ? orderedQuarters[currentIndex - 1] : null;
+  const prevQuarter =
+    currentIndex > 0 ? orderedQuarters[currentIndex - 1] : null;
   const nextQuarter =
     currentIndex >= 0 && currentIndex < orderedQuarters.length - 1
       ? orderedQuarters[currentIndex + 1]

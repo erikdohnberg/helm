@@ -58,7 +58,9 @@ export function Modal({
 
       const focusable = Array.from(
         panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)
-      ).filter((el) => el.offsetParent !== null || el === document.activeElement);
+      ).filter(
+        (el) => el.offsetParent !== null || el === document.activeElement
+      );
       if (focusable.length === 0) return;
 
       const first = focusable[0];
@@ -84,30 +86,32 @@ export function Modal({
   if (!open) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={title ? titleId : undefined}
-      aria-describedby={description ? descriptionId : undefined}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose?.();
-      }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[oklch(0.20_0.04_245_/_0.55)] p-4"
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* The scrim is a real control, so dismissing by clicking away is
+       * reachable from the keyboard too. It sits behind the panel and is
+       * skipped in the tab order, since Escape is the keyboard route out. */}
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Dismiss without recording anything"
+        onClick={() => onClose?.()}
+        className="absolute inset-0 cursor-default bg-[oklch(0.20_0.04_245_/_0.55)]"
+      />
       <div
         ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         style={{ maxWidth: width }}
         className={cn(
-          "w-full rounded-lg border border-border-strong bg-popover p-card text-body text-foreground shadow-e3",
+          "relative w-full rounded-lg border border-border-strong bg-popover p-card text-body text-foreground shadow-e3",
           "animate-considered-in outline-none"
         )}
       >
         {title && (
-          <h2
-            id={titleId}
-            className="font-serif text-outcome text-foreground"
-          >
+          <h2 id={titleId} className="font-serif text-outcome text-foreground">
             {title}
           </h2>
         )}

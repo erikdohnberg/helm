@@ -1,5 +1,5 @@
-import { RecordTitle } from "@/components/ui/card";
 import { SettingsTabs } from "@/components/settings/settings-tabs";
+import { RecordTitle } from "@/components/ui/card";
 
 export default function SettingsLayout({
   children,

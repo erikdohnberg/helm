@@ -1,0 +1,39 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Outcomes — OutcomeCard, DriftFlag" subtitle="Status without colour; brass reserved for drift" -->
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:22px;background:var(--background);color:var(--foreground);font-family:var(--font-sans);font-size:var(--text-body);line-height:var(--leading-body)}
+.lbl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sea);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
+a{color:var(--foreground)}a:hover{color:var(--sea)}
+@keyframes helm-shimmer{0%{background-position:-220px 0}100%{background-position:220px 0}}
+</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const H = window.HelmDesignSystem_ea1bb8;
+const {OutcomeCard, OutcomeLink, DriftFlag, Button, IconButton, Icon} = H;
+function Demo(){return(<div style={{display:'flex',flexDirection:'column',gap:16}}>
+<ul style={{display:'flex',flexDirection:'column',gap:12,margin:0,padding:0}}>
+<OutcomeCard state="anchored" quarter="FY26 Q1" title="Two named design partners live on the co-sell motion"
+  facts={[{label:'Metric',value:'Partners live in production'},{label:'Anchored',value:'14 Jan by Ada Lovelace'},{label:'Attachments',value:'7 since 02 Feb',observed:true}]}
+  links={<OutcomeLink>Open decision note</OutcomeLink>}
+  actions={<IconButton label="Outcome actions"><Icon name="more-vertical" size={18}/></IconButton>}/>
+<OutcomeCard state="additive" quarter="FY26 Q1" title="Ship the compliance audit trail"
+  facts={[{label:'Entered',value:'02 Feb, nothing displaced'}]}/>
+<OutcomeCard attached title="Partner onboarding runbook" quarter="FY26 Q1"/>
+<OutcomeCard state="replaced" quarter="FY26 Q1" title="Co-sell partners, phase one"
+  reasons={["Traded for self-serve billing on 21 Feb.","Kept in the record; nothing was deleted."]}/>
+</ul>
+<DriftFlag level="halt"
+  statement="Work started 21 Feb contradicts what this quarter anchored on 14 Jan."
+  observed="Four engineers have been on unentered work for three days."
+  question="What stops?"
+  actions={<><Button size="sm">Record this decision</Button><Button size="sm" variant="outline">Attach to an outcome</Button></>}/>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

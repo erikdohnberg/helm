@@ -1,0 +1,45 @@
+/* Helm — typography tokens.
+ * Serif for the record, system sans for the machinery, mono for identifiers.
+ * The two families never mix inside one sentence.
+ *
+ * Source Serif 4 does one job: outcome titles and page display. The charter is
+ * a written commitment, so setting it in a serif makes it read as a statement
+ * of record. One weight axis, one variable file. */
+:root{
+  --font-serif:"Source Serif 4", Georgia, serif;
+  --font-sans:ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --weight-display:300;
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+
+  /* ── scale ────────────────────────────────────────────
+   * 15px is the base — editorial density, up from the old 14. */
+  --text-display:clamp(50px, 6.6vw, 86px); /* serif 300 / 0.98 / -0.033em */
+  --text-heading:46px;                     /* serif 300 / 1.04 / -0.028em */
+  --text-page-title:34px;                  /* serif 400 / 1.2  / -0.015em */
+  --text-lede:23px;                        /* serif 300 / 1.42            */
+  --text-outcome:22px;                     /* serif 500 / 1.3  — charter  */
+  --text-section:17px;                     /* sans 600  / 1.5             */
+  --text-body:15px;                        /* sans 400  / 1.6             */
+  --text-sm:14px;                          /* controls, table cells       */
+  --text-help:13.5px;                      /* sans 400  / 1.55 · muted    */
+  --text-mono:13px;                        /* identifiers, tabular        */
+  --text-eyebrow:11px;                     /* sans 600  / 0.14em / upper  */
+
+  --leading-display:0.98;
+  --leading-heading:1.04;
+  --leading-title:1.2;
+  --leading-outcome:1.3;
+  --leading-body:1.6;
+  --leading-help:1.55;
+
+  --tracking-display:-0.033em;
+  --tracking-heading:-0.028em;
+  --tracking-title:-0.015em;
+  --tracking-eyebrow:0.14em;
+  --tracking-rail:0.16em;
+}

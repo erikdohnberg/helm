@@ -58,7 +58,9 @@ export function DefaultsSettingsClient({ conversationLocationPhrase }: Props) {
             max={365}
             label="Quiet after"
             value={alignmentInactivity}
-            onChange={(e) => setAlignmentInactivity(Number(e.target.value) || 0)}
+            onChange={(e) =>
+              setAlignmentInactivity(Number(e.target.value) || 0)
+            }
             help="Days without a signal in an outcome's thread before Helm says the team has gone quiet."
           />
         </div>
@@ -93,7 +95,9 @@ export function DefaultsSettingsClient({ conversationLocationPhrase }: Props) {
             max={50}
             label="Anchored outcomes"
             value={recommendedAnchored}
-            onChange={(e) => setRecommendedAnchored(Number(e.target.value) || 0)}
+            onChange={(e) =>
+              setRecommendedAnchored(Number(e.target.value) || 0)
+            }
             help="Above this count, adding alongside carries a focus warning rather than a silent entry."
           />
         </div>

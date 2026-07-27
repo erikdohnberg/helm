@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 /**
  * Form controls at editorial density.
@@ -24,6 +24,8 @@ export type LabelProps = {
 
 export function Label({ className, muted = false, ...props }: LabelProps) {
   return (
+    /* The control is supplied by the caller; every Field wrapper passes htmlFor. */
+    // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label
       className={cn(
         "block text-[13px] font-semibold",
@@ -113,7 +115,13 @@ export type InputProps = {
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, id, help, error, mono, disabled, className, ...props }, ref) => (
-    <Wrapper label={label} id={id} help={help} error={error} disabled={disabled}>
+    <Wrapper
+      label={label}
+      id={id}
+      help={help}
+      error={error}
+      disabled={disabled}
+    >
       <input
         ref={ref}
         id={id}
@@ -144,7 +152,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     { label, id, help, error, rows = 3, disabled, className, ...props },
     ref
   ) => (
-    <Wrapper label={label} id={id} help={help} error={error} disabled={disabled}>
+    <Wrapper
+      label={label}
+      id={id}
+      help={help}
+      error={error}
+      disabled={disabled}
+    >
       <textarea
         ref={ref}
         id={id}
@@ -188,7 +202,13 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref
   ) => (
-    <Wrapper label={label} id={id} help={help} error={error} disabled={disabled}>
+    <Wrapper
+      label={label}
+      id={id}
+      help={help}
+      error={error}
+      disabled={disabled}
+    >
       <select
         ref={ref}
         id={id}

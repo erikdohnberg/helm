@@ -120,7 +120,12 @@ export function LogLede({
   className?: string;
 }) {
   return (
-    <p className={cn("max-w-prose font-serif text-lede text-foreground", className)}>
+    <p
+      className={cn(
+        "max-w-prose font-serif text-lede text-foreground",
+        className
+      )}
+    >
       {children}
     </p>
   );

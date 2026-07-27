@@ -178,7 +178,8 @@ export function IntegrationsSettingsClient({
       <SourceCard
         name="Google"
         state={
-          sessionStatus === "loading" ? null : googleIdentity.isSignedInWithGoogle ? (
+          sessionStatus ===
+          "loading" ? null : googleIdentity.isSignedInWithGoogle ? (
             <Chip variant="outline" label="Connected" />
           ) : (
             <Chip label="Not connected" />

@@ -1,22 +1,31 @@
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+import { LogEntry, LogHeading, LogLede, LogPage } from "@/components/log/log";
+import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Helm — On the list",
+  description: "The address is recorded.",
+};
+
 export default function ThanksPage() {
   return (
-    <div className="mx-auto max-w-2xl space-y-4 px-6 py-24">
-      <h1 className="text-2xl font-semibold text-foreground">
-        Thanks for joining.
-      </h1>
-      <p className="text-foreground leading-relaxed">
-        We&apos;ll share updates as Helm evolves.
-      </p>
-      <p>
-        <Link
-          href="/landing"
-          className="text-sm font-medium text-foreground underline hover:no-underline"
-        >
-          Back to landing
-        </Link>
-      </p>
-    </div>
+    <LogPage>
+      <LogEntry number="01" loadBearing>
+        {/* Confirmations state what is now true. They do not congratulate. */}
+        <LogHeading as="h1">Recorded.</LogHeading>
+        <LogLede>
+          The address is on the list. Updates go out when something real
+          changes, and not otherwise.
+        </LogLede>
+        <div>
+          <Link href="/landing">
+            <Button variant="outline">Back to the record</Button>
+          </Link>
+        </div>
+      </LogEntry>
+    </LogPage>
   );
 }

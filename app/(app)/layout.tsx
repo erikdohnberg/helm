@@ -8,11 +8,7 @@ import { DemoDataProvider } from "@/lib/demo-data-context";
  * Editorial density, 1080px measure, the masthead's 104px rail carried through
  * as the page gutter.
  */
-export default function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ToastProvider>
       <DemoDataProvider>

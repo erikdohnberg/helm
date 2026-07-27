@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Observed } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 
 /**
  * Compact-density record table. Header in sunken, 1px row rules, mono
@@ -187,7 +187,11 @@ export function Skeleton({
 }
 
 /** "Reading the record…" — loading is stated, never spun. */
-export function LoadingRecord({ label = "Reading the record…" }: { label?: string }) {
+export function LoadingRecord({
+  label = "Reading the record…",
+}: {
+  label?: string;
+}) {
   return (
     <div
       role="status"
@@ -236,9 +240,7 @@ export function EmptyState({
           {children}
         </div>
       )}
-      {observed && (
-        <Observed className="text-[12.5px]">{observed}</Observed>
-      )}
+      {observed && <Observed className="text-[12.5px]">{observed}</Observed>}
       {action && <div className="mt-2">{action}</div>}
     </div>
   );

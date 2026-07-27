@@ -1,86 +1,129 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  BrassBand,
+  BrassTerm,
+  LogEntry,
+  LogHeading,
+  LogLede,
+  LogPage,
+  LogRow,
+  Soundings,
+} from "@/components/log/log";
+
+import { ExploringNextSection } from "./exploring-next-section";
 import { FeatureCarouselSection } from "./feature-carousel-section";
 import { HeroSection } from "./hero-section";
 import { WaitlistSection } from "./waitlist-section";
 
-const problemCards = [
+/**
+ * The landing page is a log surface: a ruled margin rail carrying numbered
+ * entries, hairline rows in place of cards, and exactly one full-bleed brass
+ * moment — which carries the question, not a feature.
+ */
+const failures = [
   {
-    title: "Direction drifts quietly",
-    text: "New priorities appear without deliberate comparison to the original plan.",
+    label: "It drifts quietly",
+    text: "New priorities arrive without anyone comparing them to what the quarter already committed to.",
   },
   {
-    title: "Trade-offs disappear",
-    text: "Teams rarely record what stopped in order to pursue something new.",
+    label: "The cost disappears",
+    text: "Teams rarely write down what stopped in order to start something new, so the trade-off is unrecoverable a month later.",
   },
   {
-    title: "Decisions lose context",
-    text: "By the time direction reaches teams, the reasoning behind it is gone.",
+    label: "The reasoning is lost",
+    text: "By the time direction reaches the people doing the work, the argument behind it has gone.",
   },
-] as const;
+];
+
+const soundings = [
+  {
+    figure: "5 weeks",
+    caption: "a migration frozen, still reported as on course",
+  },
+  { figure: "Nine asks", caption: "each one too small to refuse on its own" },
+  {
+    figure: "One fifth",
+    caption: "of a pod's capacity, spent on work nobody entered",
+  },
+];
 
 export default function LandingPage() {
   return (
     <>
       <HeroSection />
 
-      <div className="mx-auto max-w-[820px] px-6">
-        {/* Problem section */}
-        <section className="py-20 md:py-24">
-          <p className="text-center text-lg font-medium leading-relaxed text-text-primary">
+      <LogPage>
+        <LogEntry number="01" loadBearing>
+          <LogHeading>
             Strategy rarely fails during planning.
             <br />
-            It drifts during execution.
-          </p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            {problemCards.map(({ title, text }) => (
-              <Card
-                key={title}
-                className="border-0 bg-white shadow-md shadow-black/5"
-              >
-                <CardHeader>
-                  <CardTitle className="text-text-primary">{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-text-secondary">
-                    {text}
-                  </p>
-                </CardContent>
-              </Card>
+            It drifts during <em>execution</em>.
+          </LogHeading>
+          <div className="border-t-2 border-foreground">
+            {failures.map(({ label, text }) => (
+              <LogRow key={label} label={label}>
+                <p className="max-w-prose text-[16px] text-muted-foreground">
+                  {text}
+                </p>
+              </LogRow>
             ))}
           </div>
-        </section>
+          <Soundings items={soundings} className="mt-6" />
+        </LogEntry>
 
-        {/* Helm concept section */}
-        <section className="border-t border-border py-20 md:py-24">
-          <h2 className="text-xl font-semibold text-text-primary">
-            A team member responsible for strategic coherence
-          </h2>
-          <div className="mt-6 space-y-4 text-text-secondary leading-relaxed">
-            <p>
-              Helm listens where strategy actually happens — in meetings, Slack
-              discussions, and planning conversations.
-            </p>
-            <p>
-              It turns those signals into draft Outcome Charters, helps
-              leadership align before the quarter begins, and keeps teams
-              connected to those outcomes as the quarter unfolds.
-            </p>
-            <p>
-              When alignment fades, Helm nudges the team to reconnect.
-            </p>
-          </div>
-        </section>
+        <LogEntry number="02">
+          <LogHeading>
+            A team member responsible for strategic coherence.
+          </LogHeading>
+          <LogLede>
+            Helm listens where strategy actually happens — in meetings, in
+            channels, in planning conversations — and writes what the quarter
+            committed to.
+          </LogLede>
+          <p className="max-w-prose text-[16px] text-muted-foreground">
+            It turns those signals into draft Outcome Charters, helps leadership
+            anchor them before the quarter begins, and keeps the record honest
+            as the quarter unfolds. When new work contradicts what was already
+            decided, Helm says so — and asks the only question that resolves it.
+          </p>
+        </LogEntry>
 
-        {/* Feature carousel */}
         <FeatureCarouselSection />
-      </div>
+      </LogPage>
 
-      {/* Waitlist — full-width navy to match hero and footer */}
-      <section className="bg-navy py-20 md:py-24">
-        <div className="mx-auto max-w-[820px] px-6">
+      {/* The one brass moment on this page. It carries the question. */}
+      <BrassBand question={<>What stops?</>}>
+        <BrassTerm verb="Attach">
+          It serves something already agreed. Nothing enters the quarter.
+        </BrassTerm>
+        <BrassTerm verb="Replace">
+          It takes the place of a named outcome, which stays in the record.
+        </BrassTerm>
+        <BrassTerm verb="Add">
+          Nothing stops — and the quarter says so, for the rest of the quarter.
+        </BrassTerm>
+      </BrassBand>
+
+      <LogPage>
+        <LogEntry number="04">
+          <LogHeading>What we are exploring next.</LogHeading>
+          <p className="max-w-prose text-[16px] text-muted-foreground">
+            None of these is built. A vote tells us which one to write down
+            first.
+          </p>
+          <ExploringNextSection />
+        </LogEntry>
+
+        <LogEntry number="05" loadBearing>
+          <div id="waitlist" className="scroll-mt-8">
+            <LogHeading>Follow the build.</LogHeading>
+          </div>
+          <LogLede>
+            Helm is in private prototype. Updates go out when something real
+            changes, and not otherwise.
+          </LogLede>
           <WaitlistSection />
-        </div>
-      </section>
+        </LogEntry>
+      </LogPage>
     </>
   );
 }

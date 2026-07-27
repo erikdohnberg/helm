@@ -1,5 +1,5 @@
-import type { Outcome, OutcomeStatus } from "@/lib/types";
 import type { OutcomeState } from "@/components/outcomes/outcome-card";
+import type { Outcome, OutcomeStatus } from "@/lib/types";
 
 /**
  * The design system has five states and no more: anchored, additive, replaced,

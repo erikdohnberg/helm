@@ -4,7 +4,8 @@
     "plugin:jsx-a11y/recommended",
     "prettier"
   ],
-  "plugins": ["import", "jsx-a11y"],
+  "plugins": ["@typescript-eslint", "import", "jsx-a11y"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
@@ -17,7 +18,14 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "pathGroups": [
           { "pattern": "react", "group": "external", "position": "before" },
           { "pattern": "next/**", "group": "external", "position": "before" }
@@ -26,6 +34,69 @@
         "newlines-between": "always",
         "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
+    ],
+
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "lucide-react",
+            "message": "Helm's icons are the instrument set — 1.5px stroke, 24px grid, drawn on the mark's own geometry. Use `Icon` from @/components/ui/icon."
+          },
+          {
+            "name": "react-icons",
+            "message": "Helm's icons are the instrument set. Use `Icon` from @/components/ui/icon."
+          },
+          {
+            "name": "@heroicons/react",
+            "message": "Helm's icons are the instrument set. Use `Icon` from @/components/ui/icon."
+          },
+          {
+            "name": "tailwind-merge",
+            "message": "Import `cn` from @/lib/utils — it configures tailwind-merge with the system's named type scale. Bare twMerge silently drops `text-outcome`, `text-help` and friends."
+          }
+        ]
+      }
+    ],
+
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?\\b/]",
+        "message": "Raw hex colour. Helm has four hues and they all live in styles/design-system/tokens/colors.css — use a token (`text-sea`, `bg-drift`, `border-border-strong`)."
+      },
+      {
+        "selector": "TemplateElement[value.raw=/#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?\\b/]",
+        "message": "Raw hex colour. Helm has four hues and they all live in styles/design-system/tokens/colors.css — use a token."
+      },
+      {
+        "selector": "Literal[value=/\\b(?:bg|text|border|from|to|via|ring|fill|stroke|decoration|divide|outline|shadow|accent|caret)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\\d{2,3}\\b/]",
+        "message": "Tailwind's default palette is not in this system. Navy, verdigris, brass and one red — brass means drift, the red means irreversible destruction. See lib/design/README.md."
+      },
+      {
+        "selector": "JSXAttribute[name.name='className'] Literal[value=/\\b(?:bg|text|border)-(?:white|black)\\b/]",
+        "message": "Surfaces are chart paper and navy, never pure white or black. Use `bg-card`, `bg-background`, `bg-navy-deep`, `text-foreground`."
+      },
+      {
+        "selector": "Literal[value=/(?:^|[\\s\"'>(])(?:Oops|Great!|Action required|Attention needed|On track|At risk|Nice work|All set)(?:$|[\\s\"'<).!])/i]",
+        "message": "Banned vocabulary. Helm does not congratulate, does not manufacture urgency, and does not convert a judgement into a label nobody made. See the message library in lib/design/README.md."
+      }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["tailwind.config.ts", "components/ui/icon.tsx", "lib/utils.ts"],
+      "rules": {
+        "no-restricted-syntax": "off",
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "e2e/**", "model/**"],
+      "rules": {
+        "no-restricted-syntax": "off"
+      }
+    }
+  ]
 }

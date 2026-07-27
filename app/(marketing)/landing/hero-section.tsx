@@ -1,27 +1,26 @@
 import { LandingHeroCta } from "@/components/auth/landing-hero-cta";
-import { helmLogoWhiteSrc } from "@/lib/brand/helm-logos";
+import { HelmMark } from "@/components/ui/icon";
 
-function NauticalOverlay() {
+/**
+ * Chart paper, not dark glass.
+ *
+ * The category has one look: dark gradient hero, glassy translucent cards, a
+ * single bright accent on near-black. Helm is deliberately the inverse — so
+ * the chart grid and the cropped compass rose are drawn in ink at low opacity
+ * on a warm ground, and the headline is a printed serif at weight 300.
+ */
+function ChartGround() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      {/* Radial glow behind headline */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_38%,rgba(255,255,255,0.14),transparent_45%)]" />
-      {/* Soft vignette */}
-      <div
-        className="absolute inset-0 opacity-[0.92]"
-        style={{
-          background:
-            "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(27,42,56,0.4) 100%)",
-        }}
-      />
-
+    <div
+      className="pointer-events-none absolute inset-0 overflow-hidden text-foreground"
+      aria-hidden
+    >
       <svg
-        className="absolute inset-0 h-full w-full opacity-[0.045]"
+        className="absolute inset-0 h-full w-full opacity-[0.06]"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 900"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Sparse, atmospheric grid */}
         {Array.from({ length: 5 }).map((_, i) => (
           <line
             key={`h-${i}`}
@@ -29,7 +28,7 @@ function NauticalOverlay() {
             y1={180 + i * 180}
             x2="1440"
             y2={180 + i * 180}
-            stroke="white"
+            stroke="currentColor"
             strokeWidth="0.6"
           />
         ))}
@@ -40,38 +39,85 @@ function NauticalOverlay() {
             y1="0"
             x2={120 + i * 260}
             y2="900"
-            stroke="white"
+            stroke="currentColor"
             strokeWidth="0.6"
           />
         ))}
 
-        {/* Large, soft compass rose — cropped upper-right */}
-        <g transform="translate(1320 -80)" opacity="0.5">
-          <circle cx="0" cy="0" r="320" fill="none" stroke="white" strokeWidth="1.2" />
-          <circle cx="0" cy="0" r="200" fill="none" stroke="white" strokeWidth="0.7" />
-          <line x1="0" y1="-320" x2="0" y2="320" stroke="white" strokeWidth="0.8" />
-          <line x1="-320" y1="0" x2="320" y2="0" stroke="white" strokeWidth="0.8" />
-          <line x1="-226" y1="-226" x2="226" y2="226" stroke="white" strokeWidth="0.5" />
-          <line x1="226" y1="-226" x2="-226" y2="226" stroke="white" strokeWidth="0.5" />
-          <circle cx="0" cy="0" r="20" fill="white" fillOpacity="0.6" />
+        {/* The compass rose, cropped — the mark's own geometry. */}
+        <g transform="translate(1340 -60)" opacity="0.8">
+          <circle
+            cx="0"
+            cy="0"
+            r="320"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+          />
+          <circle
+            cx="0"
+            cy="0"
+            r="200"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.8"
+          />
+          <circle
+            cx="0"
+            cy="0"
+            r="72"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.8"
+          />
+          <line
+            x1="0"
+            y1="-320"
+            x2="0"
+            y2="320"
+            stroke="currentColor"
+            strokeWidth="0.8"
+          />
+          <line
+            x1="-320"
+            y1="0"
+            x2="320"
+            y2="0"
+            stroke="currentColor"
+            strokeWidth="0.8"
+          />
+          <line
+            x1="-226"
+            y1="-226"
+            x2="226"
+            y2="226"
+            stroke="currentColor"
+            strokeWidth="0.5"
+          />
+          <line
+            x1="226"
+            y1="-226"
+            x2="-226"
+            y2="226"
+            stroke="currentColor"
+            strokeWidth="0.5"
+          />
         </g>
 
-        {/* Few faint route lines — slightly more visible */}
+        {/* Route lines — dashed, the way a chart marks a plotted course. */}
         <path
           d="M-60 320 C280 400, 500 260, 780 340 S1200 400, 1520 320"
           fill="none"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="0.7"
           strokeDasharray="6 14"
-          opacity="0.35"
         />
         <path
-          d="M40 580 C320 500, 620 660, 920 560 S1280 460, 1540 560"
+          d="M40 620 C320 540, 620 700, 920 600 S1280 500, 1540 600"
           fill="none"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="0.6"
           strokeDasharray="6 16"
-          opacity="0.28"
         />
       </svg>
     </div>
@@ -80,32 +126,39 @@ function NauticalOverlay() {
 
 export function HeroSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-navy">
-      <NauticalOverlay />
+    <section className="relative isolate overflow-hidden">
+      <ChartGround />
 
-      <div className="relative mx-auto max-w-[900px] px-6 py-[104px] text-center md:py-[120px]">
-        <img
-          src={helmLogoWhiteSrc}
-          alt="Helm"
-          width={180}
-          height={180}
-          className="mx-auto h-20 w-auto object-contain md:h-28"
-        />
+      <div className="relative mx-auto grid max-w-page grid-cols-1 px-6 py-20 md:grid-cols-[var(--rail)_minmax(0,1fr)] md:px-10 md:py-28">
+        <div
+          aria-hidden
+          className="mb-8 flex flex-row items-center gap-3 md:mb-0 md:flex-col md:gap-2.5"
+        >
+          <span className="font-mono text-rail uppercase text-brass">00</span>
+          <span className="h-px w-10 bg-brass md:h-[46px] md:w-px" />
+        </div>
 
-        <h1 className="mx-auto mt-4 max-w-[860px] text-5xl font-semibold tracking-tight text-white md:mt-5 md:text-7xl md:leading-[0.95]">
-          <span className="block">Keep strategy</span>
-          <span className="block">
-            on <span className="font-bold">course.</span>
-          </span>
-        </h1>
+        <div className="flex flex-col gap-8 md:pl-rail-indent">
+          <div className="flex items-center gap-3">
+            <HelmMark size={30} title="Helm" />
+            <span className="font-serif text-[22px] font-medium tracking-[0.01em]">
+              Helm
+            </span>
+          </div>
 
-        <p className="mx-auto mt-7 max-w-[760px] text-lg leading-8 text-white/95 md:text-[22px] md:leading-9">
-          Helm is an AI team member that listens where strategy happens, turns
-          signals into outcome charters, and nudges teams when strategic drift
-          begins.
-        </p>
+          <h1 className="max-w-[16ch] font-serif text-display">
+            Keep strategy
+            <br />
+            on <em className="font-normal not-italic">course.</em>
+          </h1>
 
-        <LandingHeroCta />
+          <p className="max-w-prose font-serif text-lede text-foreground">
+            Helm listens where strategy actually happens, writes what the
+            quarter committed to, and says so when new work contradicts it.
+          </p>
+
+          <LandingHeroCta />
+        </div>
       </div>
     </section>
   );

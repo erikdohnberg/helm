@@ -97,8 +97,7 @@ export default function OnboardingOrgSetupClient({
 
   const [selectedChatPlatform, setSelectedChatPlatform] =
     useState<ChatPlatformId>(() =>
-      initialPrimaryChatPlatform &&
-      isChatPlatformId(initialPrimaryChatPlatform)
+      initialPrimaryChatPlatform && isChatPlatformId(initialPrimaryChatPlatform)
         ? initialPrimaryChatPlatform
         : DEFAULT_CHAT_PLATFORM
     );

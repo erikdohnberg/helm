@@ -37,10 +37,10 @@ Helm listens where strategy actually happens — in meetings, Slack discussions,
 
 Helm centers quarterly planning around **Outcome Charters**. Each charter captures:
 
-- the outcome being pursued  
-- the metric that defines success  
-- the reasoning behind the decision  
-- the trade-offs required to pursue it  
+- the outcome being pursued
+- the metric that defines success
+- the reasoning behind the decision
+- the trade-offs required to pursue it
 
 Once aligned, outcomes become **Anchored** to the quarter. If an outcome is removed or loses momentum, Helm marks it **Adrift**, preserving visibility into how strategy evolves.
 
@@ -49,6 +49,29 @@ Once aligned, outcomes become **Anchored** to the quarter. If an outcome is remo
 ## What Helm is not
 
 Helm is not a task manager, sprint planning tool, roadmap manager, or OKR platform. Helm sits **one level above execution**, ensuring the organization stays aligned on **which outcomes matter this quarter and why**.
+
+---
+
+## Design system
+
+Every screen is built on the Helm design system — a navy ink ramp on warm
+chart-paper surfaces, status carried by a stroke at the card's left edge rather
+than by colour, brass reserved entirely for drift, and verdigris marking what
+Helm _observed_ as opposed to what a person _authored_. The rendered
+specification is served at **[`/design-system`](public/design-system/index.html)**.
+
+| Where                                          | What                                                                                                   |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [`lib/design/README.md`](lib/design/README.md) | The working rules: pick a surface, the eight rules that do not bend, the voice, the pre-ship checklist |
+| `styles/design-system/tokens/`                 | Colour, type, space, motion and state tokens — the only place a value may be introduced                |
+| `tailwind.config.ts`                           | Those tokens as class names (`text-outcome`, `shadow-e2`, `p-card`, `text-sea`)                        |
+| `components/ui/`                               | Primitives: Button, Card, Chip, Field, Icon, Modal, Table, Tabs, Toast                                 |
+| `components/outcomes/`, `components/log/`      | The Outcome Charter, the drift flag, and the long-form log layout                                      |
+| `.claude/skills/helm-design/`                  | The full specification, guideline cards and UI kit, as an agent skill                                  |
+
+The mechanical half is enforced: `npm run lint` (and therefore `npm run build`)
+rejects raw hex values, off-system Tailwind palettes, non-instrument icon sets
+and the banned vocabulary.
 
 ---
 
@@ -129,14 +152,14 @@ If you see **`Google token refresh`** / **`could not reach Google`** when using 
 
 ### Scripts
 
-| Script          | Description              |
-| --------------- | ------------------------ |
-| `npm run dev`   | Dev server (Turbopack)   |
-| `npm run dev:webpack` | Dev server (Webpack) |
-| `npm run build` | Build for production     |
-| `npm run lint`  | Run ESLint               |
-| `npm run format`| Format with Prettier      |
-| `npm run typecheck` | Run TypeScript check  |
+| Script                | Description            |
+| --------------------- | ---------------------- |
+| `npm run dev`         | Dev server (Turbopack) |
+| `npm run dev:webpack` | Dev server (Webpack)   |
+| `npm run build`       | Build for production   |
+| `npm run lint`        | Run ESLint             |
+| `npm run format`      | Format with Prettier   |
+| `npm run typecheck`   | Run TypeScript check   |
 
 ---
 

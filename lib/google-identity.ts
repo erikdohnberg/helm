@@ -1,4 +1,5 @@
 import type { Session } from "next-auth";
+
 import type { GoogleIdentityDemoState } from "@/lib/mock/mockData";
 
 export function getGoogleIdentityFromSession(

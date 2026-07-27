@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
+import { DriftFlag } from "@/components/outcomes/drift-flag";
+import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { Eyebrow, RecordTitle } from "@/components/ui/card";
 import { Chip, Observed } from "@/components/ui/chip";
 import { HelmMark } from "@/components/ui/icon";
-import { DriftFlag } from "@/components/outcomes/drift-flag";
-import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { getOutcomesByQuarter, getQuarterById } from "@/lib/mock/mockData";
 
 export const metadata: Metadata = {

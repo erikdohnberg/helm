@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState, useTransition } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -11,16 +12,16 @@ import { Modal } from "@/components/ui/modal";
 import { EmptyState, Table, type TableColumn } from "@/components/ui/table";
 import { useToast } from "@/components/ui/toast";
 import {
+  clearOrgMemberTeamLead,
+  updateOrgMemberTeamLead,
+  type OrgMemberListRow,
+} from "@/lib/actions/org-members";
+import {
   createOrgTeam,
   deleteOrgTeams,
   updateOrgTeam,
   type OrgTeamListRow,
 } from "@/lib/actions/org-teams";
-import {
-  clearOrgMemberTeamLead,
-  updateOrgMemberTeamLead,
-  type OrgMemberListRow,
-} from "@/lib/actions/org-members";
 import {
   getChatMemberIdFieldLabel,
   getChatPlatformLabel,
@@ -349,7 +350,11 @@ export function TeamSettingsClient({
     { key: "leader", label: "Leader" },
     { key: "chatId", label: chatIdLabel, mono: true },
     { key: "role", label: "Role" },
-    { key: "action", label: <span className="sr-only">Edit</span>, align: "right" },
+    {
+      key: "action",
+      label: <span className="sr-only">Edit</span>,
+      align: "right",
+    },
   ];
 
   const rows: TeamRow[] = [
@@ -358,8 +363,7 @@ export function TeamSettingsClient({
         ? resolveChatUserProfile(primaryChatPlatform, row.slackUserId)
         : null;
       const canEdit = viewerIsOwner || row.userId === currentUserId;
-      const complete =
-        !!row.leadTeamName?.trim() && !!row.slackUserId?.trim();
+      const complete = !!row.leadTeamName?.trim() && !!row.slackUserId?.trim();
 
       return {
         select: viewerIsOwner ? (
@@ -390,7 +394,8 @@ export function TeamSettingsClient({
           />
         ),
         chatId: row.slackUserId?.trim() || "",
-        role: row.role === "owner" ? <Chip variant="outline" label="Admin" /> : "",
+        role:
+          row.role === "owner" ? <Chip variant="outline" label="Admin" /> : "",
         action: canEdit ? (
           <Button
             size="sm"
@@ -536,7 +541,11 @@ export function TeamSettingsClient({
         description={`Helm reads work under this ${chatIdLabel.toLowerCase()} and attributes it to the team.`}
         footer={
           <>
-            <Button variant="outline" onClick={closeDialog} disabled={isPending}>
+            <Button
+              variant="outline"
+              onClick={closeDialog}
+              disabled={isPending}
+            >
               Discard this draft
             </Button>
             <Button onClick={submitDialog} disabled={isPending}>
@@ -577,7 +586,9 @@ export function TeamSettingsClient({
             value={formChatId}
             onChange={(e) => setFormChatId(e.target.value)}
             placeholder={
-              primaryChatPlatform === "slack" ? "U01ABC" : "Platform-specific ID"
+              primaryChatPlatform === "slack"
+                ? "U01ABC"
+                : "Platform-specific ID"
             }
             disabled={isPending}
             error={formError ?? undefined}
