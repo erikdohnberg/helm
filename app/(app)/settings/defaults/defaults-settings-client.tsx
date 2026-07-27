@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+
+import { Eyebrow } from "@/components/ui/card";
+import { Input } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_ALIGNMENT_INACTIVITY = 7;
@@ -14,9 +17,7 @@ type Props = {
   conversationLocationPhrase: string;
 };
 
-export function DefaultsSettingsClient({
-  conversationLocationPhrase,
-}: Props) {
+export function DefaultsSettingsClient({ conversationLocationPhrase }: Props) {
   const [alignmentInactivity, setAlignmentInactivity] = useState(
     DEFAULT_ALIGNMENT_INACTIVITY
   );
@@ -31,178 +32,120 @@ export function DefaultsSettingsClient({
     useState(DEFAULT_ALLOW_INDEPENDENT);
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-medium text-foreground">Defaults</h2>
-      <div className="max-w-xl space-y-2 text-sm text-muted-foreground">
-        <p>
-          Use these settings to tune how Helm nudges teams when alignment
-          threads go quiet, how it guides quarter planning around{" "}
-          <span className="text-foreground">Anchored</span> outcomes, and where
-          new conversations start in {conversationLocationPhrase}.
+    <div className="flex max-w-prose flex-col gap-section-compact">
+      <div className="flex flex-col gap-2.5">
+        <Eyebrow>Defaults</Eyebrow>
+        <p className="text-muted-foreground">
+          When Helm decides a thread has gone quiet, when it decides an outcome
+          has drifted, and where it starts a conversation in{" "}
+          {conversationLocationPhrase}.
         </p>
       </div>
 
-      <div className="max-w-xl space-y-8 rounded-lg border border-border bg-card p-4 shadow-sm">
-        <section className="space-y-4" aria-labelledby="defaults-nudges-heading">
-          <h3
-            id="defaults-nudges-heading"
-            className="text-sm font-medium text-foreground"
-          >
-            Nudges and drift
-          </h3>
+      <section
+        className="flex flex-col gap-field"
+        aria-labelledby="defaults-drift-heading"
+      >
+        <Eyebrow tone="muted" id="defaults-drift-heading">
+          When Helm raises drift
+        </Eyebrow>
 
-          <div className="space-y-2">
-            <label
-              htmlFor="alignment-inactivity"
-              className="block text-sm font-medium text-foreground"
-            >
-              Alignment inactivity threshold
-            </label>
-            <p
-              id="alignment-inactivity-desc"
-              className="text-xs text-muted-foreground"
-            >
-              Days without messages or other signals in an outcome’s shared
-              alignment thread before Helm treats the team as quiet and nudges
-              them to reconnect.
-            </p>
-            <input
-              id="alignment-inactivity"
-              type="number"
-              min={1}
-              max={365}
-              value={alignmentInactivity}
-              onChange={(e) =>
-                setAlignmentInactivity(Number(e.target.value) || 0)
-              }
-              aria-describedby="alignment-inactivity-desc"
-              className="w-24 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-            />
-          </div>
+        <div className="max-w-[160px]">
+          <Input
+            id="alignment-inactivity"
+            type="number"
+            min={1}
+            max={365}
+            label="Quiet after"
+            value={alignmentInactivity}
+            onChange={(e) => setAlignmentInactivity(Number(e.target.value) || 0)}
+            help="Days without a signal in an outcome's thread before Helm says the team has gone quiet."
+          />
+        </div>
 
-          <div className="space-y-2">
-            <label
-              htmlFor="adrift-threshold"
-              className="block text-sm font-medium text-foreground"
-            >
-              Adrift threshold
-            </label>
-            <p
-              id="adrift-threshold-desc"
-              className="text-xs text-muted-foreground"
-            >
-              Days without meaningful engagement before Helm may treat an
-              outcome as a candidate for{" "}
-              <span className="text-foreground">Adrift</span>—when strategy
-              drift or loss of momentum is likely.
-            </p>
-            <input
-              id="adrift-threshold"
-              type="number"
-              min={1}
-              max={365}
-              value={adriftThreshold}
-              onChange={(e) => setAdriftThreshold(Number(e.target.value) || 0)}
-              aria-describedby="adrift-threshold-desc"
-              className="w-24 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-            />
-          </div>
-        </section>
+        <div className="max-w-[160px]">
+          <Input
+            id="adrift-threshold"
+            type="number"
+            min={1}
+            max={365}
+            label="Adrift after"
+            value={adriftThreshold}
+            onChange={(e) => setAdriftThreshold(Number(e.target.value) || 0)}
+            help="Days without engagement before Helm names an outcome as a candidate to retire or replace."
+          />
+        </div>
+      </section>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="recommended-anchored"
-            className="block text-sm font-medium text-foreground"
-          >
-            Recommended anchored outcomes
-          </label>
-          <p
-            id="recommended-anchored-desc"
-            className="text-xs text-muted-foreground"
-          >
-            Soft target for how many Anchored quarter priorities Helm suggests.
-            Planning guidance when you add outcomes may reference this number.
-          </p>
-          <input
+      <section
+        className="flex flex-col gap-field"
+        aria-labelledby="defaults-quarter-heading"
+      >
+        <Eyebrow tone="muted" id="defaults-quarter-heading">
+          The shape of a quarter
+        </Eyebrow>
+
+        <div className="max-w-[160px]">
+          <Input
             id="recommended-anchored"
             type="number"
             min={1}
             max={50}
+            label="Anchored outcomes"
             value={recommendedAnchored}
-            onChange={(e) =>
-              setRecommendedAnchored(Number(e.target.value) || 0)
-            }
-            aria-describedby="recommended-anchored-desc"
-            className="w-24 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+            onChange={(e) => setRecommendedAnchored(Number(e.target.value) || 0)}
+            help="Above this count, adding alongside carries a focus warning rather than a silent entry."
           />
         </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="chat-channel"
-            className="block text-sm font-medium text-foreground"
+        <Input
+          id="chat-channel"
+          label="Where conversations start"
+          placeholder="#strategy"
+          value={chatChannel}
+          onChange={(e) => setChatChannel(e.target.value)}
+          help={`The channel Helm opens an alignment thread in once ${conversationLocationPhrase} is connected.`}
+        />
+
+        <div className="flex items-start gap-3">
+          <button
+            type="button"
+            id="allow-independent-switch"
+            role="switch"
+            aria-checked={allowIntentionallyIndependent}
+            aria-labelledby="allow-independent-label"
+            aria-describedby="allow-independent-desc"
+            onClick={() => setAllowIntentionallyIndependent((prev) => !prev)}
+            className={cn(
+              "relative mt-0.5 h-6 w-11 shrink-0 rounded-full border border-border-strong transition-colors duration-quick ease-out",
+              allowIntentionallyIndependent ? "bg-primary" : "bg-sunken"
+            )}
           >
-            Default channel or space
-          </label>
-          <p id="chat-channel-desc" className="text-xs text-muted-foreground">
-            Default channel, space, or room for new alignment threads and chat
-            notifications once {conversationLocationPhrase} is connected to
-            Helm.
-          </p>
-          <input
-            id="chat-channel"
-            type="text"
-            placeholder="#strategy"
-            value={chatChannel}
-            onChange={(e) => setChatChannel(e.target.value)}
-            aria-describedby="chat-channel-desc"
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-          />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-start gap-3">
-            <button
-              type="button"
-              id="allow-independent-switch"
-              role="switch"
-              aria-checked={allowIntentionallyIndependent}
-              aria-labelledby="allow-independent-label"
-              aria-describedby="allow-independent-desc"
-              onClick={() =>
-                setAllowIntentionallyIndependent((prev) => !prev)
-              }
+            <span
               className={cn(
-                "relative mt-0.5 h-6 w-11 shrink-0 rounded-full border border-border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                allowIntentionallyIndependent ? "bg-primary" : "bg-muted"
+                "absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-card shadow-e1 transition-transform duration-quick ease-out",
+                allowIntentionallyIndependent && "translate-x-5"
               )}
+            />
+          </button>
+          <div className="min-w-0 space-y-1">
+            <span
+              id="allow-independent-label"
+              className="block text-control font-semibold text-foreground"
             >
-              <span
-                className={cn(
-                  "absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-background shadow transition-transform",
-                  allowIntentionallyIndependent && "translate-x-5"
-                )}
-              />
-            </button>
-            <div className="min-w-0 space-y-1">
-              <span
-                id="allow-independent-label"
-                className="block text-sm font-medium text-foreground"
-              >
-                Allow intentionally independent outcomes
-              </span>
-              <p
-                id="allow-independent-desc"
-                className="text-xs text-muted-foreground"
-              >
-                When on, teams can mark outcomes that sit outside the main
-                quarter charter. Those outcomes are not treated like standard
-                Anchored priorities for recommendations and nudges. This will
-                apply once outcome settings support the option.
-              </p>
-            </div>
+              Allow outcomes that stand outside the quarter
+            </span>
+            <p
+              id="allow-independent-desc"
+              className="max-w-help text-help text-muted-foreground"
+            >
+              An outcome marked independent is not counted against the quarter
+              and does not raise drift. It takes effect when outcome settings
+              carry the option.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

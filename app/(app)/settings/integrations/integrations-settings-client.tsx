@@ -5,6 +5,9 @@ import { useCallback, useEffect, useState, useTransition } from "react";
 import { signIn, useSession } from "next-auth/react";
 
 import { openDriveParentFolderPicker } from "@/components/integrations/google-drive-folder-picker";
+import { Button } from "@/components/ui/button";
+import { Card, Eyebrow } from "@/components/ui/card";
+import { Chip, Observed } from "@/components/ui/chip";
 import { useToast } from "@/components/ui/toast";
 import {
   clearOrgCharterRootFolderAction,
@@ -21,16 +24,47 @@ type Props = {
   primaryChatPlatformLabel: string;
 };
 
+const CONNECTION_DROPPED =
+  "Not recorded — the connection dropped. Nothing changed; try again.";
+
 function formatConfiguredAt(iso: string | null): string {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleString(undefined, {
-      dateStyle: "medium",
-      timeStyle: "short",
+    return new Date(iso).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
     });
   } catch {
     return iso;
   }
+}
+
+/** One connected source, stated as a fact plus what Helm may read from it. */
+function SourceCard({
+  name,
+  state,
+  children,
+  action,
+}: {
+  name: string;
+  state: React.ReactNode;
+  children?: React.ReactNode;
+  action?: React.ReactNode;
+}) {
+  return (
+    <Card density="compact" className="flex flex-col gap-3">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-control font-semibold text-foreground">{name}</h3>
+        {state}
+      </div>
+      {children && (
+        <div className="max-w-prose text-help text-muted-foreground">
+          {children}
+        </div>
+      )}
+      {action && <div className="flex flex-wrap gap-2">{action}</div>}
+    </Card>
+  );
 }
 
 export function IntegrationsSettingsClient({
@@ -65,7 +99,7 @@ export function IntegrationsSettingsClient({
   }, [sessionStatus, session?.user?.id, refreshIntegration]);
 
   function handleTest(name: string) {
-    toast(`${name} connection tested`);
+    toast(`${name} answered. Helm can read it.`);
   }
 
   function handleConnectGoogleDrive() {
@@ -84,7 +118,8 @@ export function IntegrationsSettingsClient({
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PICKER_API_KEY?.trim();
     if (!apiKey) {
       toast(
-        "Add NEXT_PUBLIC_GOOGLE_PICKER_API_KEY to .env.local (Google Cloud → enable Picker API → create browser API key)."
+        "No Picker API key is set. Add NEXT_PUBLIC_GOOGLE_PICKER_API_KEY to .env.local — Google Cloud, enable the Picker API, create a browser key.",
+        "error"
       );
       return;
     }
@@ -93,7 +128,7 @@ export function IntegrationsSettingsClient({
       try {
         const tokenResult = await getGooglePickerAccessTokenAction();
         if (!tokenResult.ok) {
-          toast(tokenResult.error);
+          toast(tokenResult.error, "error");
           return;
         }
         const parentFolderId = await openDriveParentFolderPicker(
@@ -105,12 +140,10 @@ export function IntegrationsSettingsClient({
           return;
         }
         await createOrgCharterRootFolderAction(parentFolderId);
-        toast("Charter folder created in Google Drive");
+        toast("Recorded. Charters are now written to Google Drive.");
         await getGoogleDriveIntegrationState().then(setIntegration);
       } catch (e) {
-        toast(
-          e instanceof Error ? e.message : "Could not create charter folder"
-        );
+        toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
       }
     });
   }
@@ -120,238 +153,185 @@ export function IntegrationsSettingsClient({
       try {
         await clearOrgCharterRootFolderAction();
         toast(
-          "Charter storage location cleared for Helm (folder may still exist in Drive)"
+          "Charter storage cleared for Helm. The folder still exists in Drive."
         );
         setStorageManageOpen(false);
         await getGoogleDriveIntegrationState().then(setIntegration);
       } catch (e) {
-        toast(
-          e instanceof Error ? e.message : "Could not update charter storage"
-        );
+        toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
       }
     });
   }
 
-  const primaryBtnClass =
-    "rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
-
   const drive = integration;
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-medium text-foreground">Integrations</h2>
-      <p className="text-sm text-muted-foreground">
-        Connect and configure external tools and services.
-      </p>
-
-      <div className="space-y-4">
-        <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-          <h3 className="font-medium text-card-foreground">Google</h3>
-          {sessionStatus === "loading" ? (
-            <p className="mt-1 text-sm text-muted-foreground">
-              Checking Google account…
-            </p>
-          ) : !googleIdentity.isSignedInWithGoogle ? (
-            <>
-              <p className="mt-1 text-sm text-foreground">
-                Google account not connected
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Sign in with Google to enable Drive setup for Outcome Charters.
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="mt-1 text-sm text-foreground">
-                Google account connected
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {googleIdentity.googleAccountEmail}
-              </p>
-
-              {!drive ? (
-                <p className="mt-4 text-sm text-muted-foreground">
-                  Loading integration status…
-                </p>
-              ) : !drive.canManage ? (
-                <div className="mt-4 space-y-3 border-t border-border pt-4 text-sm">
-                  {!drive.driveConnected ? (
-                    <>
-                      <p className="text-foreground">
-                        Google Drive not connected for Helm
-                      </p>
-                      <p className="text-muted-foreground">
-                        An organization owner must connect Google Drive to enable
-                        charter storage.
-                      </p>
-                    </>
-                  ) : !drive.rootFolderConfigured ? (
-                    <>
-                      <p className="text-foreground">Google Drive connected</p>
-                      <p className="text-muted-foreground">
-                        Charter storage is not configured yet. An owner can choose
-                        the charter folder in Settings.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-foreground">
-                        Drive ready for charter generation
-                      </p>
-                      <p className="font-medium text-card-foreground">
-                        {drive.rootFolderName}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {drive.rootFolderId && (
-                          <span>Folder ID: {drive.rootFolderId}</span>
-                        )}
-                        {drive.rootFolderId && drive.rootFolderConfiguredAt && (
-                          <span className="mx-1.5 text-border">·</span>
-                        )}
-                        {drive.rootFolderConfiguredAt && (
-                          <span>
-                            Configured{" "}
-                            {formatConfiguredAt(drive.rootFolderConfiguredAt)}
-                          </span>
-                        )}
-                      </p>
-                    </>
-                  )}
-                </div>
-              ) : !drive.driveConnected ? (
-                <div className="mt-4 space-y-3 border-t border-border pt-4">
-                  <p className="text-sm text-foreground">
-                    Google Drive not connected
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Connect Google Drive for your organization so Helm can store
-                    Outcome Charters. You will be asked to approve Drive and Docs
-                    access for your Google account.
-                  </p>
-                  <button
-                    type="button"
-                    className={primaryBtnClass}
-                    disabled={isPending}
-                    onClick={handleConnectGoogleDrive}
-                  >
-                    Connect Google Drive
-                  </button>
-                </div>
-              ) : !drive.rootFolderConfigured ? (
-                <div className="mt-4 space-y-3 border-t border-border pt-4">
-                  <p className="text-sm text-foreground">Google Drive connected</p>
-                  <p className="text-sm text-muted-foreground">
-                    Charter storage not configured
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Pick a folder in Google Drive. Helm creates a subfolder named
-                    &quot;Helm Outcome Charters&quot; inside it for your
-                    organization&apos;s charters.
-                  </p>
-                  <button
-                    type="button"
-                    className={primaryBtnClass}
-                    disabled={isPending}
-                    onClick={handleChooseCharterFolder}
-                  >
-                    Choose charter folder
-                  </button>
-                  <p className="text-xs text-muted-foreground">
-                    A Google Picker popup lets you choose the parent folder (see
-                    README for API key setup).
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-4 space-y-3 border-t border-border pt-4">
-                  <p className="text-sm text-foreground">
-                    Drive ready for charter generation
-                  </p>
-                  <p className="text-sm font-medium text-card-foreground">
-                    {drive.rootFolderName}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {drive.rootFolderId && (
-                      <span>Folder ID: {drive.rootFolderId}</span>
-                    )}
-                    {drive.rootFolderId && drive.rootFolderConfiguredAt && (
-                      <span className="mx-1.5 text-border">·</span>
-                    )}
-                    {drive.rootFolderConfiguredAt && (
-                      <span>
-                        Configured{" "}
-                        {formatConfiguredAt(drive.rootFolderConfiguredAt)}
-                      </span>
-                    )}
-                  </p>
-                  <div className="flex flex-col items-start gap-2">
-                    <button
-                      type="button"
-                      className={primaryBtnClass}
-                      disabled={isPending}
-                      onClick={() => setStorageManageOpen((open) => !open)}
-                      aria-expanded={storageManageOpen}
-                    >
-                      Manage charter storage
-                    </button>
-                    {storageManageOpen ? (
-                      <div className="w-full space-y-2 rounded-md border border-border bg-muted/30 p-3">
-                        <p className="text-xs text-muted-foreground">
-                          Clearing storage removes Helm&apos;s reference to this
-                          folder. It does not delete the folder in Google Drive.
-                        </p>
-                        <button
-                          type="button"
-                          disabled={isPending}
-                          onClick={handleChangeCharterFolder}
-                          className="text-sm font-medium text-foreground underline-offset-4 hover:underline disabled:opacity-50"
-                        >
-                          Change charter folder
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-            <h3 className="font-medium text-card-foreground">
-              {primaryChatPlatformLabel}
-            </h3>
-            <p className="mt-1 text-sm text-muted-foreground">Not connected</p>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Primary team chat from org setup. Bot connection via the Vercel Chat
-              SDK is not wired yet—other platforms (Teams, Discord, …) use the
-              same path when enabled.
-            </p>
-            <div className="mt-4">
-              <button
-                type="button"
-                onClick={() => handleTest(primaryChatPlatformLabel)}
-                className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50"
-              >
-                Test
-              </button>
-            </div>
-          </div>
-          <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-            <h3 className="font-medium text-card-foreground">LLM</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Connected</p>
-            <div className="mt-4">
-              <button
-                type="button"
-                onClick={() => handleTest("LLM")}
-                className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50"
-              >
-                Test
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="flex max-w-prose flex-col gap-6">
+      <div className="flex flex-col gap-2.5">
+        <Eyebrow>Integrations</Eyebrow>
+        <p className="text-muted-foreground">
+          Where Helm reads, and where it writes a charter. Helm reads the
+          channels you nominate and writes nothing back without a decision.
+        </p>
       </div>
+
+      <SourceCard
+        name="Google"
+        state={
+          sessionStatus === "loading" ? null : googleIdentity.isSignedInWithGoogle ? (
+            <Chip variant="outline" label="Connected" />
+          ) : (
+            <Chip label="Not connected" />
+          )
+        }
+        action={
+          googleIdentity.isSignedInWithGoogle ||
+          sessionStatus === "loading" ? undefined : (
+            <Button size="sm" onClick={handleConnectGoogleDrive}>
+              Connect Google
+            </Button>
+          )
+        }
+      >
+        {sessionStatus === "loading" ? (
+          "Reading the record…"
+        ) : !googleIdentity.isSignedInWithGoogle ? (
+          "Signing in with Google is what lets Helm write an Outcome Charter to Drive."
+        ) : (
+          <span className="font-mono text-identifier text-muted-foreground">
+            {googleIdentity.googleAccountEmail}
+          </span>
+        )}
+      </SourceCard>
+
+      {googleIdentity.isSignedInWithGoogle && (
+        <SourceCard
+          name="Google Drive"
+          state={
+            !drive ? null : drive.rootFolderConfigured ? (
+              <Chip variant="outline" label="Charters have a home" />
+            ) : drive.driveConnected ? (
+              <Chip label="No charter folder" />
+            ) : (
+              <Chip label="Not connected" />
+            )
+          }
+          action={
+            !drive ? undefined : !drive.canManage ? undefined : !drive.driveConnected ? (
+              <Button
+                size="sm"
+                disabled={isPending}
+                onClick={handleConnectGoogleDrive}
+              >
+                Connect Google Drive
+              </Button>
+            ) : !drive.rootFolderConfigured ? (
+              <Button
+                size="sm"
+                disabled={isPending}
+                onClick={handleChooseCharterFolder}
+              >
+                Choose where charters live
+              </Button>
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={isPending}
+                  aria-expanded={storageManageOpen}
+                  onClick={() => setStorageManageOpen((open) => !open)}
+                >
+                  Change where charters live
+                </Button>
+                {storageManageOpen && (
+                  <div className="w-full rounded-inner border border-border bg-sunken p-3">
+                    <p className="max-w-help text-help text-muted-foreground">
+                      Clearing storage removes Helm&rsquo;s reference to this
+                      folder. It does not delete the folder in Drive.
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      className="mt-3"
+                      disabled={isPending}
+                      onClick={handleChangeCharterFolder}
+                    >
+                      Clear the charter folder
+                    </Button>
+                  </div>
+                )}
+              </>
+            )
+          }
+        >
+          {!drive ? (
+            "Reading the record…"
+          ) : !drive.driveConnected ? (
+            drive.canManage ? (
+              "Helm asks for Drive and Docs access on your Google account, then writes each charter as a document."
+            ) : (
+              "An organization owner connects Drive before charters can be written."
+            )
+          ) : !drive.rootFolderConfigured ? (
+            drive.canManage ? (
+              'Pick a parent folder. Helm creates "Helm Outcome Charters" inside it and writes every charter there.'
+            ) : (
+              "An owner chooses the charter folder."
+            )
+          ) : (
+            <div className="flex flex-col gap-1.5">
+              <span className="font-serif text-[17px] text-foreground">
+                {drive.rootFolderName}
+              </span>
+              {drive.rootFolderId && (
+                <span className="font-mono text-identifier text-subtle-foreground">
+                  {drive.rootFolderId}
+                </span>
+              )}
+              {drive.rootFolderConfiguredAt && (
+                <Observed className="text-help">
+                  Chosen {formatConfiguredAt(drive.rootFolderConfiguredAt)}
+                </Observed>
+              )}
+            </div>
+          )}
+        </SourceCard>
+      )}
+
+      <SourceCard
+        name={primaryChatPlatformLabel}
+        state={<Chip label="Not connected" />}
+        action={
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleTest(primaryChatPlatformLabel)}
+          >
+            Test the connection
+          </Button>
+        }
+      >
+        The primary chat platform from organization setup. The bot connection is
+        not wired yet; every platform takes the same path when it is.
+      </SourceCard>
+
+      <SourceCard
+        name="Language model"
+        state={<Chip variant="outline" label="Connected" />}
+        action={
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleTest("The language model")}
+          >
+            Test the connection
+          </Button>
+        }
+      >
+        Helm reads conversations through it to draft charters and notice
+        contradictions. It never anchors an outcome on its own.
+      </SourceCard>
     </div>
   );
 }

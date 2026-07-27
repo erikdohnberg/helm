@@ -1,0 +1,90 @@
+/* Helm — colour tokens.
+ * Drop-in replacement for the shadcn zinc block. A navy ink ramp at hue 245
+ * laid on warm chart-paper surfaces at hue 85, plus three named hues, each
+ * with exactly one job.
+ *
+ * HUE DISCIPLINE — the load-bearing rule of this system:
+ *   brass → drift and nothing else. If brass appears, something is contradicted.
+ *   sea   → attribution: anything Helm OBSERVED rather than a person authored.
+ *           Counts, inferences, freshness, detection metadata. Always paired
+ *           with the 7px hollow ring. Never a state, never a severity.
+ *   navy  → ink, structure, primary action, dark ground.
+ *   red   → irreversible destruction only. Not "error", not "bad". */
+:root{
+  /* ── ink ramp — hue 245, chroma rises with darkness ── */
+  --ink-025:oklch(0.985 0.005 245);
+  --ink-050:oklch(0.966 0.007 245);
+  --ink-100:oklch(0.938 0.010 245);
+  --ink-200:oklch(0.898 0.013 245);
+  --ink-300:oklch(0.843 0.016 245);
+  --ink-400:oklch(0.730 0.022 245);
+  --ink-500:oklch(0.615 0.028 245);
+  --ink-600:oklch(0.520 0.034 245);
+  --ink-700:oklch(0.430 0.038 245);
+  --ink-800:oklch(0.330 0.040 245);
+  --ink-900:oklch(0.270 0.042 245);
+  --ink-950:oklch(0.205 0.044 245);   /* the marketing navy, regularised */
+
+  /* ── named hues — three, each with one job ── */
+  --navy:oklch(0.235 0.044 245);      /* ink, primary, dark ground   */
+  --navy-deep:oklch(0.175 0.038 245); /* masthead, code, deep panels */
+  --sea:oklch(0.505 0.070 195);       /* OBSERVED BY HELM            */
+  --sea-wash:oklch(0.945 0.024 195);
+  --brass:oklch(0.615 0.100 68);      /* DRIFT ONLY                  */
+  --brass-soft:oklch(0.780 0.072 82); /* brass on navy ground        */
+  --brass-wash:oklch(0.950 0.030 85);
+
+  /* ── semantic — light (chart paper, hue 85) ── */
+  --background:oklch(0.974 0.008 85);
+  --card:oklch(0.996 0.004 85);
+  --popover:oklch(0.996 0.004 85);
+  --sunken:oklch(0.952 0.012 85);     /* was: muted / secondary / accent */
+  --muted:var(--sunken);
+  --secondary:var(--sunken);
+  --accent:var(--sunken);
+  --foreground:var(--navy);
+  --muted-foreground:oklch(0.445 0.032 245);
+  --subtle-foreground:oklch(0.600 0.026 245);
+  --border:oklch(0.888 0.013 85);
+  --border-strong:oklch(0.800 0.018 82);
+  --input:oklch(0.800 0.018 82);
+  --primary:var(--navy);
+  --primary-foreground:oklch(0.985 0.006 85);
+  --ring:var(--sea);
+  --destructive:oklch(0.520 0.140 25);
+  --destructive-foreground:oklch(0.985 0.006 85);
+  --drift:var(--brass);
+  --drift-wash:oklch(0.948 0.034 78);
+
+  /* ── short aliases used in markup ── */
+  --surface:var(--card);
+  --fg:var(--foreground);
+  --fg-muted:var(--muted-foreground);
+  --fg-subtle:var(--subtle-foreground);
+}
+.dark{
+  --background:oklch(0.185 0.030 245);
+  --card:oklch(0.234 0.032 245);
+  --popover:oklch(0.252 0.032 245);
+  --sunken:oklch(0.156 0.026 245);
+  --muted:var(--sunken);
+  --secondary:var(--sunken);
+  --accent:var(--sunken);
+  --foreground:oklch(0.958 0.008 85);
+  --muted-foreground:oklch(0.780 0.016 85);
+  --subtle-foreground:oklch(0.655 0.020 85);
+  --border:oklch(0.348 0.028 245);    /* opaque, never white/10 */
+  --border-strong:oklch(0.448 0.032 245);
+  --input:oklch(0.448 0.032 245);
+  --primary:oklch(0.958 0.008 85);
+  --primary-foreground:oklch(0.185 0.030 245);
+  --sea:oklch(0.760 0.072 195);
+  --brass:oklch(0.800 0.088 78);
+  --ring:var(--sea);
+  --destructive:oklch(0.640 0.150 25);
+  --drift:oklch(0.800 0.090 72);
+  --drift-wash:oklch(0.305 0.050 62);
+  --e1:inset 0 1px 0 oklch(1 0 0 / 0.05); /* @kind shadow */
+  --e2:inset 0 1px 0 oklch(1 0 0 / 0.06), 0 10px 28px -14px oklch(0 0 0 / 0.6); /* @kind shadow */
+  --e3:inset 0 1px 0 oklch(1 0 0 / 0.07), 0 32px 70px -24px oklch(0 0 0 / 0.72); /* @kind shadow */
+}

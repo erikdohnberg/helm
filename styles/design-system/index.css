@@ -1,0 +1,18 @@
+/* Helm Design System — stylesheet entry.
+ * Import manifest only; no rules live here directly.
+ *
+ * Source: the `Helm · design system v2` project, rendered in full at
+ * `/design-system`. The token files below are verbatim copies of that
+ * project's `tokens/`; edit them there first, then re-sync.
+ *
+ * ORDER MATTERS. `:root` and `.dark` have identical specificity, and the html
+ * element matches both, so the later declaration wins. `colors.css` carries
+ * the dark-mode elevation overrides (`--e1`–`--e3`), which must land after the
+ * light values declared in `spacing.css`. Keep colors.css last of the two. */
+@import "./fonts.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/motion.css";
+@import "./tokens/colors.css";
+@import "./tokens/state.css";
+@import "./base.css";

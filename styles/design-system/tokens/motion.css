@@ -1,0 +1,14 @@
+/* Helm — motion.
+ * Four durations, two curves, no bounce and no scale beyond 1.01. Motion in
+ * Helm confirms a change to the record; it never entertains. */
+:root{
+  --dur-instant:0ms; /* @kind other */      /* focus ring — never animated */
+  --dur-quick:120ms; /* @kind other */      /* hover, press, tint — colour only */
+  --dur-considered:220ms; /* @kind other */ /* popovers, dialogs — fade + 4px */
+  --dur-deliberate:400ms; /* @kind other */ /* drift arrival, replacement collapse */
+  --ease-out:cubic-bezier(0, 0, 0.2, 1); /* @kind other */
+  --ease-record:cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:1ms !important;transition-duration:1ms !important}
+}

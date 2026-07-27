@@ -1,10 +1,17 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight, ExternalLink, Pencil } from "lucide-react";
 
-import { Chip } from "@/components/ui/chip";
+import Link from "next/link";
+
+import { Button, IconButton } from "@/components/ui/button";
+import { Eyebrow, RecordTitle } from "@/components/ui/card";
+import { Observed } from "@/components/ui/chip";
+import { ExternalLink, Textarea } from "@/components/ui/field";
+import { Icon } from "@/components/ui/icon";
+import { Modal } from "@/components/ui/modal";
+import { EmptyState } from "@/components/ui/table";
+import { OutcomeCard } from "@/components/outcomes/outcome-card";
 import { useDemoData } from "@/lib/demo-data-context";
 import {
   getCurrentQuarter,
@@ -16,86 +23,69 @@ import {
 } from "@/lib/mock/mockData";
 import type { Outcome, Quarter } from "@/lib/types";
 
-function formatUpdatedDate(iso: string): string {
-  return new Date(iso + "Z").toLocaleDateString("en-US", {
+/** Dates are `21 Feb` — day, short month, no year within the current fiscal year. */
+function formatRecordDate(iso: string): string {
+  return new Date(iso + "Z").toLocaleDateString("en-GB", {
+    day: "2-digit",
     month: "short",
-    day: "numeric",
-    year: "numeric",
   });
 }
 
-function OutcomeCard({ outcome }: { outcome: Outcome }) {
+function AnchoredOutcome({ outcome }: { outcome: Outcome }) {
   const replacedOutcome = outcome.replacedOutcomeId
     ? getOutcomeById(outcome.replacedOutcomeId)
     : undefined;
 
+  const facts = [
+    outcome.metric && { label: "Metric", value: outcome.metric },
+    outcome.target && { label: "Target", value: outcome.target },
+    outcome.timeframe && { label: "Timeframe", value: outcome.timeframe },
+  ].filter(Boolean) as { label: string; value: string }[];
+
   return (
-    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
-      <h3 className="font-medium text-foreground">{outcome.title}</h3>
-      {replacedOutcome && (
-        <p className="mt-1 text-xs text-muted-foreground">
-          Replaces: {replacedOutcome.title}
+    <OutcomeCard
+      state="anchored"
+      title={outcome.title}
+      replaces={replacedOutcome?.title}
+      facts={facts}
+      reasons={outcome.decisionBullets}
+      links={
+        outcome.googleDocUrl ? (
+          <ExternalLink href={outcome.googleDocUrl}>
+            Open the full charter
+          </ExternalLink>
+        ) : null
+      }
+    >
+      {outcome.context && (
+        <p className="max-w-prose text-help text-muted-foreground">
+          {outcome.context}
         </p>
       )}
-      <p className="mt-2 text-sm text-muted-foreground">{outcome.context}</p>
-      <p className="mt-2 text-sm text-muted-foreground">
-        <span className="font-medium">Metric:</span> {outcome.metric}
-        {" · "}
-        <span className="font-medium">Target:</span> {outcome.target}
-        {" · "}
-        <span className="font-medium">Timeframe:</span> {outcome.timeframe}
-      </p>
-      {outcome.decisionBullets.length > 0 && (
-        <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-muted-foreground">
-          {outcome.decisionBullets.map((bullet, i) => (
-            <li key={i}>{bullet}</li>
-          ))}
-        </ul>
-      )}
-      {outcome.googleDocUrl && (
-        <a
-          href={outcome.googleDocUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-        >
-          Open Full Charter in Google Docs
-          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
-        </a>
-      )}
-    </li>
+    </OutcomeCard>
   );
 }
 
-function AdriftCard({ outcome }: { outcome: Outcome }) {
+function TradedAwayOutcome({ outcome }: { outcome: Outcome }) {
   return (
-    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
-      <div className="flex items-center gap-2">
-        <h3 className="font-medium text-foreground">{outcome.title}</h3>
-        <Chip label="No Longer Prioritized" />
-      </div>
-      <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-muted-foreground">
-        {outcome.noLongerPrioritizedReasonBullets.map((bullet, i) => (
-          <li key={i}>{bullet}</li>
-        ))}
-      </ul>
+    <OutcomeCard
+      state="replaced"
+      title={outcome.title}
+      reasons={outcome.noLongerPrioritizedReasonBullets}
+      links={
+        outcome.googleDocUrl ? (
+          <ExternalLink href={outcome.googleDocUrl}>
+            Open the decision note
+          </ExternalLink>
+        ) : null
+      }
+    >
       {outcome.originallyAnchoredLabel && (
-        <p className="mt-2 text-xs text-muted-foreground">
-          Originally anchored: {outcome.originallyAnchoredLabel}
+        <p className="text-help text-muted-foreground">
+          Anchored in {outcome.originallyAnchoredLabel}. It stays in the record.
         </p>
       )}
-      {outcome.googleDocUrl && (
-        <a
-          href={outcome.googleDocUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
-        >
-          Google Doc
-          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
-        </a>
-      )}
-    </li>
+    </OutcomeCard>
   );
 }
 
@@ -146,39 +136,41 @@ export default function QuarterPageClient({
 
   if (!demoModeEnabled && !workspaceQuarter) {
     return (
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-xl font-semibold text-foreground">Quarter</h1>
-          <p className="text-sm text-muted-foreground">
-            Your organization has not set its upcoming fiscal quarter yet.
-          </p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm">
-          <p className="text-sm text-muted-foreground">
-            Complete setup to define when your fiscal year runs and which quarter
-            you are in. An owner can do this from organization onboarding.
-          </p>
-          <Link
-            href="/onboarding/org-setup"
-            className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Continue setup
-          </Link>
-        </div>
+      <div className="flex flex-col gap-8">
+        <header className="flex flex-col gap-3">
+          <Eyebrow>The quarter</Eyebrow>
+          <RecordTitle as="h1" level="page">
+            No quarter is defined
+          </RecordTitle>
+        </header>
+        <EmptyState
+          title="There is no quarter to record against"
+          action={
+            <Link href="/onboarding/org-setup">
+              <Button>Set the fiscal year</Button>
+            </Link>
+          }
+        >
+          Helm needs to know when your fiscal year runs before an outcome can be
+          anchored to a quarter. An owner sets it in organization setup.
+        </EmptyState>
       </div>
     );
   }
 
   if (demoModeEnabled && orderedQuarters.length === 0) {
     return (
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-xl font-semibold text-foreground">Quarter</h1>
-          <p className="text-sm text-muted-foreground">
-            No sample quarters loaded. Turn on Demo Mode in System settings to
-            explore the Quarter experience with mock data.
-          </p>
-        </div>
+      <div className="flex flex-col gap-8">
+        <header className="flex flex-col gap-3">
+          <Eyebrow>The quarter</Eyebrow>
+          <RecordTitle as="h1" level="page">
+            No quarter is defined
+          </RecordTitle>
+        </header>
+        <EmptyState title="No sample quarters are loaded">
+          Turn on demo mode in system settings to read a quarter that already
+          has a record.
+        </EmptyState>
       </div>
     );
   }
@@ -198,7 +190,7 @@ export default function QuarterPageClient({
   const anchoredOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
     (o) => o.status === "Anchored"
   );
-  const adriftOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
+  const tradedAwayOutcomes: Outcome[] = getOutcomesByQuarter(quarter.id).filter(
     (o) =>
       o.noLongerPrioritizedReasonBullets &&
       o.noLongerPrioritizedReasonBullets.length > 0
@@ -223,7 +215,7 @@ export default function QuarterPageClient({
     setModalOpen(false);
   }
 
-  function saveNarrative() {
+  function recordNarrative() {
     setNarrativeByQuarterId((prev) => ({ ...prev, [quarter.id]: editDraft }));
     closeModal();
   }
@@ -233,145 +225,161 @@ export default function QuarterPageClient({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-xl font-semibold text-foreground">Quarter</h1>
-        <p className="text-muted-foreground">{quarter.label}</p>
+    <div className="flex flex-col gap-section">
+      <header className="flex flex-col gap-3">
+        <Eyebrow>{quarter.label}</Eyebrow>
+        <RecordTitle as="h1" level="page">
+          The quarter as recorded
+        </RecordTitle>
+        <p className="max-w-prose text-muted-foreground">
+          {anchoredOutcomes.length === 1
+            ? "One outcome stands."
+            : `${anchoredOutcomes.length} outcomes stand.`}{" "}
+          {tradedAwayOutcomes.length > 0 &&
+            (tradedAwayOutcomes.length === 1
+              ? "One was traded away and stays in the record."
+              : `${tradedAwayOutcomes.length} were traded away and stay in the record.`)}
+        </p>
         {demoModeEnabled && selectedQuarterId === currentQuarterId && (
-          <p className="text-sm text-muted-foreground">
-            Updated {formatUpdatedDate(mockCurrentQuarterUpdatedDate)}
-          </p>
+          <Observed className="text-help">
+            Last written to {formatRecordDate(mockCurrentQuarterUpdatedDate)}
+          </Observed>
         )}
-      </div>
+      </header>
 
-      <section>
-        <div className="flex items-center gap-2">
-          <h2 className="text-sm font-medium text-foreground">
-            Narrative Summary
-          </h2>
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-1">
+          <Eyebrow>What this quarter committed to</Eyebrow>
           {canEdit && (
-            <button
-              type="button"
+            <IconButton
+              label="Edit the quarter narrative"
               onClick={openEditModal}
-              className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
-              aria-label="Edit narrative summary"
+              className="-my-3"
             >
-              <Pencil className="h-4 w-4" />
-            </button>
+              <Icon name="heading" size={16} />
+            </IconButton>
           )}
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {narrativeSummary || "No narrative summary yet."}
-        </p>
+        {narrativeSummary ? (
+          <p className="max-w-prose font-serif text-lede text-foreground">
+            {narrativeSummary}
+          </p>
+        ) : (
+          <p className="max-w-prose text-muted-foreground">
+            Nothing has been written about this quarter yet.
+          </p>
+        )}
       </section>
 
-      <section>
-        <h2 className="text-sm font-medium text-foreground">
-          Anchored outcomes
-        </h2>
-        <ul className="mt-3 space-y-4">
-          {anchoredOutcomes.map((outcome) => (
-            <OutcomeCard key={outcome.id} outcome={outcome} />
-          ))}
-        </ul>
+      <section className="flex flex-col gap-4">
+        <Eyebrow>Anchored</Eyebrow>
+        {anchoredOutcomes.length === 0 ? (
+          <EmptyState
+            title="Nothing anchored yet"
+            observed="Nothing observed to contradict"
+          >
+            A quarter with no anchored outcome has no direction to drift from.
+          </EmptyState>
+        ) : (
+          <ul className="flex flex-col gap-3">
+            {anchoredOutcomes.map((outcome) => (
+              <AnchoredOutcome key={outcome.id} outcome={outcome} />
+            ))}
+          </ul>
+        )}
       </section>
 
-      <section>
-        <h2 className="text-sm font-medium text-foreground">Adrift</h2>
-        <ul className="mt-3 space-y-4">
-          {adriftOutcomes.map((outcome) => (
-            <AdriftCard key={outcome.id} outcome={outcome} />
-          ))}
-        </ul>
-      </section>
+      {tradedAwayOutcomes.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <Eyebrow>Traded away</Eyebrow>
+          <ul className="flex flex-col gap-3">
+            {tradedAwayOutcomes.map((outcome) => (
+              <TradedAwayOutcome key={outcome.id} outcome={outcome} />
+            ))}
+          </ul>
+        </section>
+      )}
 
       {orderedQuarters.length > 1 && (
         <nav
-          className="flex items-center justify-center gap-6 border-t border-border pt-6"
-          aria-label="Quarter timeline"
+          className="flex flex-wrap items-center justify-center gap-6 border-t border-border pt-7"
+          aria-label="Quarters in the record"
         >
           {prevQuarter && (
             <button
               type="button"
               onClick={() => selectQuarter(prevQuarter)}
-              className={`inline-flex items-center gap-1 text-sm font-medium ${
+              aria-current={
+                selectedQuarterId === prevQuarter.id ? "true" : undefined
+              }
+              className={`inline-flex items-center gap-1.5 text-control font-medium ${
                 selectedQuarterId === prevQuarter.id
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <ChevronLeft className="h-4 w-4" aria-hidden />
+              <Icon name="chevron" size={14} className="rotate-180" />
               {prevQuarter.label}
             </button>
           )}
           <button
             type="button"
             onClick={() => selectQuarter(currentQuarter)}
-            className={`text-sm font-medium ${
+            aria-current={
+              selectedQuarterId === currentQuarterId ? "true" : undefined
+            }
+            className={`text-control font-medium ${
               selectedQuarterId === currentQuarterId
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {currentQuarter.label} (Current)
+            {currentQuarter.label} · current
           </button>
           {nextQuarter && (
             <button
               type="button"
               onClick={() => selectQuarter(nextQuarter)}
-              className={`inline-flex items-center gap-1 text-sm font-medium ${
+              aria-current={
+                selectedQuarterId === nextQuarter.id ? "true" : undefined
+              }
+              className={`inline-flex items-center gap-1.5 text-control font-medium ${
                 selectedQuarterId === nextQuarter.id
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {nextQuarter.label}
-              <ChevronRight className="h-4 w-4" aria-hidden />
+              <Icon name="chevron" size={14} />
             </button>
           )}
         </nav>
       )}
 
-      {modalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="narrative-modal-title"
-        >
-          <div className="w-full max-w-lg rounded-lg border border-border bg-background p-4 shadow-lg">
-            <h3
-              id="narrative-modal-title"
-              className="text-sm font-medium text-foreground"
-            >
-              Edit narrative summary
-            </h3>
-            <textarea
-              value={editDraft}
-              onChange={(e) => setEditDraft(e.target.value)}
-              className="mt-3 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              rows={5}
-              placeholder="Quarter narrative summary…"
-            />
-            <div className="mt-4 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={closeModal}
-                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={saveNarrative}
-                className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        open={modalOpen}
+        onClose={closeModal}
+        title="What this quarter committed to"
+        description={`Written to the record for ${quarter.label}. It is read by everyone who missed the meeting.`}
+        footer={
+          <>
+            <Button variant="outline" onClick={closeModal}>
+              Discard this draft
+            </Button>
+            <Button onClick={recordNarrative}>Record this decision</Button>
+          </>
+        }
+      >
+        <Textarea
+          id="quarter-narrative"
+          label="The quarter, in a paragraph"
+          value={editDraft}
+          onChange={(e) => setEditDraft(e.target.value)}
+          rows={5}
+          placeholder="What this quarter committed to, and what it traded away…"
+          help="One sentence earns its second by adding a fact."
+        />
+      </Modal>
     </div>
   );
 }

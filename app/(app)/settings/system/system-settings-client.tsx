@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 
 import { useTheme } from "next-themes";
 
+import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/card";
+import { Observed } from "@/components/ui/chip";
+import { Select } from "@/components/ui/field";
+import { EmptyState } from "@/components/ui/table";
 import { useToast } from "@/components/ui/toast";
 import { useDemoData } from "@/lib/demo-data-context";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  /** Primary chat platform label for the health chip (e.g. Slack, Microsoft Teams). */
+  /** Primary chat platform label (e.g. Slack, Microsoft Teams). */
   chatIntegrationLabel: string;
 };
 
@@ -17,17 +22,17 @@ const MOCK_RECENT_EVENTS = [
   {
     id: "1",
     at: "2026-03-12T10:30:00Z",
-    message: "Outcome out-1 status updated to Anchored",
+    message: "Outcome out-1 anchored",
   },
   {
     id: "2",
     at: "2026-03-12T09:15:00Z",
-    message: "Quarter narrative saved",
+    message: "Quarter narrative written to the record",
   },
   {
     id: "3",
     at: "2026-03-11T16:00:00Z",
-    message: "Integration sync completed",
+    message: "Read 42 messages across 3 channels",
   },
 ];
 
@@ -38,16 +43,8 @@ function formatEventTime(iso: string) {
   const now = new Date();
   const sameDay = d.toDateString() === now.toDateString();
   return sameDay
-    ? d.toLocaleTimeString(undefined, {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : d.toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+    ? d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })
+    : d.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
 }
 
 export function SystemSettingsClient({ chatIntegrationLabel }: Props) {
@@ -60,157 +57,155 @@ export function SystemSettingsClient({ chatIntegrationLabel }: Props) {
     setAppearanceMounted(true);
   }, []);
 
-  const healthItems = [
-    { id: "db", label: "DB", status: "Healthy" as const },
-    {
-      id: "chat",
-      label: chatIntegrationLabel,
-      status: "Healthy" as const,
-    },
-    { id: "drive", label: "Drive", status: "Healthy" as const },
-    { id: "llm", label: "LLM", status: "Healthy" as const },
+  /**
+   * Reachability is observed, not authored — Helm noticed it, nobody typed it
+   * — so it takes verdigris and the ring. There is deliberately no green dot
+   * and no "Healthy" label: a traffic-light tile converts a judgement into a
+   * label nobody made, and it is banned by the system.
+   */
+  const sources = [
+    { id: "db", label: "Database" },
+    { id: "chat", label: chatIntegrationLabel },
+    { id: "drive", label: "Google Drive" },
+    { id: "llm", label: "Language model" },
   ];
 
   function handleResetDemoData() {
     resetDemoData();
-    toast("Demo data reset");
+    toast("Demo data reset. The sample quarter reads as it did on first open.");
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium text-foreground">System</h2>
-        <p className="text-sm text-muted-foreground">
-          System configuration, API keys, and diagnostics.
+    <div className="flex flex-col gap-section-compact">
+      <div className="flex flex-col gap-2.5">
+        <Eyebrow>System</Eyebrow>
+        <p className="max-w-prose text-muted-foreground">
+          What Helm can reach, what it has read lately, and how this app looks
+          while you read it.
         </p>
       </div>
 
-      <section className="space-y-2" aria-label="Appearance">
-        <h3 className="text-sm font-medium text-foreground">Appearance</h3>
-        <p className="text-sm text-muted-foreground">
-          Color theme for the signed-in app. Marketing pages always use light
-          mode.
-        </p>
+      <section className="flex flex-col gap-4" aria-label="Appearance">
+        <Eyebrow tone="muted">Appearance</Eyebrow>
         {!appearanceMounted ? (
-          <p className="text-sm text-muted-foreground">Loading theme options…</p>
+          <p className="text-help text-muted-foreground">Reading the record…</p>
         ) : (
-          <div className="flex flex-wrap items-center gap-3">
-            <label
-              htmlFor="appearance-theme"
-              className="text-sm font-medium text-foreground"
-            >
-              Theme
-            </label>
-            <select
+          <div className="max-w-[280px]">
+            <Select
               id="appearance-theme"
+              label="Theme"
               value={theme ?? "system"}
               onChange={(e) => setTheme(e.target.value)}
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            >
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
+              options={[
+                { value: "system", label: "Match the system" },
+                { value: "light", label: "Chart paper" },
+                { value: "dark", label: "Navy" },
+              ]}
+              help="Applies to the signed-in app. The marketing record is always set on chart paper."
+            />
           </div>
         )}
       </section>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            role="switch"
-            aria-checked={demoModeEnabled}
-            aria-label="Demo mode"
-            onClick={() => setDemoModeEnabled(!demoModeEnabled)}
-            className={cn(
-              "relative h-6 w-11 shrink-0 rounded-full border border-border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-              demoModeEnabled ? "bg-primary" : "bg-muted"
-            )}
-          >
-            <span
+      <section className="flex flex-col gap-4" aria-label="Demo mode">
+        <Eyebrow tone="muted">Demo mode</Eyebrow>
+        <div className="flex flex-wrap items-center gap-5">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={demoModeEnabled}
+              aria-label="Demo mode"
+              onClick={() => setDemoModeEnabled(!demoModeEnabled)}
               className={cn(
-                "absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-background shadow transition-transform",
-                demoModeEnabled && "translate-x-5"
+                "relative h-6 w-11 shrink-0 rounded-full border border-border-strong transition-colors duration-quick ease-out",
+                demoModeEnabled ? "bg-primary" : "bg-sunken"
               )}
-            />
-          </button>
-          <span className="text-sm font-medium text-foreground">Demo Mode</span>
-        </div>
-        <button
-          type="button"
-          onClick={handleResetDemoData}
-          disabled={!demoModeEnabled}
-          title={
-            demoModeEnabled
-              ? undefined
-              : "Turn on Demo Mode to reset sample quarters, outcomes, and team data"
-          }
-          className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-50"
-        >
-          Reset Demo Data
-        </button>
-      </div>
-
-      <section className="space-y-2">
-        <h3 className="text-sm font-medium text-foreground">
-          Environment health
-        </h3>
-        <div className="flex flex-wrap gap-3">
-          {healthItems.map(({ id, label, status }) => (
-            <div
-              key={id}
-              className="flex items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-2"
             >
               <span
-                className="h-2 w-2 rounded-full bg-green-600"
-                aria-hidden
+                className={cn(
+                  "absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-card shadow-e1 transition-transform duration-quick ease-out",
+                  demoModeEnabled && "translate-x-5"
+                )}
               />
-              <span className="text-sm font-medium text-foreground">{label}</span>
-              <span className="text-xs text-muted-foreground">{status}</span>
-            </div>
+            </button>
+            <span className="text-control font-medium text-foreground">
+              Read a sample quarter
+            </span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleResetDemoData}
+            disabled={!demoModeEnabled}
+            title={
+              demoModeEnabled
+                ? undefined
+                : "Demo mode is off, so there is no sample record to reset."
+            }
+          >
+            Reset the sample record
+          </Button>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <Eyebrow tone="muted">What Helm can reach</Eyebrow>
+        <ul className="flex flex-col divide-y divide-border border-y border-border">
+          {sources.map(({ id, label }) => (
+            <li
+              key={id}
+              className="flex flex-wrap items-center justify-between gap-3 py-3"
+            >
+              <span className="text-control text-foreground">{label}</span>
+              <Observed className="text-help">
+                Last reached four minutes ago
+              </Observed>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section className="space-y-2">
-        <h3 className="text-sm font-medium text-foreground">Recent events</h3>
-        <div className="rounded-md border border-border">
-          {!demoModeEnabled || MOCK_RECENT_EVENTS.length === 0 ? (
-            <p className="p-4 text-sm text-muted-foreground">No recent events.</p>
-          ) : (
-            <ul className="divide-y divide-border">
-              {MOCK_RECENT_EVENTS.map((e) => (
-                <li key={e.id} className="flex gap-3 px-4 py-2 text-sm">
-                  <span className="shrink-0 text-muted-foreground">
-                    {formatEventTime(e.at)}
-                  </span>
-                  <span className="text-foreground">{e.message}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      <section className="flex flex-col gap-4">
+        <Eyebrow tone="muted">What Helm noticed</Eyebrow>
+        {!demoModeEnabled || MOCK_RECENT_EVENTS.length === 0 ? (
+          <EmptyState title="Nothing observed yet">
+            Helm writes here when it reads something that touches the record.
+          </EmptyState>
+        ) : (
+          <ol className="flex flex-col divide-y divide-border border-y border-border">
+            {MOCK_RECENT_EVENTS.map((e) => (
+              <li key={e.id} className="flex gap-4 py-3">
+                <span className="w-16 shrink-0 font-mono text-[12px] text-subtle-foreground">
+                  {formatEventTime(e.at)}
+                </span>
+                <Observed className="text-control">{e.message}</Observed>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
 
-      <section className="space-y-2">
-        <h3 className="text-sm font-medium text-foreground">Recent errors</h3>
-        <div className="rounded-md border border-border">
-          {!demoModeEnabled || MOCK_RECENT_ERRORS.length === 0 ? (
-            <p className="p-4 text-sm text-muted-foreground">No recent errors.</p>
-          ) : (
-            <ul className="divide-y divide-border">
-              {MOCK_RECENT_ERRORS.map((e) => (
-                <li key={e.id} className="flex gap-3 px-4 py-2 text-sm">
-                  <span className="shrink-0 text-muted-foreground">
-                    {formatEventTime(e.at)}
-                  </span>
-                  <span className="text-destructive">{e.message}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      <section className="flex flex-col gap-4">
+        <Eyebrow tone="muted">What failed</Eyebrow>
+        {!demoModeEnabled || MOCK_RECENT_ERRORS.length === 0 ? (
+          <EmptyState title="Nothing has failed">
+            Every read Helm attempted since this quarter opened returned.
+          </EmptyState>
+        ) : (
+          <ol className="flex flex-col divide-y divide-border border-y border-border">
+            {MOCK_RECENT_ERRORS.map((e) => (
+              <li key={e.id} className="flex gap-4 py-3">
+                <span className="w-16 shrink-0 font-mono text-[12px] text-subtle-foreground">
+                  {formatEventTime(e.at)}
+                </span>
+                <span className="text-control text-destructive">
+                  {e.message}
+                </span>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
     </div>
   );

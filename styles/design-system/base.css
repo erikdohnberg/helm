@@ -1,0 +1,93 @@
+/* Helm — base rules that belong to the system rather than to any one screen.
+ * Everything here is a consequence of a rule in the specification; if you are
+ * tempted to add something, check `lib/design/README.md` first. */
+
+/* ── Focus & accessibility baseline ──────────────────────────────────────
+ * A two-part ring: a 2px ink ring with a 2px background-coloured offset, so
+ * it reads on chart paper, on sunken and on navy alike. Never animated — it
+ * must be there the frame the key lands. Focus is not optional and not a
+ * polish-pass concern, so it is applied to every interactive element by
+ * default rather than opted into per component. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  transition-duration: var(--dur-instant);
+}
+
+/* Links carry the ink of the record, not a system blue. */
+a {
+  color: inherit;
+}
+
+/* ── Motion ──────────────────────────────────────────────────────────────
+ * Used by the loading skeleton. Reading the record is not entertainment, so
+ * the sweep is slow and single-axis. */
+@keyframes helm-shimmer {
+  0% {
+    background-position: -220px 0;
+  }
+  100% {
+    background-position: 220px 0;
+  }
+}
+
+/* Drift arrives slowly enough that the change is witnessed. */
+@keyframes helm-drift-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────
+ * All four durations collapse to opacity-only. No exceptions, including the
+ * drift flag. (tokens/motion.css carries the duration clamp; this removes the
+ * geometry so nothing translates at 1ms.) */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes helm-drift-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* ── Log surface ─────────────────────────────────────────────────────────
+ * The marketing site, the quarterly record and a printed board pack are the
+ * same surface at reading scale: a ruled margin rail carrying numbered
+ * entries, hairline rows in place of cards, 2px radius on everything
+ * including buttons. Drop the rail or the radius and it reverts to a
+ * conventional marketing page. */
+.log-surface {
+  --radius: var(--radius-log);
+}
+
+/* Roman enumeration — lists that enumerate cases or steps. Arabic numerals
+ * stay reserved for entry numbers and real quantities so the two never blur. */
+.log-roman {
+  list-style: lower-roman;
+}
+
+.log-roman > li::marker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--subtle-foreground);
+}
+
+/* ── Print ───────────────────────────────────────────────────────────────
+ * A board pack is a first-class output of a record. */
+@media print {
+  .log-surface {
+    background: #fff;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+}

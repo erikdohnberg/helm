@@ -1,8 +1,29 @@
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { Eyebrow, RecordTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/table";
+
 export default function DashboardPage() {
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-medium text-foreground">App</h1>
-      <p className="mt-2 text-muted-foreground">Authenticated app area.</p>
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-3">
+        <Eyebrow>Signed in</Eyebrow>
+        <RecordTitle as="h1" level="page">
+          There is no dashboard
+        </RecordTitle>
+      </header>
+      <EmptyState
+        title="Helm keeps a record, not a dashboard"
+        action={
+          <Link href="/quarter">
+            <Button>Read the quarter</Button>
+          </Link>
+        }
+      >
+        The quarter as recorded is the screen this product is about. Everything
+        else serves it.
+      </EmptyState>
     </div>
   );
 }

@@ -1,0 +1,13 @@
+/* Helm — state & attribution utilities.
+ * Status is carried by a stroke vocabulary at the left edge, never by colour.
+ * Each utility applies to the card root and pairs with its instrument glyph. */
+.state-anchored{border-left:3px solid var(--foreground)}                 /* anchor */
+.state-additive{border-left:3px solid transparent;background-image:linear-gradient(var(--ink-400) 0 38%, transparent 38%);background-size:3px 100%;background-repeat:no-repeat} /* half-mast */
+.state-replaced{border-left:3px dotted var(--ink-300);opacity:.72}       /* strike */
+.state-attached{margin-left:2.125rem;border-left:0}                      /* shackle */
+.state-drift{border-left:3px solid var(--drift);border-color:var(--drift)} /* bearing off */
+
+/* Attribution — verdigris marks what Helm observed; navy ink marks what a
+ * person said. Always prefix an observed string with the 7px hollow ring. */
+.observed{color:var(--sea)}
+.observed-ring{display:inline-block;width:7px;height:7px;border:1.5px solid currentColor;border-radius:var(--radius-full);flex:none;transform:translateY(-1px)}

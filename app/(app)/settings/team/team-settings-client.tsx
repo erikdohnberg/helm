@@ -3,6 +3,12 @@
 import { useCallback, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/card";
+import { Chip } from "@/components/ui/chip";
+import { Input } from "@/components/ui/field";
+import { Modal } from "@/components/ui/modal";
+import { EmptyState, Table, type TableColumn } from "@/components/ui/table";
 import { useToast } from "@/components/ui/toast";
 import {
   createOrgTeam,
@@ -21,7 +27,6 @@ import {
   type ChatPlatformId,
 } from "@/lib/integrations/chat-platforms";
 import { resolveChatUserProfile } from "@/lib/mock/slack-user-display-name";
-import { cn } from "@/lib/utils";
 
 type Props = {
   orgId: string | null;
@@ -31,6 +36,10 @@ type Props = {
   initialStandaloneTeams: OrgTeamListRow[];
   primaryChatPlatform: ChatPlatformId;
 };
+
+/** Errors name the cause and the next move, and never blame the person. */
+const CONNECTION_DROPPED =
+  "Not recorded — the connection dropped. Your text is still here; try again.";
 
 function memberDisplayName(row: OrgMemberListRow): string {
   const named = row.name?.trim();
@@ -42,6 +51,8 @@ function memberDisplayName(row: OrgMemberListRow): string {
 
 type DialogMode = "add-standalone" | "edit-member" | "edit-standalone";
 
+type TeamRow = Record<string, React.ReactNode>;
+
 function LeaderCell({
   displayName,
   imageUrl,
@@ -49,9 +60,7 @@ function LeaderCell({
   displayName: string | null;
   imageUrl: string | null;
 }) {
-  if (!displayName && !imageUrl) {
-    return <span className="text-muted-foreground">—</span>;
-  }
+  if (!displayName && !imageUrl) return null;
   return (
     <div className="flex items-center gap-2">
       {imageUrl ? (
@@ -59,12 +68,12 @@ function LeaderCell({
         <img
           src={imageUrl}
           alt=""
-          width={32}
-          height={32}
-          className="h-8 w-8 shrink-0 rounded-full border border-border bg-muted object-cover"
+          width={28}
+          height={28}
+          className="h-7 w-7 shrink-0 rounded-full border border-border bg-sunken object-cover"
         />
       ) : null}
-      <span className="text-foreground">{displayName ?? "—"}</span>
+      <span>{displayName ?? "—"}</span>
     </div>
   );
 }
@@ -98,6 +107,7 @@ export function TeamSettingsClient({
   const [formChatId, setFormChatId] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
+  const chatIdLabel = getChatMemberIdFieldLabel(primaryChatPlatform);
   const totalRows = initialMembers.length + initialStandaloneTeams.length;
   const allSelected =
     totalRows > 0 &&
@@ -173,32 +183,36 @@ export function TeamSettingsClient({
     const teamTrim = formTeamName.trim();
     const chatTrim = formChatId.trim();
     if (!teamTrim) {
-      setFormError("Team name is required.");
+      setFormError("A team needs a name before it can be recorded.");
       return;
     }
     if (!chatTrim) {
-      setFormError("Chat user ID is required.");
+      setFormError(
+        `A team needs a ${chatIdLabel.toLowerCase()} so Helm knows where to read.`
+      );
       return;
     }
+
+    /* Names the cause and the next move without naming a culprit. */
+    const notFound =
+      "No user found for that ID. In demo, Slack IDs are U01ABC, U02DEF and U03GHI.";
 
     if (dialogMode === "add-standalone") {
       const profile = resolveChatUserProfile(primaryChatPlatform, chatTrim);
       if (primaryChatPlatform === "slack" && !profile) {
-        setFormError(
-          "No user found for that ID. In demo for Slack, try U01ABC, U02DEF, or U03GHI."
-        );
+        setFormError(notFound);
         return;
       }
       startTransition(async () => {
         try {
           await createOrgTeam(orgId, { name: teamTrim, chatUserId: chatTrim });
-          toast("Team added");
+          toast(`Recorded. ${teamTrim} now stands in the org.`);
           closeDialog();
           setSelectedMemberIds(new Set());
           setSelectedTeamIds(new Set());
           router.refresh();
         } catch (e) {
-          toast(e instanceof Error ? e.message : "Could not add team");
+          toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
         }
       });
       return;
@@ -207,9 +221,7 @@ export function TeamSettingsClient({
     if (dialogMode === "edit-standalone" && formStandaloneTeamId) {
       const profile = resolveChatUserProfile(primaryChatPlatform, chatTrim);
       if (primaryChatPlatform === "slack" && !profile) {
-        setFormError(
-          "No user found for that ID. In demo for Slack, try U01ABC, U02DEF, or U03GHI."
-        );
+        setFormError(notFound);
         return;
       }
       startTransition(async () => {
@@ -218,11 +230,11 @@ export function TeamSettingsClient({
             name: teamTrim,
             chatUserId: chatTrim,
           });
-          toast("Team updated");
+          toast(`Recorded. ${teamTrim} is now what the record says.`);
           closeDialog();
           router.refresh();
         } catch (e) {
-          toast(e instanceof Error ? e.message : "Could not update team");
+          toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
         }
       });
       return;
@@ -231,9 +243,7 @@ export function TeamSettingsClient({
     if (dialogMode === "edit-member") {
       const profile = resolveChatUserProfile(primaryChatPlatform, chatTrim);
       if (primaryChatPlatform === "slack" && !profile) {
-        setFormError(
-          "No user found for that ID. In demo for Slack, try U01ABC, U02DEF, or U03GHI."
-        );
+        setFormError(notFound);
         return;
       }
       startTransition(async () => {
@@ -242,11 +252,11 @@ export function TeamSettingsClient({
             leadTeamName: teamTrim,
             slackUserId: chatTrim,
           });
-          toast("Team details saved");
+          toast(`Recorded. ${teamTrim} is now on this member's row.`);
           closeDialog();
           router.refresh();
         } catch (e) {
-          toast(e instanceof Error ? e.message : "Could not save");
+          toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
         }
       });
     }
@@ -258,6 +268,7 @@ export function TeamSettingsClient({
     formTeamName,
     formChatId,
     primaryChatPlatform,
+    chatIdLabel,
     toast,
     closeDialog,
     router,
@@ -270,6 +281,7 @@ export function TeamSettingsClient({
     );
     const teamTargets = [...selectedTeamIds];
     if (memberTargets.length === 0 && teamTargets.length === 0) return;
+    const count = memberTargets.length + teamTargets.length;
 
     startTransition(async () => {
       try {
@@ -279,12 +291,16 @@ export function TeamSettingsClient({
         if (teamTargets.length > 0) {
           await deleteOrgTeams(orgId, teamTargets);
         }
-        toast("Removed selected team data");
+        toast(
+          count === 1
+            ? "Removed. One row no longer carries team details."
+            : `Removed. ${count} rows no longer carry team details.`
+        );
         setSelectedMemberIds(new Set());
         setSelectedTeamIds(new Set());
         router.refresh();
       } catch (e) {
-        toast(e instanceof Error ? e.message : "Could not remove");
+        toast(e instanceof Error ? e.message : CONNECTION_DROPPED, "error");
       }
     });
   }, [
@@ -308,365 +324,266 @@ export function TeamSettingsClient({
 
   const hasRows = totalRows > 0;
 
+  /* Compact density — settings tables are the one place it is permitted. */
+  const columns: TableColumn<TeamRow>[] = [
+    ...(viewerIsOwner
+      ? [
+          {
+            key: "select",
+            label: (
+              <label className="flex h-4 w-4 items-center">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={selectAll}
+                  aria-label="Select every row"
+                  className="h-4 w-4 rounded-sm accent-navy"
+                />
+              </label>
+            ),
+          } as TableColumn<TeamRow>,
+        ]
+      : []),
+    { key: "member", label: "Member" },
+    { key: "team", label: "Team" },
+    { key: "leader", label: "Leader" },
+    { key: "chatId", label: chatIdLabel, mono: true },
+    { key: "role", label: "Role" },
+    { key: "action", label: <span className="sr-only">Edit</span>, align: "right" },
+  ];
+
+  const rows: TeamRow[] = [
+    ...initialMembers.map((row): TeamRow => {
+      const profile = row.slackUserId?.trim()
+        ? resolveChatUserProfile(primaryChatPlatform, row.slackUserId)
+        : null;
+      const canEdit = viewerIsOwner || row.userId === currentUserId;
+      const complete =
+        !!row.leadTeamName?.trim() && !!row.slackUserId?.trim();
+
+      return {
+        select: viewerIsOwner ? (
+          <input
+            type="checkbox"
+            checked={selectedMemberIds.has(row.id)}
+            onChange={() => toggleMemberSelect(row.id)}
+            aria-label={`Select ${memberDisplayName(row)}`}
+            className="h-4 w-4 rounded-sm accent-navy"
+          />
+        ) : null,
+        member: (
+          <div className="flex flex-col">
+            <span className="text-foreground">{memberDisplayName(row)}</span>
+            {row.email ? (
+              <span className="text-[12.5px] text-subtle-foreground">
+                {row.email}
+                {currentUserId === row.userId ? " · you" : ""}
+              </span>
+            ) : null}
+          </div>
+        ),
+        team: row.leadTeamName?.trim() || "",
+        leader: (
+          <LeaderCell
+            displayName={profile?.displayName ?? null}
+            imageUrl={profile?.imageUrl ?? null}
+          />
+        ),
+        chatId: row.slackUserId?.trim() || "",
+        role: row.role === "owner" ? <Chip variant="outline" label="Admin" /> : "",
+        action: canEdit ? (
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={isPending}
+            onClick={() => openEditMemberDialog(row)}
+          >
+            {complete ? "Edit" : "Add details"}
+          </Button>
+        ) : null,
+      };
+    }),
+    ...initialStandaloneTeams.map(
+      (row): TeamRow => ({
+        select: viewerIsOwner ? (
+          <input
+            type="checkbox"
+            checked={selectedTeamIds.has(row.id)}
+            onChange={() => toggleTeamSelect(row.id)}
+            aria-label={`Select the ${row.name} team`}
+            className="h-4 w-4 rounded-sm accent-navy"
+          />
+        ) : null,
+        member: (
+          <span className="text-[12.5px] text-subtle-foreground">
+            Not a Helm member
+          </span>
+        ),
+        team: row.name,
+        leader: (
+          <LeaderCell
+            displayName={row.chatDisplayName}
+            imageUrl={row.chatImageUrl}
+          />
+        ),
+        chatId: row.chatUserId,
+        role: "",
+        action: viewerIsOwner ? (
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={isPending}
+            onClick={() => openEditStandaloneDialog(row)}
+          >
+            Edit
+          </Button>
+        ) : null,
+      })
+    ),
+  ];
+
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-lg font-medium text-foreground">Teams</h2>
-        <p className="text-sm text-muted-foreground">
-          Helm members can be linked to a team and {getChatPlatformLabel(primaryChatPlatform)}{" "}
-          ID. Add team only needs a team name and chat user ID—we resolve the leader’s name and
-          profile image when the platform supports it (demo: Slack sample IDs only). Admins have an
-          Admin badge on member rows.
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-2.5">
+        <Eyebrow>Teams</Eyebrow>
+        <p className="max-w-prose text-muted-foreground">
+          A member is linked to a team and a{" "}
+          {getChatPlatformLabel(primaryChatPlatform)} ID so Helm knows whose
+          work it is reading. A team needs only a name and an ID — the
+          leader&rsquo;s name and picture are resolved where the platform
+          supports it.
         </p>
       </div>
 
       {!orgId ? (
-        <p className="text-sm text-muted-foreground">
-          Sign in to see your organization’s teams.
-        </p>
+        <EmptyState title="No organization on this session">
+          Sign in to read your organization&rsquo;s teams.
+        </EmptyState>
       ) : !hasRows ? (
-        <p className="text-sm text-muted-foreground">
-          No teams yet. Admins can use Add team with a team name and chat user ID (no Helm member
-          required), or add teammates who already belong to the org and use Add details on their row.
-        </p>
-      ) : null}
+        <EmptyState
+          title="No teams on the record"
+          action={
+            viewerIsOwner ? (
+              <Button onClick={openAddStandaloneDialog} disabled={isPending}>
+                Add a team
+              </Button>
+            ) : undefined
+          }
+        >
+          Helm attributes work to a team by its chat ID. Without one, activity
+          arrives unattributed.
+        </EmptyState>
+      ) : (
+        <Table
+          caption="Members and teams in this organization"
+          columns={columns}
+          rows={rows}
+        />
+      )}
 
       {orgId && hasRows ? (
-        <>
-          <div className="rounded-md border border-border">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-border bg-muted/50">
-                  {viewerIsOwner ? (
-                    <th className="w-10 p-3">
-                      <input
-                        type="checkbox"
-                        checked={allSelected}
-                        onChange={selectAll}
-                        aria-label="Select all rows"
-                        className="rounded border-border"
-                      />
-                    </th>
-                  ) : null}
-                  <th className="p-3 font-medium text-foreground">Member</th>
-                  <th className="p-3 font-medium text-foreground">Team</th>
-                  <th className="p-3 font-medium text-foreground">Leader</th>
-                  <th className="p-3 font-medium text-foreground">
-                    {getChatMemberIdFieldLabel(primaryChatPlatform)}
-                  </th>
-                  <th className="p-3 font-medium text-foreground">Admin</th>
-                  <th className="p-3 font-medium text-foreground w-28">
-                    <span className="sr-only">Edit</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {initialMembers.map((row) => {
-                  const profile = row.slackUserId?.trim()
-                    ? resolveChatUserProfile(
-                        primaryChatPlatform,
-                        row.slackUserId
-                      )
-                    : null;
-                  const isAdmin = row.role === "owner";
-                  return (
-                    <tr
-                      key={`m-${row.id}`}
-                      className={cn(
-                        "border-b border-border last:border-b-0",
-                        selectedMemberIds.has(row.id) && "bg-muted/30"
-                      )}
-                    >
-                      {viewerIsOwner ? (
-                        <td className="p-3">
-                          <input
-                            type="checkbox"
-                            checked={selectedMemberIds.has(row.id)}
-                            onChange={() => toggleMemberSelect(row.id)}
-                            aria-label={`Select ${memberDisplayName(row)}`}
-                            className="rounded border-border"
-                          />
-                        </td>
-                      ) : null}
-                      <td className="p-3">
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-foreground">
-                            {memberDisplayName(row)}
-                          </span>
-                          {row.email ? (
-                            <span className="text-xs text-muted-foreground">
-                              {row.email}
-                            </span>
-                          ) : null}
-                          {currentUserId === row.userId ? (
-                            <span className="text-xs text-muted-foreground">
-                              (you)
-                            </span>
-                          ) : null}
-                        </div>
-                      </td>
-                      <td className="p-3 text-foreground">
-                        {row.leadTeamName?.trim() || "—"}
-                      </td>
-                      <td className="p-3">
-                        <LeaderCell
-                          displayName={profile?.displayName ?? null}
-                          imageUrl={profile?.imageUrl ?? null}
-                        />
-                      </td>
-                      <td className="p-3 text-muted-foreground font-mono text-xs">
-                        {row.slackUserId?.trim() || "—"}
-                      </td>
-                      <td className="p-3">
-                        {isAdmin ? (
-                          <span
-                            className="inline-flex rounded-md border border-border bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground"
-                            title="Organization admin"
-                          >
-                            Admin
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground">—</span>
-                        )}
-                      </td>
-                      <td className="p-3">
-                        {(viewerIsOwner || row.userId === currentUserId) &&
-                        row.leadTeamName?.trim() &&
-                        row.slackUserId?.trim() ? (
-                          <button
-                            type="button"
-                            disabled={isPending}
-                            onClick={() => openEditMemberDialog(row)}
-                            className="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50"
-                          >
-                            Edit
-                          </button>
-                        ) : (viewerIsOwner || row.userId === currentUserId) &&
-                          (!row.leadTeamName?.trim() ||
-                            !row.slackUserId?.trim()) ? (
-                          <button
-                            type="button"
-                            disabled={isPending}
-                            onClick={() => openEditMemberDialog(row)}
-                            className="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50"
-                          >
-                            Add details
-                          </button>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">
-                            —
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-                {initialStandaloneTeams.map((row) => (
-                  <tr
-                    key={`t-${row.id}`}
-                    className={cn(
-                      "border-b border-border last:border-b-0",
-                      selectedTeamIds.has(row.id) && "bg-muted/30"
-                    )}
-                  >
-                    {viewerIsOwner ? (
-                      <td className="p-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedTeamIds.has(row.id)}
-                          onChange={() => toggleTeamSelect(row.id)}
-                          aria-label={`Select team ${row.name}`}
-                          className="rounded border-border"
-                        />
-                      </td>
-                    ) : null}
-                    <td className="p-3 text-muted-foreground">
-                      <span className="text-xs">Not a Helm member</span>
-                    </td>
-                    <td className="p-3 text-foreground">{row.name}</td>
-                    <td className="p-3">
-                      <LeaderCell
-                        displayName={row.chatDisplayName}
-                        imageUrl={row.chatImageUrl}
-                      />
-                    </td>
-                    <td className="p-3 text-muted-foreground font-mono text-xs">
-                      {row.chatUserId}
-                    </td>
-                    <td className="p-3 text-muted-foreground">—</td>
-                    <td className="p-3">
-                      {viewerIsOwner ? (
-                        <button
-                          type="button"
-                          disabled={isPending}
-                          onClick={() => openEditStandaloneDialog(row)}
-                          className="rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground hover:bg-muted/50 disabled:opacity-50"
-                        >
-                          Edit
-                        </button>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ) : null}
-
-      {orgId ? (
         <div className="flex flex-wrap gap-2">
           {viewerIsOwner ? (
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onClick={openAddStandaloneDialog}
               disabled={isPending}
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none"
             >
-              Add team
-            </button>
+              Add a team
+            </Button>
           ) : null}
           {viewerIsOwner ? (
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onClick={removeSelected}
               disabled={
                 isPending ||
                 (selectedMemberIds.size === 0 && selectedTeamIds.size === 0)
               }
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50 disabled:pointer-events-none"
             >
-              Remove selected
-            </button>
+              Remove the selected rows
+            </Button>
           ) : null}
           {canEditMemberSelection ? (
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() =>
                 singleSelectedMember &&
                 openEditMemberDialog(singleSelectedMember)
               }
               disabled={isPending}
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50 disabled:opacity-50"
             >
-              Edit selected member
-            </button>
+              Edit the selected member
+            </Button>
           ) : null}
         </div>
       ) : null}
 
-      {dialogOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <button
-            type="button"
-            aria-label="Close dialog"
-            className="absolute inset-0 bg-black/50"
-            onClick={closeDialog}
+      <Modal
+        open={dialogOpen}
+        onClose={closeDialog}
+        width="460px"
+        title={
+          dialogMode === "add-standalone"
+            ? "Add a team"
+            : dialogMode === "edit-standalone"
+              ? "Edit this team"
+              : "Edit this member's team"
+        }
+        description={`Helm reads work under this ${chatIdLabel.toLowerCase()} and attributes it to the team.`}
+        footer={
+          <>
+            <Button variant="outline" onClick={closeDialog} disabled={isPending}>
+              Discard this draft
+            </Button>
+            <Button onClick={submitDialog} disabled={isPending}>
+              {isPending ? "Recording…" : "Record this decision"}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-field">
+          {dialogMode === "edit-member" ? (
+            <div className="flex flex-col gap-[7px]">
+              <span className="text-[13px] font-semibold text-foreground">
+                Member
+              </span>
+              <p className="text-control text-muted-foreground">
+                {(() => {
+                  const mem = initialMembers.find(
+                    (m) => m.userId === formUserId
+                  );
+                  return mem ? memberDisplayName(mem) : "—";
+                })()}
+              </p>
+            </div>
+          ) : null}
+          <Input
+            id="team-dialog-name"
+            label="Team name"
+            value={formTeamName}
+            onChange={(e) => setFormTeamName(e.target.value)}
+            placeholder="Product"
+            disabled={isPending}
+            help="Shown on the outcome charter."
           />
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="team-dialog-title"
-            className="relative z-10 w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg"
-          >
-            <h2
-              id="team-dialog-title"
-              className="text-sm font-medium text-foreground"
-            >
-              {dialogMode === "add-standalone"
-                ? "Add team"
-                : dialogMode === "edit-standalone"
-                  ? "Edit team"
-                  : "Edit member team"}
-            </h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {dialogMode === "add-standalone"
-                ? `Enter the team name and ${getChatMemberIdFieldLabel(primaryChatPlatform).toLowerCase()}. We’ll look up the leader’s name and profile image when supported.`
-                : `Team name and ${getChatMemberIdFieldLabel(primaryChatPlatform).toLowerCase()}. Leader is filled when we can resolve the ID (demo: Slack map only).`}
-            </p>
-
-            <div className="mt-4 space-y-3">
-              {dialogMode === "edit-member" ? (
-                <div>
-                  <span className="block text-sm font-medium text-foreground">
-                    Member
-                  </span>
-                  <p className="mt-1.5 text-sm text-muted-foreground">
-                    {(() => {
-                      const mem = initialMembers.find(
-                        (m) => m.userId === formUserId
-                      );
-                      return mem ? memberDisplayName(mem) : "—";
-                    })()}
-                  </p>
-                </div>
-              ) : null}
-              <div>
-                <label
-                  htmlFor="team-dialog-name"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Team name
-                </label>
-                <input
-                  id="team-dialog-name"
-                  type="text"
-                  value={formTeamName}
-                  onChange={(e) => setFormTeamName(e.target.value)}
-                  placeholder="e.g. Product"
-                  disabled={isPending}
-                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="team-dialog-chat"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  {getChatMemberIdFieldLabel(primaryChatPlatform)}
-                </label>
-                <input
-                  id="team-dialog-chat"
-                  type="text"
-                  value={formChatId}
-                  onChange={(e) => setFormChatId(e.target.value)}
-                  placeholder={
-                    primaryChatPlatform === "slack"
-                      ? "e.g. U01ABC"
-                      : "Platform-specific ID"
-                  }
-                  disabled={isPending}
-                  className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-mono"
-                />
-              </div>
-              {formError ? (
-                <p className="text-sm text-destructive">{formError}</p>
-              ) : null}
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={submitDialog}
-                className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-              >
-                {isPending ? "Saving…" : "Save"}
-              </button>
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={closeDialog}
-                className="rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          <Input
+            id="team-dialog-chat"
+            label={chatIdLabel}
+            mono
+            value={formChatId}
+            onChange={(e) => setFormChatId(e.target.value)}
+            placeholder={
+              primaryChatPlatform === "slack" ? "U01ABC" : "Platform-specific ID"
+            }
+            disabled={isPending}
+            error={formError ?? undefined}
+          />
         </div>
-      )}
+      </Modal>
     </div>
   );
 }

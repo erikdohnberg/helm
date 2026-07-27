@@ -1,3 +1,4 @@
+import { RecordTitle } from "@/components/ui/card";
 import { SettingsTabs } from "@/components/settings/settings-tabs";
 
 export default function SettingsLayout({
@@ -6,11 +7,13 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold text-foreground">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage your team, integrations, and preferences.
+    <div className="flex flex-col gap-7">
+      <div className="flex flex-col gap-2.5">
+        <RecordTitle as="h1" level="page">
+          Settings
+        </RecordTitle>
+        <p className="max-w-prose text-muted-foreground">
+          The organization, the people in it, and what Helm is allowed to read.
         </p>
       </div>
       <SettingsTabs />

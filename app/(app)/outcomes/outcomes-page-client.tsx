@@ -3,9 +3,25 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 
-import { Chip } from "@/components/ui/chip";
+import { Button } from "@/components/ui/button";
+import { Eyebrow, RecordTitle } from "@/components/ui/card";
+import { Chip, Observed } from "@/components/ui/chip";
+import {
+  ExternalLink,
+  Input,
+  RadioOption,
+  Select,
+  Textarea,
+} from "@/components/ui/field";
+import { Modal } from "@/components/ui/modal";
+import { EmptyState } from "@/components/ui/table";
+import { OutcomeCard } from "@/components/outcomes/outcome-card";
+import {
+  formatOutcomeStatus,
+  formatRecordDate,
+  outcomeStateOf,
+} from "@/lib/design/outcome-state";
 import { useDemoData } from "@/lib/demo-data-context";
 import {
   getOutcomeById,
@@ -15,7 +31,6 @@ import {
 import type {
   EntryMode,
   Outcome,
-  OutcomeStatus,
   Quarter,
   SourceType,
 } from "@/lib/types";
@@ -23,131 +38,85 @@ import type {
 /** Quarter order on outcomes page: FY26 Q2, then FY26 Q1, then older. */
 const OUTCOMES_QUARTER_ORDER = ["q-fy26-q2", "q-fy26-q1", "q-fy25-q4"];
 
-function formatStatus(status: OutcomeStatus): string {
-  switch (status) {
-    case "AwaitingAlignment":
-      return "Awaiting alignment";
-    case "InDevelopment":
-      return "In development";
-    default:
-      return status;
-  }
-}
-
-function formatLastActivity(iso: string | null): string {
-  if (!iso) return "—";
-  return new Date(iso + "Z").toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function OutcomeCard({
+function OutcomeEntry({
   outcome,
   quarterLabel,
   chatThreadLinkLabel,
-  onMoveAdrift,
-  onReactivate,
+  onRetire,
+  onReturn,
 }: {
   outcome: Outcome;
   quarterLabel: string;
   chatThreadLinkLabel: string;
-  onMoveAdrift: (outcomeId: string, outcomeTitle: string) => void;
-  onReactivate: (outcomeId: string) => void;
+  onRetire: (outcomeId: string, outcomeTitle: string) => void;
+  onReturn: (outcomeId: string) => void;
 }) {
   const replacedOutcome =
     outcome.entryMode === "Replace" && outcome.replacedOutcomeId
       ? getOutcomeById(outcome.replacedOutcomeId)
       : undefined;
-  const showAdditiveFocusWarning =
-    outcome.entryMode === "Additive" && outcome.focusWarning;
-  const canMoveAdrift = outcome.status !== "Inactive";
-  const canReactivate = outcome.status === "Inactive";
+  const retired = outcome.status === "Inactive";
+  const lastActivity = formatRecordDate(outcome.lastActivityDate);
+
+  const facts = [
+    { label: "Outcome owner", value: outcome.outcomeOwner || "—" },
+    { label: "Decision owner", value: outcome.decisionOwner || "—" },
+  ];
 
   return (
-    <li className="rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm">
-      <div className="flex flex-wrap items-center gap-2">
-        <h3 className="font-medium text-foreground">{outcome.title}</h3>
-        <span className="text-sm text-muted-foreground">{quarterLabel}</span>
-        <Chip label={formatStatus(outcome.status)} />
-      </div>
-      {replacedOutcome && (
-        <p className="mt-2 text-sm text-muted-foreground">
-          Replaces: {replacedOutcome.title}
+    <OutcomeCard
+      state={outcomeStateOf(outcome)}
+      title={outcome.title}
+      quarter={outcome.status === "Anchored" ? quarterLabel : undefined}
+      replaces={replacedOutcome?.title}
+      facts={facts}
+      observed={
+        lastActivity ? `Last activity ${lastActivity}` : "No activity observed"
+      }
+      actions={
+        outcome.status !== "Anchored" && !retired ? (
+          <Chip variant="outline" label={formatOutcomeStatus(outcome.status)} />
+        ) : null
+      }
+      links={
+        <>
+          {outcome.googleDocUrl && (
+            <ExternalLink href={outcome.googleDocUrl}>
+              Open the charter
+            </ExternalLink>
+          )}
+          {outcome.slackThreadUrl && (
+            <ExternalLink href={outcome.slackThreadUrl}>
+              {chatThreadLinkLabel}
+            </ExternalLink>
+          )}
+          {retired ? (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onReturn(outcome.id)}
+            >
+              Return it to the quarter
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onRetire(outcome.id, outcome.title)}
+            >
+              Retire this outcome
+            </Button>
+          )}
+        </>
+      }
+    >
+      {outcome.entryMode === "Additive" && outcome.focusWarning && (
+        <p className="max-w-prose text-help text-muted-foreground">
+          Nothing stopped when this entered {quarterLabel}. The partial rule
+          marks it as additive for the rest of the quarter.
         </p>
       )}
-      {showAdditiveFocusWarning && (
-        <p className="mt-2 text-sm text-muted-foreground">
-          Focus warning: this outcome entered without displacing another
-          priority.
-        </p>
-      )}
-      <dl className="mt-3 grid gap-1 text-sm sm:grid-cols-2">
-        <div>
-          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
-            Outcome owner
-          </dt>
-          <dd className="inline text-muted-foreground">{outcome.outcomeOwner}</dd>
-        </div>
-        <div>
-          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
-            Decision owner
-          </dt>
-          <dd className="inline text-muted-foreground">{outcome.decisionOwner}</dd>
-        </div>
-        <div className="sm:col-span-2">
-          <dt className="inline font-medium text-foreground after:content-[':'] after:mr-1">
-            Last activity
-          </dt>
-          <dd className="inline text-muted-foreground">
-            {formatLastActivity(outcome.lastActivityDate)}
-          </dd>
-        </div>
-      </dl>
-      <div className="mt-3 flex flex-wrap gap-3">
-        {outcome.googleDocUrl && (
-          <a
-            href={outcome.googleDocUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
-          >
-            Google Doc
-            <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
-          </a>
-        )}
-        {outcome.slackThreadUrl && (
-          <a
-            href={outcome.slackThreadUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
-          >
-            {chatThreadLinkLabel}
-            <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
-          </a>
-        )}
-        {canMoveAdrift && (
-          <button
-            type="button"
-            onClick={() => onMoveAdrift(outcome.id, outcome.title)}
-            className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-          >
-            Move Adrift
-          </button>
-        )}
-        {canReactivate && (
-          <button
-            type="button"
-            onClick={() => onReactivate(outcome.id)}
-            className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-          >
-            Reactivate
-          </button>
-        )}
-      </div>
-    </li>
+    </OutcomeCard>
   );
 }
 
@@ -159,17 +128,17 @@ export default function OutcomesPageClient({
   chatThreadLinkLabel: string;
 }) {
   const { resetVersion, demoModeEnabled } = useDemoData();
-  const [adriftRationaleByOutcomeId, setAdriftRationaleByOutcomeId] = useState<
+  const [retireReasonByOutcomeId, setRetireReasonByOutcomeId] = useState<
     Record<string, string>
   >({});
-  const [reactivatedOutcomeIds, setReactivatedOutcomeIds] = useState<Set<string>>(
+  const [returnedOutcomeIds, setReturnedOutcomeIds] = useState<Set<string>>(
     new Set()
   );
-  const [moveAdriftModal, setMoveAdriftModal] = useState<{
+  const [retireModal, setRetireModal] = useState<{
     outcomeId: string;
     outcomeTitle: string;
   } | null>(null);
-  const [rationaleDraft, setRationaleDraft] = useState("");
+  const [reasonDraft, setReasonDraft] = useState("");
   const [newOutcomeModalOpen, setNewOutcomeModalOpen] = useState(false);
   const [newOutcomeStep1, setNewOutcomeStep1] = useState({
     workingTitle: "",
@@ -187,10 +156,10 @@ export default function OutcomesPageClient({
   const [localOutcomes, setLocalOutcomes] = useState<Outcome[]>([]);
 
   useEffect(() => {
-    setAdriftRationaleByOutcomeId({});
-    setReactivatedOutcomeIds(new Set());
-    setMoveAdriftModal(null);
-    setRationaleDraft("");
+    setRetireReasonByOutcomeId({});
+    setReturnedOutcomeIds(new Set());
+    setRetireModal(null);
+    setReasonDraft("");
     setNewOutcomeModalOpen(false);
     setNewOutcomeStep(1);
     setNewOutcomeStep1({
@@ -233,24 +202,17 @@ export default function OutcomesPageClient({
   );
 
   const showGlobalEmpty =
-    !demoModeEnabled &&
-    !workspaceQuarter &&
-    localOutcomes.length === 0;
+    !demoModeEnabled && !workspaceQuarter && localOutcomes.length === 0;
 
   const canCreateOutcome =
-    demoModeEnabled ||
-    !!workspaceQuarter ||
-    localOutcomes.length > 0;
+    demoModeEnabled || !!workspaceQuarter || localOutcomes.length > 0;
 
   const openNewOutcomeModal = useCallback(
     (presetQuarterId?: string) => {
       setNewOutcomeStep(1);
       setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
       const defaultQuarterId =
-        presetQuarterId ??
-        quartersInOrder[0]?.id ??
-        sections[0]?.id ??
-        "";
+        presetQuarterId ?? quartersInOrder[0]?.id ?? sections[0]?.id ?? "";
       setNewOutcomeStep1({
         workingTitle: "",
         quarterId: defaultQuarterId,
@@ -264,42 +226,42 @@ export default function OutcomesPageClient({
     [quartersInOrder, sections]
   );
 
-  function openMoveAdriftModal(outcomeId: string, outcomeTitle: string) {
-    setMoveAdriftModal({ outcomeId, outcomeTitle });
-    setRationaleDraft("");
+  function openRetireModal(outcomeId: string, outcomeTitle: string) {
+    setRetireModal({ outcomeId, outcomeTitle });
+    setReasonDraft("");
   }
 
-  function closeMoveAdriftModal() {
-    setMoveAdriftModal(null);
-    setRationaleDraft("");
+  function closeRetireModal() {
+    setRetireModal(null);
+    setReasonDraft("");
   }
 
-  function confirmMoveAdrift() {
-    if (!moveAdriftModal || !rationaleDraft.trim()) return;
-    setAdriftRationaleByOutcomeId((prev) => ({
+  function recordRetirement() {
+    if (!retireModal || !reasonDraft.trim()) return;
+    setRetireReasonByOutcomeId((prev) => ({
       ...prev,
-      [moveAdriftModal.outcomeId]: rationaleDraft.trim(),
+      [retireModal.outcomeId]: reasonDraft.trim(),
     }));
-    setReactivatedOutcomeIds((prev) => {
+    setReturnedOutcomeIds((prev) => {
       const next = new Set(prev);
-      next.delete(moveAdriftModal.outcomeId);
+      next.delete(retireModal.outcomeId);
       return next;
     });
-    closeMoveAdriftModal();
+    closeRetireModal();
   }
 
   function getEffectiveOutcome(outcome: Outcome): Outcome {
-    if (reactivatedOutcomeIds.has(outcome.id)) {
+    if (returnedOutcomeIds.has(outcome.id)) {
       return { ...outcome, status: "AwaitingAlignment" };
     }
-    if (outcome.id in adriftRationaleByOutcomeId) {
+    if (outcome.id in retireReasonByOutcomeId) {
       return { ...outcome, status: "Inactive" };
     }
     return outcome;
   }
 
-  function handleReactivate(outcomeId: string) {
-    setReactivatedOutcomeIds((prev) => new Set(prev).add(outcomeId));
+  function handleReturn(outcomeId: string) {
+    setReturnedOutcomeIds((prev) => new Set(prev).add(outcomeId));
   }
 
   function closeNewOutcomeModalAndReset() {
@@ -316,7 +278,13 @@ export default function OutcomesPageClient({
     setNewOutcomeStep2({ entryMode: "", replacedOutcomeId: "" });
   }
 
-  function createNewOutcome() {
+  const anchoredInSelectedQuarter = newOutcomeStep1.quarterId
+    ? getOutcomesByQuarter(newOutcomeStep1.quarterId)
+        .map(getEffectiveOutcome)
+        .filter((o) => o.status === "Anchored")
+    : [];
+
+  function recordNewOutcome() {
     const entryMode = newOutcomeStep2.entryMode;
     if (!entryMode) return;
     if (entryMode === "Replace" && !newOutcomeStep2.replacedOutcomeId) return;
@@ -327,7 +295,7 @@ export default function OutcomesPageClient({
       .filter((o) => o.status === "Anchored").length;
     const focusWarning =
       entryMode === "Additive" && anchoredCount > 5
-        ? "New priority; ensure capacity reviewed. May require trade-off with other commitments."
+        ? "Nothing stopped when this entered the quarter."
         : null;
 
     const outcome: Outcome = {
@@ -361,40 +329,45 @@ export default function OutcomesPageClient({
     closeNewOutcomeModalAndReset();
   }
 
+  const step2Incomplete =
+    !newOutcomeStep2.entryMode ||
+    (newOutcomeStep2.entryMode === "Replace" &&
+      !newOutcomeStep2.replacedOutcomeId);
+
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-xl font-semibold text-foreground">Outcomes</h1>
-        <button
-          type="button"
+    <div className="flex flex-col gap-section">
+      <header className="flex flex-wrap items-end justify-between gap-6">
+        <div className="flex flex-col gap-3">
+          <Eyebrow>Every commitment on the record</Eyebrow>
+          <RecordTitle as="h1" level="page">
+            Outcomes
+          </RecordTitle>
+        </div>
+        <Button
           onClick={() => openNewOutcomeModal()}
           disabled={!canCreateOutcome}
           title={
             canCreateOutcome
               ? undefined
-              : "Complete organization setup for your quarter, or turn on Demo Mode in System settings"
+              : "No quarter is defined yet — set the fiscal year in organization setup."
           }
-          className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
         >
-          New Outcome
-        </button>
-      </div>
+          Anchor an outcome
+        </Button>
+      </header>
 
       {showGlobalEmpty && (
-        <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm">
-          <p className="text-sm text-muted-foreground">
-            No outcomes yet. Finish organization setup to define your fiscal
-            quarter, or turn on{" "}
-            <span className="font-medium text-foreground">Demo Mode</span> in
-            System settings to load sample data.
-          </p>
-          <Link
-            href="/onboarding/org-setup"
-            className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Continue setup
-          </Link>
-        </div>
+        <EmptyState
+          title="Nothing anchored yet"
+          action={
+            <Link href="/onboarding/org-setup">
+              <Button>Set the fiscal year</Button>
+            </Link>
+          }
+        >
+          A quarter with no anchored outcome has no direction to drift from.
+          Helm needs a fiscal quarter before an outcome can enter one.
+        </EmptyState>
       )}
 
       {!showGlobalEmpty &&
@@ -408,42 +381,39 @@ export default function OutcomesPageClient({
           const outcomes = [...mockOutcomes, ...localForQuarter].sort((a, b) =>
             a.title.localeCompare(b.title)
           );
+
           if (outcomes.length === 0) {
             if (!demoModeEnabled && !workspaceQuarter) return null;
             return (
-              <section key={section.id} className="space-y-3">
-                <h2 className="text-sm font-medium text-foreground">
-                  {section.label}
-                </h2>
-                <div className="rounded-lg border border-dashed border-border bg-muted/20 px-4 py-6 text-center">
-                  <p className="text-sm text-muted-foreground">
-                    No outcomes in this quarter yet.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => openNewOutcomeModal(section.id)}
-                    className="mt-4 inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-                  >
-                    Create outcome
-                  </button>
-                </div>
+              <section key={section.id} className="flex flex-col gap-4">
+                <Eyebrow>{section.label}</Eyebrow>
+                <EmptyState
+                  title="Nothing anchored in this quarter"
+                  action={
+                    <Button onClick={() => openNewOutcomeModal(section.id)}>
+                      Anchor an outcome
+                    </Button>
+                  }
+                >
+                  A quarter with no anchored outcome has no direction to drift
+                  from.
+                </EmptyState>
               </section>
             );
           }
+
           return (
-            <section key={section.id} className="space-y-3">
-              <h2 className="text-sm font-medium text-foreground">
-                {section.label}
-              </h2>
-              <ul className="space-y-3">
+            <section key={section.id} className="flex flex-col gap-4">
+              <Eyebrow>{section.label}</Eyebrow>
+              <ul className="flex flex-col gap-3">
                 {outcomes.map((outcome) => (
-                  <OutcomeCard
+                  <OutcomeEntry
                     key={outcome.id}
                     outcome={outcome}
                     quarterLabel={section.label}
                     chatThreadLinkLabel={chatThreadLinkLabel}
-                    onMoveAdrift={openMoveAdriftModal}
-                    onReactivate={handleReactivate}
+                    onRetire={openRetireModal}
+                    onReturn={handleReturn}
                   />
                 ))}
               </ul>
@@ -451,360 +421,258 @@ export default function OutcomesPageClient({
           );
         })}
 
-      {newOutcomeModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="new-outcome-modal-title"
-        >
-          <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
-            <h2
-              id="new-outcome-modal-title"
-              className="text-sm font-medium text-foreground"
-            >
-              New Outcome
-            </h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Step {newOutcomeStep}
-            </p>
-
-            {newOutcomeStep === 1 && (
-              <>
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <label
-                      htmlFor="new-outcome-working-title"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Working Title
-                    </label>
-                    <input
-                      id="new-outcome-working-title"
-                      type="text"
-                      value={newOutcomeStep1.workingTitle}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          workingTitle: e.target.value,
-                        }))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="e.g. Ship unified billing experience"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="new-outcome-quarter"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Quarter
-                    </label>
-                    <select
-                      id="new-outcome-quarter"
-                      value={newOutcomeStep1.quarterId}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          quarterId: e.target.value,
-                        }))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                    >
-                      <option value="">Select quarter</option>
-                      {quartersInOrder.map((q) => (
-                        <option key={q.id} value={q.id}>
-                          {q.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="new-outcome-short-intent"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Short Intent
-                    </label>
-                    <textarea
-                      id="new-outcome-short-intent"
-                      value={newOutcomeStep1.shortIntent}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          shortIntent: e.target.value,
-                        }))
-                      }
-                      rows={3}
-                      className="mt-1.5 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Brief context or intent for this outcome"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="new-outcome-owner"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Outcome Owner
-                    </label>
-                    <input
-                      id="new-outcome-owner"
-                      type="text"
-                      value={newOutcomeStep1.outcomeOwner}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          outcomeOwner: e.target.value,
-                        }))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="e.g. Jordan Lee"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="new-outcome-decision-owner"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Decision Owner
-                    </label>
-                    <input
-                      id="new-outcome-decision-owner"
-                      type="text"
-                      value={newOutcomeStep1.decisionOwner}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          decisionOwner: e.target.value,
-                        }))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="e.g. Sam Chen"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="new-outcome-source-type"
-                      className="block text-sm font-medium text-foreground"
-                    >
-                      Source Type
-                    </label>
-                    <select
-                      id="new-outcome-source-type"
-                      value={newOutcomeStep1.sourceType}
-                      onChange={(e) =>
-                        setNewOutcomeStep1((s) => ({
-                          ...s,
-                          sourceType: e.target.value as SourceType | "",
-                        }))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                    >
-                      <option value="">Select source type</option>
-                      <option value="Meeting">Meeting</option>
-                      <option value="Discussion">Discussion</option>
-                      <option value="LeadershipInput">Leadership input</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="mt-6 flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={closeNewOutcomeModalAndReset}
-                    className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                    onClick={() => setNewOutcomeStep(2)}
-                  >
-                    Next
-                  </button>
-                </div>
-              </>
-            )}
-
-            {newOutcomeStep === 2 && (
-              <>
-                <p className="mt-4 text-sm font-medium text-foreground">
-                  How should this outcome enter the quarter?
-                </p>
-                <div className="mt-3 space-y-3" role="radiogroup" aria-label="Entry mode">
-                  <label className="flex cursor-pointer items-start gap-3">
-                    <input
-                      type="radio"
-                      name="new-outcome-entry-mode"
-                      value="Attach"
-                      checked={newOutcomeStep2.entryMode === "Attach"}
-                      onChange={() =>
-                        setNewOutcomeStep2((s) => ({
-                          ...s,
-                          entryMode: "Attach",
-                          replacedOutcomeId: "",
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 border-input text-primary focus:ring-ring"
-                    />
-                    <span className="text-sm text-foreground">
-                      Attach to existing outcome
-                    </span>
-                  </label>
-                  <label className="flex cursor-pointer items-start gap-3">
-                    <input
-                      type="radio"
-                      name="new-outcome-entry-mode"
-                      value="Replace"
-                      checked={newOutcomeStep2.entryMode === "Replace"}
-                      onChange={() =>
-                        setNewOutcomeStep2((s) => ({
-                          ...s,
-                          entryMode: "Replace",
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 border-input text-primary focus:ring-ring"
-                    />
-                    <span className="text-sm text-foreground">
-                      Replace an anchored outcome
-                    </span>
-                  </label>
-                  {newOutcomeStep2.entryMode === "Replace" &&
-                    newOutcomeStep1.quarterId && (
-                      <div className="ml-7">
-                        <select
-                          id="new-outcome-replace"
-                          value={newOutcomeStep2.replacedOutcomeId}
-                          onChange={(e) =>
-                            setNewOutcomeStep2((s) => ({
-                              ...s,
-                              replacedOutcomeId: e.target.value,
-                            }))
-                          }
-                          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                        >
-                          <option value="">Select outcome to replace</option>
-                          {getOutcomesByQuarter(newOutcomeStep1.quarterId)
-                            .map(getEffectiveOutcome)
-                            .filter((o) => o.status === "Anchored")
-                            .map((o) => (
-                              <option key={o.id} value={o.id}>
-                                {o.title}
-                              </option>
-                            ))}
-                        </select>
-                      </div>
-                    )}
-                  <label className="flex cursor-pointer items-start gap-3">
-                    <input
-                      type="radio"
-                      name="new-outcome-entry-mode"
-                      value="Additive"
-                      checked={newOutcomeStep2.entryMode === "Additive"}
-                      onChange={() =>
-                        setNewOutcomeStep2((s) => ({
-                          ...s,
-                          entryMode: "Additive",
-                          replacedOutcomeId: "",
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 border-input text-primary focus:ring-ring"
-                    />
-                    <span className="text-sm text-foreground">
-                      Add as new outcome
-                    </span>
-                  </label>
-                  {newOutcomeStep2.entryMode === "Additive" && (
-                    <p className="ml-7 text-sm text-muted-foreground">
-                      This adds a new priority without displacing another.
-                    </p>
-                  )}
-                </div>
-
-                <div className="mt-6 flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setNewOutcomeStep(1)}
-                    className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    onClick={closeNewOutcomeModalAndReset}
-                    className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
-                    disabled={!newOutcomeStep2.entryMode || (newOutcomeStep2.entryMode === "Replace" && !newOutcomeStep2.replacedOutcomeId)}
-                    onClick={createNewOutcome}
-                  >
-                    Create
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {moveAdriftModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="move-adrift-modal-title"
-        >
-          <div className="w-full max-w-md rounded-lg border border-border bg-background p-4 shadow-lg">
-            <h2
-              id="move-adrift-modal-title"
-              className="text-sm font-medium text-foreground"
-            >
-              Move Adrift
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {moveAdriftModal.outcomeTitle}
-            </p>
-            <label htmlFor="move-adrift-rationale" className="mt-4 block text-sm font-medium text-foreground">
-              Rationale (required)
-            </label>
-            <textarea
-              id="move-adrift-rationale"
-              value={rationaleDraft}
-              onChange={(e) => setRationaleDraft(e.target.value)}
-              className="mt-1.5 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              rows={4}
-              placeholder="Why is this outcome no longer a priority?"
+      {/* ── Entry-mode decision · e3 ───────────────────────────────────────
+        * Nothing enters the quarter silently. Every option is recorded, and
+        * each states its consequence in the same breath. */}
+      <Modal
+        open={newOutcomeModalOpen}
+        onClose={closeNewOutcomeModalAndReset}
+        width="560px"
+        title={
+          newOutcomeStep === 1
+            ? "A new outcome"
+            : newOutcomeStep1.workingTitle.trim() || "This outcome"
+        }
+        description={
+          newOutcomeStep === 1
+            ? "What the team would be committing to, and who decides it."
+            : "Nothing enters the quarter silently. Every option below is recorded."
+        }
+        footer={
+          newOutcomeStep === 1 ? (
+            <>
+              <Button variant="outline" onClick={closeNewOutcomeModalAndReset}>
+                Discard this draft
+              </Button>
+              <Button onClick={() => setNewOutcomeStep(2)}>
+                How it enters the quarter
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outline" onClick={() => setNewOutcomeStep(1)}>
+                Back to the charter
+              </Button>
+              <Button onClick={recordNewOutcome} disabled={step2Incomplete}>
+                Record this decision
+              </Button>
+            </>
+          )
+        }
+      >
+        {newOutcomeStep === 1 ? (
+          <div className="flex flex-col gap-field">
+            <Input
+              id="new-outcome-working-title"
+              label="Working title"
+              value={newOutcomeStep1.workingTitle}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({
+                  ...s,
+                  workingTitle: e.target.value,
+                }))
+              }
+              placeholder="Two named design partners live on the co-sell motion"
+              help="Shown on the outcome charter."
             />
-            <div className="mt-4 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={closeMoveAdriftModal}
-                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={confirmMoveAdrift}
-                disabled={!rationaleDraft.trim()}
-                className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
-              >
-                Confirm
-              </button>
-            </div>
+            <Select
+              id="new-outcome-quarter"
+              label="Quarter"
+              value={newOutcomeStep1.quarterId}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({ ...s, quarterId: e.target.value }))
+              }
+              placeholder="Which quarter"
+              options={quartersInOrder.map((q) => ({
+                value: q.id,
+                label: q.label,
+              }))}
+            />
+            <Textarea
+              id="new-outcome-short-intent"
+              label="Context"
+              value={newOutcomeStep1.shortIntent}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({
+                  ...s,
+                  shortIntent: e.target.value,
+                }))
+              }
+              rows={3}
+              placeholder="Why this outcome, and what it trades off…"
+            />
+            <Input
+              id="new-outcome-owner"
+              label="Outcome owner"
+              value={newOutcomeStep1.outcomeOwner}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({
+                  ...s,
+                  outcomeOwner: e.target.value,
+                }))
+              }
+              placeholder="Ada Lovelace"
+              help="The person accountable for the outcome."
+            />
+            <Input
+              id="new-outcome-decision-owner"
+              label="Decision owner"
+              value={newOutcomeStep1.decisionOwner}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({
+                  ...s,
+                  decisionOwner: e.target.value,
+                }))
+              }
+              placeholder="Grace Hopper"
+              help="The person who can trade this outcome for another."
+            />
+            <Select
+              id="new-outcome-source-type"
+              label="Where this came from"
+              value={newOutcomeStep1.sourceType}
+              onChange={(e) =>
+                setNewOutcomeStep1((s) => ({
+                  ...s,
+                  sourceType: e.target.value as SourceType | "",
+                }))
+              }
+              placeholder="Where this came from"
+              options={[
+                { value: "Meeting", label: "Meeting" },
+                { value: "Discussion", label: "Discussion" },
+                { value: "LeadershipInput", label: "Leadership input" },
+              ]}
+            />
           </div>
+        ) : (
+          <div
+            role="radiogroup"
+            aria-label="How this enters the quarter"
+            className="flex flex-col divide-y divide-border border-y border-border"
+          >
+            <RadioOption
+              id="entry-mode-attach"
+              name="new-outcome-entry-mode"
+              value="Attach"
+              checked={newOutcomeStep2.entryMode === "Attach"}
+              onChange={() =>
+                setNewOutcomeStep2((s) => ({
+                  ...s,
+                  entryMode: "Attach",
+                  replacedOutcomeId: "",
+                }))
+              }
+              hint="No new commitment enters the quarter. The work is recorded as serving something already anchored."
+              className="py-3"
+            >
+              Attach to an existing outcome
+            </RadioOption>
+
+            <RadioOption
+              id="entry-mode-replace"
+              name="new-outcome-entry-mode"
+              value="Replace"
+              checked={newOutcomeStep2.entryMode === "Replace"}
+              onChange={() =>
+                setNewOutcomeStep2((s) => ({ ...s, entryMode: "Replace" }))
+              }
+              hint="The replaced outcome stays visible in the record, with this one named as its successor."
+              className="py-3"
+            >
+              Replace an anchored outcome
+            </RadioOption>
+            {newOutcomeStep2.entryMode === "Replace" &&
+              newOutcomeStep1.quarterId && (
+                <div className="ml-7 py-3">
+                  <Select
+                    id="new-outcome-replace"
+                    label="What stops?"
+                    value={newOutcomeStep2.replacedOutcomeId}
+                    onChange={(e) =>
+                      setNewOutcomeStep2((s) => ({
+                        ...s,
+                        replacedOutcomeId: e.target.value,
+                      }))
+                    }
+                    placeholder="The outcome this takes the place of"
+                    options={anchoredInSelectedQuarter.map((o) => ({
+                      value: o.id,
+                      label: o.title,
+                    }))}
+                    help={
+                      anchoredInSelectedQuarter.length === 0
+                        ? "Nothing is anchored in this quarter, so there is nothing to replace."
+                        : undefined
+                    }
+                  />
+                </div>
+              )}
+
+            <RadioOption
+              id="entry-mode-additive"
+              name="new-outcome-entry-mode"
+              value="Additive"
+              checked={newOutcomeStep2.entryMode === "Additive"}
+              onChange={() =>
+                setNewOutcomeStep2((s) => ({
+                  ...s,
+                  entryMode: "Additive",
+                  replacedOutcomeId: "",
+                }))
+              }
+              hint={`The quarter goes from ${anchoredInSelectedQuarter.length} to ${
+                anchoredInSelectedQuarter.length + 1
+              } anchored outcomes. The partial rule marks this outcome as additive for the rest of the quarter.`}
+              className="py-3"
+            >
+              Add alongside — nothing stops
+            </RadioOption>
+          </div>
+        )}
+      </Modal>
+
+      {/* ── Retire · irreversible for the quarter, so it states the alternative ── */}
+      <Modal
+        open={retireModal != null}
+        onClose={closeRetireModal}
+        title="Retiring removes this outcome from the record"
+        description="Nothing will stand in its place. Replacing keeps it in the record with a named successor."
+        footer={
+          <>
+            <Button variant="outline" onClick={closeRetireModal}>
+              Keep it anchored
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={recordRetirement}
+              disabled={!reasonDraft.trim()}
+            >
+              Retire and record
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-field">
+          {retireModal && (
+            <p className="max-w-prose font-serif text-outcome text-foreground">
+              {retireModal.outcomeTitle}
+            </p>
+          )}
+          <Textarea
+            id="retire-reason"
+            label="Why it ends here"
+            value={reasonDraft}
+            onChange={(e) => setReasonDraft(e.target.value)}
+            rows={4}
+            placeholder="What changed, and what the team is doing instead…"
+            help="The reasoning stays fully legible in the record after the outcome is retired."
+          />
+          <Observed className="text-help">
+            Retiring is recorded against your name and today&rsquo;s date.
+          </Observed>
         </div>
-      )}
+      </Modal>
     </div>
   );
 }
