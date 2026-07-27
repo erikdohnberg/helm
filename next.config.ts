@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
       // shareable URL. It is deliberately outside middleware's matcher, so it is
       // public and does not bounce signed-in visitors into the app.
       { source: "/scorecard", destination: "/scorecard.html" },
+      // The Helm design system is likewise self-contained static HTML in /public,
+      // reachable at /design-system/index.html by default; this gives it a clean
+      // URL. Also outside the middleware matcher, so it stays public.
+      { source: "/design-system", destination: "/design-system/index.html" },
     ];
   },
 };
