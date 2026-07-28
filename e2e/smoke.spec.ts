@@ -9,9 +9,12 @@ test.describe("smoke", () => {
     ).toBeVisible();
   });
 
-  test("home redirects to landing", async ({ page }) => {
+  test("home redirects to the scorecard", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveURL(/\/landing$/);
+    await expect(page).toHaveURL(/\/scorecard$/);
+    await expect(
+      page.getByRole("heading", { level: 1, name: /stops matching the work/i }),
+    ).toBeVisible();
   });
 
   test("auth session endpoint returns JSON", async ({ request }) => {
