@@ -43,9 +43,10 @@ to draw.
 `app/(app)/**` and `/demo` are app surfaces. `app/(marketing)/**` is a log
 surface — wrap it in `<LogPage>` from `components/log/log.tsx`.
 
-`public/scorecard.html` is also a log surface, but a standalone one: it inlines
-a subset of the tokens rather than importing them, so it never fights the app's
-Tailwind layer. If you change a token, change its block too.
+`app/scorecard` — the drift model evaluation record — is a log surface too. It
+carries its own masthead and footer rather than the marketing layout's, and it
+is the one page that composes `DriftFlag` outside the product: the flag on it
+is a specimen of the real thing, not a picture of one.
 
 ---
 

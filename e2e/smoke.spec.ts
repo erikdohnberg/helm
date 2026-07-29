@@ -13,7 +13,7 @@ test.describe("smoke", () => {
     await page.goto("/");
     await expect(page).toHaveURL(/\/scorecard$/);
     await expect(
-      page.getByRole("heading", { level: 1, name: /stops matching the work/i }),
+      page.getByRole("heading", { level: 1, name: /evaluating the drift model/i }),
     ).toBeVisible();
   });
 
@@ -32,10 +32,15 @@ test.describe("smoke", () => {
 
   test("scorecard is publicly reachable at /scorecard", async ({ page }) => {
     await page.goto("/scorecard");
-    // Rewritten to the static page, not redirected to /scorecard.html.
+    // A route now, not a rewrite to static HTML — and public, so a guest is
+    // not bounced to /landing.
     await expect(page).toHaveURL(/\/scorecard$/);
     await expect(
-      page.getByRole("heading", { level: 1, name: /stops matching the work/i }),
+      page.getByRole("heading", { level: 1, name: /evaluating the drift model/i }),
+    ).toBeVisible();
+    // The record states its own limits; that section must survive edits.
+    await expect(
+      page.getByText(/what this record cannot claim yet/i),
     ).toBeVisible();
     await expect(page.getByText(/side project/i)).toHaveCount(0);
   });

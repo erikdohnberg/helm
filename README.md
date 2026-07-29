@@ -79,7 +79,7 @@ and the banned vocabulary.
 
 Helm is currently in private prototype. The codebase is source-available so others can explore the ideas and learn from the implementation.
 
-How well the drift detection actually works — precision, recall, how much warning it gives, and what the numbers cannot claim yet — is written up at **[`/scorecard`](public/scorecard.html)** (a public page on any running instance). The model spec behind it is [`helm-drift-model-spec.md`](helm-drift-model-spec.md).
+How well the drift detection actually works — precision, recall, how much warning it gives, and what the record cannot claim yet — is published as the evaluation record at **[`/scorecard`](app/scorecard/page.tsx)** (a public page on any running instance, and the site's front door). The figures come from [`model/eval/results/`](model/eval/results/); the model spec behind them is [`helm-drift-model-spec.md`](helm-drift-model-spec.md).
 
 ---
 

@@ -44,13 +44,21 @@ commit: 6b4788a4b7b9
 | `assets/icons/*` | `components/ui/icon.tsx`, plus SVGs at `public/design-system/icons/` |
 | `assets/helm-logo.svg` | `HelmMark` in `components/ui/icon.tsx`, `public/design-system/helm-logo.svg` |
 
-`public/scorecard.html` was originally excluded — it carried a separate
-personal design system (Sanchez/Raleway/Caveat, an orange accent, `ed-*`
-tokens). It has since been brought onto this system as a log surface, with a
-subset of the tokens inlined so it stays independent of the app's Tailwind
-layer. Every measured figure on it is verdigris and carries the ring, because
-Helm derived them; the one brass moment carries the detection-window question.
-Keep its inlined token block in sync with `tokens/`.
+The drift model scorecard was originally excluded — it was static HTML in
+`public/` carrying a separate personal design system (Sanchez/Raleway/Caveat,
+an orange accent, `ed-*` tokens). It is now `app/scorecard`, a route on this
+system, redesigned upstream as **Helm Drift Eval Record** and rebuilt here
+against the shipped components. It is the site's front door: `/` redirects to
+it.
+
+Two things about it are worth keeping:
+
+- It composes `DriftFlag` for real. The flag on the page is a specimen of the
+  product's own composition, not an illustration of one — so a change to the
+  component shows up on the page that argues the model works.
+- The left rule does double duty. Five of the six measures clear the crude
+  baseline and carry the anchored rule; the sixth carries none. Status without
+  colour, on a page of numbers.
 
 ## Divergences to carry back
 

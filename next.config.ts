@@ -14,15 +14,14 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // The drift model scorecard is a self-contained static page served from
-      // /public: it inlines a subset of the Helm tokens rather than importing
-      // them, so it stays out of the app's Tailwind layer while still reading as
-      // a Helm log surface. Keep that block in sync with
-      // styles/design-system/tokens/. The rewrite gives it a clean shareable
-      // URL, and it is deliberately outside middleware's matcher, so it is
-      // public and does not bounce signed-in visitors into the app.
-      { source: "/scorecard", destination: "/scorecard.html" },
-      // The Helm design system is likewise self-contained static HTML in /public,
+      // The drift model evaluation record used to be static HTML in /public
+      // with its own inlined tokens. It is now a route — app/scorecard — because
+      // the design composes real design-system components (the drift flag, the
+      // table, chips, buttons), and a second hand-written copy of those is the
+      // duplication the system exists to remove. It stays outside middleware's
+      // matcher, so it is public and does not bounce signed-in visitors.
+      //
+      // The Helm design system is self-contained static HTML in /public,
       // reachable at /design-system/index.html by default; this gives it a clean
       // URL. Also outside the middleware matcher, so it stays public.
       { source: "/design-system", destination: "/design-system/index.html" },
