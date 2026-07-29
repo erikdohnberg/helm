@@ -7,6 +7,11 @@ import { Chip, Observed } from "@/components/ui/chip";
 import { ExternalLink } from "@/components/ui/field";
 import { HelmMark, Icon, type IconName } from "@/components/ui/icon";
 import { Table, type TableColumn } from "@/components/ui/table";
+import {
+  CASE_COUNT,
+  DETECTOR_VERSION,
+  RUN_DATE,
+} from "@/lib/eval/scorecard-run";
 import { cn } from "@/lib/utils";
 
 const ORIGIN = "https://helmyourstrategy.vercel.app";
@@ -45,18 +50,17 @@ export const metadata: Metadata = {
 /**
  * The drift model evaluation record — a log surface.
  *
- * The figures come from `model/eval/results/2026-07-26-pipeline-v1-1.1.1/`
- * (detector v1.1.1, run_date 2026-07-26, 13 scenarios). The date shown on the
- * page is when the record was *filed*, which is not the same thing as the run
- * date — keep them distinct when either changes.
+ * The date, version and case count are read from the run's own
+ * `scorecard.json` (see `lib/eval/scorecard-run.ts`), so the page reports the
+ * date the detector was run rather than the date someone wrote the page. The
+ * measured figures below are still transcribed by hand; when a new run is
+ * published, change the import in that module and update them together.
  *
  * This is a route rather than static HTML because the design composes real
  * design-system components: the drift flag, the table, chips and buttons. A
  * second hand-written copy of them would be the exact duplication the system
  * exists to remove.
  */
-const FILED = "27 Jul";
-const VERSION = "v1.1.1";
 
 /** A numbered entry. The rail carries the number and its name; a 2px navy rule
  * opens the block. The rail never holds prose. */
@@ -250,7 +254,7 @@ const BASELINE_ROWS: BaselineRow[] = [
   {
     model: (
       <span className="font-semibold text-foreground">
-        Detector {VERSION} — shipped
+        Detector {DETECTOR_VERSION} — shipped
       </span>
     ),
     precision: "80.0%",
@@ -285,7 +289,7 @@ export default function ScorecardPage() {
             Helm
           </span>
           <span className="ml-auto font-mono text-identifier uppercase tracking-[0.1em] text-[oklch(0.780_0.016_85)]">
-            Evaluation record · {VERSION} · {FILED}
+            Evaluation record · {DETECTOR_VERSION} · {RUN_DATE}
           </span>
         </div>
       </header>
@@ -315,8 +319,8 @@ export default function ScorecardPage() {
                 .
               </p>
               <div className="mt-7 flex flex-wrap gap-2">
-                <Chip variant="outline" label={`Drift model ${VERSION}`} />
-                <Chip variant="outline" label="13 written cases" />
+                <Chip variant="outline" label={`Drift model ${DETECTOR_VERSION}`} />
+                <Chip variant="outline" label={`${CASE_COUNT} written cases`} />
                 <Chip variant="outline" label="6 measures" />
                 <Chip variant="outline" label="Open source" />
                 {/* Longer than a fact chip, so it is allowed to wrap rather
@@ -545,7 +549,7 @@ export default function ScorecardPage() {
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
             <div className="max-w-help text-help text-muted-foreground">
-              Recorded {FILED}. The specification, every evaluation run and the
+              Recorded {RUN_DATE}. The specification, every evaluation run and the
               failure analyses are committed in the repository.
             </div>
             <ExternalLink href={REPO} className="font-mono text-identifier">
