@@ -44,6 +44,13 @@ export type DriftFlagProps = {
   /** The question a person has to answer. "What stops?" */
   question?: React.ReactNode;
   actions?: React.ReactNode;
+  /**
+   * A real flag announces itself, because drift arriving while you read is the
+   * whole point. Set false when the flag is a *specimen* — an example on a
+   * documentation or record page — so a screen reader is not told a
+   * contradiction just appeared when nothing has.
+   */
+  announce?: boolean;
   className?: string;
 };
 
@@ -53,17 +60,18 @@ export function DriftFlag({
   observed,
   question,
   actions,
+  announce = true,
   className,
 }: DriftFlagProps) {
   const spec = LEVELS[level];
 
   return (
     <div
-      role="status"
-      aria-live="polite"
+      role={announce ? "status" : undefined}
+      aria-live={announce ? "polite" : undefined}
       className={cn(
         "flex overflow-hidden rounded-log border border-drift bg-card",
-        "animate-drift-in",
+        announce && "animate-drift-in",
         className
       )}
     >

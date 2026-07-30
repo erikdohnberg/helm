@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
 import { DriftFlag } from "@/components/outcomes/drift-flag";
+import { CaseCarousel } from "@/components/scorecard/case-carousel";
 import { Reveal, RevealNoScript } from "@/components/scorecard/reveal";
 import { Button } from "@/components/ui/button";
 import { Chip, Observed } from "@/components/ui/chip";
 import { ExternalLink } from "@/components/ui/field";
 import { HelmMark, Icon, type IconName } from "@/components/ui/icon";
 import { Table, type TableColumn } from "@/components/ui/table";
+import { EVAL_CASES } from "@/lib/eval/cases";
 import {
   CASE_COUNT,
   DETECTOR_VERSION,
@@ -412,7 +414,12 @@ export default function ScorecardPage() {
           ))}
         </div>
 
-        <div className="mt-10 border-t border-border">
+        {/* An abridged view of case 01 — the same case the carousel below
+          * opens with — showing where the window opens and closes. */}
+        <p className="mt-10 font-mono text-rail uppercase text-subtle-foreground">
+          The window, on case 01
+        </p>
+        <div className="mt-3 border-t border-border">
           {TIMELINE.map((t) => (
             <div
               key={t.date}
@@ -429,17 +436,30 @@ export default function ScorecardPage() {
           ))}
         </div>
 
-        <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
-          <a
-            href={`${REPO}/issues/new?labels=eval-case`}
-            className="inline-flex no-underline"
-          >
-            <Button variant="outline">Contribute a case</Button>
-          </a>
-          <span className="max-w-help text-help text-muted-foreground">
-            A quarter that drifted, the plan it drifted from, and the day
-            someone noticed. The cases are open source; thirteen is not enough.
-          </span>
+        {/* The cases themselves — one per drift type, plus both traps. Read
+          * from model/scenarios/ so the page cannot drift from the eval set. */}
+        <div className="mt-10 flex flex-col gap-4">
+          <p className="max-w-prose text-muted-foreground">
+            Here are nine of them: one for each kind of drift the model
+            recognises, and both traps. Each shows what the quarter anchored,
+            what the record then showed, and what a correct flag would have
+            said.
+          </p>
+          <CaseCarousel cases={EVAL_CASES}>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-5">
+              <a
+                href={`${REPO}/issues/new?labels=eval-case`}
+                className="inline-flex no-underline"
+              >
+                <Button variant="outline">Contribute a case</Button>
+              </a>
+              <span className="max-w-help text-help text-muted-foreground">
+                A quarter that drifted, the plan it drifted from, and the day
+                someone noticed. The cases are open source; thirteen is not
+                enough.
+              </span>
+            </div>
+          </CaseCarousel>
         </div>
       </Entry>
 
