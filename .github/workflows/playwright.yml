@@ -12,7 +12,11 @@ jobs:
     timeout-minutes: 60
     env:
       DATABASE_URL: file:./prisma/ci.db
-      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+      # auth.ts only falls back to a dev secret when NODE_ENV is development, and the
+      # e2e server runs as production — so an unset AUTH_SECRET makes NextAuth throw
+      # MissingSecret and /api/auth/session 500s. The repo secret is optional here:
+      # nothing in the suite signs in, so a fixed CI placeholder is enough.
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET || 'ci-placeholder-secret-not-used-outside-ci' }}
       AUTH_GOOGLE_ID: 123456789-ci.apps.googleusercontent.com
       AUTH_GOOGLE_SECRET: GOCSPX-ci-placeholder
     steps:
