@@ -34,6 +34,6 @@ Optional: `npm run test:e2e:ui` for the Playwright UI.
 
 ## GitHub Actions
 
-Add a repository secret **`AUTH_SECRET`** (e.g. `openssl rand -base64 32`). The workflow sets dummy `AUTH_GOOGLE_*` values and `DATABASE_URL=file:./prisma/ci.db` for a clean SQLite file on the runner.
+No repository secrets are required. The workflow supplies its own `AUTH_SECRET` placeholder alongside dummy `AUTH_GOOGLE_*` values and `DATABASE_URL=file:./prisma/ci.db` for a clean SQLite file on the runner.
 
-If `AUTH_SECRET` is missing, the job will fail when starting the app.
+`AUTH_SECRET` has to be *present*, not real: the e2e server runs as production, where `auth.ts` deliberately withholds its development fallback, and NextAuth throws `MissingSecret` without one — `/api/auth/session` then answers 500. No test signs in, so the placeholder never needs to be a working key. Setting a real `AUTH_SECRET` repository secret still takes precedence if you want CI to match production.
